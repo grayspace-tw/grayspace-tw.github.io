@@ -91,8 +91,28 @@ body{padding-bottom:72px}
 .legend .coda{font-size:.62em}
 .legend .cg{font-size:1.6em;line-height:1}
 .zylegend{display:block;flex-basis:100%;margin-top:2px}
+#loopBtn{display:inline-flex;align-items:center;gap:7px}
+#loopBtn .sw{position:relative;display:inline-block;width:30px;height:17px;border-radius:999px;background:#d8cfc2;transition:background .15s;flex:none}
+#loopBtn .sw::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+#loopBtn.on{border-color:var(--accent);color:var(--accent);background:#fbf3e9}
+#loopBtn.on .sw{background:var(--accent)}
+#loopBtn.on .sw::after{transform:translateX(13px)}
+.recguide{margin-top:8px;color:var(--ink)}
+.recguide>summary{cursor:pointer;color:var(--accent);width:max-content;font-size:.86rem}
+.recguide .gbody{margin-top:6px;padding:8px 12px;border-left:2px solid var(--line);font-size:.86rem;line-height:1.65}
+.recguide h4{margin:10px 0 2px;font-size:.9rem;color:var(--accent)}
+.recguide h4:first-child{margin-top:0}
+.recguide ol,.recguide ul{margin:2px 0;padding-left:20px}
+.recguide p{margin:2px 0}
+.recguide .diag{color:var(--muted);margin-top:8px}
+button.linkish{border:0;background:none;padding:0;color:var(--accent);text-decoration:underline;font-size:.86rem;border-radius:0}
+.fb{background:#fff8ef;border:1px solid #f0dcc0;border-radius:10px;padding:8px 12px;margin:4px 0}
+.fb p{margin:2px 0}
+.fb .fbact{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px}
+.mine{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.mine[hidden]{display:none}
 footer{color:var(--muted);font-size:.8rem;text-align:center;padding:20px}
-@media (max-width:560px){.seg#speedSeg button{padding:7px 9px}.toolbar{gap:8px}#followBtn{order:1}#speedSeg{order:2}#toTop{width:40px;height:40px;right:max(6px,env(safe-area-inset-right))}.card{padding-right:36px}.grid{grid-template-columns:1fr}.lab{margin-top:4px}.iast,.dev{font-size:1.25rem}.sid{font-size:1.6rem}h1{font-size:1.3rem}}
+@media (max-width:560px){.seg#speedSeg button{padding:7px 9px}.toolbar{gap:8px}#followBtn{order:1}#loopBtn{order:1;gap:5px}.toolbar{gap:6px}.toolbar>button{padding:7px 9px}#loopBtn .lt2{display:none}#loopBtn .sw{width:26px;height:15px}#loopBtn .sw::after{width:11px;height:11px}#loopBtn.on .sw::after{transform:translateX(11px)}#speedSeg{order:2}#toTop{width:40px;height:40px;right:max(6px,env(safe-area-inset-right))}.card{padding-right:36px}.grid{grid-template-columns:1fr}.lab{margin-top:4px}.iast,.dev{font-size:1.25rem}.sid{font-size:1.6rem}h1{font-size:1.3rem}}
 </style>
 </head>
 <body>
@@ -107,6 +127,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:20px}
     <button id="stopAll" disabled>■ 停止</button>
     <span class="seg" id="speedSeg" role="group" aria-label="播放速度"><button data-rate="0.5">0.5×</button><button data-rate="0.75">0.75×</button><button data-rate="1" class="on">1×</button><button data-rate="1.25">1.25×</button><button data-rate="1.5">1.5×</button><button data-rate="2">2×</button></span>
     <button id="followBtn" title="開頭停 0.5 秒。先逐句播放，每句後面留 2.5 秒讓你跟著唸，再整段連續播放、句和句相接，結尾再停 0.5 秒。兩遍都用目前選的速度，音高不變。">逐句跟唸</button>
+    <button id="loopBtn" type="button" role="switch" aria-checked="false" title="開啟後，全部播放、逐句跟唸和單句標準音播完會從頭再播，直到按「停止」"><span class="sw" aria-hidden="true"></span><span>循環<span class="lt2">播放</span></span></button>
   </div>
 
   <div class="panel">
@@ -128,6 +149,38 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:20px}
   <div class="panel notice" id="supportBox">
     🎙 <b>錄音比對怎麼用：</b>按「錄音比對」後唸該句，唸完會自動停止。系統用 <b>Chrome／Edge 內建的印地語（hi-IN）語音辨識</b>把你的聲音轉成天城體，再和標準文字逐音節比對。<br>
     ⚠️ 這只是<b>近似檢查</b>：印地語辨識不是為梵文設計的，長短音、送氣有時會被自動「修正」或誤判，結果僅供參考，請同時用「我的錄音」和標準音對照著聽。辨識需要連網，第一次使用時瀏覽器會要求麥克風權限。
+    <details class="recguide" id="recGuide">
+      <summary>辨識設定說明</summary>
+      <div class="gbody">
+        <h4>1. Android 用 Chrome、iPhone 用 Safari 開啟</h4>
+        <p>從 LINE、Facebook 等 App 直接點開的網頁（App 內建瀏覽器）通常不能語音辨識。請點選單選「用其他應用程式開啟／在瀏覽器開啟」，或複製網址貼到 Chrome（Android）或 Safari（iPhone）。LINE 裡也可以直接點：<a href="?openExternalBrowser=1" id="extLink">在外部瀏覽器開啟</a>。</p>
+        <h4>2. Android：加入印地語語音辨識</h4>
+        <ol>
+          <li>打開手機「設定 → 系統 → 語言 → 語音輸入」（各品牌名稱不太一樣），或打開 Google App → 右上角頭像 → 設定 → 語音 → 語言。</li>
+          <li>加入「हिन्दी（भारत）／印地文（印度）」，主要語言維持中文就可以。</li>
+          <li>在「離線語音辨識」下載印地文語音包。</li>
+          <li>把 Chrome 完全關掉（從最近使用的 App 滑掉）再重新打開這個網頁。</li>
+        </ol>
+        <p>Android 版 Chrome 不能同時錄音和辨識，所以在 Android 上「錄音比對」只做辨識；想聽自己的聲音，辨識完再按「🎙 錄下來對照」。</p>
+        <h4>3. iPhone／iPad（Safari）</h4>
+        <ol>
+          <li>用 <b>Safari</b> 開啟（iOS 14.5 以上）。iPhone 上的 Chrome、LINE 等 App 裡的瀏覽器，語音辨識常常不能用。</li>
+          <li>打開聽寫：「設定 → 一般 → 鍵盤 → 啟用聽寫」。還是不行的話，也打開 Siri（「設定 → Siri」，有些機型叫「Apple Intelligence 與 Siri」）。</li>
+          <li>加入印地語：「設定 → 一般 → 鍵盤 → 鍵盤 → 新增鍵盤 → 印地文」，聽寫語言就會有印地語。印地語辨識要連網。</li>
+          <li>第一次按「錄音比對」時，Safari 會問能不能用麥克風和語音辨識，兩個都選「允許」。之前按過不允許的話，到「設定 → 隱私權與安全性 → 語音辨識」把 Safari 打開。</li>
+        </ol>
+        <p>iPhone 也不能同時錄音和辨識，所以「錄音比對」只做辨識；想聽自己的聲音，請按「🎙 錄下來對照」。剛播完標準音就按錄音，辨識偶爾會沒反應（Safari 的已知問題），等一兩秒再按「再辨識一次」就好。</p>
+        <h4>4. 麥克風權限</h4>
+        <ul>
+          <li>第一次按「錄音比對」時，瀏覽器會問能不能使用麥克風，請選「允許」。</li>
+          <li>Android Chrome：點網址列左邊的圖示 → 權限 → 麥克風 → 允許；還是不行的話，到手機「設定 → 應用程式 → Chrome → 權限 → 麥克風」打開。</li>
+          <li>iPhone Safari：點網址列旁的頁面選單（aA）→ 網站設定 → 麥克風 → 允許；或到「設定 → App → Safari → 麥克風」（iOS 17 以前是「設定 → Safari」）。</li>
+          <li>電腦版 Chrome／Edge：點網址列左邊的圖示 → 麥克風 → 允許。</li>
+        </ul>
+        <p>語音辨識需要連網。</p>
+        <p class="diag" id="recDiag"></p>
+      </div>
+    </details>
   </div>
 
   <div class="panel" id="viewBox" hidden><span class="notice">排列方式：</span><span class="seg" id="viewSeg" role="group" aria-label="排列方式"><button data-view="77">梵文分句（77 行）</button><button data-view="84">通行本 84 句</button></span><span class="notice">音檔都依梵文詞組播放</span></div>
@@ -427,11 +480,40 @@ function markIAST(s){
 
 var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 var hasRec = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
-if(!SR){
-  var sb=document.getElementById('supportBox');
-  sb.classList.add('warn');
-  sb.insertAdjacentHTML('afterbegin','<p style="margin:0 0 6px"><b>這個瀏覽器不支援語音辨識，請用 Chrome 或 Edge（電腦版）開啟。</b>對照表與標準音仍可正常使用。</p>');
-}
+var UA = navigator.userAgent || '';
+var IS_ANDROID = /Android/i.test(UA);
+var IS_IOS = /iPhone|iPad|iPod/i.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+var IS_IOS_OTHER = IS_IOS && /CriOS|FxiOS|EdgiOS|OPiOS|GSA\//.test(UA); // Chrome/Firefox/Edge/Google app on iOS (WKWebView)
+var IN_LINE = /\bLine\//i.test(UA);
+var IN_APP = IN_LINE || /FBAN|FBAV|FB_IAB|Instagram|MicroMessenger|; wv\)/i.test(UA) ||
+  (IS_IOS && !IS_IOS_OTHER && !/Safari\//.test(UA)); // iOS in-app WKWebView has no "Safari/" token
+// Android Chrome gives the microphone to one API at a time: MediaRecorder running in parallel
+// leaves SpeechRecognition with no audio. iOS WebKit does the same (a getUserMedia track is muted
+// while recognition runs). On both we recognise first and record separately.
+var REC_PARALLEL = !IS_ANDROID && !IS_IOS;
+var lastMediaTs = 0; // iOS: recognition can hang right after <audio> play/pause (WebKit bug 321436)
+['play','pause','ended'].forEach(function(ev){ document.addEventListener(ev,function(){ lastMediaTs=Date.now(); },true); });
+var REC_MIME = (function(){
+  if(!window.MediaRecorder || !MediaRecorder.isTypeSupported) return '';
+  var c=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'];
+  for(var i=0;i<c.length;i++){ try{ if(MediaRecorder.isTypeSupported(c[i])) return c[i]; }catch(e){} }
+  return '';
+})();
+(function(){
+  var sb=document.getElementById('supportBox'), msg='';
+  var BR=IS_IOS?'Safari':'Chrome';
+  if(IN_APP) msg='<b>現在是用 App 內建的瀏覽器開啟，錄音比對可能不能用，請改用 '+BR+' 開啟。</b>'+(IN_LINE?' <a href="?openExternalBrowser=1">在外部瀏覽器開啟</a>':'');
+  else if(IS_IOS_OTHER && !SR) msg='<b>iPhone 上請用 Safari 開啟，</b>才有語音辨識；現在「錄音對照」只會錄音不評分。';
+  else if(!SR && hasRec) msg='<b>這個瀏覽器沒有語音辨識，「錄音對照」只會錄音不評分，</b>可以跟標準音對照著聽。';
+  else if(!SR) msg='<b>這個瀏覽器不能錄音或辨識，</b>對照表與標準音仍可正常使用。';
+  if(msg){ sb.classList.add('warn'); sb.insertAdjacentHTML('afterbegin','<p style="margin:0 0 6px">'+msg+'</p>'); }
+  var d=document.getElementById('recDiag');
+  if(d) d.textContent='這個瀏覽器：語音辨識'+(SR?'有':'沒有')+'・錄音'+(hasRec?'可以':'不行')+(IS_ANDROID?'・Android（辨識和錄音分開做）':'')+(IS_IOS?'・iPhone／iPad（辨識和錄音分開做）':'')+(IS_IOS_OTHER?'・不是 Safari':'')+(IN_APP?'・App 內建瀏覽器':'');
+  var ex=document.getElementById('extLink'); if(ex) ex.href='?openExternalBrowser=1'+location.hash;
+})();
+function recLabel(){ return SR?'🎙 錄音比對':'🎙 錄音對照'; }
+var loopOn=false; try{ loopOn=localStorage.getItem('mantraLoop')==='1'; }catch(e){}
+var LOOP_LINE_GAP=600;
 
 var cardsEl=document.getElementById('cards');
 var audios=[];
@@ -478,7 +560,7 @@ function renderMantra(id){
    ((r.note||r.chandra)?'<details class="rnote"><summary>註</summary><div>'+esc(r.note||'')+(r.chandra?(r.note?'\n':'')+'Lokesh Chandra 1988 重建：'+esc(r.chandra):'')+'</div></details>':'')+
    '<div class="actions">'+
     '<button class="play">🔊 標準音</button>'+
-    '<button class="rec">🎙 錄音比對</button>'+
+    '<button class="rec"'+((SR||hasRec)?'':' disabled')+'>'+recLabel()+'</button>'+
     '<button class="mineBtn" disabled>▶ 我的錄音</button>'+
    '</div>'+
    '<div class="result"></div>';
@@ -489,7 +571,7 @@ function renderMantra(id){
     stopAll();
     var tok=++playAllToken;
     document.getElementById('stopAll').disabled=false;
-    await playOne(u);
+    do{ await playOne(u); } while(loopOn && tok===playAllToken && (await wait(LOOP_LINE_GAP)) && tok===playAllToken);
     if(tok===playAllToken) document.getElementById('stopAll').disabled=true;
   };
   c.querySelector('.rec').onclick=function(){toggleRecord(idx,c);};
@@ -701,7 +783,7 @@ function stopAll(){
 function scrollCard(u){var e=document.querySelector('.card[data-unit="'+u+'"]'); if(e)e.scrollIntoView({behavior:'smooth',block:'center'});}
 document.getElementById('playAll').onclick=async function(){
   stopAll(); var tok=++playAllToken; document.getElementById('stopAll').disabled=false;
-  await playSeamless(tok);
+  do{ await playSeamless(tok); } while(loopOn && tok===playAllToken);
   if(tok===playAllToken) document.getElementById('stopAll').disabled=true;
 };
 // Line-by-line pass keeps a 2.5s repeat gap. The second pass is the same join as 全部播放:
@@ -709,22 +791,34 @@ document.getElementById('playAll').onclick=async function(){
 async function followAlong(){
   stopAll(); var tok=++playAllToken; document.getElementById('stopAll').disabled=false;
   var ready=ensureSpeechBounds();
-  if(!(await wait(500))||tok!==playAllToken)return;
-  await ready;
-  if(tok!==playAllToken)return;
-  for(var i=0;i<audios.length;i++){
+  var first=true;
+  do{
+    if(!first) scrollCard(0);
+    first=false;
+    if(!(await wait(500))||tok!==playAllToken)return;
+    await ready;
     if(tok!==playAllToken)return;
-    scrollCard(i);
-    if(audios[i]) await playRegion(i, tok, false);
+    for(var i=0;i<audios.length;i++){
+      if(tok!==playAllToken)return;
+      scrollCard(i);
+      if(audios[i]) await playRegion(i, tok, false);
+      if(tok!==playAllToken)return;
+      if(!(await wait(2500)))return;
+    }
     if(tok!==playAllToken)return;
-    if(!(await wait(2500)))return;
-  }
-  if(tok!==playAllToken)return;
-  await playSeamless(tok);
-  if(!(await wait(500))||tok!==playAllToken)return;
+    await playSeamless(tok);
+    if(!(await wait(500))||tok!==playAllToken)return;
+  } while(loopOn && tok===playAllToken);
   document.getElementById('stopAll').disabled=true;
 }
 document.getElementById('followBtn').onclick=followAlong;
+function setLoop(v){
+  loopOn=!!v; var b=document.getElementById('loopBtn');
+  b.classList.toggle('on',loopOn); b.setAttribute('aria-checked',loopOn?'true':'false');
+  try{ localStorage.setItem('mantraLoop',loopOn?'1':'0'); }catch(e){}
+}
+setLoop(loopOn);
+document.getElementById('loopBtn').onclick=function(){ setLoop(!loopOn); };
 document.getElementById('stopAll').onclick=stopAll;
 document.querySelectorAll('#speedSeg button').forEach(function(b){
   b.onclick=function(){
@@ -754,59 +848,189 @@ function renderResult(el,res,note){
 }
 
 var active=null;
+function lineLabel(idx){ return '第 '+(ROWS[idx].n||idx+1)+' '+(curMantra&&curMantra.views&&curView==='77'?'行':'句'); }
+function cardUnit(card,idx){ return card.dataset.unit!=null?+card.dataset.unit:idx; }
+function recSlots(card){
+  var resEl=card.querySelector('.result');
+  var msg=resEl.querySelector('.rmsg'), mine=resEl.querySelector('.mine');
+  if(!msg||!mine){ resEl.innerHTML='<div class="rmsg"></div><div class="mine" hidden></div>'; msg=resEl.querySelector('.rmsg'); mine=resEl.querySelector('.mine'); }
+  resEl.classList.add('show');
+  return {res:resEl,msg:msg,mine:mine};
+}
+function openGuide(){ var g=document.getElementById('recGuide'); if(!g) return; g.open=true; g.scrollIntoView({behavior:'smooth',block:'start'}); }
+var GUIDE_LINK='<button type="button" class="linkish guideLink">辨識設定說明</button>';
+// Microphone capture with a level meter. stop() resolves {url, peak, metered}.
+function startCapture(onLevel){
+  return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}}).then(function(stream){
+    var chunks=[], mr;
+    try{ mr=REC_MIME?new MediaRecorder(stream,{mimeType:REC_MIME}):new MediaRecorder(stream); }catch(e){ mr=new MediaRecorder(stream); }
+    mr.ondataavailable=function(e){ if(e.data&&e.data.size) chunks.push(e.data); };
+    var peak=0, ac=null, raf=0, metered=false;
+    try{
+      var Ctx=window.AudioContext||window.webkitAudioContext;
+      ac=new Ctx(); if(ac.state==='suspended'&&ac.resume) ac.resume();
+      var an=ac.createAnalyser(); an.fftSize=1024; ac.createMediaStreamSource(stream).connect(an);
+      var buf=new Float32Array(an.fftSize);
+      (function tick(){
+        if(ac.state==='running'){
+          metered=true; an.getFloatTimeDomainData(buf);
+          var s=0; for(var i=0;i<buf.length;i++) s+=buf[i]*buf[i];
+          var r=Math.sqrt(s/buf.length); if(r>peak) peak=r; if(onLevel) onLevel(r);
+        }
+        raf=requestAnimationFrame(tick);
+      })();
+    }catch(e){}
+    mr.start();
+    var cap={result:null, stop:function(){
+      if(cap._p) return cap._p;
+      cap._p=new Promise(function(res){
+        cancelAnimationFrame(raf);
+        function fin(){
+          stream.getTracks().forEach(function(t){t.stop();});
+          try{ if(ac) ac.close(); }catch(e){}
+          var url=chunks.length?URL.createObjectURL(new Blob(chunks,{type:mr.mimeType||REC_MIME||'audio/webm'})):null;
+          cap.result={url:url, peak:peak, metered:metered}; res(cap.result);
+        }
+        if(mr.state!=='inactive'){ mr.onstop=fin; try{ mr.stop(); }catch(e){ fin(); } } else fin();
+      });
+      return cap._p;
+    }};
+    return cap;
+  });
+}
+function showMine(card,idx,url){
+  var s=recSlots(card);
+  if(card._mineUrl) URL.revokeObjectURL(card._mineUrl);
+  card._mineUrl=url; card._mine=new Audio(url); card.querySelector('.mineBtn').disabled=false;
+  s.mine.hidden=false;
+  s.mine.innerHTML='<span class="notice">我的錄音：</span><audio class="mine-audio" controls src="'+url+'"></audio> <button class="cmp">🔁 標準音→我的錄音</button>';
+  s.mine.querySelector('.cmp').onclick=async function(){ stopAll(); await playOne(cardUnit(card,idx)); await new Promise(function(r){setTimeout(r,400);}); card._mine.currentTime=0; card._mine.play(); };
+}
+var ERR_IOS={'service-not-allowed':'iPhone 的語音辨識沒有開啟：請打開「聽寫」（必要時也打開 Siri），並允許 Safari 使用語音辨識。',
+  'not-allowed':'麥克風或語音辨識的權限被拒絕，請在 Safari 的網站設定裡允許。','language-not-supported':'這支 iPhone 的聽寫沒有印地語：請新增「印地文」鍵盤。',
+  'stalled':'語音辨識沒有反應（iPhone 剛播放音檔後偶爾會這樣）。等一兩秒再按「再辨識一次」。'};
+var ERR_TEXT={'not-allowed':'麥克風權限被拒絕。','service-not-allowed':'這個瀏覽器不讓網頁使用語音辨識（App 內建瀏覽器常會這樣）。',
+  'no-speech':'沒有聽到聲音。','network':'語音辨識需要連網，請確認網路連線。','audio-capture':'找不到麥克風，或麥克風正被其他程式使用。',
+  'language-not-supported':'這台裝置的語音辨識沒有印地語（hi-IN）。','bad-grammar':'辨識設定錯誤。'};
+// Shown instead of a bare 「沒有辨識到內容」: the user's recording (or a button to make one) next to the reference.
+function showFallback(card,idx,why,cap){
+  var s=recSlots(card), h='<div class="fb"><p><b>'+esc(why)+'</b></p>';
+  if(cap&&cap.url){
+    h+='<p class="notice">可以先聽自己的錄音，跟標準音對照：按下面的「🔁 標準音→我的錄音」。</p>';
+    if(cap.metered&&cap.peak<0.01) h+='<p class="notice">錄音裡幾乎沒有聲音，請確認麥克風權限，或靠近手機再唸一次。</p>';
+  } else if(hasRec){
+    h+='<p class="notice">可以先錄下來，跟標準音對照著聽。</p>';
+  }
+  h+='<div class="fbact">';
+  if(!(cap&&cap.url)&&hasRec) h+='<button type="button" class="recOnly">🎙 錄下來對照</button>';
+  if(SR) h+='<button type="button" class="retryRec">再辨識一次</button>';
+  h+=GUIDE_LINK+'</div></div>';
+  s.msg.innerHTML=h;
+}
 function toggleRecord(idx,card){
   if(active){ var same=active.idx===idx; active.stop(); if(same) return; }
-  var resEl=card.querySelector('.result'), btn=card.querySelector('.rec');
-  if(!SR){ resEl.innerHTML='<p><b>這個瀏覽器不支援語音辨識，請用 Chrome 或 Edge。</b></p>'; resEl.classList.add('show'); return; }
-  stopAll();
-  var rec=new SR(); rec.lang='hi-IN'; rec.maxAlternatives=5; rec.interimResults=true; rec.continuous=false;
-  var mr=null, chunks=[], stream=null, finals=null, done=false, timer=null;
-  var session={idx:idx,stop:function(){ try{rec.stop();}catch(e){} }};
-  active=session;
-  btn.classList.add('recording'); btn.textContent='⏹ 停止（請唸第 '+(ROWS[idx].n||idx+1)+' '+(curMantra&&curMantra.views&&curView==='77'?'行':'句')+'）';
-  resEl.innerHTML='<p class="heard">聆聽中… 請唸：<span class="iast">'+markIAST(ROWS[idx].iast)+'</span></p><p class="heard" id="interim'+idx+'"></p>'; resEl.classList.add('show');
-  if(hasRec){
-    navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){
-      stream=s; if(done){s.getTracks().forEach(function(t){t.stop();});return;}
-      mr=new MediaRecorder(s); mr.ondataavailable=function(e){if(e.data.size)chunks.push(e.data);};
-      mr.onstop=function(){
-        s.getTracks().forEach(function(t){t.stop();});
-        if(!chunks.length)return;
-        var url=URL.createObjectURL(new Blob(chunks,{type:mr.mimeType||'audio/webm'}));
-        if(card._mineUrl)URL.revokeObjectURL(card._mineUrl);
-        card._mineUrl=url; card._mine=new Audio(url); card.querySelector('.mineBtn').disabled=false;
-        var slot=resEl.querySelector('.mine'); if(!slot){slot=document.createElement('div');slot.className='mine';resEl.appendChild(slot);}
-        slot.innerHTML='<span class="notice">我的錄音：</span><audio class="mine-audio" controls src="'+url+'"></audio> <button class="cmp">🔁 標準音→我的錄音</button>';
-        slot.querySelector('.cmp').onclick=async function(){ stopAll(); await playOne(card.dataset.unit!=null?+card.dataset.unit:idx); await new Promise(function(r){setTimeout(r,400);}); card._mine.currentTime=0; card._mine.play(); };
-      };
-      mr.start();
-    }).catch(function(){ /* recognition can still run */ });
+  if(!SR){
+    if(hasRec) return recordOnly(idx,card);
+    recSlots(card).msg.innerHTML='<div class="fb"><p><b>這個瀏覽器不能錄音或辨識。</b></p><div class="fbact">'+GUIDE_LINK+'</div></div>'; return;
   }
+  stopAll();
+  var slots=recSlots(card), btn=card.querySelector('.rec');
+  var rec; try{ rec=new SR(); }catch(e){ showFallback(card,idx,'語音辨識無法啟動。',null); return; }
+  rec.lang='hi-IN'; rec.interimResults=true; rec.continuous=false; rec.maxAlternatives=5;
+  var st={finals:[], alts:[], interim:'', longestInterim:'', nomatch:false, err:null, ended:false, capP:null};
+  var session={idx:idx, stop:function(){ try{ rec.stop(); }catch(e){ finalize(); } }};
+  active=session;
+  btn.classList.add('recording'); btn.textContent='⏹ 停止（請唸'+lineLabel(idx)+'）';
+  slots.msg.innerHTML='<p class="heard">聆聽中… 請唸：<span class="iast">'+markIAST(ROWS[idx].iast)+'</span></p><p class="heard interim"></p>';
+  if(REC_PARALLEL && hasRec) st.capP=startCapture().catch(function(){ return null; });
   rec.onresult=function(e){
-    var interim='';
-    for(var i=e.resultIndex;i<e.results.length;i++){
-      var r=e.results[i];
-      if(r.isFinal){ finals=[]; for(var k=0;k<r.length;k++)finals.push(r[k].transcript); }
-      else interim+=r[0].transcript;
+    var finals=[], alts=[], interim='';
+    for(var i=0;i<e.results.length;i++){
+      var r=e.results[i]; if(!r||!r.length) continue;
+      var top=(r[0].transcript||'').trim();
+      if(r.isFinal){ if(top) finals.push(top); for(var k=0;k<r.length;k++){ var t=(r[k].transcript||'').trim(); if(t) alts.push(t); } }
+      else if(top) interim+=(interim?' ':'')+top;
     }
-    var ie=document.getElementById('interim'+idx); if(ie&&interim)ie.textContent='… '+interim;
+    st.finals=finals; st.alts=alts; st.interim=interim;
+    if(interim.length>st.longestInterim.length) st.longestInterim=interim;
+    var ie=slots.msg.querySelector('.interim'), show=(finals.join(' ')+' '+interim).trim();
+    if(ie&&show) ie.textContent='… '+show;
   };
-  rec.onerror=function(e){
-    var m={'not-allowed':'麥克風權限被拒絕，請在網址列左側允許麥克風。','no-speech':'沒有聽到聲音，請再試一次。','network':'語音辨識需要連網，請確認網路連線。','audio-capture':'找不到麥克風。'}[e.error]||('辨識錯誤：'+e.error);
-    finals=null; resEl.innerHTML='<p>'+esc(m)+'</p>'; session.err=true;
-  };
-  rec.onend=function(){
-    done=true; clearTimeout(timer);
-    btn.classList.remove('recording'); btn.textContent='🎙 錄音比對';
-    if(mr&&mr.state!=='inactive')mr.stop(); else if(stream)stream.getTracks().forEach(function(t){t.stop();});
-    if(active===session)active=null;
-    if(finals&&finals.length){
-      var res=MantraCompare.compare(ROWS[idx].dev,finals);
-      var keep=resEl.querySelector('.mine'); renderResult(resEl,res,finals.length>1?'（已從 '+finals.length+' 個辨識候選中取最接近的）':''); if(keep)resEl.appendChild(keep);
-    } else if(!session.err){ resEl.innerHTML='<p>沒有辨識到內容，請靠近麥克風再唸一次。</p>'; }
-  };
-  timer=setTimeout(function(){try{rec.stop();}catch(e){}},15000);
-  try{ rec.start(); }catch(e){ rec.onend(); }
+  rec.onnomatch=function(){ st.nomatch=true; };
+  rec.onerror=function(e){ st.err=e.error||'unknown'; };
+  rec.onstart=function(){ st.started=Date.now(); };
+  rec.onaudiostart=function(){ st.audio=true; };
+  rec.onend=function(){ finalize(); };
+  var timer=setTimeout(function(){ try{ rec.stop(); }catch(e){} },15000);
+  var safety=setTimeout(function(){ finalize(); },18000); // some Android builds never fire onend
+  // iOS (WebKit bug 321436): after <audio> playback a new recognizer can start but never fire any event.
+  // Start stays inside the tap (no delay); if nothing at all happens, stop waiting and offer a retry.
+  var watchdog=IS_IOS?setInterval(function(){
+    if(st.ended||st.audio||st.finals.length||st.interim){ if(st.audio||st.ended) clearInterval(watchdog); return; }
+    var t=Date.now()-t0;
+    if((st.started&&Date.now()-st.started>5000)||(!st.started&&t>7000)){ clearInterval(watchdog); st.err='stalled'; try{ rec.abort(); }catch(e){} finalize(); }
+  },500):0;
+  var t0=Date.now();
+  function candidates(){
+    var c=[], joined=st.finals.join(' ');
+    function add(x){ x=(x||'').trim(); if(x&&c.indexOf(x)<0) c.push(x); }
+    add(joined); st.alts.forEach(add);
+    if(st.interim){ add((joined+' '+st.interim).trim()); add(st.interim); }
+    add(st.longestInterim);
+    return c;
+  }
+  async function finalize(){
+    if(st.ended) return; st.ended=true; clearTimeout(timer); clearTimeout(safety); if(watchdog) clearInterval(watchdog);
+    try{ rec.onresult=rec.onend=rec.onerror=rec.onnomatch=rec.onstart=rec.onaudiostart=null; }catch(e){}
+    btn.classList.remove('recording'); btn.textContent=recLabel();
+    if(active===session) active=null;
+    var cap=null;
+    if(st.capP){ var c=await st.capP; if(c) cap=await c.stop(); }
+    if(cap&&cap.url) showMine(card,idx,cap.url);
+    var cands=candidates();
+    if(cands.length){
+      var res=MantraCompare.compare(ROWS[idx].dev,cands);
+      if(!res.noDevanagari){
+        var fromFinal=st.alts.indexOf(res.recognized)>=0||st.finals.join(' ')===res.recognized;
+        var note=!fromFinal?'（取自即時辨識結果）':(cands.length>1?'（已從 '+cands.length+' 個辨識候選中取最接近的）':'');
+        renderResult(slots.msg,res,note);
+        if(!(cap&&cap.url)&&hasRec) slots.msg.insertAdjacentHTML('beforeend','<div class="fbact" style="margin-top:6px"><button type="button" class="recOnly">🎙 錄下來對照</button></div>');
+        return;
+      }
+      showFallback(card,idx,'辨識到「'+cands[0]+'」，但不是天城體（印地語）文字。',cap); return;
+    }
+    var why=st.err&&st.err!=='aborted'?((IS_IOS&&ERR_IOS[st.err])||ERR_TEXT[st.err]||('辨識錯誤：'+st.err)):st.nomatch?'辨識不出這一句。':'這次沒有辨識到內容。';
+    showFallback(card,idx,why,cap);
+  }
+  try{ rec.start(); }catch(e){ st.err='start-failed'; finalize(); }
+}
+// Recording only (no SpeechRecognition, or Android after recognition): auto-stops after ~1.8 s of quiet.
+function recordOnly(idx,card){
+  if(active){ var same=active.idx===idx; active.stop(); if(same) return; }
+  stopAll();
+  var slots=recSlots(card), btn=card.querySelector('.rec');
+  var cap=null, done=false, heard=false, quietSince=0, finished=false;
+  var session={idx:idx, stop:function(){ stopRec(); }};
+  active=session;
+  btn.classList.add('recording'); btn.textContent='⏹ 停止錄音（'+lineLabel(idx)+'）';
+  slots.msg.innerHTML='<p class="heard">錄音中… 請唸：<span class="iast">'+markIAST(ROWS[idx].iast)+'</span></p><p class="notice">唸完停一下會自動停止，也可以按「停止錄音」。</p>';
+  var timer=setTimeout(stopRec,15000);
+  function onLevel(r){ var now=performance.now(); if(r>0.02){ heard=true; quietSince=0; } else if(heard){ if(!quietSince) quietSince=now; else if(now-quietSince>1800) stopRec(); } }
+  startCapture(onLevel).then(function(c){ cap=c; if(done) wrapUp(); }).catch(function(err){
+    done=true; clearTimeout(timer); resetBtn();
+    slots.msg.innerHTML='<div class="fb"><p><b>沒辦法使用麥克風'+(err&&err.name?'（'+esc(err.name)+'）':'')+'。</b></p><p class="notice">請允許這個網頁使用麥克風。</p><div class="fbact">'+GUIDE_LINK+'</div></div>';
+  });
+  function resetBtn(){ btn.classList.remove('recording'); btn.textContent=recLabel(); if(active===session) active=null; }
+  function stopRec(){ if(done) return; done=true; clearTimeout(timer); resetBtn(); if(cap) wrapUp(); }
+  async function wrapUp(){
+    if(finished) return; finished=true;
+    var r=await cap.stop();
+    if(r.url){
+      showMine(card,idx,r.url);
+      slots.msg.innerHTML='<p>錄好了，按「🔁 標準音→我的錄音」對照著聽。</p>'+(SR?'':'<p class="notice">這個瀏覽器沒有語音辨識，所以只錄音、不評分。</p>')+
+        ((r.metered&&r.peak<0.01)?'<p class="notice">錄音裡幾乎沒有聲音，請確認麥克風權限，或靠近手機再唸一次。</p>':'');
+    } else slots.msg.innerHTML='<div class="fb"><p><b>沒有錄到聲音。</b></p><div class="fbact">'+GUIDE_LINK+'</div></div>';
+  }
 }
 
 // manual test
@@ -825,6 +1049,14 @@ window.addEventListener('hashchange',function(){var h=location.hash.slice(1);if(
 var initId=location.hash.slice(1); if(!initId){try{initId=localStorage.getItem('mantra');}catch(e){}}
 renderMantra(initId||MANTRAS[0].id);
 window.__renderMantra=renderMantra;
+cardsEl.addEventListener('click',function(e){
+  var t=e.target.closest&&e.target.closest('button'); if(!t) return;
+  var card=t.closest('.card'); if(!card) return;
+  var idx=+card.id.replace('card','');
+  if(t.classList.contains('guideLink')) openGuide();
+  else if(t.classList.contains('recOnly')) recordOnly(idx,card);
+  else if(t.classList.contains('retryRec')) toggleRecord(idx,card);
+});
 (function(){var tt=document.getElementById('toTop');function upd(){tt.classList.toggle('show',window.scrollY>window.innerHeight*0.9);}window.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();tt.onclick=function(){window.scrollTo({top:0,behavior:'smooth'});};})();
 window.__APP_READY__=true;
 })();
