@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>基本英文 100 句練習</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--text:#1d2530;--sub:#5d6877;--line:#dde2e8;--accent:#2563eb;--accent-soft:#e6eefc;--ok:#15803d;--ok-soft:#e3f5e8;--bad:#b91c1c;--bad-soft:#fde8e8;--warn-soft:#fff3d6}
+@media(prefers-color-scheme:dark){:root{--bg:#12161c;--card:#1b212a;--text:#e8ecf1;--sub:#9aa5b4;--line:#2c3541;--accent:#6ea0ff;--accent-soft:#1e2c4a;--ok:#5fd18a;--ok-soft:#173424;--bad:#ff8a8a;--bad-soft:#3b1d1d;--warn-soft:#3a3115}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.6;font-size:16px}
+.wrap{max-width:760px;margin:0 auto;padding:12px 14px 80px}
+h1{font-size:20px;margin:8px 0 2px}
+.sub{color:var(--sub);font-size:13px;margin:0 0 10px}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.prog{font-size:13px;color:var(--sub);margin:4px 0 10px}
+.row{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+button,select{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:7px 12px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+button.ok{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+.tabs button{flex:1 1 auto;min-width:70px}
+.partdesc{font-size:13px;color:var(--sub);margin:4px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0}
+.card.done{border-color:var(--ok);background:linear-gradient(0deg,var(--ok-soft),var(--ok-soft)),var(--card)}
+.no{font-size:12px;color:var(--sub);font-variant-numeric:tabular-nums}
+.zh{font-size:17px;font-weight:600;margin:2px 0 6px}
+.en{font-size:17px;color:var(--accent);margin:2px 0 6px;font-family:Georgia,"Times New Roman",serif}
+.en.hid{background:var(--line);color:transparent;border-radius:6px;cursor:pointer;user-select:none;min-height:1.6em}
+.pt{font-size:13px;color:var(--sub);border-left:3px solid var(--line);padding-left:8px;margin:6px 0}
+.acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.acts button{padding:5px 10px;font-size:13px}
+textarea{width:100%;font:inherit;font-size:16px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--text);resize:vertical;min-height:64px;font-family:Georgia,serif}
+.diff{font-size:17px;font-family:Georgia,serif;margin:8px 0}
+.diff span{padding:0 2px;border-radius:4px;margin-right:2px}
+.diff .m{background:var(--ok-soft);color:var(--ok)}
+.diff .x{background:var(--bad-soft);color:var(--bad);text-decoration:underline wavy}
+.diff .e{background:var(--warn-soft)}
+.msg{font-size:14px;margin:6px 0}
+.lab{font-size:13px;color:var(--sub);display:flex;align-items:center;gap:4px}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:8px 0}
+.empty{text-align:center;color:var(--sub);padding:30px 0}
+.warn{background:var(--warn-soft);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:14px;margin:8px 0}
+.small{font-size:12px;color:var(--sub);margin-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>基本英文 100 句練習</h1>
+<p class="sub">仿「時態・邏輯・句子組裝」的選句原則，自編 100 句原創例句（非任何書籍原文）。進度存在這個瀏覽器中。</p>
+<div class="warn" id="warn" style="display:none">⚠️ 這個瀏覽器無法使用 localStorage（可能是無痕模式或被停用），進度無法自動儲存，關閉頁面後會消失。請用下方「匯出進度」自行備份。</div>
+<div class="bar"><i id="bar"></i></div>
+<div class="prog" id="prog"></div>
+
+<div class="row tabs" id="tabs"></div>
+<div class="partdesc" id="partdesc"></div>
+
+<div class="row" id="modes">
+  <button data-m="list">清單</button>
+  <button data-m="practice">練習（中翻英）</button>
+</div>
+<div class="row" id="filters">
+  <button data-f="all">全部</button>
+  <button data-f="todo">未記住</button>
+  <button data-f="done">已記住</button>
+</div>
+<div class="row">
+  <label class="lab"><input type="checkbox" id="hideEn"> 清單中隱藏英文</label>
+  <label class="lab"><input type="checkbox" id="autoSpeak"> 翻開答案時自動朗讀</label>
+  <label class="lab">語速 <select id="rate"><option value="0.7">慢</option><option value="0.9" selected>正常</option><option value="1.1">快</option></select></label>
+</div>
+<div id="view"></div>
+<div class="card">
+  <div class="zh" style="font-size:15px">進度備份</div>
+  <div class="pt">「已記住」的進度只存在這個瀏覽器（localStorage），換瀏覽器、換裝置或清除網站資料後就不會跟著走。想換裝置或做備份，請先「匯出進度」存成 JSON 檔，之後再「匯入進度」還原。</div>
+  <div class="acts"><button id="exportBtn">匯出進度</button><button id="importBtn">匯入進度</button><button id="resetBtn">清除全部進度</button></div>
+  <input type="file" id="importFile" accept="application/json,.json" style="display:none">
+  <div class="msg" id="ioMsg"></div>
+</div>
+<p class="small" id="ttsNote"></p>
+</div>
+<script>
+var DATA=[{"id": "part1", "title": "第一部分：時態", "range": "001–040", "desc": "先分清楚「現實」與「假設」，再練各種時態。", "items": [["如果我有更多時間，我就會去學游泳。", "If I had more time, I would learn to swim.", "與現在事實相反的假設：if + 過去式，主句用 would + 原形。"], ["如果我是你，我會先去跟老師談一談。", "If I were you, I would talk to the teacher first.", "假設語氣中，if 子句的 be 動詞一律用 were。"], ["如果我們當時有地圖，就不會迷路了。", "If we had had a map, we would not have lost our way.", "與過去事實相反的假設：had + 過去分詞，主句用 would have + 過去分詞。"], ["我真希望我住得離學校近一點。", "I wish I lived closer to my school.", "wish + 過去式：表達對「現在」事實的遺憾。"], ["我真希望昨天有帶傘。", "I wish I had brought an umbrella yesterday.", "wish + 過去完成式：表達對「過去」事實的遺憾。"], ["在這麼暗的路上騎腳踏車會很危險。", "It would be dangerous to ride a bike on such a dark road.", "would be ... to ...：用「會」委婉表達假設情況下的判斷。"], ["如果明天下雨，比賽就會取消。", "If it rains tomorrow, the game will be canceled.", "可能發生的真實條件：if + 現在式，主句用 will。"], ["她每天早上六點起床。", "She gets up at six every morning.", "現在式表示習慣、反覆發生的事。"], ["地球繞著太陽轉。", "The earth goes around the sun.", "現在式表示不變的事實、真理。"], ["我昨天晚上看了一部很棒的電影。", "I watched a great movie last night.", "過去式搭配明確的過去時間（last night）。"], ["我小時候住在高雄。", "I lived in Kaohsiung when I was a child.", "過去式表示過去的狀態；when 子句同樣用過去式。"], ["我最近在讀一本關於人工智慧的書。", "I am reading a book about artificial intelligence these days.", "現在進行式也能表示「這陣子」正在進行的事，不只是此刻。"], ["電話響的時候，我正在洗澡。", "I was taking a shower when the phone rang.", "過去進行式（背景動作）+ 過去式（突然發生的事）。"], ["我已經做完功課了。", "I have already finished my homework.", "現在完成式：過去的動作與現在有關（現在已完成）；常搭 already。"], ["我還沒吃午餐。", "I haven't had lunch yet.", "現在完成式否定 + yet：到現在為止「還沒」。"], ["我已經住在這個城市十年了。", "I have lived in this city for ten years.", "現在完成式 + for + 一段期間：持續到現在的狀態。"], ["自從搬到台中之後，我就一直在同一家公司上班。", "I have worked for the same company since I moved to Taichung.", "since + 過去的起點（用過去式），主句用現在完成式。"], ["你認識他多久了？", "How long have you known him?", "How long + 現在完成式：問「持續了多久」。know 是狀態動詞，不用進行式。"], ["你學英文學多久了？", "How long have you been studying English?", "現在完成進行式：強調動作從過去持續到現在。"], ["我去過京都兩次。", "I have been to Kyoto twice.", "have been to：曾經去過（經驗），人已經回來。"], ["他去日本了，所以這個星期不在這裡。", "He has gone to Japan, so he is not here this week.", "have gone to：已經去了（人現在不在這裡）。與 have been to 對比。"], ["這家店已經不再賣紙本雜誌了。", "This store no longer sells paper magazines.", "no longer + 動詞：「已不再……」，表示狀態的改變。"], ["我現在不抽菸了。", "I don't smoke anymore.", "not ... anymore：口語的「不再」，與 no longer 同義。"], ["我以前每天騎腳踏車上學，現在改搭捷運。", "I used to ride a bike to school every day, but now I take the MRT.", "used to + 原形：過去的習慣，現在已不是如此。"], ["明天我要跟朋友見面。", "I am meeting a friend tomorrow.", "現在進行式表示已安排好的近期計畫。"], ["我打算明年出國念書。", "I am going to study abroad next year.", "be going to：已有的打算、計畫。"], ["我想明天天氣會變好。", "I think the weather will get better tomorrow.", "will：說話當下對未來的預測或判斷。"], ["你到家的時候，請打電話給我。", "Please call me when you get home.", "時間副詞子句用現在式代替未來（when you get，不是 will get）。"], ["吃飯前請先洗手。", "Please wash your hands before you eat.", "before 子句用現在式表示未來或一般的情況。"], ["我一寫完報告就寄給你。", "I will send you the report as soon as I finish it.", "as soon as 子句用現在式；主句用 will。"], ["到明年三月，我在這家公司就工作滿五年了。", "By next March, I will have worked at this company for five years.", "未來完成式：到未來某時間點為止的「累積」或「完成」。"], ["他說他前一天很忙。", "He said he had been busy the day before.", "間接敘述中，比說話時更早的事用過去完成式；yesterday 要改成 the day before。"], ["我到車站的時候，火車已經開走了。", "When I got to the station, the train had already left.", "過去完成式：比「過去某一時間點」更早發生的事。"], ["老師問我有沒有做完功課。", "The teacher asked me whether I had finished my homework.", "間接問句：whether / if + 主詞 + 動詞（語序不倒裝），時態往前推一格。"], ["她告訴我她隔天會來。", "She told me that she would come the next day.", "過去式動詞後的 will 變成 would；tomorrow 改成 the next day。"], ["我不知道他什麼時候會到。", "I don't know when he will arrive.", "名詞子句（know 的受詞）可以用 will；與時間副詞子句不同，請比較第 28 句。"], ["我等你的電話等了一整個早上。", "I have been waiting for your call all morning.", "現在完成進行式 + all morning：強調一直持續的動作。"], ["這是我第一次吃臭豆腐。", "This is the first time I have eaten stinky tofu.", "This is the first time + 現在完成式：「第一次」的經驗。"], ["如果你今晚有空，我們去看電影吧。", "If you are free tonight, let's go see a movie.", "if 子句用現在式表示未來的可能情況，後面可接祈使句或 let's。"], ["我當時應該聽你的建議。", "I should have taken your advice at that time.", "should have + 過去分詞：對過去的事感到後悔、「早該……」。"]]}, {"id": "part2", "title": "第二部分：邏輯", "range": "041–064", "desc": "原因與結果、對比、比較、讓步、強調與一般化。", "items": [["因為下大雨，我們取消了野餐。", "We canceled the picnic because it rained heavily.", "because 引導原因子句，直接說明理由。"], ["他整晚沒睡，結果上課時睡著了。", "He stayed up all night; as a result, he fell asleep in class.", "as a result：用副詞片語連接「結果」，前面用分號或句號。"], ["既然大家都同意，我們現在就開始這個專案吧。", "Since everyone agrees, let's start the project now.", "since（既然）：理由是雙方已知的事，常放句首。"], ["雖然這家餐廳很小，但是食物很好吃。", "Although the restaurant is small, the food is delicious.", "although 連接讓步子句；英文中不能再加 but。"], ["這個計畫很有趣；不過，它的成本太高了。", "The plan is interesting; however, it costs too much.", "however：副詞，前面用分號或句號，後面加逗號。"], ["我哥哥喜歡運動，而我弟弟比較喜歡看書。", "My older brother likes sports, while my younger brother prefers reading.", "while 表示兩者的「對比」。"], ["光是因為他很年輕，並不代表他沒有經驗。", "Just because he is young doesn't mean he has no experience.", "Just because A doesn't mean B：不能因為 A 就推論 B。"], ["有錢不一定就會快樂。", "Being rich does not always make people happy.", "not always：部分否定，「不一定」，不等於 never。"], ["這個問題比我想像的還要難。", "This problem is more difficult than I thought.", "比較級 + than + 子句：把現實與預期做比較。"], ["學生花在閱讀上的時間比以前少了。", "Students spend less time reading than they used to.", "less ... than：「比較少」；than they used to 省略了重複的動詞。"], ["練習得越多，你就會越有自信。", "The more you practice, the more confident you will become.", "The + 比較級, the + 比較級：「越……就越……」。"], ["台北的物價沒有東京那麼高。", "Prices in Taipei are not as high as those in Tokyo.", "not as ... as：「不像……那麼……」；those 代替 prices，避免重複。"], ["我認為學生應該學寫程式，因為這能培養邏輯思考。", "I think students should learn programming because it develops logical thinking.", "寫意見的基本結構：主張 + because + 理由。"], ["我反對在課堂上使用手機，理由有兩個。", "I am against using phones in class for two reasons.", "be against 後面接 ～ing；for two reasons 先說明理由有幾個。"], ["雖然搭捷運比較貴，我還是比較喜歡，因為它比較準時。", "Even though the MRT is more expensive, I still prefer it because it is more punctual.", "even though + 讓步，主句用 still 強調態度；最後再補上理由。"], ["直到上個月，我們才發現這個錯誤。", "It was not until last month that we noticed the mistake.", "It is not until ... that ...：「直到……才……」的強調句型。"], ["光靠背單字，並不足以把英文學好。", "Memorizing vocabulary alone is not enough to learn English well.", "not enough：條件「不充分」；動名詞可以當主詞。"], ["要通過考試，努力是必要的，但並不保證成功。", "Hard work is necessary to pass the exam, but it does not guarantee success.", "necessary（必要條件）與 guarantee（充分條件）的區別。"], ["一般來說，年輕人每天都會用社群媒體，但也有一些例外。", "In general, young people use social media every day, but there are some exceptions.", "In general 先說一般情況，but there are some exceptions 再補充例外。"], ["最重要的是睡眠的品質，而不是睡了多久。", "It is the quality of sleep, not the length, that matters most.", "It is A, not B, that ...：強調句型，強調 A。"], ["路上車很多，所以我上班遲到了。", "There was heavy traffic, so I was late for work.", "so 連接結果；because 與 so 不能在同一句中一起使用。"], ["她不只會說英文，也會說日文。", "She can speak not only English but also Japanese.", "not only A but also B：A 與 B 的詞性、結構要對稱。"], ["天氣不但很冷，而且還下起雨來了。", "Not only was it cold, but it also began to rain.", "Not only 放句首時，後面的主詞與動詞倒裝。"], ["因此，我們在網路上發文時必須更加小心。", "Therefore, we need to be more careful about what we post online.", "therefore：用來導出結論；what we post 是名詞子句。"]]}, {"id": "part3", "title": "第三部分：句子的組裝", "range": "065–081", "desc": "想清楚誰對誰說什麼，再決定主詞與句型。", "items": [["這支手機讓我可以在任何地方工作。", "This phone enables me to work anywhere.", "無生命主詞 + enable A to ...：「使 A 能夠……」。"], ["我們老師允許我們在考試時使用字典。", "Our teacher allowed us to use dictionaries during the exam.", "allow A to ...：「允許 A 做……」。"], ["這首歌讓我想起高中時代。", "This song reminds me of my high school days.", "remind A of B：「讓 A 想起 B」。"], ["他的笑話讓我們全都笑了。", "His joke made us all laugh.", "make A + 原形動詞：「使 A 做……」（使役）。"], ["我哥哥提醒我要帶鑰匙。", "My brother reminded me to bring my key.", "remind A to ...：「提醒 A 要做……」。與 remind A of B 區別。"], ["我家有四個人。", "There are four people in my family.", "中文的「有」常用 There is / are 表達「存在」。"], ["今天很熱。", "It is very hot today.", "描述天氣、時間、氣溫時，用 it 當主詞。"], ["睡眠充足很重要。", "It is important to get enough sleep.", "形式主詞 it + 真主詞 to ...：避免頭重腳輕。"], ["這座橋是在1990年建造的。", "This bridge was built in 1990.", "被動語態：重點在「橋」而非「誰建造」，施事者不重要時使用。"], ["這個故事是我從奶奶那裡聽來的。", "I heard this story from my grandmother.", "中文帶有被動感的句子，英文常改用主動，以「我」當主詞。"], ["他突然離開，讓我很驚訝。", "I was surprised that he left so suddenly.", "避免名詞化：把「他的突然離開」還原成子句，更自然。"], ["這個消息讓她很開心。", "The news made her happy.", "可用事物當主詞：make A + 形容詞，自然簡潔。"], ["我昨天買的那本書很有趣。", "The book I bought yesterday is interesting.", "關係代名詞（受格）可以省略：the book (that) I bought。"], ["住在隔壁的那位女士是醫生。", "The woman who lives next door is a doctor.", "主格關係代名詞 who 不可省略，修飾人。"], ["我有一個朋友，他的爸爸是老師。", "I have a friend whose father is a teacher.", "whose + 名詞：表示所屬，「……的」。"], ["在公園裡跑步的那個男孩是我弟弟。", "The boy running in the park is my brother.", "現在分詞後位修飾：相當於 who is running。"], ["這本書是用簡單的英文寫的，所以很適合初學者閱讀。", "Written in simple English, this book is easy for beginners to read.", "過去分詞構句：Written in ... 相當於 Because it is written in ...。"]]}, {"id": "part4", "title": "第四部分：其他重要表現", "range": "082–100", "desc": "常用的子句、同位語與固定句型。", "items": [["他對我們說謊這件事，讓大家都很生氣。", "The fact that he lied to us made everyone angry.", "the fact that + 完整子句：說明「這件事實」的內容（同位語 that）。"], ["他有過受邀到學校演講的經驗。", "He had the experience of being invited to give a speech at a school.", "the experience of + 動名詞：名詞後面接 of ～ing，帶出內容。"], ["明天有可能會下雨。", "There is a possibility that it will rain tomorrow.", "possibility 之後可接 that 子句（同位語），說明可能性的內容。"], ["她沒有贏得獎項的機會。", "She has no chance of winning the prize.", "chance of ～ing：「……的機會」；注意 of 後面要接動名詞。"], ["咖啡太燙了，我沒辦法喝。", "The coffee was so hot that I could not drink it.", "so + 形容詞 + that ...：「太……以致於……」。"], ["那是個非常好的消息，我們全都很興奮。", "It was such good news that we were all excited.", "such + 名詞 + that ...；news 為不可數名詞，不加 a。"], ["這個箱子太重，我搬不動。", "This box is too heavy for me to carry.", "too ... (for A) to ...：「太……而不能……」。"], ["她已經夠大了，可以自己一個人旅行。", "She is old enough to travel alone.", "形容詞 + enough to ...：「夠……足以……」；enough 放在形容詞後面。"], ["只要你在六點前歸還，你就可以借我的腳踏車。", "You can borrow my bike as long as you return it by six.", "as long as：「只要」，表示條件，子句用現在式。"], ["我不知道她是否知道真相。", "I wonder whether she knows the truth.", "whether + 子句：「是否」，可當名詞子句。"], ["我現在需要的是好好休息。", "What I need now is a good rest.", "What + 主詞 + 動詞 + is ...：「……的是……」（關係代名詞 what）。"], ["我喜歡這個小鎮的地方，是這裡的人很友善。", "What I like about this town is that people are friendly.", "What ... is that + 子句：用來說明想法、原因。"], ["我已經習慣早起了。", "I am used to getting up early.", "be used to + ～ing：「習慣於……」；與 used to + 原形（過去習慣）區別。"], ["你不用擔心費用。", "You need not worry about the cost.", "need not + 原形：「不必……」，也可說 don't have to。"], ["你最好去看醫生。", "You had better see a doctor.", "had better + 原形：「最好……」，帶有勸告或警告的語氣。"], ["我正要離開時，開始下雨了。", "I was about to leave when it started to rain.", "be about to + 原形：「正要……」；when 引出突然發生的事。"], ["他說得好像什麼都知道一樣。", "He talks as if he knew everything.", "as if + 過去式：「彷彿……」，與事實不符的假設。"], ["我花了兩個小時才完成那份報告。", "It took me two hours to finish the report.", "It takes + 人 + 時間 + to ...：「花多少時間做某事」。"], ["我遲到的原因是公車故障了。", "The reason why I am late is that the bus broke down.", "The reason (why) ... is that ...：說明原因，用 that，不用 because。"]]}];
+(function(){
+"use strict";
+var KEY="basic-english-100-v1";
+var all=[],n=0;
+DATA.forEach(function(p,pi){p.items.forEach(function(it){n++;all.push({n:n,part:pi,zh:it[0],en:it[1],pt:it[2]});});});
+var store={mastered:{},hideEn:false,autoSpeak:false,rate:"0.9"};
+var storageOk=true;
+try{var s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.mastered)store=Object.assign(store,s);}catch(e){storageOk=false;}
+try{localStorage.setItem(KEY+"-test","1");localStorage.removeItem(KEY+"-test");}catch(e){storageOk=false;}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){if(storageOk){storageOk=false;showWarn();}}}
+function showWarn(){var w=document.getElementById("warn");if(w)w.style.display=storageOk?"none":"block";}
+var st={part:"all",mode:"list",filter:"all",order:null,idx:0,revealed:false,checked:null,typed:""};
+var $=function(id){return document.getElementById(id);};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+var tts="speechSynthesis" in window&&"SpeechSynthesisUtterance" in window;
+function speak(t){
+  if(!tts)return;
+  try{
+    window.speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=parseFloat(store.rate)||0.9;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+function pool(){
+  return all.filter(function(x){
+    if(st.part!=="all"&&String(x.part)!==st.part)return false;
+    var d=!!store.mastered[x.n];
+    if(st.filter==="todo"&&d)return false;
+    if(st.filter==="done"&&!d)return false;
+    return true;
+  });
+}
+function deck(){
+  var p=pool();
+  if(!st.order)return p;
+  var map={};p.forEach(function(x){map[x.n]=x;});
+  var res=[];st.order.forEach(function(k){if(map[k]){res.push(map[k]);delete map[k];}});
+  p.forEach(function(x){if(map[x.n])res.push(x);});
+  return res;
+}
+function shuffle(){
+  var p=pool().map(function(x){return x.n;});
+  for(var i=p.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=p[i];p[i]=p[j];p[j]=t;}
+  st.order=p;st.idx=0;resetCard();
+}
+function resetCard(){st.revealed=false;st.checked=null;st.typed="";}
+
+// ---- diff ----
+function tokens(s){
+  return s.replace(/[\u2018\u2019]/g,"'").replace(/[.,!?;:"“”]/g," ").trim().split(/\s+/).filter(Boolean);
+}
+function norm(w){return w.toLowerCase();}
+function diffHtml(answer,target){
+  var a=tokens(answer),b=tokens(target);
+  var m=a.length,k=b.length,dp=[],i,j;
+  for(i=0;i<=m;i++){dp.push(new Array(k+1).fill(0));}
+  for(i=m-1;i>=0;i--)for(j=k-1;j>=0;j--){
+    dp[i][j]=norm(a[i])===norm(b[j])?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  }
+  var you=[],ans=[];i=0;j=0;
+  while(i<m&&j<k){
+    if(norm(a[i])===norm(b[j])){you.push('<span class="m">'+esc(a[i])+'</span>');ans.push('<span class="m">'+esc(b[j])+'</span>');i++;j++;}
+    else if(dp[i+1][j]>=dp[i][j+1]){you.push('<span class="x">'+esc(a[i])+'</span>');i++;}
+    else{ans.push('<span class="e">'+esc(b[j])+'</span>');j++;}
+  }
+  while(i<m){you.push('<span class="x">'+esc(a[i])+'</span>');i++;}
+  while(j<k){ans.push('<span class="e">'+esc(b[j])+'</span>');j++;}
+  var same=a.length===b.length&&a.every(function(w,x){return norm(w)===norm(b[x]);});
+  return {same:same,you:you.join(" "),ans:ans.join(" ")};
+}
+
+// ---- render ----
+function updateTop(){
+  var d=Object.keys(store.mastered).filter(function(k){return store.mastered[k];}).length;
+  $("bar").style.width=d+"%";
+  $("prog").textContent="已記住 "+d+" / 100 句";
+  var tabs=$("tabs");tabs.innerHTML="";
+  var mk=function(key,label){
+    var b=document.createElement("button");b.textContent=label;b.setAttribute("data-p",key);
+    if(st.part===key)b.className="on";
+    b.onclick=function(){st.part=key;st.order=null;st.idx=0;resetCard();render();};
+    tabs.appendChild(b);
+  };
+  mk("all","全部");
+  DATA.forEach(function(p,i){
+    var c=all.filter(function(x){return x.part===i&&store.mastered[x.n];}).length;
+    mk(String(i),"第"+(i+1)+"部分 "+c+"/"+p.items.length);
+  });
+  $("partdesc").textContent=st.part==="all"?"四個部分：時態（001–040）、邏輯（041–064）、句子組裝（065–081）、其他重要表現（082–100）。":DATA[+st.part].title+"（"+DATA[+st.part].range+"）— "+DATA[+st.part].desc;
+  Array.prototype.forEach.call(document.querySelectorAll("#modes button"),function(b){b.className=b.getAttribute("data-m")===st.mode?"on":"";});
+  Array.prototype.forEach.call(document.querySelectorAll("#filters button"),function(b){b.className=b.getAttribute("data-f")===st.filter?"on":"";});
+}
+function pad(x){return ("00"+x).slice(-3);}
+function renderList(){
+  var v=$("view");v.innerHTML="";
+  var p=pool();
+  if(!p.length){v.innerHTML='<div class="empty">這個範圍沒有句子。</div>';return;}
+  var bar=document.createElement("div");bar.className="row";
+  bar.innerHTML='<span class="lab">共 '+p.length+' 句</span>';
+  v.appendChild(bar);
+  p.forEach(function(x){
+    var d=!!store.mastered[x.n];
+    var c=document.createElement("div");c.className="card"+(d?" done":"");
+    c.innerHTML='<div class="no">'+pad(x.n)+'・'+esc(DATA[x.part].title.split("：")[1])+'</div>'+
+      '<div class="zh">'+esc(x.zh)+'</div>'+
+      '<div class="en'+(store.hideEn?" hid":"")+'">'+esc(x.en)+'</div>'+
+      '<div class="pt">重點：'+esc(x.pt)+'</div>'+
+      '<div class="acts"><button class="sp">🔊 朗讀</button><button class="mk'+(d?" ok":"")+'">'+(d?"✓ 已記住":"標記為已記住")+'</button></div>';
+    var en=c.querySelector(".en");
+    en.onclick=function(){if(store.hideEn)en.classList.toggle("hid");};
+    c.querySelector(".sp").onclick=function(){speak(x.en);};
+    c.querySelector(".mk").onclick=function(){toggle(x.n);render();};
+    v.appendChild(c);
+  });
+}
+function toggle(k){if(store.mastered[k])delete store.mastered[k];else store.mastered[k]=true;save();}
+function renderPractice(){
+  var v=$("view");v.innerHTML="";
+  var dk=deck();
+  if(!dk.length){v.innerHTML='<div class="empty">這個範圍沒有句子可練習。<br>試試把篩選改成「全部」。</div>';return;}
+  if(st.idx>=dk.length)st.idx=0;
+  var x=dk[st.idx];var d=!!store.mastered[x.n];
+  var c=document.createElement("div");c.className="card"+(d?" done":"");
+  var h='<div class="no">第 '+(st.idx+1)+' / '+dk.length+' 題・'+pad(x.n)+'・'+esc(DATA[x.part].title.split("：")[1])+(d?'・已記住':'')+'</div>'+
+    '<div class="zh">'+esc(x.zh)+'</div>'+
+    '<textarea id="ans" placeholder="（選填）在這裡輸入你的英文翻譯" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"></textarea>'+
+    '<div class="acts"><button id="chk" class="primary">檢查答案</button><button id="rev">顯示答案</button></div><div id="res"></div>';
+  c.innerHTML=h;v.appendChild(c);
+  var ta=$("ans");ta.value=st.typed;
+  ta.oninput=function(){st.typed=ta.value;};
+  var res=$("res");
+  function showAnswer(withDiff){
+    var html="";
+    if(withDiff){
+      var r=diffHtml(st.typed,x.en);
+      if(r.same)html+='<div class="msg" style="color:var(--ok)">✓ 完全正確（忽略大小寫與標點）</div>';
+      else html+='<div class="msg">你的答案（紅色＝多餘或錯誤）：</div><div class="diff">'+(r.you||"（空白）")+'</div><div class="msg">參考答案（黃色＝你漏掉的字）：</div><div class="diff">'+r.ans+'</div>';
+    }else{
+      html+='<div class="msg">參考答案：</div><div class="en">'+esc(x.en)+'</div>';
+    }
+    html+='<div class="pt">重點：'+esc(x.pt)+'</div><div class="acts"><button id="sp">🔊 朗讀</button><button id="mk" class="'+(d?"ok":"")+'">'+(d?"✓ 已記住（點擊取消）":"我記住了")+'</button></div>';
+    res.innerHTML=html;
+    $("sp").onclick=function(){speak(x.en);};
+    $("mk").onclick=function(){toggle(x.n);var wasDone=!!store.mastered[x.n];if(wasDone&&st.filter==="todo"){/* stay on card */}render2(true);};
+    if(store.autoSpeak)speak(x.en);
+  }
+  function render2(keep){updateTop();var cur=!!store.mastered[x.n];c.className="card"+(cur?" done":"");d=cur;showAnswer(st.checked==="diff");}
+  $("chk").onclick=function(){
+    if(!st.typed.trim()){res.innerHTML='<div class="msg">請先輸入答案，或按「顯示答案」。</div>';return;}
+    st.revealed=true;st.checked="diff";showAnswer(true);
+  };
+  $("rev").onclick=function(){st.revealed=true;st.checked="plain";showAnswer(false);};
+  if(st.revealed)showAnswer(st.checked==="diff");
+  var nav=document.createElement("div");nav.className="nav";
+  nav.innerHTML='<button id="prev">← 上一題</button><button id="shuf">🔀 打亂順序</button><button id="next" class="primary">下一題 →</button>';
+  v.appendChild(nav);
+  $("prev").onclick=function(){st.idx=(st.idx-1+dk.length)%dk.length;resetCard();render();};
+  $("next").onclick=function(){st.idx=(st.idx+1)%dk.length;resetCard();render();};
+  $("shuf").onclick=function(){shuffle();render();};
+  var tip=document.createElement("div");tip.className="msg";tip.style.color="var(--sub)";
+  tip.textContent="提示：把篩選設為「未記住」再按「打亂順序」，就能只複習還沒記住的句子。";
+  v.appendChild(tip);
+}
+function render(){updateTop();if(st.mode==="list")renderList();else renderPractice();}
+
+Array.prototype.forEach.call(document.querySelectorAll("#modes button"),function(b){b.onclick=function(){st.mode=b.getAttribute("data-m");resetCard();render();};});
+Array.prototype.forEach.call(document.querySelectorAll("#filters button"),function(b){b.onclick=function(){st.filter=b.getAttribute("data-f");st.order=null;st.idx=0;resetCard();render();};});
+$("hideEn").checked=!!store.hideEn;$("autoSpeak").checked=!!store.autoSpeak;$("rate").value=store.rate;
+$("hideEn").onchange=function(){store.hideEn=this.checked;save();render();};
+$("autoSpeak").onchange=function(){store.autoSpeak=this.checked;save();};
+$("rate").onchange=function(){store.rate=this.value;save();};
+$("resetBtn").onclick=function(){if(confirm("確定要清除全部「已記住」的進度嗎？")){store.mastered={};save();st.order=null;resetCard();render();}};
+function ioMsg(t,bad){var m=$("ioMsg");m.textContent=t;m.style.color=bad?"var(--bad)":"var(--ok)";}
+$("exportBtn").onclick=function(){
+  try{
+    var list=Object.keys(store.mastered).filter(function(k){return store.mastered[k];}).map(Number).sort(function(a,b){return a-b;});
+    var payload={app:"basic-english-100",version:1,exportedAt:new Date().toISOString(),mastered:list,settings:{hideEn:!!store.hideEn,autoSpeak:!!store.autoSpeak,rate:store.rate}};
+    var blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+    var a=document.createElement("a");var url=URL.createObjectURL(blob);
+    var dt=new Date(),p2=function(x){return ("0"+x).slice(-2);};
+    a.href=url;a.download="basic-english-100-progress-"+dt.getFullYear()+p2(dt.getMonth()+1)+p2(dt.getDate())+".json";
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    ioMsg("已匯出 "+list.length+" 句的進度。");
+  }catch(e){ioMsg("匯出失敗："+e.message,true);}
+};
+$("importBtn").onclick=function(){$("importFile").click();};
+$("importFile").onchange=function(){
+  var f=this.files&&this.files[0];var inp=this;if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var o=JSON.parse(r.result);
+      if(!o||o.app!=="basic-english-100"||!Array.isArray(o.mastered))throw new Error("這不是本程式匯出的進度檔");
+      var m={},c=0;
+      o.mastered.forEach(function(k){k=Number(k);if(k>=1&&k<=100&&Math.floor(k)===k){m[k]=true;}});
+      c=Object.keys(m).length;
+      if(!confirm("將以檔案內容（已記住 "+c+" 句）取代目前的進度，確定嗎？")){inp.value="";return;}
+      store.mastered=m;
+      if(o.settings){
+        store.hideEn=!!o.settings.hideEn;store.autoSpeak=!!o.settings.autoSpeak;
+        if(["0.7","0.9","1.1"].indexOf(String(o.settings.rate))>=0)store.rate=String(o.settings.rate);
+        $("hideEn").checked=store.hideEn;$("autoSpeak").checked=store.autoSpeak;$("rate").value=store.rate;
+      }
+      save();st.order=null;resetCard();render();
+      ioMsg("已匯入，已記住 "+c+" 句。");
+    }catch(e){ioMsg("匯入失敗："+e.message,true);}
+    inp.value="";
+  };
+  r.onerror=function(){ioMsg("讀取檔案失敗。",true);inp.value="";};
+  r.readAsText(f);
+};
+showWarn();
+$("ttsNote").textContent=tts?"朗讀使用瀏覽器內建語音（speechSynthesis），可離線使用，聲音依裝置而異。":"此瀏覽器不支援語音朗讀。";
+if(!tts){var sp=document.getElementById("autoSpeak");sp.disabled=true;}
+render();
+window.__app={all:all,store:store,st:st,render:render};
+})();
+</script>
+</body>
+</html>
