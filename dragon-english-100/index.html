@@ -32,6 +32,12 @@ button.ok{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
 .pt{font-size:13px;color:var(--sub);border-left:3px solid var(--line);padding-left:8px;margin:6px 0}
 .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .acts button{padding:5px 10px;font-size:13px}
+.rate{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;color:var(--sub)}
+.rate .rp{padding:4px 9px;font-size:13px;border-radius:14px}
+.rate .rp.on{background:var(--text);color:var(--card);border-color:var(--text)}
+.rate .rv{min-width:3em;font-variant-numeric:tabular-nums;font-weight:600;color:var(--text)}
+.rate input[type=range]{flex:1 1 70px;min-width:70px;margin:0;accent-color:#2563eb}
+.acts button.sl{padding:5px 8px}
 textarea{width:100%;font:inherit;font-size:16px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--text);resize:vertical;min-height:64px;font-family:Georgia,serif}
 .diff{font-size:17px;font-family:Georgia,serif;margin:8px 0}
 .diff span{padding:0 2px;border-radius:4px;margin-right:2px}
@@ -212,7 +218,7 @@ textarea{width:100%;font:inherit;font-size:16px;border:1px solid var(--line);bor
   <label class="lab"><input type="checkbox" id="hideEn"> 清單中隱藏英文</label>
   <label class="lab"><input type="checkbox" id="showTl"> 顯示圖解（時間軸等）</label>
   <label class="lab"><input type="checkbox" id="autoSpeak"> 翻開答案時自動朗讀</label>
-  <label class="lab">語速 <select id="rate"><option value="0.7">慢</option><option value="0.9" selected>正常</option><option value="1.1">快</option></select></label>
+  <div class="rate" id="rateBox"><span>語速</span><button class="rp" data-r="0.5">很慢</button><button class="rp" data-r="0.7">慢</button><button class="rp" data-r="1">正常</button><button class="rp" data-r="1.2">快</button><input type="range" id="rate" min="0.4" max="1.4" step="0.05" value="1" aria-label="語速"><span class="rv" id="rateVal">1.00×</span></div>
 </div>
 <details class="card cheat" id="cheat"><summary>📖 時態速查：完成式 vs 進行式怎麼選</summary><div class="cheat-body" id="cheatBody"></div></details>
 <div id="view"></div>
@@ -233,9 +239,16 @@ var CHEAT={"secs": [{"id": "prog", "tag": "進行式", "tagc": "ev", "title": "�
 var KEY="basic-english-100-v1";
 var all=[],n=0;
 DATA.forEach(function(p,pi){p.items.forEach(function(it){n++;all.push({n:n,part:pi,zh:it[0],en:it[1],pt:it[2],tl:it[3]||null});});});
-var store={mastered:{},hideEn:false,autoSpeak:false,showTl:true,rate:"0.9"};
+var store={mastered:{},hideEn:false,autoSpeak:false,showTl:true,rate:"1",rateV:2};
 var storageOk=true;
-try{var s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.mastered)store=Object.assign(store,s);}catch(e){storageOk=false;}
+try{var s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.mastered){var oldRate=s.rateV!==2;store=Object.assign(store,s);store.rate=normRate(store.rate,oldRate);store.rateV=2;}}catch(e){storageOk=false;}
+function normRate(v,old){
+  /* old v1 select values: 0.7 慢 / 0.9 正常 / 1.1 快 -> new presets 0.7 / 1.0 / 1.2 */
+  var s=String(v);
+  if(old){if(s==="0.7")return "0.7";if(s==="0.9")return "1";if(s==="1.1")return "1.2";}
+  var f=parseFloat(v);if(!isFinite(f)||f<0.4||f>1.4)return "1";
+  return String(Math.round(f*20)/20);
+}
 try{localStorage.setItem(KEY+"-test","1");localStorage.removeItem(KEY+"-test");}catch(e){storageOk=false;}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){if(storageOk){storageOk=false;showWarn();}}}
 function showWarn(){var w=document.getElementById("warn");if(w)w.style.display=storageOk?"none":"block";}
@@ -244,11 +257,25 @@ var $=function(id){return document.getElementById(id);};
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 
 var tts="speechSynthesis" in window&&"SpeechSynthesisUtterance" in window;
-function speak(t){
+var enVoice=null;
+function pickVoice(){
+  try{
+    var vs=window.speechSynthesis.getVoices()||[];
+    var en=vs.filter(function(v){return /^en[-_]US/i.test(v.lang);});
+    if(!en.length)en=vs.filter(function(v){return /^en/i.test(v.lang);});
+    /* online "Google …" voices in Chrome often ignore rate; prefer a local voice */
+    var loc=en.filter(function(v){return v.localService;});
+    enVoice=loc[0]||null;
+  }catch(e){enVoice=null;}
+}
+if(tts){pickVoice();try{window.speechSynthesis.addEventListener("voiceschanged",pickVoice);}catch(e){}}
+function speak(t,rate){
   if(!tts)return;
   try{
     window.speechSynthesis.cancel();
-    var u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=parseFloat(store.rate)||0.9;
+    var u=new SpeechSynthesisUtterance(t);u.lang="en-US";
+    if(enVoice)u.voice=enVoice;
+    u.rate=rate||parseFloat(store.rate)||1;
     window.speechSynthesis.speak(u);
   }catch(e){}
 }
@@ -459,10 +486,11 @@ function renderList(){
       '<div class="en'+(store.hideEn?" hid":"")+'">'+esc(x.en)+'</div>'+
       (x.tl&&store.showTl?tlHtml(x.tl,store.hideEn?"hid":""):"")+
       '<div class="pt">重點：'+esc(x.pt)+'</div>'+
-      '<div class="acts"><button class="sp">🔊 朗讀</button><button class="mk'+(d?" ok":"")+'">'+(d?"✓ 已記住":"標記為已記住")+'</button></div>';
+      '<div class="acts"><button class="sp">🔊 朗讀</button><button class="sl" title="以 0.5 倍速重播">🐢 慢速</button><button class="mk'+(d?" ok":"")+'">'+(d?"✓ 已記住":"標記為已記住")+'</button></div>';
     var en=c.querySelector(".en");
     en.onclick=function(){if(store.hideEn){en.classList.toggle("hid");var tl=c.querySelector(".tl");if(tl)tl.classList.toggle("hid",en.classList.contains("hid"));}};
     c.querySelector(".sp").onclick=function(){speak(x.en);};
+    c.querySelector(".sl").onclick=function(){speak(x.en,0.5);};
     c.querySelector(".mk").onclick=function(){toggle(x.n);render();};
     v.appendChild(c);
   });
@@ -493,9 +521,10 @@ function renderPractice(){
       html+='<div class="msg">參考答案：</div><div class="en">'+esc(x.en)+'</div>';
     }
     if(x.tl&&store.showTl)html+=tlHtml(x.tl,"");
-    html+='<div class="pt">重點：'+esc(x.pt)+'</div><div class="acts"><button id="sp">🔊 朗讀</button><button id="mk" class="'+(d?"ok":"")+'">'+(d?"✓ 已記住（點擊取消）":"我記住了")+'</button></div>';
+    html+='<div class="pt">重點：'+esc(x.pt)+'</div><div class="acts"><button id="sp">🔊 朗讀</button><button id="sl" class="sl" title="以 0.5 倍速重播">🐢 慢速</button><button id="mk" class="'+(d?"ok":"")+'">'+(d?"✓ 已記住（點擊取消）":"我記住了")+'</button></div>';
     res.innerHTML=html;
     $("sp").onclick=function(){speak(x.en);};
+    $("sl").onclick=function(){speak(x.en,0.5);};
     $("mk").onclick=function(){toggle(x.n);var wasDone=!!store.mastered[x.n];if(wasDone&&st.filter==="todo"){/* stay on card */}render2(true);};
     if(store.autoSpeak)speak(x.en);
   }
@@ -520,18 +549,28 @@ function render(){updateTop();if(st.mode==="list")renderList();else renderPracti
 
 Array.prototype.forEach.call(document.querySelectorAll("#modes button"),function(b){b.onclick=function(){st.mode=b.getAttribute("data-m");resetCard();render();};});
 Array.prototype.forEach.call(document.querySelectorAll("#filters button"),function(b){b.onclick=function(){st.filter=b.getAttribute("data-f");st.order=null;st.idx=0;resetCard();render();};});
-$("hideEn").checked=!!store.hideEn;$("autoSpeak").checked=!!store.autoSpeak;$("showTl").checked=store.showTl!==false;$("rate").value=store.rate;
+$("hideEn").checked=!!store.hideEn;$("autoSpeak").checked=!!store.autoSpeak;$("showTl").checked=store.showTl!==false;showRate();
 $("showTl").onchange=function(){store.showTl=this.checked;save();render();};
 $("cheatBody").innerHTML=cheatHtml();
 $("hideEn").onchange=function(){store.hideEn=this.checked;save();render();};
 $("autoSpeak").onchange=function(){store.autoSpeak=this.checked;save();};
-$("rate").onchange=function(){store.rate=this.value;save();};
+function showRate(){
+  var f=parseFloat(store.rate)||1;$("rate").value=String(f);$("rateVal").textContent=f.toFixed(2)+"×";
+  Array.prototype.forEach.call(document.querySelectorAll("#rateBox .rp"),function(b){b.classList.toggle("on",Math.abs(parseFloat(b.getAttribute("data-r"))-f)<0.001);});
+}
+function setRate(v){
+  store.rate=normRate(v,false);store.rateV=2;save();showRate();
+  /* takes effect on the next playback: stop anything still speaking at the old rate */
+  try{if(tts&&(window.speechSynthesis.speaking||window.speechSynthesis.pending))window.speechSynthesis.cancel();}catch(e){}
+}
+$("rate").oninput=function(){setRate(this.value);};
+Array.prototype.forEach.call(document.querySelectorAll("#rateBox .rp"),function(b){b.onclick=function(){setRate(b.getAttribute("data-r"));};});
 $("resetBtn").onclick=function(){if(confirm("確定要清除全部「已記住」的進度嗎？")){store.mastered={};save();st.order=null;resetCard();render();}};
 function ioMsg(t,bad){var m=$("ioMsg");m.textContent=t;m.style.color=bad?"var(--bad)":"var(--ok)";}
 $("exportBtn").onclick=function(){
   try{
     var list=Object.keys(store.mastered).filter(function(k){return store.mastered[k];}).map(Number).sort(function(a,b){return a-b;});
-    var payload={app:"basic-english-100",version:1,exportedAt:new Date().toISOString(),mastered:list,settings:{hideEn:!!store.hideEn,autoSpeak:!!store.autoSpeak,showTl:store.showTl!==false,rate:store.rate}};
+    var payload={app:"basic-english-100",version:1,exportedAt:new Date().toISOString(),mastered:list,settings:{hideEn:!!store.hideEn,autoSpeak:!!store.autoSpeak,showTl:store.showTl!==false,rate:store.rate,rateV:2}};
     var blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
     var a=document.createElement("a");var url=URL.createObjectURL(blob);
     var dt=new Date(),p2=function(x){return ("0"+x).slice(-2);};
@@ -557,8 +596,8 @@ $("importFile").onchange=function(){
       if(o.settings){
         store.hideEn=!!o.settings.hideEn;store.autoSpeak=!!o.settings.autoSpeak;
         if(typeof o.settings.showTl==="boolean"){store.showTl=o.settings.showTl;$("showTl").checked=store.showTl;}
-        if(["0.7","0.9","1.1"].indexOf(String(o.settings.rate))>=0)store.rate=String(o.settings.rate);
-        $("hideEn").checked=store.hideEn;$("autoSpeak").checked=store.autoSpeak;$("rate").value=store.rate;
+        if(o.settings.rate!=null){var rf=parseFloat(o.settings.rate);if(isFinite(rf)&&rf>=0.4&&rf<=1.4){store.rate=normRate(o.settings.rate,o.settings.rateV!==2);store.rateV=2;}}
+        $("hideEn").checked=store.hideEn;$("autoSpeak").checked=store.autoSpeak;showRate();
       }
       save();st.order=null;resetCard();render();
       ioMsg("已匯入，已記住 "+c+" 句。");
@@ -570,7 +609,7 @@ $("importFile").onchange=function(){
 };
 showWarn();
 $("ttsNote").textContent=tts?"朗讀使用瀏覽器內建語音（speechSynthesis），可離線使用，聲音依裝置而異。":"此瀏覽器不支援語音朗讀。";
-if(!tts){var sp=document.getElementById("autoSpeak");sp.disabled=true;}
+if(!tts){var sp=document.getElementById("autoSpeak");sp.disabled=true;Array.prototype.forEach.call(document.querySelectorAll("#rateBox button,#rateBox input"),function(e){e.disabled=true;});}
 render();
 window.__app={all:all,store:store,st:st,render:render};
 })();
