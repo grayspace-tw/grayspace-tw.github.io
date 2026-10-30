@@ -811,6 +811,23 @@ function buildAlphaChart(L){
   });
   return w;
 }
+var keepScroll=false;
+// keep the reader's place across an in-tab re-render: mode 'idx' = same line number (讀法), 'unit' = same audio group (排法, 大悲 77/84),
+// 'btn' = keep the clicked button where it is (讀法 to/from 房山不空本: a different row set, so no line maps across)
+function keepPlace(btn, mode, render){
+  var tb=document.querySelector('.toolbar'), top0=tb?tb.getBoundingClientRect().bottom:0, vh=window.innerHeight;
+  var br=btn.getBoundingClientRect(), key=null, off=0, useBtn=false;
+  if(mode==='btn' || (br.bottom>top0 && br.top<vh)){ useBtn=true; off=br.top; }
+  else { var cs=cardsEl.querySelectorAll('.card'); for(var i=0;i<cs.length;i++){ var r=cs[i].getBoundingClientRect(); if(r.bottom>top0+1){ key=mode==='idx'?cs[i].id:+cs[i].dataset.unit; off=r.top; break; } } }
+  keepScroll=true; try{ render(); } finally { keepScroll=false; }
+  var el=null;
+  if(useBtn) el=btn;
+  else if(key!=null){
+    if(mode==='idx') el=document.getElementById(key);
+    else { var best=null, bd=1e9; cardsEl.querySelectorAll('.card').forEach(function(c){ var d=Math.abs(+c.dataset.unit-key); if(d<bd){bd=d; best=c;} }); el=best; }
+  }
+  if(el) window.scrollTo(0, Math.max(0, window.scrollY + el.getBoundingClientRect().top - off));
+}
 function renderMantra(id){
   var m=MANTRAS.filter(function(x){return x.id===id;})[0]||MANTRAS[0];
   if(!m.loaded){ loadChunk(m); return; }
@@ -884,7 +901,7 @@ function renderMantra(id){
   ROWS.forEach(function(r,i){var o=document.createElement('option');o.value=i;o.textContent=(i+1)+'. '+r.iast;sel.appendChild(o);});
   var mo=document.getElementById('manOut'); if(mo){mo.innerHTML='';mo.className='';}
   ensureSpeechBounds();
-  window.scrollTo(0,0);
+  if(!keepScroll)window.scrollTo(0,0);
 }
 
 function setPlaying(u){document.querySelectorAll('.card.playing').forEach(function(e){e.classList.remove('playing');}); if(u!=null){document.querySelectorAll('.card[data-unit="'+u+'"]').forEach(function(e){e.classList.add('playing');});}}
@@ -1422,13 +1439,13 @@ document.getElementById('manGo').onclick=function(){
   renderResult(out,MantraCompare.compare(ROWS[i].dev,[v]),'');
 };
 document.querySelectorAll('#viewSeg button').forEach(function(b){
-  b.onclick=function(){ if(curView===b.dataset.view)return; curView=b.dataset.view; try{localStorage.setItem('mantraView',curView);}catch(e){} if(curMantra)renderMantra(curMantra.id); };
+  b.onclick=function(){ if(curView===b.dataset.view)return; curView=b.dataset.view; try{localStorage.setItem('mantraView',curView);}catch(e){} if(curMantra)keepPlace(b,'unit',function(){renderMantra(curMantra.id);}); };
 });
 document.querySelectorAll('#lyReadSeg button').forEach(function(b){
-  b.onclick=function(){ if(lyReading===b.dataset.r)return; lyReading=b.dataset.r; try{localStorage.setItem('lyReading',lyReading);}catch(e){} if(curMantra&&curMantra.ly)renderMantra(curMantra.id); };
+  b.onclick=function(){ if(lyReading===b.dataset.r)return; var pr=lyReading; lyReading=b.dataset.r; try{localStorage.setItem('lyReading',lyReading);}catch(e){} if(curMantra&&curMantra.ly)keepPlace(b,(pr==='bk'||lyReading==='bk')?'btn':'idx',function(){renderMantra(curMantra.id);}); };
 });
 document.querySelectorAll('#lyViewSeg button').forEach(function(b){
-  b.onclick=function(){ if(lyView===b.dataset.v)return; lyView=b.dataset.v; try{localStorage.setItem('lyView',lyView);}catch(e){} if(curMantra&&curMantra.ly)renderMantra(curMantra.id); };
+  b.onclick=function(){ if(lyView===b.dataset.v)return; lyView=b.dataset.v; try{localStorage.setItem('lyView',lyView);}catch(e){} if(curMantra&&curMantra.ly)keepPlace(b,'unit',function(){renderMantra(curMantra.id);}); };
 });
 var tabs=document.getElementById('mantraTabs');
 MANTRAS.forEach(function(m){var b=document.createElement('button');b.dataset.id=m.id;b.textContent=m.name;b.onclick=function(){renderMantra(m.id);};tabs.appendChild(b);});
