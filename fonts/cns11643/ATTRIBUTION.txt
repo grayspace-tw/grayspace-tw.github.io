@@ -1,0 +1,16 @@
+全字庫 楷書字型 (TW-Kai) — CNS11643 中文標準交換碼全字庫
+
+資料來源：數位發展部，CNS11643中文標準交換碼全字庫網站，https://www.cns11643.gov.tw
+
+本資料夾的字型依「政府資料開放授權條款－第1版」(Open Government Data License, Taiwan, version 1.0) 使用與再散布。
+These fonts are used and redistributed under the Open Government Data License, Taiwan, version 1.0 (OGDL-Taiwan 1.0).
+  授權條款全文 / License text: https://data.gov.tw/license
+  資料集 / Dataset: https://data.gov.tw/dataset/5961
+  全字庫 授權說明 / Licensing page: https://www.cns11643.gov.tw/pageView.jsp?ID=59
+
+Files (whole and unmodified: not subset, not converted):
+  TW-Kai-98_1.woff2        15,473,836 B  sha256 d8e3db229134131ff0bf66e6bbd79b470b5169deb7d854d70af4b62516350238
+  TW-Kai-Ext-B-98_1.woff2  19,139,096 B  sha256 ccedb701fb7330e45d99c93e697764477fcda14c86b01e707cb9aa903e925698
+  TW-Kai-Plus-98_1.woff2   10,313,280 B  sha256 4373b6ee1d3ba61c214fab70c5205a46e529c28b4fcd12c750e692aac86388fa
+The woff2 files are byte-identical copies of public/ in github.com/gary5/sutra (git blobs 589068fa…, 1e58a646…, 1cddaadd…),
+which packages the official 全字庫 fonts (TW-Kai 11503.01, TW-Kai-Ext-B 11505.01, TW-Kai-Plus 11505.01).
