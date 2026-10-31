@@ -199,6 +199,64 @@ button.linkish{border:0;background:none;padding:0;color:var(--accent);text-decor
 @media (max-width:560px){#lyNav button small{display:none}#lyBox .seg button{padding:6px 9px;font-size:.92rem}}
 footer{color:var(--muted);font-size:.8rem;text-align:center;padding:20px}
 @media (max-width:560px){.seg#speedSeg button{padding:7px 9px}.toolbar{gap:8px}#followBtn{order:1}#loopBtn{order:1;gap:5px}.toolbar{gap:6px}.toolbar>button{padding:7px 9px}#loopBtn .lt2{display:none}#loopBtn .sw{width:26px;height:15px}#loopBtn .sw::after{width:11px;height:11px}#loopBtn.on .sw::after{transform:translateX(11px)}#speedSeg{order:2}#toTop{width:40px;height:40px;right:max(6px,env(safe-area-inset-right))}.card{padding-right:36px}.grid{grid-template-columns:1fr}.lab{margin-top:4px}.iast,.dev{font-size:1.25rem}.sid{font-size:1.6rem}h1{font-size:1.3rem}}
+/* alpha-srs preview: 卡片 + SRS */
+.asrsBar{display:flex;justify-content:center;margin:4px 0 12px}
+#cards.am-card>.card,#cards.am-srs>.card,#cards.am-card>#alphaChart,#cards.am-srs>#alphaChart{display:none}
+.asrsPanel{max-width:560px;margin:0 auto}
+@media (max-width:600px){body.am-focus .toolbar{display:none}}
+.asrsPanel[hidden]{display:none}
+.kstage{--ch:500px;display:flex;justify-content:center;margin:6px 0}
+@media (max-width:600px){.kstage{--ch:420px}}
+.acard{position:relative;width:100%;max-width:520px;height:var(--ch);box-sizing:border-box;background:var(--card,#fff);border:1px solid var(--line,#e6ded2);border-radius:18px;box-shadow:0 2px 10px rgba(80,50,20,.08);display:flex;flex-direction:column;align-items:center;padding:calc(var(--ch)*.055) 12px 10px;cursor:pointer;overflow:hidden;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.acard.back{background:#fffdf8}
+.acard .kgrp{position:absolute;top:8px;left:14px;font-size:.78rem;color:var(--muted)}
+.acard .kd{font-family:"Noto Sans Devanagari","Nirmala UI",sans-serif;font-size:calc(var(--ch)*.31);line-height:calc(var(--ch)*.45);height:calc(var(--ch)*.45);flex:none;white-space:nowrap;color:#2b2118}
+.acard .ks{font-family:"Noto Sans Siddham",serif;font-size:calc(var(--ch)*.15);line-height:calc(var(--ch)*.2);height:calc(var(--ch)*.2);flex:none;white-space:nowrap;color:#6b4a2b}
+.acard .ks.solo{font-size:calc(var(--ch)*.3);line-height:calc(var(--ch)*.45);height:calc(var(--ch)*.45);color:#2b2118}
+.acard .kqh{margin-top:auto;font-size:.85rem;color:var(--muted)}
+.acard .kq{display:flex;flex-direction:column;align-items:center;justify-content:center;height:calc(var(--ch)*.6);gap:12px}
+.acard .kqi{font-family:Georgia,serif;font-size:2.4rem}
+.acard .kread{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 12px;margin-top:2px}
+.acard .ki{font-family:Georgia,serif;font-size:1.45rem}
+.acard .kz{font-size:1.05rem}
+.acard .kzn{font-size:.78rem;color:var(--muted)}
+.acard .kc{font-size:1.15rem;color:#4a3c2f}
+.acard .kc::before{content:"近似 ";font-size:.7rem;color:var(--muted)}
+.acard .ktip{flex:1;min-height:0;overflow:auto;margin-top:6px;font-size:.84rem;line-height:1.45;color:#5d544a;text-align:center;padding:0 6px}
+.acard .kw{display:block;color:#9a5b12;font-size:.78rem;margin-top:2px}
+.kplay{width:40px;height:40px;border-radius:50%;padding:0;font-size:1.1rem;flex:none}
+.kplay.big{width:96px;height:96px;font-size:2.4rem}
+.kplay.playing{box-shadow:0 0 0 3px rgba(180,120,60,.35)}
+.knoa{font-size:.78rem;color:var(--muted)}
+.knav{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0;flex-wrap:wrap}
+.kpos{font-size:.85rem;color:var(--muted);min-width:4.5em;text-align:center}
+.kchips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:0 0 4px}
+.kchip{padding:4px 10px;font-size:.85rem;border-radius:999px}
+.kchip.on{background:var(--accent);color:#fff}
+.kcount{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:.9rem;color:#5d544a}
+.kcount b{font-size:1.1rem;color:var(--accent)}
+.kmeta{display:flex;gap:8px;justify-content:center;font-size:.8rem;color:var(--muted);margin-top:6px}
+.knew{background:#e8f1e4;color:#3d6b2f;border-radius:6px;padding:0 6px}
+.kgrade{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0}
+.kgrade .kshow{grid-column:1/-1;padding:12px;font-size:1.05rem}
+.kg{padding:9px 4px;font-size:1rem;display:flex;flex-direction:column;align-items:center;gap:1px}
+.kg small{font-size:.72rem;color:var(--muted)}
+.kg-again{border-color:#d9a3a3}.kg-hard{border-color:#e0c48f}.kg-good{border-color:#a9c99a}.kg-easy{border-color:#9bbad6}
+.kdone{text-align:center;padding:48px 10px;font-size:1.15rem;line-height:1.8;border:1px dashed var(--line);border-radius:18px;margin:10px 0}
+.kstats{margin:12px 0;border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:var(--card,#fff)}
+.kstats summary{cursor:pointer;font-weight:600;color:var(--accent)}
+.kstot{font-size:.85rem;color:#5d544a;margin:6px 0}
+.kgt{width:100%;border-collapse:collapse;font-size:.85rem}
+.kgt th,.kgt td{padding:3px 4px;text-align:left}.kgt tbody th{font-weight:600;white-space:nowrap}
+.kbar{display:block;position:relative;height:10px;border-radius:5px;background:#efe7dc;overflow:hidden;min-width:80px}
+.kbar .kb1,.kbar .kb2{position:absolute;left:0;top:0;bottom:0}.kbar .kb1{background:#e0b98a}.kbar .kb2{background:#7aa86a}
+.kset{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0;font-size:.85rem}
+.kset input[type=number]{width:4em}
+.kset label{display:inline-flex;flex-wrap:nowrap;flex-direction:row;align-items:center;gap:5px;white-space:nowrap}
+.kset input[type=checkbox]{width:auto;height:auto;margin:0;padding:0;flex:none}
+@media (max-width:600px){.knav{flex-wrap:nowrap;gap:6px}.knav button{padding-left:12px;padding-right:12px;white-space:nowrap}.knav .kpos{white-space:nowrap}}
+.kio{display:flex;gap:8px;flex-wrap:wrap}.kimp{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:.9rem;background:#fff}
+.kfine,.asrsFoot{font-size:.75rem;color:var(--muted);line-height:1.5}
 .chunkMsg{color:var(--muted);text-align:center;padding:2rem 0}
 </style>
 </head>
@@ -626,7 +684,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:20px}
 <script>
 (function(){
 'use strict';
-var MANTRAS = [{"id": "xinjing", "name": "般若心經咒", "c": "c/xinjing.535f3c0c04.js"}, {"id": "wangsheng", "name": "往生咒", "c": "c/wangsheng.a7d509d1bc.js"}, {"id": "lengyan", "name": "楞嚴心咒", "c": "c/lengyan.b61fa1e207.js"}, {"id": "lengyanfull", "name": "楞嚴咒", "c": "c/lengyanfull.ddda077b3d.js"}, {"id": "yaoshi", "name": "藥師灌頂真言", "c": "c/yaoshi.77eace772a.js"}, {"id": "dabei", "name": "大悲咒", "c": "c/dabei.caf02ebc89.js"}, {"id": "alphabet", "name": "字母練習", "c": "c/alphabet.9e0bb7d932.js"}];
+var MANTRAS = [{"id": "xinjing", "name": "般若心經咒", "c": "c/xinjing.535f3c0c04.js"}, {"id": "wangsheng", "name": "往生咒", "c": "c/wangsheng.a7d509d1bc.js"}, {"id": "lengyan", "name": "楞嚴心咒", "c": "c/lengyan.b61fa1e207.js"}, {"id": "lengyanfull", "name": "楞嚴咒", "c": "c/lengyanfull.ddda077b3d.js"}, {"id": "yaoshi", "name": "藥師灌頂真言", "c": "c/yaoshi.77eace772a.js"}, {"id": "dabei", "name": "大悲咒", "c": "c/dabei.caf02ebc89.js"}, {"id": "alphabet", "name": "字母練習", "c": "c/alphabet.5c03ed0de6.js"}];
 var __SPLIT=window.__SPLIT={pending:0,shown:null,want:null,loaded:[]};
 function chunkFind(id){return MANTRAS.filter(function(x){return x.id===id;})[0];}
 function loadChunk(m){
@@ -686,7 +744,7 @@ var rate = 1, playAllToken = 0, current = null, waits = [];
 var LONG = {'ā':1,'ī':1,'ū':1,'ṝ':1,'ḹ':1,'e':1,'o':1,'ai':1,'au':1};
 var ASP = {'kh':1,'gh':1,'ch':1,'jh':1,'ṭh':1,'ḍh':1,'th':1,'dh':1,'ph':1,'bh':1};
 var RETRO = {'ṭ':1,'ḍ':1,'ṇ':1,'ṣ':1};
-var ZYCH={"(ㄖㄧ)":"哩","(ㄖㄧ)[ㄍ]":"哩","ㄅ(ㄖㄧ)ㄕ":"比哩史","ㄅㄏ(ㄖㄧ)":"比哩","ㄅㄏ(ㄖㄧ)ㄥ":"比哩嗯","ㄅㄏㄖㄚ～":"布拉","ㄅㄏㄚ":"巴","ㄅㄏㄚ[ㄍ]":"巴","ㄅㄏㄚㄇ":"班","ㄅㄏㄚ～":"巴","ㄅㄏㄚ～ㄣ":"班","ㄅㄏㄚ～ㄦ":"巴爾","ㄅㄏㄞ":"白","ㄅㄏㄟ～":"貝","ㄅㄏㄧ[ㄍ]":"比","ㄅㄏㄧㄚㄏ":"比呀哈","ㄅㄏㄧㄚ～":"比呀","ㄅㄏㄧㄛ～":"比唷","ㄅㄏㄧㄢ":"邊","ㄅㄏㄧㄣ":"賓","ㄅㄏㄨ":"布","ㄅㄏㄨ～":"布","ㄅㄖㄚ":"布拉","ㄅㄖㄚㄏ":"布拉哈","ㄅㄖㄟ～":"布雷","ㄅㄖㄟ～[ㄍ]":"布雷","ㄅㄚ":"巴","ㄅㄚㄌ":"巴爾","ㄅㄚㄙ":"巴斯","ㄅㄚㄦ":"巴爾","ㄅㄚㆵ˺":"巴","ㄅㄚ～":"巴","ㄅㄚ～ㄇ":"班","ㄅㄚ～ㄣ":"班","ㄅㄚ～ㄦ":"巴爾","ㄅㄛ～":"波","ㄅㄞㆵ˺":"白","ㄅㄢ":"班","ㄅㄧ":"比","ㄅㄨ":"布","ㄅㄨㄕ":"布史","ㄅㄨㆵ˺":"布","ㄅㄨ～":"布","ㄆㄚ":"帕","ㄆㄚ{!ㄉ}˺":"帕","ㄆㄚㄌ":"帕爾","ㄇ(ㄖㄧ)":"米哩","ㄇㄚ":"媽","ㄇㄚ{ㄐ}˺":"媽","ㄇㄚㄇ":"曼","ㄇㄚㄏ":"媽哈","ㄇㄚㄙ":"媽斯","ㄇㄚㄦ":"媽爾","ㄇㄚ～":"媽","ㄇㄚ～ㄇ":"曼","ㄇㄚ～ㄌ":"媽爾","ㄇㄛ～":"摩","ㄇㄛ～[ㄍ]":"摩","ㄇㄛ～ㄙ":"摩斯","ㄇㄞ":"麥","ㄇㄟ～":"美","ㄇㄢ":"曼","ㄇㄧ":"米","ㄇㄨ":"木","ㄇㄨㄣ":"木恩","ㄇㄨㆵ":"木","ㄇㄨㆶ˺":"木","ㄉ(ㄖㄧ)":"低哩","ㄉㄏ(ㄖㄧ)":"低哩","ㄉㄏ(ㄖㄧ)ㄕ":"低哩史","ㄉㄏㄚ":"達","ㄉㄏㄚㄇ":"丹","ㄉㄏㄚㄦ":"達爾","ㄉㄏㄚ～":"達","ㄉㄏㄧ":"低","ㄉㄏㄧㄢ":"典","ㄉㄏㄨ":"都","ㄉㄏㄨㄚㄇ":"多姆","ㄉㄖㄚ":"德拉","ㄉㄖㄚㄇ":"德蘭","ㄉㄖㄚ～":"德拉","ㄉㄖㄚ～ㄇ":"德蘭","ㄉㄖㄞ":"德來","ㄉㄖㄞㄇ":"德來姆","ㄉㄖㄟ～":"德雷","ㄉㄖㄧ":"德利","ㄉㄖㄧ～":"德利","ㄉㄖㄨ":"德路","ㄉㄖㄨ～ㄇ":"德隆","ㄉㄚ":"達","ㄉㄚㄇ":"丹","ㄉㄚㄙ":"達斯","ㄉㄚㆵ˺":"達","ㄉㄚ～":"達","ㄉㄚ～ㄇ":"丹","ㄉㄚ～ㄌ":"達爾","ㄉㄚ～ㄏ":"達哈","ㄉㄛ～":"多","ㄉㄛ～ㄕ":"多史","ㄉㄛ～ㆵ˺":"多","ㄉㄟ～":"得","ㄉㄢ":"丹","ㄉㄧ":"低","ㄉㄧㄚ":"嗲","ㄉㄧㄚ～":"嗲","ㄉㄧㄚ～{ㄐ}˺":"嗲","ㄉㄧㄚ～ㄇ":"典","ㄉㄧㄝ～":"爹","ㄉㄧㄤ":"低央","ㄉㄧㄦ":"低爾","ㄉㄧ～":"低","ㄉㄧ～ㄇ":"低姆","ㄉㄧ～ㄦ":"低爾","ㄉㄧ～ㆴ":"低","ㄉㄨ":"都","ㄉㄨㄏㄙ":"都呼斯","ㄉㄨㄕ":"都史","ㄉㄨㄚ":"多","ㄉㄨㄚㄙ":"多斯","ㄉㄨㄚ～":"多","ㄉㄨㄞ":"都愛","ㄉㄨㄟ～":"對","ㄉㄨㄣ":"敦","ㄉㄨㄦ":"都爾","ㄉㄨ～":"都","ㄉㄨ～ㄦ":"都爾","ㄉㄩ":"丟","ㄉㄩㄕ":"丟史","ㄉㄩㆵ˺":"丟","ㄊㄚ":"他","ㄊㄚ～":"他","ㄊㄛ～ㄕ":"托史","ㄊㄧ":"提","ㄋㄚ":"那","ㄋㄚ[ㄍ]":"那","ㄋㄚㆶ˺":"那","ㄋㄚ～":"那","ㄋㄚ～ㄇ":"南","ㄋㄚ～ㄏ":"那哈","ㄋㄟ～":"內","ㄋㄢ":"南","ㄋㄧ":"尼","ㄋㄧㄚ":"尼呀","ㄋㄧ～":"尼","ㄋㄧ～ㄇ":"您","ㄋㄨ":"努","ㄋㄩ":"女","ㄋㄩㆵ˺":"女","ㄌㄚ":"拉","ㄌㄚ[ㄍ]":"拉","ㄌㄚㄇ":"蘭","ㄌㄚ～":"拉","ㄌㄚ～[ㄍ]":"拉","ㄌㄚ～ㄇ":"蘭","ㄌㄚ～ㄦ":"拉爾","ㄌㄛ～":"羅","ㄌㄟ～":"雷","ㄌㄟ～ㄣ":"雷恩","ㄌㄢ":"蘭","ㄌㄤ":"郎","ㄌㄧ":"利","ㄌㄧㄥ":"鈴","ㄌㄧ～":"利","ㄌㄨ":"路","ㄌㄨ～":"路","ㄍ(ㄖㄧ)":"吉哩","ㄍㄏㄖㄚ":"格拉","ㄍㄏㄚ":"嘎","ㄍㄏㄚ～":"嘎","ㄍㄏㄛ～":"果","ㄍㄏㄧ":"吉","ㄍㄕㄚ～":"格沙","ㄍㄖㄚ":"格拉","ㄍㄖㄚ～ㄣ":"格蘭","ㄍㄚ":"嘎","ㄍㄚㄇ":"甘","ㄍㄚㄙ":"嘎斯","ㄍㄚㄦ":"嘎爾","ㄍㄚ～":"嘎","ㄍㄚ～ㄇ":"甘","ㄍㄚ～ㄏ":"嘎哈","ㄍㄚ～ㄣ":"甘","ㄍㄛ～":"果","ㄍㄛ～ㆵ˺":"果","ㄍㄟ～":"給","ㄍㄠ":"高","ㄍㄢ":"甘","ㄍㄧ":"吉","ㄍㄧㄇ":"金","ㄍㄧㄚ":"加","ㄍㄧㄣ":"金","ㄍㄧ～":"吉","ㄍㄧ～ㄦ":"吉爾","ㄍㄨ":"姑","ㄍㄨㄇ":"工","ㄍㄨㄏ":"姑呼","ㄍㄨㄦ":"姑爾","ㄎㄚ":"卡","ㄎㄚ～":"卡","ㄏ(ㄖㄧ)":"西哩","ㄏ(ㄖㄧ)ㄉ":"西哩德","ㄏㄖㄧ～ㄏ":"赫利嘻","ㄏㄚ":"哈","ㄏㄚㄇ":"漢","ㄏㄚㄙ":"哈斯","ㄏㄚ～":"哈","ㄏㄚ～ㄏ":"哈哈","ㄏㄛ～":"火","ㄏㄟ～":"黑","ㄏㄢ":"漢","ㄏㄧ":"西","ㄏㄧ～":"西","ㄏㄨ":"呼","ㄏㄨ～ㄇ":"轟","ㄐ(ㄖㄧ)ㄇ":"吉哩姆","ㄐㄏㄚ":"加","ㄐㄖㄚ":"吉拉","ㄐㄖㄛ～":"吉羅","ㄐㄖㄛ～ㄕ":"吉羅史","ㄐㄚ":"加","ㄐㄚㄇ":"堅","ㄐㄚ～":"加","ㄐㄚ～ㄇ":"堅","ㄐㄚ～ㄦ":"加爾","ㄐㄛ～":"久","ㄐㄞ":"揭","ㄐㄢ":"堅","ㄐㄤ":"江","ㄐㄧ":"吉","ㄐㄧ{ㄐ}˺":"吉","ㄐㄧㄏ":"吉嘻","ㄐㄧㄚ":"加","ㄐㄧㄚ～":"加","ㄐㄧㄝ～":"揭","ㄐㄧㆵ˺":"吉","ㄐㄧ～":"吉","ㄐㄨㄚ":"抓","ㄐㄨㄚ～":"抓","ㄑㄚ":"恰","ㄑㄚ～":"恰","ㄑㄟ～":"切","ㄑㄧㄣ":"親","ㄒㄇㄚ":"西媽","ㄒㄌㄟ～ㄕ":"西雷史","ㄒㄖㄚ":"西拉","ㄒㄖㄚ～":"西拉","ㄒㄧ":"西","ㄒㄧㄚ":"夏","ㄒㄧㄚㄙ":"夏斯","ㄒㄧㄚ～":"夏","ㄒㄧㄚ～ㄣ":"先","ㄒㄧㄛ～":"修","ㄒㄧㄤ":"香","ㄒㄧ～":"西","ㄒㄧ～ㄦ":"西爾","ㄒㄨㄚ":"刷","ㄒㄨㄟ～":"水","ㄒㄩ":"需","ㄒㄩ～":"需","ㄕㄇㄧ～":"史米","ㄕㄚ":"沙","ㄕㄚ{!ㄉ}˺":"沙","ㄕㄚㄇ":"山","ㄕㄚ～":"沙","ㄕㄚ～ㄇ":"山","ㄕㄛ～":"說","ㄕㄟ～":"誰","ㄕㄧ":"西","ㄕㄧ～":"西","ㄕㄨ":"書","ㄖㄚ":"拉","ㄖㄚ[ㄍ]":"拉","ㄖㄚㄇ":"蘭","ㄖㄚㆵ˺":"拉","ㄖㄚ～":"拉","ㄖㄚ～[ㄍ]":"拉","ㄖㄚ～ㄇ":"蘭","ㄖㄚ～ㄏ":"拉哈","ㄖㄛ～":"羅","ㄖㄛ～ㄦ":"羅爾","ㄖㄟ～":"雷","ㄖㄠ":"勞","ㄖㄧ":"利","ㄖㄧㄣ":"林","ㄖㄧ～":"利","ㄖㄧ～ㄇ":"林","ㄖㄨ":"路","ㄖㄨ～":"路","ㄙㄆㄨ":"斯普","ㄙㄉㄚ":"斯達","ㄙㄉㄚㄇ":"斯丹","ㄙㄍㄢ":"斯甘","ㄙㄖㄛ～":"斯羅","ㄙㄚ":"薩","ㄙㄚㄇ":"三","ㄙㄚㄦ":"薩爾","ㄙㄚㆴ":"薩","ㄙㄚㆵ˺":"薩","ㄙㄚ～":"薩","ㄙㄚ～ㄇ":"三","ㄙㄟ～":"塞","ㄙㄠㄇ":"騷姆","ㄙㄧ":"西","ㄙㄧㄇ":"心","ㄙㄧㄚ":"夏","ㄙㄧㆵ˺":"西","ㄙㄧ～":"西","ㄙㄨ":"蘇","ㄙㄨㄇ":"松","ㄙㄨㄚ":"娑","ㄙㄨㄚㄙ":"娑斯","ㄙㄨㄚ～":"娑","ㄚ":"阿","ㄚ(ㄏㄚ)":"阿哈","ㄚ[ㄍ]":"阿","ㄚㄇ":"安","ㄚㄕ":"阿史","ㄚㄦ":"阿爾","ㄚㆶ˺":"阿","ㄚ～":"阿","ㄚ～ㄦ":"阿爾","ㄛ～":"喔","ㄛ～ㄇ":"嗡","ㄞ":"愛","ㄟ～":"欸","ㄠ":"奧","ㄧ":"伊","ㄧㄚ":"呀","ㄧㄚ[ㄍ]":"呀","ㄧㄚㄇ":"煙","ㄧㄚㆶ˺":"呀","ㄧㄚ～":"呀","ㄧㄚ～ㄦ":"呀爾","ㄧㄛ～":"唷","ㄧㄝ～":"耶","ㄧㄢ":"煙","ㄧㄣ":"音","ㄧ～":"伊","ㄨ":"烏","ㄨ(ㄖㄧ)ㄒ":"烏哩西","ㄨ[ㄉ]":"烏","ㄨㄌ":"烏爾","ㄨㄕ":"烏史","ㄨㄖㄚ～":"烏拉","ㄨㄚ":"哇","ㄨㄚㄇ":"彎","ㄨㄚㄙ":"哇斯","ㄨㄚㄦ":"哇爾","ㄨㄚㆴ˺":"哇","ㄨㄚㆵ˺":"哇","ㄨㄚ～":"哇","ㄨㄚ～[ㄉ]":"哇","ㄨㄚ～ㄣ":"彎","ㄨㄚ～ㄥ":"汪","ㄨㄚ～ㄦ":"哇爾","ㄨㄛ～ㄣ":"嗡","ㄨㄞ":"外","ㄨㄞㄕ":"外史","ㄨㄟ～":"威","ㄨㄢ":"彎","ㄨㄣ":"溫","ㄨㄧ":"威","ㄨㄧㄇ":"威姆","ㄨㄧㄒ":"威西","ㄨㄧㄚ～":"威呀","ㄨㄧ～":"威","ㄨㆵ˺":"烏","ㄨ～":"烏","ㄫㄚ":"嗯阿"};
+var ZYCH={"(ㄌㄧ)":"哩","(ㄌㄧ～)":"哩","(ㄖㄧ)":"哩","(ㄖㄧ)[ㄍ]":"哩","(ㄖㄧ～)":"哩","ㄅ(ㄖㄧ)ㄕ":"比哩史","ㄅㄏ(ㄖㄧ)":"比哩","ㄅㄏ(ㄖㄧ)ㄥ":"比哩嗯","ㄅㄏㄖㄚ～":"布拉","ㄅㄏㄚ":"巴","ㄅㄏㄚ[ㄍ]":"巴","ㄅㄏㄚㄇ":"班","ㄅㄏㄚ～":"巴","ㄅㄏㄚ～ㄣ":"班","ㄅㄏㄚ～ㄦ":"巴爾","ㄅㄏㄞ":"白","ㄅㄏㄟ～":"貝","ㄅㄏㄧ[ㄍ]":"比","ㄅㄏㄧㄚㄏ":"比呀哈","ㄅㄏㄧㄚ～":"比呀","ㄅㄏㄧㄛ～":"比唷","ㄅㄏㄧㄢ":"邊","ㄅㄏㄧㄣ":"賓","ㄅㄏㄨ":"布","ㄅㄏㄨ～":"布","ㄅㄖㄚ":"布拉","ㄅㄖㄚㄏ":"布拉哈","ㄅㄖㄟ～":"布雷","ㄅㄖㄟ～[ㄍ]":"布雷","ㄅㄚ":"巴","ㄅㄚㄌ":"巴爾","ㄅㄚㄙ":"巴斯","ㄅㄚㄦ":"巴爾","ㄅㄚㆵ˺":"巴","ㄅㄚ～":"巴","ㄅㄚ～ㄇ":"班","ㄅㄚ～ㄣ":"班","ㄅㄚ～ㄦ":"巴爾","ㄅㄛ～":"波","ㄅㄞㆵ˺":"白","ㄅㄢ":"班","ㄅㄧ":"比","ㄅㄨ":"布","ㄅㄨㄕ":"布史","ㄅㄨㆵ˺":"布","ㄅㄨ～":"布","ㄆㄚ":"帕","ㄆㄚ{!ㄉ}˺":"帕","ㄆㄚㄌ":"帕爾","ㄇ(ㄖㄧ)":"米哩","ㄇㄚ":"媽","ㄇㄚ{ㄐ}˺":"媽","ㄇㄚㄇ":"曼","ㄇㄚㄏ":"媽哈","ㄇㄚㄙ":"媽斯","ㄇㄚㄦ":"媽爾","ㄇㄚ～":"媽","ㄇㄚ～ㄇ":"曼","ㄇㄚ～ㄌ":"媽爾","ㄇㄛ～":"摩","ㄇㄛ～[ㄍ]":"摩","ㄇㄛ～ㄙ":"摩斯","ㄇㄞ":"麥","ㄇㄟ～":"美","ㄇㄢ":"曼","ㄇㄧ":"米","ㄇㄨ":"木","ㄇㄨㄣ":"木恩","ㄇㄨㆵ":"木","ㄇㄨㆶ˺":"木","ㄉ(ㄖㄧ)":"低哩","ㄉㄏ(ㄖㄧ)":"低哩","ㄉㄏ(ㄖㄧ)ㄕ":"低哩史","ㄉㄏㄚ":"達","ㄉㄏㄚㄇ":"丹","ㄉㄏㄚㄦ":"達爾","ㄉㄏㄚ～":"達","ㄉㄏㄧ":"低","ㄉㄏㄧㄢ":"典","ㄉㄏㄨ":"都","ㄉㄏㄨㄚㄇ":"多姆","ㄉㄖㄚ":"德拉","ㄉㄖㄚㄇ":"德蘭","ㄉㄖㄚ～":"德拉","ㄉㄖㄚ～ㄇ":"德蘭","ㄉㄖㄞ":"德來","ㄉㄖㄞㄇ":"德來姆","ㄉㄖㄟ～":"德雷","ㄉㄖㄧ":"德利","ㄉㄖㄧ～":"德利","ㄉㄖㄨ":"德路","ㄉㄖㄨ～ㄇ":"德隆","ㄉㄚ":"達","ㄉㄚㄇ":"丹","ㄉㄚㄙ":"達斯","ㄉㄚㆵ˺":"達","ㄉㄚ～":"達","ㄉㄚ～ㄇ":"丹","ㄉㄚ～ㄌ":"達爾","ㄉㄚ～ㄏ":"達哈","ㄉㄛ～":"多","ㄉㄛ～ㄕ":"多史","ㄉㄛ～ㆵ˺":"多","ㄉㄟ～":"得","ㄉㄢ":"丹","ㄉㄧ":"低","ㄉㄧㄚ":"嗲","ㄉㄧㄚ～":"嗲","ㄉㄧㄚ～{ㄐ}˺":"嗲","ㄉㄧㄚ～ㄇ":"典","ㄉㄧㄝ～":"爹","ㄉㄧㄤ":"低央","ㄉㄧㄦ":"低爾","ㄉㄧ～":"低","ㄉㄧ～ㄇ":"低姆","ㄉㄧ～ㄦ":"低爾","ㄉㄧ～ㆴ":"低","ㄉㄨ":"都","ㄉㄨㄏㄙ":"都呼斯","ㄉㄨㄕ":"都史","ㄉㄨㄚ":"多","ㄉㄨㄚㄙ":"多斯","ㄉㄨㄚ～":"多","ㄉㄨㄞ":"都愛","ㄉㄨㄟ～":"對","ㄉㄨㄣ":"敦","ㄉㄨㄦ":"都爾","ㄉㄨ～":"都","ㄉㄨ～ㄦ":"都爾","ㄉㄩ":"丟","ㄉㄩㄕ":"丟史","ㄉㄩㆵ˺":"丟","ㄊㄚ":"他","ㄊㄚ～":"他","ㄊㄛ～ㄕ":"托史","ㄊㄧ":"提","ㄋㄚ":"那","ㄋㄚ[ㄍ]":"那","ㄋㄚㆶ˺":"那","ㄋㄚ～":"那","ㄋㄚ～ㄇ":"南","ㄋㄚ～ㄏ":"那哈","ㄋㄟ～":"內","ㄋㄢ":"南","ㄋㄧ":"尼","ㄋㄧㄚ":"尼呀","ㄋㄧ～":"尼","ㄋㄧ～ㄇ":"您","ㄋㄨ":"努","ㄋㄩ":"女","ㄋㄩㆵ˺":"女","ㄌㄚ":"拉","ㄌㄚ[ㄍ]":"拉","ㄌㄚㄇ":"蘭","ㄌㄚ～":"拉","ㄌㄚ～[ㄍ]":"拉","ㄌㄚ～ㄇ":"蘭","ㄌㄚ～ㄦ":"拉爾","ㄌㄛ～":"羅","ㄌㄟ～":"雷","ㄌㄟ～ㄣ":"雷恩","ㄌㄢ":"蘭","ㄌㄤ":"郎","ㄌㄧ":"利","ㄌㄧㄥ":"鈴","ㄌㄧ～":"利","ㄌㄨ":"路","ㄌㄨ～":"路","ㄍ(ㄖㄧ)":"吉哩","ㄍㄏㄖㄚ":"格拉","ㄍㄏㄚ":"嘎","ㄍㄏㄚ～":"嘎","ㄍㄏㄛ～":"果","ㄍㄏㄧ":"吉","ㄍㄕㄚ～":"格沙","ㄍㄖㄚ":"格拉","ㄍㄖㄚ～ㄣ":"格蘭","ㄍㄚ":"嘎","ㄍㄚㄇ":"甘","ㄍㄚㄙ":"嘎斯","ㄍㄚㄦ":"嘎爾","ㄍㄚ～":"嘎","ㄍㄚ～ㄇ":"甘","ㄍㄚ～ㄏ":"嘎哈","ㄍㄚ～ㄣ":"甘","ㄍㄛ～":"果","ㄍㄛ～ㆵ˺":"果","ㄍㄟ～":"給","ㄍㄠ":"高","ㄍㄢ":"甘","ㄍㄧ":"吉","ㄍㄧㄇ":"金","ㄍㄧㄚ":"加","ㄍㄧㄣ":"金","ㄍㄧ～":"吉","ㄍㄧ～ㄦ":"吉爾","ㄍㄨ":"姑","ㄍㄨㄇ":"工","ㄍㄨㄏ":"姑呼","ㄍㄨㄦ":"姑爾","ㄎㄚ":"卡","ㄎㄚ～":"卡","ㄏ(ㄖㄧ)":"西哩","ㄏ(ㄖㄧ)ㄉ":"西哩德","ㄏㄖㄧ～ㄏ":"赫利嘻","ㄏㄚ":"哈","ㄏㄚㄇ":"漢","ㄏㄚㄙ":"哈斯","ㄏㄚ～":"哈","ㄏㄚ～ㄏ":"哈哈","ㄏㄛ～":"火","ㄏㄟ～":"黑","ㄏㄢ":"漢","ㄏㄧ":"西","ㄏㄧ～":"西","ㄏㄨ":"呼","ㄏㄨ～ㄇ":"轟","ㄐ(ㄖㄧ)ㄇ":"吉哩姆","ㄐㄏㄚ":"加","ㄐㄖㄚ":"吉拉","ㄐㄖㄛ～":"吉羅","ㄐㄖㄛ～ㄕ":"吉羅史","ㄐㄚ":"加","ㄐㄚㄇ":"堅","ㄐㄚ～":"加","ㄐㄚ～ㄇ":"堅","ㄐㄚ～ㄦ":"加爾","ㄐㄛ～":"久","ㄐㄞ":"揭","ㄐㄢ":"堅","ㄐㄤ":"江","ㄐㄧ":"吉","ㄐㄧ{ㄐ}˺":"吉","ㄐㄧㄏ":"吉嘻","ㄐㄧㄚ":"加","ㄐㄧㄚ～":"加","ㄐㄧㄝ～":"揭","ㄐㄧㆵ˺":"吉","ㄐㄧ～":"吉","ㄐㄨㄚ":"抓","ㄐㄨㄚ～":"抓","ㄑㄚ":"恰","ㄑㄚ～":"恰","ㄑㄟ～":"切","ㄑㄧㄣ":"親","ㄒㄇㄚ":"西媽","ㄒㄌㄟ～ㄕ":"西雷史","ㄒㄖㄚ":"西拉","ㄒㄖㄚ～":"西拉","ㄒㄧ":"西","ㄒㄧㄚ":"夏","ㄒㄧㄚㄙ":"夏斯","ㄒㄧㄚ～":"夏","ㄒㄧㄚ～ㄣ":"先","ㄒㄧㄛ～":"修","ㄒㄧㄤ":"香","ㄒㄧ～":"西","ㄒㄧ～ㄦ":"西爾","ㄒㄨㄚ":"刷","ㄒㄨㄟ～":"水","ㄒㄩ":"需","ㄒㄩ～":"需","ㄕㄇㄧ～":"史米","ㄕㄚ":"沙","ㄕㄚ{!ㄉ}˺":"沙","ㄕㄚㄇ":"山","ㄕㄚ～":"沙","ㄕㄚ～ㄇ":"山","ㄕㄛ～":"說","ㄕㄟ～":"誰","ㄕㄧ":"西","ㄕㄧ～":"西","ㄕㄨ":"書","ㄖㄚ":"拉","ㄖㄚ[ㄍ]":"拉","ㄖㄚㄇ":"蘭","ㄖㄚㆵ˺":"拉","ㄖㄚ～":"拉","ㄖㄚ～[ㄍ]":"拉","ㄖㄚ～ㄇ":"蘭","ㄖㄚ～ㄏ":"拉哈","ㄖㄛ～":"羅","ㄖㄛ～ㄦ":"羅爾","ㄖㄟ～":"雷","ㄖㄠ":"勞","ㄖㄧ":"利","ㄖㄧㄣ":"林","ㄖㄧ～":"利","ㄖㄧ～ㄇ":"林","ㄖㄨ":"路","ㄖㄨ～":"路","ㄙㄆㄨ":"斯普","ㄙㄉㄚ":"斯達","ㄙㄉㄚㄇ":"斯丹","ㄙㄍㄢ":"斯甘","ㄙㄖㄛ～":"斯羅","ㄙㄚ":"薩","ㄙㄚㄇ":"三","ㄙㄚㄦ":"薩爾","ㄙㄚㆴ":"薩","ㄙㄚㆵ˺":"薩","ㄙㄚ～":"薩","ㄙㄚ～ㄇ":"三","ㄙㄟ～":"塞","ㄙㄠㄇ":"騷姆","ㄙㄧ":"西","ㄙㄧㄇ":"心","ㄙㄧㄚ":"夏","ㄙㄧㆵ˺":"西","ㄙㄧ～":"西","ㄙㄨ":"蘇","ㄙㄨㄇ":"松","ㄙㄨㄚ":"娑","ㄙㄨㄚㄙ":"娑斯","ㄙㄨㄚ～":"娑","ㄚ":"阿","ㄚ(ㄏㄚ)":"阿哈","ㄚ[ㄍ]":"阿","ㄚㄇ":"安","ㄚㄕ":"阿史","ㄚㄦ":"阿爾","ㄚㆶ˺":"阿","ㄚ～":"阿","ㄚ～ㄦ":"阿爾","ㄛ～":"喔","ㄛ～ㄇ":"嗡","ㄞ":"愛","ㄟ～":"欸","ㄠ":"奧","ㄧ":"伊","ㄧㄚ":"呀","ㄧㄚ[ㄍ]":"呀","ㄧㄚㄇ":"煙","ㄧㄚㆶ˺":"呀","ㄧㄚ～":"呀","ㄧㄚ～ㄦ":"呀爾","ㄧㄛ～":"唷","ㄧㄝ～":"耶","ㄧㄢ":"煙","ㄧㄣ":"音","ㄧ～":"伊","ㄨ":"烏","ㄨ(ㄖㄧ)ㄒ":"烏哩西","ㄨ[ㄉ]":"烏","ㄨㄌ":"烏爾","ㄨㄕ":"烏史","ㄨㄖㄚ～":"烏拉","ㄨㄚ":"哇","ㄨㄚㄇ":"彎","ㄨㄚㄙ":"哇斯","ㄨㄚㄦ":"哇爾","ㄨㄚㆴ˺":"哇","ㄨㄚㆵ˺":"哇","ㄨㄚ～":"哇","ㄨㄚ～[ㄉ]":"哇","ㄨㄚ～ㄣ":"彎","ㄨㄚ～ㄥ":"汪","ㄨㄚ～ㄦ":"哇爾","ㄨㄛ～ㄣ":"嗡","ㄨㄞ":"外","ㄨㄞㄕ":"外史","ㄨㄟ～":"威","ㄨㄢ":"彎","ㄨㄣ":"溫","ㄨㄧ":"威","ㄨㄧㄇ":"威姆","ㄨㄧㄒ":"威西","ㄨㄧㄚ～":"威呀","ㄨㄧ～":"威","ㄨㆵ˺":"烏","ㄨ～":"烏","ㄫㄚ":"嗯阿"};
 function fmtZy1(s){return esc(s).replace(/\{(!?)(.)\}/g,function(_,r,c){return '<span class="coda'+(r?' retro':'')+'">'+c+'</span>';}).replace(/\[(.)\]/g,'<sup class="rel">$1</sup>').replace(/˺/g,'<span class="hold">˺</span>');}
 function fmtZy(s){return String(s).split(/( ?・ ?)/).map(function(w,i){if(i%2)return '<span class="zsep">'+w+'</span>';if(!w)return '';if(/^（.*）$/.test(w))return fmtZy1(w);var m=w.match(/^(.*?)(（[^）]*）)?$/);return '<span class="zw">'+m[1].split(' ').map(function(y){return '<span class="zs">'+fmtZy1(y)+'</span>';}).join(' ')+'</span>'+(m[2]?fmtZy1(m[2]):'');}).join('');}
 function fmtZyOld(s){return esc(s).replace(/\{(!?)(.)\}/g,function(_,r,c){return '<span class="coda'+(r?' retro':'')+'">'+c+'</span>';}).replace(/\[(.)\]/g,'<sup class="rel">$1</sup>').replace(/˺/g,'<span class="hold">˺</span>');}
@@ -783,6 +841,213 @@ var cardsEl=document.getElementById('cards');
 var audios=[];
 var boundsPromise=null;
 var regionCancel=null;
+// ---- 字母練習 preview (next10 alpha-srs, 2026-10-31, River [pt356u]): 卡片 + SRS 間隔複習 ----
+// Core (pure, Node-testable): AlphaSRS.next / queue / stats.  UI: asrsMount(L) inside the 字母練習 tab.
+// State in localStorage 'alphaSRS.v1'; everything runs in the page (no server); letter clips are fetched once into blob: URLs.
+var AlphaSRS=(function(){
+  var MIN=6e4, DAY=864e5, KEY='alphaSRS.v1', DIRS=['ds','sd','sid'];
+  var clock=null;
+  function now(){return clock?clock():Date.now();}
+  function dayKey(t){var d=new Date(t-4*3600e3);return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}  // day rolls over at 04:00 local
+  function blank(){return {v:1,cards:{},settings:{newPerDay:10,dirs:{ds:true,sd:true,sid:false}},today:{day:'',n:0},reviews:0};}
+  function fix(st){var b=blank();if(!st||st.v!==1)return b;st.cards=st.cards||{};st.settings=Object.assign(b.settings,st.settings||{});
+    st.settings.dirs=Object.assign({ds:true,sd:true,sid:false},st.settings.dirs||{});st.today=st.today||b.today;st.reviews=st.reviews||0;return st;}
+  function load(store){try{return fix(JSON.parse((store||localStorage).getItem(KEY)||'null'));}catch(e){return blank();}}
+  function save(st,store){try{(store||localStorage).setItem(KEY,JSON.stringify(st));return true;}catch(e){return false;}}
+  // SM-2 variant. q: 0 不會 (Again), 3 模糊 (Hard), 4 會 (Good), 5 很熟 (Easy)
+  function next(c,q,t){
+    c=Object.assign({reps:0,ef:2.5,ivl:0,due:0,lapses:0,seen:0,last:0},c||{});
+    if(!c.seen)c.seen=t; c.last=t;
+    if(q<3){c.lapses+=c.reps>0?1:0;c.reps=0;c.ivl=0;c.ef=Math.max(1.3,c.ef-0.2);c.due=t+MIN;return c;}
+    c.ef=Math.max(1.3,Math.round((c.ef+(0.1-(5-q)*(0.08+(5-q)*0.02)))*100)/100);
+    var iv;
+    if(c.reps===0){ if(q===3){c.due=t+10*MIN;c.ivl=0;return c;} iv=q===5?4:1; }
+    else if(c.reps===1){ iv=q===3?Math.max(2,c.ivl+1):q===4?6:8; }
+    else { iv=q===3?Math.max(c.ivl+1,Math.round(c.ivl*1.2)):q===4?Math.round(c.ivl*c.ef):Math.round(c.ivl*c.ef*1.3); }
+    c.ivl=Math.min(365,iv); c.reps++; c.due=t+c.ivl*DAY; return c;
+  }
+  function preview(c,q,t){var n=next(c,q,t),d=n.due-t;return d<3600e3?Math.round(d/MIN)+' 分':Math.round(d/DAY)+' 天';}
+  function items(letters,st){var out=[];letters.forEach(function(L){DIRS.forEach(function(d){
+      if(!st.settings.dirs[d])return; if(d==='sid'&&!L.s)return; out.push({k:d+':'+L.i,dir:d,L:L});});});return out;}
+  function rollDay(st,t){var k=dayKey(t);if(st.today.day!==k)st.today={day:k,n:0};}
+  // queue: reviews due now (oldest first), then learning cards due now, then today's new cards; ahead = learning due within 20 min
+  function queue(letters,st,t){
+    rollDay(st,t);
+    var it=items(letters,st),due=[],learn=[],ahead=[],fresh=[];
+    it.forEach(function(x){var c=st.cards[x.k];
+      if(!c||!c.seen){fresh.push(x);return;}
+      if(c.due<=t)(c.reps>0?due:learn).push(x); else if(c.reps===0&&c.due<=t+20*MIN) ahead.push(x);});
+    var by=function(a,b){return st.cards[a.k].due-st.cards[b.k].due;};
+    due.sort(by);learn.sort(by);ahead.sort(by);
+    var left=Math.max(0,(+st.settings.newPerDay||0)-st.today.n);
+    return {due:due,learn:learn,ahead:ahead,fresh:fresh.slice(0,left),newLeft:left,newTotal:fresh.length,all:it.length};
+  }
+  // next card: due reviews, then learning, then new; avoid repeating the last card or its other direction right away
+  function pick(q,skipK){var l=q.due.concat(q.learn,q.fresh);if(!l.length)l=q.ahead;
+    var li=skipK?skipK.slice(skipK.indexOf(':')+1):null;
+    var x=l.filter(function(y){return y.L.i!==li;})[0]||l.filter(function(y){return y.k!==skipK;})[0];return x||l[0]||null;}
+  function grade(st,x,q,t){rollDay(st,t);var c=st.cards[x.k];if(!c||!c.seen)st.today.n++;st.cards[x.k]=next(c,q,t);st.reviews++;return st.cards[x.k];}
+  function stats(letters,groups,st,t){
+    var it=items(letters,st),Q=queue(letters,st,t),g={};
+    groups.forEach(function(n){g[n]={name:n,letters:0,items:0,seen:0,young:0,mature:0};});
+    var seenL={};
+    letters.forEach(function(L){g[L.g].letters++;});
+    it.forEach(function(x){var G=g[x.L.g],c=st.cards[x.k];G.items++;if(c&&c.seen){G.seen++;if(c.ivl>=21)G.mature++;else if(c.reps>0)G.young++;}});
+    var nextDue=null;it.forEach(function(x){var c=st.cards[x.k];if(c&&c.seen&&c.due>t&&(nextDue===null||c.due<nextDue))nextDue=c.due;});
+    return {due:Q.due.length+Q.learn.length,newToday:st.today.n,newPerDay:+st.settings.newPerDay,newLeft:Q.fresh.length,
+            seen:it.filter(function(x){return st.cards[x.k]&&st.cards[x.k].seen;}).length,all:it.length,reviews:st.reviews,
+            groups:groups.map(function(n){return g[n];}),nextDue:nextDue};
+  }
+  return {KEY:KEY,DIRS:DIRS,next:next,preview:preview,queue:queue,pick:pick,grade:grade,stats:stats,load:load,save:save,blank:blank,fix:fix,
+          dayKey:dayKey,now:now,setClock:function(f){clock=f;}};
+})();
+
+// ---------------- UI ----------------
+var ASRS={L:null,letters:[],groups:[],mode:'chart',st:null,cur:null,flip:false,bi:0,bg:'',blob:{},warm:null};
+var ASRS_DIRN={ds:'字形 → 讀音',sd:'讀音 → 字形',sid:'悉曇 → 天城體'};
+function asrsLetters(L){
+  var out=[],groups=[];
+  function add(c,g,sub){out.push({d:c.d,s:c.s,i:c.i,z:c.z,t:c.t,a:c.a,w:c.w,u:c.u,g:g,sub:sub||''}); if(groups.indexOf(g)<0)groups.push(g);}
+  L.vow.forEach(function(p){p.forEach(function(c){add(c,'母音');});});
+  L.stop.forEach(function(r,i){r.forEach(function(c,j){add(c,L.rows[i],L.cols[j]);});});
+  L.semi.forEach(function(c){add(c,'半母音');});
+  L.sib.forEach(function(c){add(c,'嘶擦音與 h');});
+  return {letters:out,groups:groups};
+}
+function asrsZyMain(z){return String(z||'').replace(/（[^）]*）/g,'').trim();}
+function asrsChar(z){var m=asrsZyMain(z);if(typeof ZYCH==='undefined')return '';return m.split(' ').map(function(y){return ZYCH[y]||ZYCH[y.replace(/～/g,'')]||'';}).join('');}
+function asrsZy(z){var m=asrsZyMain(z),n=(String(z||'').match(/（[^）]*）/)||[''])[0];
+  var h=typeof zySyl==='function'?m.split(' ').map(zySyl).join(' '):esc(m);
+  return '<span class="zy kz">'+h+'</span>'+(n?'<span class="kzn">'+esc(n)+'</span>':'');}
+function asrsSrc(L){return L.a?(ASRS.blob[L.a]||L.a):null;}
+function asrsPlay(L,btn){
+  var s=asrsSrc(L); if(!s) return;
+  stopAll(); if(!alphaAudio){alphaAudio=new Audio(); alphaAudio.preservesPitch=true;}
+  alphaAudio.src=s; alphaAudio.playbackRate=rate;
+  if(btn){btn.classList.add('playing'); alphaAudio.onended=function(){btn.classList.remove('playing');};}
+  var pr=alphaAudio.play(); if(pr&&pr.catch) pr.catch(function(){});
+}
+function asrsWarm(){
+  if(ASRS.warm||typeof fetch!=='function'||typeof URL==='undefined'||!URL.createObjectURL) return ASRS.warm;
+  ASRS.warm=Promise.all(ASRS.letters.filter(function(L){return L.a&&!ASRS.blob[L.a];}).map(function(L){
+    return fetch(L.a).then(function(r){if(!r.ok)throw 0;return r.blob();}).then(function(b){ASRS.blob[L.a]=URL.createObjectURL(b);}).catch(function(){});
+  })).then(function(){window.__asrsWarm=Object.keys(ASRS.blob).length;});
+  return ASRS.warm;
+}
+function asrsFace(L,dir,back){
+  // dir: 'card' (browse) | ds | sd | sid
+  var grp='<div class="kgrp">'+esc(L.g)+(L.sub?'・'+esc(L.sub):'')+'</div>';
+  var D='<div class="kd" lang="sa">'+esc(L.d)+'</div>', S='<div class="ks" lang="sa-Sidd">'+esc(L.s)+'</div>';
+  var play=L.a?'<button type="button" class="kplay" aria-label="播放 '+esc(L.i)+'">🔊</button>':'<span class="knoa" title="沒有可靠的音檔">🚫 無音檔</span>';
+  var ch=asrsChar(L.z);
+  var read='<div class="kread"><span class="ki">'+markIAST(L.i)+'</span>'+asrsZy(L.z)+(ch?'<span class="kc" title="近似字">'+esc(ch)+'</span>':'')+play+'</div>';
+  var tip='<div class="ktip">'+esc(L.t)+(L.w?'<span class="kw">'+(L.u?'🚫 ':'')+esc(L.w)+'</span>':'')+'</div>';
+  var body;
+  if(!back){
+    if(dir==='sd') body='<div class="kq">'+(L.a?'<button type="button" class="kplay big" aria-label="播放">🔊</button><div class="kqh">聽音，想出字形</div>':
+         '<div class="kqi">'+markIAST(L.i)+'</div>'+asrsZy(L.z)+'<div class="kqh">（此字沒有可靠音檔）想出字形</div>')+'</div>';
+    else if(dir==='sid') body='<div class="ks solo" lang="sa-Sidd">'+esc(L.s)+'</div><div class="kqh">這個悉曇字的天城體是？</div>';
+    else body=D+S+'<div class="kqh">點卡片看讀音</div>';
+  } else body=D+S+read+tip;
+  return '<div class="acard'+(back?' back':' front')+' kdir-'+dir+'" data-i="'+esc(L.i)+'" data-face="'+(back?'back':'front')+'">'+grp+body+'</div>';
+}
+function asrsBind(box,L){
+  box.querySelectorAll('.kplay').forEach(function(b){b.addEventListener('click',function(e){e.stopPropagation();asrsPlay(L,b);});});
+}
+function asrsSetMode(mode){
+  ASRS.mode=mode; try{localStorage.setItem('alphaMode',mode);}catch(e){}
+  cardsEl.classList.toggle('am-card',mode==='card'); cardsEl.classList.toggle('am-srs',mode==='srs');
+  document.body.classList.toggle('am-focus',mode!=='chart');
+  document.querySelectorAll('#alphaModeSeg button').forEach(function(b){var on=b.dataset.am===mode;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);});
+  var P=document.getElementById('asrsPanel'); if(!P) return;
+  P.hidden=mode==='chart';
+  if(mode!=='chart') asrsWarm();
+  if(mode==='card') asrsBrowse(); else if(mode==='srs') asrsSession();
+}
+function asrsMount(L){
+  var g=asrsLetters(L); ASRS.L=L; ASRS.letters=g.letters; ASRS.groups=g.groups; ASRS.st=AlphaSRS.load(); ASRS.cur=null;
+  var bar=document.createElement('div'); bar.id='asrsBar'; bar.className='asrsBar';
+  bar.innerHTML='<div class="seg" id="alphaModeSeg" role="group" aria-label="字母練習模式"><button type="button" data-am="chart">字母表</button><button type="button" data-am="card">卡片</button><button type="button" data-am="srs">SRS 複習</button></div>';
+  var P=document.createElement('div'); P.id='asrsPanel'; P.className='asrsPanel'; P.hidden=true;
+  cardsEl.insertBefore(P,cardsEl.firstChild); cardsEl.insertBefore(bar,cardsEl.firstChild);
+  bar.addEventListener('click',function(e){var b=e.target.closest('button[data-am]');if(!b)return;asrsSetMode(b.dataset.am);
+    if(b.dataset.am!=='chart'){var y=bar.getBoundingClientRect().top+window.scrollY-asrsTop()-4;if(Math.abs(y-window.scrollY)>2)window.scrollTo(0,Math.max(0,y));}});
+  var m='chart'; try{m=localStorage.getItem('alphaMode')||'chart';}catch(e){}
+  if(['chart','card','srs'].indexOf(m)<0) m='chart';
+  asrsSetMode(m);
+}
+function asrsReset(){cardsEl.classList.remove('am-card','am-srs');document.body.classList.remove('am-focus');}
+function asrsTop(){var tb=document.querySelector('.toolbar');if(!tb)return 0;var r=tb.getBoundingClientRect(),cs=getComputedStyle(tb);return (cs.position==='sticky'||cs.position==='fixed')&&cs.display!=='none'?Math.max(0,r.bottom):0;}
+function asrsFoot(){return '<p class="asrsFoot">音檔：本站自製標準音（AI4Bharat Indic Parler-TTS 合成，並經語音辨識挑選）。排列與教法參考 enjoylearningsanskrit.com、oursanskrit.com、indilingo.ai；未使用這些網站的音檔（皆未授權轉用）。複習紀錄只存在這台裝置的瀏覽器裡。</p>';}
+// ---- 卡片 (browse) ----
+function asrsBrowse(){
+  var P=document.getElementById('asrsPanel'), list=ASRS.letters.filter(function(L){return !ASRS.bg||L.g===ASRS.bg;});
+  if(ASRS.bi>=list.length) ASRS.bi=0;
+  var L=list[ASRS.bi];
+  var h='<div class="kchips">'+[''].concat(ASRS.groups).map(function(n){return '<button type="button" class="kchip'+(n===ASRS.bg?' on':'')+'" data-g="'+esc(n)+'">'+(n?esc(n):'全部')+'</button>';}).join('')+'</div>';
+  h+='<div class="kstage" id="kStage">'+asrsFace(L,'card',ASRS.flip)+'</div>';
+  h+='<div class="knav"><button type="button" id="kPrev">‹ 上一個</button><span class="kpos">'+(ASRS.bi+1)+' / '+list.length+'</span><button type="button" id="kFlip">'+(ASRS.flip?'看字形':'翻面')+'</button><button type="button" id="kNext">下一個 ›</button></div>'+asrsFoot();
+  P.innerHTML=h;
+  asrsBind(P,L);
+  P.querySelector('.acard').addEventListener('click',function(){ASRS.flip=!ASRS.flip;asrsBrowse();});
+  P.querySelector('#kFlip').onclick=function(){ASRS.flip=!ASRS.flip;asrsBrowse();};
+  P.querySelector('#kPrev').onclick=function(){ASRS.bi=(ASRS.bi-1+list.length)%list.length;ASRS.flip=false;asrsBrowse();};
+  P.querySelector('#kNext').onclick=function(){ASRS.bi=(ASRS.bi+1)%list.length;ASRS.flip=false;asrsBrowse();};
+  P.querySelectorAll('.kchip').forEach(function(b){b.onclick=function(){ASRS.bg=b.dataset.g;ASRS.bi=0;ASRS.flip=false;asrsBrowse();};});
+}
+// ---- SRS session ----
+function asrsSave(){AlphaSRS.save(ASRS.st);}
+function asrsWhen(t){var d=t-AlphaSRS.now();if(d<3600e3)return Math.max(1,Math.round(d/6e4))+' 分鐘後';if(d<864e5)return Math.round(d/3600e3)+' 小時後';return Math.round(d/864e5)+' 天後';}
+function asrsStatsHTML(){
+  var s=AlphaSRS.stats(ASRS.letters,ASRS.groups,ASRS.st,AlphaSRS.now());
+  var h='<details class="kstats" id="kStats"'+(ASRS.statsOpen?' open':'')+'><summary>學習統計</summary><div class="kstot">已學 '+s.seen+' / '+s.all+' 張・累計複習 '+s.reviews+' 次'+(s.nextDue?'・下一張到期：'+asrsWhen(s.nextDue):'')+'</div><table class="kgt"><thead><tr><th>分組</th><th>進度</th><th>學過</th><th>熟練</th></tr></thead><tbody>';
+  s.groups.forEach(function(G){var p=G.items?Math.round(100*G.seen/G.items):0,mp=G.items?Math.round(100*G.mature/G.items):0;
+    h+='<tr data-g="'+esc(G.name)+'"><th>'+esc(G.name)+'</th><td><span class="kbar"><span class="kb1" style="width:'+p+'%"></span><span class="kb2" style="width:'+mp+'%"></span></span></td><td>'+G.seen+'/'+G.items+'</td><td>'+G.mature+'</td></tr>';});
+  h+='</tbody></table><div class="kset"><label>每天新卡 <input type="number" id="kNew" min="0" max="49" value="'+s.newPerDay+'"></label>'+
+    AlphaSRS.DIRS.map(function(d){return '<label><input type="checkbox" data-dir="'+d+'"'+(ASRS.st.settings.dirs[d]?' checked':'')+'> '+ASRS_DIRN[d]+'</label>';}).join('')+'</div>'+
+    '<div class="kio"><button type="button" id="kExport">匯出紀錄</button><label class="kimp">匯入紀錄<input type="file" id="kImport" accept="application/json,.json" hidden></label><button type="button" id="kReset">重設</button></div><p class="kfine">「熟練」= 下次間隔 ≥ 21 天。紀錄存在 localStorage（alphaSRS.v1），清除瀏覽器資料會不見，請定期匯出。</p></details>';
+  return {h:h,s:s};
+}
+function asrsSession(){
+  var P=document.getElementById('asrsPanel'), t=AlphaSRS.now(), st=ASRS.st;
+  var Q=AlphaSRS.queue(ASRS.letters,st,t);
+  if(!ASRS.cur||!ASRS.sflip){ ASRS.cur=AlphaSRS.pick(Q,ASRS.lastK); }
+  var S=asrsStatsHTML(), s=S.s, x=ASRS.cur;
+  var h='<div class="kcount" id="kCount"><span class="kc1">待複習 <b id="kDue">'+s.due+'</b></span><span class="kc2">今日新卡 <b id="kNewToday">'+s.newToday+'</b> / '+s.newPerDay+'</span><span class="kc3">剩餘新卡 <b>'+Q.fresh.length+'</b></span></div>';
+  if(!x){
+    h+='<div class="kdone" id="kDone">今天的卡片都完成了 🎉'+(s.nextDue?'<br>下一張：'+asrsWhen(s.nextDue):'')+'<br><small>想多學可以在「學習統計」調高每天新卡。</small></div>';
+  } else {
+    var isNew=!(st.cards[x.k]&&st.cards[x.k].seen);
+    h+='<div class="kmeta"><span class="kdir">'+ASRS_DIRN[x.dir]+'</span>'+(isNew?'<span class="knew">新卡</span>':'')+'</div>';
+    h+='<div class="kstage" id="kStage">'+asrsFace(x.L,x.dir,ASRS.sflip)+'</div>';
+    if(!ASRS.sflip) h+='<div class="kgrade"><button type="button" id="kShow" class="kshow">顯示答案</button></div>';
+    else { var c=st.cards[x.k];
+      h+='<div class="kgrade">'+[[0,'不會','again'],[3,'模糊','hard'],[4,'會','good'],[5,'很熟','easy']].map(function(g){
+        return '<button type="button" class="kg kg-'+g[2]+'" data-q="'+g[0]+'">'+g[1]+'<small>'+AlphaSRS.preview(c,g[0],t)+'</small></button>';}).join('')+'</div>'; }
+  }
+  P.innerHTML=h+S.h+asrsFoot();
+  if(x){
+    asrsBind(P,x.L);
+    var card=P.querySelector('.acard');
+    if(!ASRS.sflip){ card.addEventListener('click',function(){ASRS.sflip=true;asrsSession();}); P.querySelector('#kShow').onclick=function(){ASRS.sflip=true;asrsSession();};
+      if(x.dir==='sd'&&x.L.a&&ASRS.autoplay!==false) setTimeout(function(){asrsPlay(x.L,P.querySelector('.kplay'));},60); }
+    P.querySelectorAll('.kg').forEach(function(b){b.onclick=function(){
+      AlphaSRS.grade(st,x,+b.dataset.q,AlphaSRS.now()); asrsSave(); ASRS.lastK=x.k; ASRS.cur=null; ASRS.sflip=false; asrsSession();};});
+  }
+  var det=P.querySelector('#kStats'); det.addEventListener('toggle',function(){ASRS.statsOpen=det.open;});
+  P.querySelector('#kNew').onchange=function(){var v=Math.max(0,Math.min(49,parseInt(this.value,10)||0));st.settings.newPerDay=v;asrsSave();ASRS.cur=null;ASRS.sflip=false;asrsSession();};
+  P.querySelectorAll('input[data-dir]').forEach(function(cb){cb.onchange=function(){st.settings.dirs[cb.dataset.dir]=cb.checked;
+    if(!AlphaSRS.DIRS.some(function(d){return st.settings.dirs[d];})){st.settings.dirs.ds=true;}asrsSave();ASRS.cur=null;ASRS.sflip=false;asrsSession();};});
+  P.querySelector('#kExport').onclick=function(){
+    var blob=new Blob([JSON.stringify(st,null,1)],{type:'application/json'}),a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download='alpha-srs-'+AlphaSRS.dayKey(AlphaSRS.now())+'.json'; document.body.appendChild(a); a.click(); setTimeout(function(){a.remove();},0);};
+  P.querySelector('#kImport').onchange=function(){var f=this.files&&this.files[0];if(!f)return;var rd=new FileReader();
+    rd.onload=function(){try{var o=JSON.parse(rd.result);if(!o||o.v!==1||typeof o.cards!=='object')throw 0;ASRS.st=AlphaSRS.fix(o);asrsSave();ASRS.cur=null;ASRS.sflip=false;asrsSession();}
+      catch(e){alert('匯入失敗：檔案格式不對');}};rd.readAsText(f);};
+  P.querySelector('#kReset').onclick=function(){if(!confirm('確定要清除所有字母複習紀錄？（建議先匯出）'))return;ASRS.st=AlphaSRS.blank();asrsSave();ASRS.cur=null;ASRS.sflip=false;asrsSession();};
+}
+// test hook (clock travel + re-render); harmless for users
+if(typeof window!=='undefined') window.__asrs={S:AlphaSRS,session:function(){asrsSession();},reload:function(){ASRS.st=AlphaSRS.load();asrsSession();}};
 // ---- 字母練習: letter chart (vowels, 5x5 stops, semivowels, sibilants) ----
 var alphaAudio=null;
 function alphaCell(c){
@@ -893,7 +1158,7 @@ function renderMantra(id){
   c.querySelector('.rec').onclick=function(){toggleRecord(idx,c);};
   c.querySelector('.mineBtn').onclick=function(){ if(c._mine){stopAll(); c._mine.currentTime=0; c._mine.play();} };
   });
-  if(m.alpha) cardsEl.insertBefore(buildAlphaChart(m.alpha),cardsEl.firstChild);
+  asrsReset(); if(m.alpha){ cardsEl.insertBefore(buildAlphaChart(m.alpha),cardsEl.firstChild); asrsMount(m.alpha); }
   var anyAudio=AUDIO.some(function(x){return !!x;});
   document.getElementById('playAll').disabled=!anyAudio;
   document.getElementById('followBtn').disabled=!anyAudio;
