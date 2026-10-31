@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>梵文咒語・發音練習</title>
+<title>梵文咒語</title>
 <style>
 @font-face{font-family:"Noto Sans Siddham";src:url(f/siddham.0455a97971.woff2) format("woff2");font-display:block;}
 :root{--bg:#f6f3ee;--card:#fffdf9;--ink:#2f2a24;--muted:#857b6e;--line:#e7dfd3;--accent:#8a5a2b;--accent2:#b5793f;
@@ -258,11 +258,66 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:20px}
 .kio{display:flex;gap:8px;flex-wrap:wrap}.kimp{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:.9rem;background:#fff}
 .kfine,.asrsFoot{font-size:.75rem;color:var(--muted);line-height:1.5}
 .chunkMsg{color:var(--muted);text-align:center;padding:2rem 0}
+/* next11: 詞義色標 (A2 淡一半; 紫/桃紅 hues scaled by --k/--ka/--kb/--ks, see tint_balance) */
+.sl{position:relative;isolation:isolate}
+.wgl{position:absolute;left:0;top:0;width:0;height:0;z-index:-1;pointer-events:none}
+.wgb{position:absolute;border-radius:9px}
+.wgb.sl-r{border-top-right-radius:0;border-bottom-right-radius:0}
+.wgb.sl-l{border-top-left-radius:0;border-bottom-left-radius:0}
+.wg-tint2 .wgb{background:hsla(var(--h),78%,58%,calc(.08*var(--k,1)));box-shadow:inset 0 0 0 1px hsla(var(--h),70%,45%,calc(.20*var(--k,1)))}
+.wg-tint2 .wgb.wg-on{background:hsla(var(--h),80%,55%,calc(.22*var(--ka,1)));box-shadow:inset 0 0 0 2px hsla(var(--h),70%,42%,calc(.6*var(--kb,1)))}
+.wgc{cursor:help}
+mark.wgm{color:hsl(var(--h),calc(62%*var(--ks,1)),30%);background:hsla(var(--h),78%,58%,calc(.09*var(--k,1)));border-radius:4px;padding:0 2px;box-shadow:inset 0 -2px 0 hsla(var(--h),calc(62%*var(--ks,1)),48%,calc(.55*var(--kb,1)))}
+mark.wgm.wg-on{background:hsla(var(--h),80%,55%,calc(.32*var(--ka,1)))}
+.card{position:relative}
+/* tip stays under the sticky toolbar (.toolbar z-index 5) and is placed by JS so it never overlaps it */
+.wgt{position:absolute;z-index:4;pointer-events:none;background:hsl(var(--h),45%,22%);color:#fff;font-size:.95rem;line-height:1.25;padding:4px 10px 5px;border-radius:8px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.25);text-align:center;box-sizing:border-box}
+.wgt small{display:block;font-size:.7rem;opacity:.8;font-family:Georgia,serif;white-space:normal;overflow-wrap:anywhere}
+.wgt::after{content:"";position:absolute;left:var(--ax,50%);bottom:-5px;margin-left:-5px;border:5px solid transparent;border-bottom:0;border-top-color:hsl(var(--h),45%,22%)}
+.wgt.dn::after{bottom:auto;top:-5px;border:5px solid transparent;border-top:0;border-bottom-color:hsl(var(--h),45%,22%)}
+.wg-off .wgl,.wg-off .wgt{display:none}
+.wg-off mark.wgm{background:none;color:inherit;box-shadow:none;padding:0}
+.wg-off .wgc{cursor:inherit}
+#wgBtn{display:inline-flex;align-items:center;gap:7px}
+#wgBtn .sw{position:relative;display:inline-block;width:30px;height:17px;border-radius:999px;background:#d8cfc2;transition:background .15s;flex:none}
+#wgBtn .sw::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+#wgBtn.on{border-color:var(--accent);color:var(--accent);background:#fbf3e9}
+#wgBtn.on .sw{background:var(--accent)}
+#wgBtn.on .sw::after{transform:translateX(13px)}
+#wgBtn[hidden]{display:none}
+@media (max-width:560px){#wgBtn{order:1;gap:5px;padding:7px 9px}#wgBtn .lt2{display:none}#wgBtn .sw{width:26px;height:15px}#wgBtn .sw::after{width:11px;height:11px}#wgBtn.on .sw::after{transform:translateX(11px)}}
+/* next11: 悉曇字跟天城體一樣大（JS 依字形墨跡高度調整 font-size）；字卡上兩種字並排 */
+.acard .kpair{display:flex;align-items:center;justify-content:center;gap:calc(var(--ch)*.07);height:calc(var(--ch)*.45);flex:none;max-width:100%}
+.acard .kpair .kd,.acard .kpair .ks{height:auto;line-height:1.3}
+/* next11: 聽音選字母 */
+.acard.kmc{cursor:default;padding-top:calc(var(--ch)*.04)}
+.acard .kmcq{display:flex;flex-direction:column;align-items:center;gap:6px;margin:2px 0 10px;flex:none}
+.acard .kmcplay{width:72px;height:72px;font-size:1.9rem}
+.acard.kmc.back .kmcplay{width:46px;height:46px;font-size:1.2rem}
+.acard.kmc .kqh{margin-top:0}
+.acard.kmc.back .kqh{font-size:.95rem;color:#2b2118}
+.kopts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;flex:none}
+.kopts.n4,.kopts.n2{grid-template-columns:repeat(2,1fr)}
+.kopt{height:calc(var(--ch)*.22);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:0 2px;border-radius:12px;background:#fff;overflow:hidden;color:#2b2118}
+.acard .kopt .kd{font-size:calc(var(--ch)*.13);line-height:1.25;height:auto}
+.acard .kopt .ks{font-size:calc(var(--ch)*.1);line-height:1.25;height:auto;color:#2b2118}
+.kopt small{font-family:Georgia,serif;font-size:.85rem;color:#5d544a}
+.kopt.ok{border:2px solid #5f9a4c;background:#eef6ea}
+.kopt.bad{border:2px solid #c46a6a;background:#fbecec}
+.kopt.dim{opacity:.6}
+.kopt:disabled{cursor:default}
+.acard.kmc .kread{margin-top:8px}
+.kans{font-size:.85rem;color:var(--muted)}
+.kans b{font-size:1.9rem;color:#2b2118;margin-left:2px;vertical-align:middle;font-weight:normal}
+.kans b.kans-d{font-family:"Noto Sans Devanagari","Nirmala UI",sans-serif}
+.kans b.kans-s{font-family:"Noto Sans Siddham",serif;font-size:2.6rem}
+.kmchint{font-size:.8rem;color:var(--muted);text-align:center;margin:8px 0;line-height:1.5}
+.kgrade .kshow small{display:block;font-size:.75rem;color:var(--muted);font-weight:normal}
 </style>
 </head>
 <body>
 <header>
-  <h1><span id="mTitle">往生咒</span>・梵文發音練習</h1>
+  <h1><span id="mTitle">往生咒</span></h1>
   <p class="sub"><span id="mFull"></span>｜逐句對照・標準音・錄音比對（個人原型）</p>
   <nav class="tabs" id="mantraTabs" aria-label="選擇咒語"></nav>
 </header>
@@ -273,6 +328,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:20px}
     <span class="seg" id="speedSeg" role="group" aria-label="播放速度"><button data-rate="0.5">0.5×</button><button data-rate="0.75">0.75×</button><button data-rate="1" class="on">1×</button><button data-rate="1.25">1.25×</button><button data-rate="1.5">1.5×</button><button data-rate="2">2×</button></span>
     <button id="followBtn" title="開頭停 0.5 秒。先逐句播放，每句後面留 2.5 秒讓你跟著唸，再整段連續播放、句和句相接，結尾再停 0.5 秒。兩遍都用目前選的速度，音高不變。">逐句跟唸</button>
     <button id="loopBtn" type="button" role="switch" aria-checked="false" title="開啟後，全部播放、逐句跟唸和單句標準音播完會從頭再播，直到按「停止」"><span class="sw" aria-hidden="true"></span><span>循環<span class="lt2">播放</span></span></button>
+    <button id="wgBtn" type="button" role="switch" aria-checked="true" class="on" title="梵文詞組淡色底標出各詞，游標移上或點一下看詞義（詞義只取自這一句的中文意思）"><span class="sw" aria-hidden="true"></span><span>詞義<span class="lt2">色標</span></span></button>
   </div>
 
   <div class="panel">
@@ -331,7 +387,6 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:20px}
   <div class="panel" id="viewBox" hidden><span class="notice">排列方式：</span><span class="seg" id="viewSeg" role="group" aria-label="排列方式"><button data-view="77">梵文分句（77 行）</button><button data-view="84">通行本 84 句</button></span><span class="notice">音檔都依梵文詞組播放</span></div>
   <div class="panel" id="lyBox" hidden>
     <div class="lyrow"><span class="notice">唸誦本：</span><span class="seg" id="lyReadSeg" role="group" aria-label="唸誦本"><button data-r="full">完整梵本</button><button data-r="427">427句漢字對應</button><button data-r="bk" id="lyReadBK">房山不空本</button></span><span class="notice" id="lyReadNote"></span></div>
-    <div class="lyrow"><span class="notice">排列方式：</span><span class="seg" id="lyViewSeg" role="group" aria-label="排列方式"><button data-v="g" id="lyViewG">梵文分組</button><button data-v="427">427 句</button></span><span class="notice">音檔都依梵文詞組播放</span></div>
     <nav id="lyNav" aria-label="五會"><span class="notice">跳到：</span></nav>
   </div>
   <div id="cards"></div>
@@ -684,7 +739,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:20px}
 <script>
 (function(){
 'use strict';
-var MANTRAS = [{"id": "xinjing", "name": "般若心經咒", "c": "c/xinjing.535f3c0c04.js"}, {"id": "wangsheng", "name": "往生咒", "c": "c/wangsheng.a7d509d1bc.js"}, {"id": "lengyan", "name": "楞嚴心咒", "c": "c/lengyan.b61fa1e207.js"}, {"id": "lengyanfull", "name": "楞嚴咒", "c": "c/lengyanfull.ddda077b3d.js"}, {"id": "yaoshi", "name": "藥師灌頂真言", "c": "c/yaoshi.77eace772a.js"}, {"id": "dabei", "name": "大悲咒", "c": "c/dabei.caf02ebc89.js"}, {"id": "alphabet", "name": "字母練習", "c": "c/alphabet.5c03ed0de6.js"}];
+var MANTRAS = [{"id": "xinjing", "name": "般若心經咒", "c": "c/xinjing.1c57a375a6.js"}, {"id": "wangsheng", "name": "往生咒", "c": "c/wangsheng.22515fd49f.js"}, {"id": "lengyan", "name": "楞嚴心咒", "c": "c/lengyan.4c68eb582b.js"}, {"id": "lengyanfull", "name": "楞嚴咒", "c": "c/lengyanfull.35270bf494.js"}, {"id": "yaoshi", "name": "藥師灌頂真言", "c": "c/yaoshi.8515be09fb.js"}, {"id": "dabei", "name": "大悲咒", "c": "c/dabei.55afe21b72.js"}, {"id": "alphabet", "name": "字母練習", "c": "c/alphabet.a68826d13a.js"}];
 var __SPLIT=window.__SPLIT={pending:0,shown:null,want:null,loaded:[]};
 function chunkFind(id){return MANTRAS.filter(function(x){return x.id===id;})[0];}
 function loadChunk(m){
@@ -711,14 +766,23 @@ var ROWS = [], AUDIO = [], curMantra = null, curView = '77';
 try{var _v=localStorage.getItem('mantraView'); if(_v==='84')curView='84';}catch(e){}
 var lyView='g', lyReading='full', LYB=null;
 try{var _lv=localStorage.getItem('lyView'); if(_lv==='427')lyView='427'; var _lr=localStorage.getItem('lyReading'); if(_lr==='427'||_lr==='bk')lyReading=_lr;}catch(e){}
+var lySent=false;
 function lyRows(m){
+  lySent=false;
+  if(lyReading==='full'&&m.ly.rowsS&&(lyView!=='427'||!document.getElementById('lyViewSeg'))){
+    lySent=true;
+    ROWS=m.ly.rowsS.map(function(r){var o={},k; for(k in r)if(k!=='f')o[k]=r[k]; for(k in r.f)o[k]=r.f[k]; return o;});
+    AUDIO=m.ly.uS.map(function(i){return i>=0?m.ly.files[i]:null;});
+    LYB=m.ly.uS.map(function(i){return i>=0?m.ly.bounds[i]:null;});
+    return;
+  }
   if(lyReading==='bk'&&m.ly.rowsBK){
     ROWS=m.ly.rowsBK.map(function(r){var o={},k; for(k in r)if(k!=='f')o[k]=r[k]; for(k in r.f)o[k]=r.f[k]; return o;});
     AUDIO=m.ly.ubk.map(function(i){return i>=0?m.ly.files[i]:null;});
     LYB=m.ly.ubk.map(function(i){return i>=0?m.ly.bounds[i]:null;});
     return;
   }
-  var base=m.ly[lyView==='427'?'rows427':'rowsG'];
+  var base=m.ly[lyReading==='427'?'rows427':'rowsG'];
   ROWS=base.map(function(r){var o={},k,s=(lyReading==='427'&&r.q)?r.q:r.f; for(k in r)if(k!=='f'&&k!=='q')o[k]=r[k]; for(k in s)o[k]=s[k]; if(lyReading==='427'&&r.m427)o.meaning=r.m427; return o;});
   var ui=m.ly[lyReading==='427'?'u427':'ufull'];
   AUDIO=ui.map(function(i){return i>=0?m.ly.files[i]:null;});
@@ -727,14 +791,12 @@ function lyRows(m){
 // groups without a clip (recording in progress) show a disabled 標準音錄製中 button and are skipped by 全部播放 / 逐句跟唸
 var LY_PENDING='標準音錄製中';
 function lyHas(i){ return !!audios[i]; }
-function lyWarm(i){var a=audios[i]; if(a&&a.preload!=='auto'){a.preload='auto'; try{a.load();}catch(e){}}}
+function lyWarm(i){var a=audios[i]; if(!a&&lySent){for(var j=i,n=0;j<audios.length&&n<2;j++)if(audios[j]){lyWarm(j);n++;} return;} if(a&&a.preload!=='auto'){a.preload='auto'; try{a.load();}catch(e){}}}
 function lyUpdateBox(m){
   var box=document.getElementById('lyBox'); box.hidden=!m.ly; if(!m.ly)return;
   document.querySelectorAll('#lyReadSeg button').forEach(function(b){var on=b.dataset.r===lyReading; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on);});
   var bk=lyReading==='bk';
-  document.querySelectorAll('#lyViewSeg button').forEach(function(b){var on=!bk&&b.dataset.v===lyView; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on); b.disabled=bk; b.title=bk?'房山不空本依原書句序排列，不分梵文分組／427 句':'';});
-  document.getElementById('lyViewG').textContent='梵文分組（'+m.ly.nG+' 行）';
-  document.getElementById('lyReadNote').textContent=bk?'依房山石經不空本（行琳集）的句序和用字，共 '+m.ly.rowsBK.length+' 行（原書 487 句）；⚠ 是讀法有疑問的句子':lyReading==='427'?'只還原 427 句漢字有的字':'學術校訂梵本，補回漢字本缺的字（預設）';
+  document.getElementById('lyReadNote').textContent=bk?'依房山石經不空本（行琳集）的句序和用字，共 '+m.ly.rowsBK.length+' 行（原書 487 句）；⚠ 是讀法有疑問的句子':lyReading==='427'?'只還原 427 句漢字有的字，照 427 句排列':'學術校訂梵本，補回漢字本缺的字（預設），依梵文文句分成 '+(m.ly.nS||m.ly.nG)+' 句';
   var nav=document.getElementById('lyNav');
   var nk=bk?'bk':'std';
   if(nav.dataset.built!==nk){ nav.dataset.built=nk; nav.querySelectorAll('button').forEach(function(b){b.remove();}); (bk?m.ly.huiBK:m.ly.hui).forEach(function(h){var b=document.createElement('button'); b.type='button'; b.dataset.sec=h.id; b.innerHTML=esc(h.label)+'<small>'+esc(h.name)+'・'+esc(h.span)+'</small>'; b.onclick=function(){var e=document.getElementById(h.id); if(e)e.scrollIntoView({block:'start'});}; nav.appendChild(b);}); }
@@ -845,13 +907,13 @@ var regionCancel=null;
 // Core (pure, Node-testable): AlphaSRS.next / queue / stats.  UI: asrsMount(L) inside the 字母練習 tab.
 // State in localStorage 'alphaSRS.v1'; everything runs in the page (no server); letter clips are fetched once into blob: URLs.
 var AlphaSRS=(function(){
-  var MIN=6e4, DAY=864e5, KEY='alphaSRS.v1', DIRS=['ds','sd','sid'];
+  var MIN=6e4, DAY=864e5, KEY='alphaSRS.v1', DIRS=['ds','sd','sid','lv','ls'];
   var clock=null;
   function now(){return clock?clock():Date.now();}
   function dayKey(t){var d=new Date(t-4*3600e3);return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}  // day rolls over at 04:00 local
-  function blank(){return {v:1,cards:{},settings:{newPerDay:10,dirs:{ds:true,sd:true,sid:false}},today:{day:'',n:0},reviews:0};}
+  function blank(){return {v:1,cards:{},settings:{newPerDay:10,dirs:{ds:true,sd:true,sid:false,lv:true,ls:false}},today:{day:'',n:0},reviews:0};}
   function fix(st){var b=blank();if(!st||st.v!==1)return b;st.cards=st.cards||{};st.settings=Object.assign(b.settings,st.settings||{});
-    st.settings.dirs=Object.assign({ds:true,sd:true,sid:false},st.settings.dirs||{});st.today=st.today||b.today;st.reviews=st.reviews||0;return st;}
+    st.settings.dirs=Object.assign({ds:true,sd:true,sid:false,lv:true,ls:false},st.settings.dirs||{});st.today=st.today||b.today;st.reviews=st.reviews||0;return st;}
   function load(store){try{return fix(JSON.parse((store||localStorage).getItem(KEY)||'null'));}catch(e){return blank();}}
   function save(st,store){try{(store||localStorage).setItem(KEY,JSON.stringify(st));return true;}catch(e){return false;}}
   // SM-2 variant. q: 0 不會 (Again), 3 模糊 (Hard), 4 會 (Good), 5 很熟 (Easy)
@@ -868,7 +930,7 @@ var AlphaSRS=(function(){
   }
   function preview(c,q,t){var n=next(c,q,t),d=n.due-t;return d<3600e3?Math.round(d/MIN)+' 分':Math.round(d/DAY)+' 天';}
   function items(letters,st){var out=[];letters.forEach(function(L){DIRS.forEach(function(d){
-      if(!st.settings.dirs[d])return; if(d==='sid'&&!L.s)return; out.push({k:d+':'+L.i,dir:d,L:L});});});return out;}
+      if(!st.settings.dirs[d])return; if(d==='sid'&&!L.s)return; if((d==='lv'||d==='ls')&&!L.a)return; if(d==='ls'&&!L.s)return; out.push({k:d+':'+L.i,dir:d,L:L});});});return out;}
   function rollDay(st,t){var k=dayKey(t);if(st.today.day!==k)st.today={day:k,n:0};}
   // queue: reviews due now (oldest first), then learning cards due now, then today's new cards; ahead = learning due within 20 min
   function queue(letters,st,t){
@@ -904,7 +966,7 @@ var AlphaSRS=(function(){
 
 // ---------------- UI ----------------
 var ASRS={L:null,letters:[],groups:[],mode:'chart',st:null,cur:null,flip:false,bi:0,bg:'',blob:{},warm:null};
-var ASRS_DIRN={ds:'字形 → 讀音',sd:'讀音 → 字形',sid:'悉曇 → 天城體'};
+var ASRS_DIRN={ds:'字形 → 讀音',sd:'讀音 → 字形',sid:'悉曇 → 天城體',lv:'聽音選天城體',ls:'聽音選悉曇'};
 function asrsLetters(L){
   var out=[],groups=[];
   function add(c,g,sub){out.push({d:c.d,s:c.s,i:c.i,z:c.z,t:c.t,a:c.a,w:c.w,u:c.u,g:g,sub:sub||''}); if(groups.indexOf(g)<0)groups.push(g);}
@@ -947,8 +1009,8 @@ function asrsFace(L,dir,back){
     if(dir==='sd') body='<div class="kq">'+(L.a?'<button type="button" class="kplay big" aria-label="播放">🔊</button><div class="kqh">聽音，想出字形</div>':
          '<div class="kqi">'+markIAST(L.i)+'</div>'+asrsZy(L.z)+'<div class="kqh">（此字沒有可靠音檔）想出字形</div>')+'</div>';
     else if(dir==='sid') body='<div class="ks solo" lang="sa-Sidd">'+esc(L.s)+'</div><div class="kqh">這個悉曇字的天城體是？</div>';
-    else body=D+S+'<div class="kqh">點卡片看讀音</div>';
-  } else body=D+S+read+tip;
+    else body='<div class="kpair">'+D+S+'</div><div class="kqh">點卡片看讀音</div>';
+  } else body='<div class="kpair">'+D+S+'</div>'+read+tip;
   return '<div class="acard'+(back?' back':' front')+' kdir-'+dir+'" data-i="'+esc(L.i)+'" data-face="'+(back?'back':'front')+'">'+grp+body+'</div>';
 }
 function asrsBind(box,L){
@@ -988,7 +1050,7 @@ function asrsBrowse(){
   h+='<div class="kstage" id="kStage">'+asrsFace(L,'card',ASRS.flip)+'</div>';
   h+='<div class="knav"><button type="button" id="kPrev">‹ 上一個</button><span class="kpos">'+(ASRS.bi+1)+' / '+list.length+'</span><button type="button" id="kFlip">'+(ASRS.flip?'看字形':'翻面')+'</button><button type="button" id="kNext">下一個 ›</button></div>'+asrsFoot();
   P.innerHTML=h;
-  asrsBind(P,L);
+  asrsBind(P,L); asrsFit(P);
   P.querySelector('.acard').addEventListener('click',function(){ASRS.flip=!ASRS.flip;asrsBrowse();});
   P.querySelector('#kFlip').onclick=function(){ASRS.flip=!ASRS.flip;asrsBrowse();};
   P.querySelector('#kPrev').onclick=function(){ASRS.bi=(ASRS.bi-1+list.length)%list.length;ASRS.flip=false;asrsBrowse();};
@@ -1019,21 +1081,23 @@ function asrsSession(){
   } else {
     var isNew=!(st.cards[x.k]&&st.cards[x.k].seen);
     h+='<div class="kmeta"><span class="kdir">'+ASRS_DIRN[x.dir]+'</span>'+(isNew?'<span class="knew">新卡</span>':'')+'</div>';
-    h+='<div class="kstage" id="kStage">'+asrsFace(x.L,x.dir,ASRS.sflip)+'</div>';
+    if(asrsIsMC(x.dir)) h+='<div class="kstage" id="kStage">'+asrsMCHTML(x)+'</div>'+asrsMCGrade(x,t);
+    else { h+='<div class="kstage" id="kStage">'+asrsFace(x.L,x.dir,ASRS.sflip)+'</div>';
     if(!ASRS.sflip) h+='<div class="kgrade"><button type="button" id="kShow" class="kshow">顯示答案</button></div>';
     else { var c=st.cards[x.k];
       h+='<div class="kgrade">'+[[0,'不會','again'],[3,'模糊','hard'],[4,'會','good'],[5,'很熟','easy']].map(function(g){
-        return '<button type="button" class="kg kg-'+g[2]+'" data-q="'+g[0]+'">'+g[1]+'<small>'+AlphaSRS.preview(c,g[0],t)+'</small></button>';}).join('')+'</div>'; }
+        return '<button type="button" class="kg kg-'+g[2]+'" data-q="'+g[0]+'">'+g[1]+'<small>'+AlphaSRS.preview(c,g[0],t)+'</small></button>';}).join('')+'</div>'; } }
   }
   P.innerHTML=h+S.h+asrsFoot();
   if(x){
-    asrsBind(P,x.L);
+    if(asrsIsMC(x.dir)){ asrsMCBind(P,x); asrsFit(P); } else {
+    asrsBind(P,x.L); asrsFit(P);
     var card=P.querySelector('.acard');
     if(!ASRS.sflip){ card.addEventListener('click',function(){ASRS.sflip=true;asrsSession();}); P.querySelector('#kShow').onclick=function(){ASRS.sflip=true;asrsSession();};
       if(x.dir==='sd'&&x.L.a&&ASRS.autoplay!==false) setTimeout(function(){asrsPlay(x.L,P.querySelector('.kplay'));},60); }
     P.querySelectorAll('.kg').forEach(function(b){b.onclick=function(){
       AlphaSRS.grade(st,x,+b.dataset.q,AlphaSRS.now()); asrsSave(); ASRS.lastK=x.k; ASRS.cur=null; ASRS.sflip=false; asrsSession();};});
-  }
+  }}
   var det=P.querySelector('#kStats'); det.addEventListener('toggle',function(){ASRS.statsOpen=det.open;});
   P.querySelector('#kNew').onchange=function(){var v=Math.max(0,Math.min(49,parseInt(this.value,10)||0));st.settings.newPerDay=v;asrsSave();ASRS.cur=null;ASRS.sflip=false;asrsSession();};
   P.querySelectorAll('input[data-dir]').forEach(function(cb){cb.onchange=function(){st.settings.dirs[cb.dataset.dir]=cb.checked;
@@ -1048,6 +1112,140 @@ function asrsSession(){
 }
 // test hook (clock travel + re-render); harmless for users
 if(typeof window!=='undefined') window.__asrs={S:AlphaSRS,session:function(){asrsSession();},reload:function(){ASRS.st=AlphaSRS.load();asrsSession();}};
+if(typeof window!=='undefined'){ window.__asrs.mc=function(){return ASRS.mc;}; window.__asrs.fit=function(){asrsFit(document.getElementById('asrsPanel'));};
+  addEventListener('resize',function(){var P=document.getElementById('asrsPanel'); if(P&&!P.hidden) asrsFit(P);}); }
+// ---- next11 preview (2026-10-31, River [pt367u]): 聽音選字母 (lv 天城體 / ls 悉曇, own SRS cards) + 悉曇字放大到跟天城體一樣 ----
+// Pure parts (asrsFeat / asrsConfScore / asrsOptions / asrsMCq) are Node-testable via module.exports at the bottom.
+function asrsFeat(A){   // letter IAST -> place in the chart
+  var F={};
+  (A.vow||[]).forEach(function(p,j){p.forEach(function(c,k){F[c.i]={t:'v',p:j,k:k};});});
+  (A.stop||[]).forEach(function(r,j){r.forEach(function(c,k){F[c.i]={t:'s',r:j,c:k};});});
+  (A.semi||[]).forEach(function(c,j){F[c.i]={t:'y',j:j};});
+  (A.sib||[]).forEach(function(c,j){F[c.i]={t:'h',j:j};});
+  return F;}
+// how easily b is confused with a (higher = closer): same varga, aspirate/unaspirate, dental/retroflex, short/long …
+function asrsConfScore(a,b,F){
+  var x=F[a],y=F[b]; if(!x||!y||a===b) return 0;
+  if(x.t==='v'&&y.t==='v'){
+    if(x.p===y.p) return 10;                                   // a/ā, i/ī, ṛ/ṝ …  short/long (aṃ/aḥ)
+    var dip={5:1,6:1}, liq={3:1,4:1};
+    if(dip[x.p]&&dip[y.p]) return 7;                           // e/ai ~ o/au
+    if(liq[x.p]&&liq[y.p]) return 7;                           // ṛ ~ ḷ
+    if((x.p===1&&y.p===5)||(x.p===5&&y.p===1)||(x.p===2&&y.p===6)||(x.p===6&&y.p===2)) return 6;   // i~e, u~o
+    if((x.p===0&&y.p===7)||(x.p===7&&y.p===0)) return 6;       // a ~ aṃ/aḥ
+    return 2;}
+  if(x.t==='s'&&y.t==='s'){
+    if(x.r===y.r){
+      if(x.c<4&&y.c<4&&Math.floor(x.c/2)===Math.floor(y.c/2)) return 10;   // aspirate pair: ka/kha, ga/gha
+      if(x.c<4&&y.c<4&&x.c%2===y.c%2) return 8;                            // voicing pair: ka/ga, kha/gha
+      return 5;}                                                           // same varga
+    if(x.c===y.c&&((x.r===2&&y.r===3)||(x.r===3&&y.r===2))) return 9;      // dental / retroflex: ta/ṭa
+    if(x.c===y.c) return 4;
+    return 1;}
+  var p=[x,y].sort(function(u,v){return u.t<v.t?-1:1;}), u=p[0], v=p[1];
+  if(u.t==='h'&&v.t==='h') return u.j<3&&v.j<3?9:3;            // śa / ṣa / sa
+  if(u.t==='y'&&v.t==='y') return 5;
+  if(u.t==='s'&&v.t==='y'){ if(v.j===3&&u.r===4&&u.c===2) return 7; if(v.j===0&&u.r===1&&u.c===2) return 4; return 0;}   // va~ba, ya~ja
+  if(u.t==='h'&&v.t==='s'){ if(u.j===3&&v.c===3) return 3; if(u.j<3&&v.c===0&&v.r===[1,2,3][u.j]) return 3; return 0;} // ha~gha…, śa~ca, ṣa~ṭa, sa~ta
+  if(u.t==='v'&&v.t==='y'){ if((u.p===3&&v.j===1)||(u.p===4&&v.j===2)) return 5; if((u.p===1&&v.j===0)||(u.p===2&&v.j===3)) return 3; return 0;}     // ṛ~ra, ḷ~la, i~ya, u~va
+  if(u.t==='h'&&v.t==='v'){ return (u.j===3&&v.p===7)?4:0;}    // ha ~ aḥ
+  return 0;}
+// options for one question: the answer + n-1 confusable letters (same script only), shuffled; rnd for tests
+function asrsOptions(L,pool,F,n,rnd,script){
+  rnd=rnd||Math.random; n=n||6;
+  var c=pool.filter(function(y){return y.i!==L.i&&(script!=='s'||y.s)&&(script!=='s'||y.s!==L.s)&&y.d!==L.d;});
+  c=c.map(function(y){return {y:y,v:asrsConfScore(L.i,y.i,F)+rnd()*1.5};}).sort(function(a,b){return b.v-a.v;});
+  var o=[L].concat(c.slice(0,n-1).map(function(z){return z.y;}));
+  for(var i=o.length-1;i>0;i--){var j=Math.floor(rnd()*(i+1)),t=o[i];o[i]=o[j];o[j]=t;}
+  return o;}
+// auto grade: wrong 0, right 4, right but replayed or slow (> 8 s) 3
+var ASRS_SLOW=8000;
+function asrsMCq(ok,replays,ms){return !ok?0:(replays>0||ms>ASRS_SLOW)?3:4;}
+var ASRS_QN={0:'不會',3:'模糊',4:'會'};
+function asrsIsMC(d){return d==='lv'||d==='ls';}
+// ---- UI ----
+function asrsMCState(x){
+  if(!ASRS.mc||ASRS.mc.k!==x.k){
+    if(!ASRS.feat) ASRS.feat=asrsFeat(ASRS.L);
+    ASRS.mc={k:x.k,dir:x.dir,opts:asrsOptions(x.L,ASRS.letters,ASRS.feat,6,null,x.dir==='ls'?'s':'d'),t0:0,replays:0,ans:null};}
+  return ASRS.mc;}
+function asrsMCHTML(x){
+  var mc=asrsMCState(x), L=x.L, sid=x.dir==='ls', done=mc.ans!=null;
+  var grp=done?'<div class="kgrp">'+esc(L.g)+(L.sub?'・'+esc(L.sub):'')+'</div>':'';
+  var h='<div class="acard kmc kdir-'+x.dir+(done?' back':' front')+'" data-i="'+esc(L.i)+'" data-face="'+(done?'back':'front')+'">'+grp;
+  h+='<div class="kmcq"><button type="button" class="kplay kmcplay" aria-label="'+(done?'再聽一次':'播放')+'">🔊</button><div class="kqh">'+(done?(mc.ans.ok?'✓ 答對了':'✗ 答錯了')+'・已記為「'+ASRS_QN[mc.ans.q]+'」':'聽音，選出'+(sid?'悉曇字':'天城體字母'))+'</div></div>';
+  h+='<div class="kopts n'+mc.opts.length+'" role="group" aria-label="選項">'+mc.opts.map(function(o){
+    var cls='kopt'; if(done){if(o.i===L.i) cls+=' ok'; else if(o.i===mc.ans.pick) cls+=' bad'; else cls+=' dim';}
+    return '<button type="button" class="'+cls+'" data-i="'+esc(o.i)+'"'+(done?' disabled':'')+'>'+(sid?'<span class="ks" lang="sa-Sidd">'+esc(o.s)+'</span>':'<span class="kd" lang="sa">'+esc(o.d)+'</span>')+
+      (done?'<small>'+markIAST(o.i)+'</small>':'')+'</button>';}).join('')+'</div>';
+  if(done){var ch=asrsChar(L.z);
+    h+='<div class="kread"><span class="kans">正確：<b class="'+(sid?'kans-s':'kans-d')+'" lang="'+(sid?'sa-Sidd':'sa')+'">'+esc(sid?L.s:L.d)+'</b></span><span class="ki">'+markIAST(L.i)+'</span>'+asrsZy(L.z)+(ch?'<span class="kc" title="近似字">'+esc(ch)+'</span>':'')+'</div>';}
+  return h+'</div>';}
+function asrsMCBind(P,x){
+  var mc=ASRS.mc, card=P.querySelector('.acard');
+  var pb=P.querySelector('.kmcplay'); pb.addEventListener('click',function(e){e.stopPropagation(); if(mc.ans==null&&mc.t0) mc.replays++; asrsPlay(x.L,pb); if(!mc.t0) mc.t0=AlphaSRS.now();});
+  if(mc.ans==null){
+    if(!mc.t0&&ASRS.autoplay!==false) setTimeout(function(){if(!mc.t0){mc.t0=AlphaSRS.now(); asrsPlay(x.L,pb);}},60);
+    if(ASRS.autoplay===false&&!mc.t0) mc.t0=AlphaSRS.now();
+    P.querySelectorAll('.kopt').forEach(function(b){b.onclick=function(){
+      var ok=b.dataset.i===x.L.i, ms=AlphaSRS.now()-(mc.t0||AlphaSRS.now()), q=asrsMCq(ok,mc.replays,ms);
+      mc.ans={pick:b.dataset.i,ok:ok,q:q,ms:ms};
+      AlphaSRS.grade(ASRS.st,x,q,AlphaSRS.now()); (window.__asrsMCLog=window.__asrsMCLog||[]).push([x.k,q]); asrsSave(); ASRS.sflip=true; asrsSession();};});
+  } else {
+    var nx=P.querySelector('#kMcNext'); if(nx) nx.onclick=function(){ASRS.lastK=x.k; ASRS.cur=null; ASRS.sflip=false; ASRS.mc=null; asrsSession();};
+  }}
+function asrsMCGrade(x,t){
+  var mc=ASRS.mc; if(!mc||mc.ans==null) return '<div class="kmchint">點一個字母作答；答錯記「不會」、答對記「會」，重聽過或想超過 8 秒記「模糊」。</div>';
+  var c=ASRS.st.cards[x.k];
+  return '<div class="kgrade"><button type="button" id="kMcNext" class="kshow">下一張 ›<small>（下次：'+asrsWhen(c.due)+'）</small></button></div>';}
+// 悉曇字放大：用量到的字形墨跡高度，讓悉曇字跟天城體一樣高（天城體量 L.d 本身；只有悉曇時量同一字母的天城體）
+var ASRS_INK={}, asrsCv=null;
+function asrsInk(txt,font){
+  var k=font+'|'+txt; if(ASRS_INK[k]) return ASRS_INK[k];
+  if(!asrsCv){try{asrsCv=document.createElement('canvas').getContext('2d');}catch(e){}} if(!asrsCv) return null;
+  asrsCv.font=font; var m=asrsCv.measureText(txt);
+  if(m.actualBoundingBoxAscent==null) return null;
+  var r={h:m.actualBoundingBoxAscent+m.actualBoundingBoxDescent,w:(m.actualBoundingBoxLeft||0)+(m.actualBoundingBoxRight||m.width),a:m.actualBoundingBoxAscent,d:m.actualBoundingBoxDescent,fa:m.fontBoundingBoxAscent,fd:m.fontBoundingBoxDescent,l:m.actualBoundingBoxLeft||0,rr:m.actualBoundingBoxRight||m.width,adv:m.width};
+  return (ASRS_INK[k]=r);}
+function asrsFontOk(){return !document.fonts||document.fonts.check('40px "Noto Sans Siddham"','\uD805\uDD80');}
+function asrsFit(root){
+  if(!root) return;
+  root.querySelectorAll('.acard').forEach(function(card){
+    var i=card.dataset.i, L=null; ASRS.letters.some(function(y){if(y.i===i){L=y;return true;}});
+    if(!L||!L.s) return;
+    var cs=getComputedStyle(card), ch=parseFloat(cs.getPropertyValue('--ch'))||parseFloat(getComputedStyle(card.parentNode).getPropertyValue('--ch'))||500;
+    var dfam=getComputedStyle(document.documentElement).getPropertyValue('--fdev')||'"Noto Sans Devanagari","Nirmala UI",sans-serif';
+    function fit(sEl,dTxt,dPx,maxW){
+      var fam=getComputedStyle(sEl).fontFamily, s=asrsInk(sEl.textContent,'100px '+fam), d=asrsInk(dTxt,dPx+'px '+dfam);
+      if(!s||!d||!s.h||!d.h) return null;
+      var px=100*d.h/s.h; if(maxW&&s.w*px/100>maxW) px=100*maxW/s.w;
+      sEl.style.fontSize=px.toFixed(1)+'px'; sEl.dataset.fit=(px/dPx).toFixed(3); sEl.dataset.dink=d.h.toFixed(1); return {px:px,w:s.w*px/100,dw:d.w};}
+    if(card.classList.contains('kmc')){   // options: every glyph as tall as its letter in 天城體 at the option size
+      card.querySelectorAll('.kopt .ks').forEach(function(sEl){var b=sEl.parentNode, o=null; ASRS.letters.some(function(y){if(y.i===b.dataset.i){o=y;return true;}});
+        if(!o) return; var r=fit(sEl,o.d,ch*.13,b.clientWidth-10); if(!r) return;
+        // keep the whole glyph inside the button: cap its ink height, then centre the ink in a line-height:1 box
+        var lab=b.querySelector('small'), room=b.clientHeight-(lab?lab.offsetHeight:0)-8, m=asrsInk(sEl.textContent,'100px '+getComputedStyle(sEl).fontFamily);
+        var px=r.px; if(m.h*px/100>room) px=100*room/m.h;
+        // line-height chosen so the ink top sits at the box top: (L-(fa+fd)k)/2+(fa-a)k = 0  ->  L = k(fd-fa+2a); the box is then the ink box
+        var k=px/100, L=k*(m.fd-m.fa+2*m.a), top=0, H=Math.max(m.h*k+2,1);
+        if(!(L>0)){L=px; top=(px-(m.fa+m.fd)*k)/2+m.fa*k-m.a*k;}
+        sEl.style.fontSize=px.toFixed(1)+'px'; sEl.style.lineHeight=L.toFixed(1)+'px'; sEl.style.height=H.toFixed(1)+'px';
+        var dx=(m.adv/2-(m.rr-m.l)/2)*k;   // centre the ink (not the advance box) horizontally
+        sEl.style.overflow='visible'; sEl.style.display='block'; sEl.style.width='100%'; sEl.style.textAlign='center'; sEl.style.whiteSpace='nowrap';
+        sEl.style.transform='translate('+dx.toFixed(1)+'px,'+(-top).toFixed(1)+'px)'; sEl.style.marginBottom='0';
+        sEl.dataset.fit=(px/(ch*.13)).toFixed(3); sEl.dataset.inkw=(m.w*k).toFixed(1);});
+      return;}
+    var dEl=card.querySelector('.kpair .kd'), sEl=card.querySelector('.ks');
+    if(!sEl) return;
+    if(dEl) dEl.style.fontSize='';
+    var dPx=dEl?parseFloat(getComputedStyle(dEl).fontSize):ch*.31, avail=card.clientWidth-28;
+    var r=fit(sEl,L.d,dPx,dEl?0:avail);
+    if(r&&dEl){var tot=r.w+(asrsInk(L.d,dPx+'px '+dfam)||{w:dPx}).w+ch*.07;
+      if(tot>avail){var k=avail/tot; dEl.style.fontSize=(dPx*k).toFixed(1)+'px'; sEl.style.fontSize=(r.px*k).toFixed(1)+'px';}}
+  });
+  if(!asrsFontOk()&&document.fonts&&!root._fitWait){root._fitWait=1; document.fonts.load('100px "Noto Sans Siddham"','\uD805\uDD80').then(function(){ASRS_INK={}; root._fitWait=0; asrsFit(root);});}
+}
+if(typeof window!=='undefined'){window.__asrsFit=asrsFit; window.__asrsLetters=function(){return ASRS.letters;};}   // test hooks
 // ---- 字母練習: letter chart (vowels, 5x5 stops, semivowels, sibilants) ----
 var alphaAudio=null;
 function alphaCell(c){
@@ -1083,13 +1281,13 @@ function keepPlace(btn, mode, render){
   var tb=document.querySelector('.toolbar'), top0=tb?tb.getBoundingClientRect().bottom:0, vh=window.innerHeight;
   var br=btn.getBoundingClientRect(), key=null, off=0, useBtn=false;
   if(mode==='btn' || (br.bottom>top0 && br.top<vh)){ useBtn=true; off=br.top; }
-  else { var cs=cardsEl.querySelectorAll('.card'); for(var i=0;i<cs.length;i++){ var r=cs[i].getBoundingClientRect(); if(r.bottom>top0+1){ key=mode==='idx'?cs[i].id:+cs[i].dataset.unit; off=r.top; break; } } }
+  else { var cs=cardsEl.querySelectorAll('.card'); for(var i=0;i<cs.length;i++){ var r=cs[i].getBoundingClientRect(); if(r.bottom>top0+1&&(mode==='idx'||+cs[i].dataset.unit>=0)){ key=mode==='idx'?cs[i].id:+cs[i].dataset.unit; off=r.top; break; } } }
   keepScroll=true; try{ render(); } finally { keepScroll=false; }
   var el=null;
   if(useBtn) el=btn;
   else if(key!=null){
     if(mode==='idx') el=document.getElementById(key);
-    else { var best=null, bd=1e9; cardsEl.querySelectorAll('.card').forEach(function(c){ var d=Math.abs(+c.dataset.unit-key); if(d<bd){bd=d; best=c;} }); el=best; }
+    else { var best=null, bd=1e9; cardsEl.querySelectorAll('.card').forEach(function(c){ if(+c.dataset.unit<0) return; var d=Math.abs(+c.dataset.unit-key); if(d<bd){bd=d; best=c;} }); el=best; }
   }
   if(el) window.scrollTo(0, Math.max(0, window.scrollY + el.getBoundingClientRect().top - off));
 }
@@ -1110,7 +1308,7 @@ function renderMantra(id){
   var vb=document.getElementById('viewBox'); vb.hidden=!m.views;
   lyUpdateBox(m);
   document.querySelectorAll('#viewSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.view===curView);b.setAttribute('aria-pressed',b.dataset.view===curView);});
-  document.title=m.name+'・梵文發音練習';
+  document.title=m.name;
   document.querySelectorAll('#mantraTabs button').forEach(function(b){b.classList.toggle('on',b.dataset.id===m.id);b.setAttribute('aria-pressed',b.dataset.id===m.id);});
   try{localStorage.setItem('mantra',m.id);}catch(e){}
   if(location.hash!=='#'+m.id)history.replaceState(null,'','#'+m.id);
@@ -1165,6 +1363,7 @@ function renderMantra(id){
   var sel=document.getElementById('manSel'); sel.innerHTML='';
   ROWS.forEach(function(r,i){var o=document.createElement('option');o.value=i;o.textContent=(i+1)+'. '+r.iast;sel.appendChild(o);});
   var mo=document.getElementById('manOut'); if(mo){mo.innerHTML='';mo.className='';}
+  if(typeof WG!=='undefined'){WG.mount(m); var wb=document.getElementById('wgBtn'); if(wb) wb.hidden=!window.__wgCount;}
   ensureSpeechBounds();
   if(!keepScroll)window.scrollTo(0,0);
 }
@@ -1707,11 +1906,115 @@ document.querySelectorAll('#viewSeg button').forEach(function(b){
   b.onclick=function(){ if(curView===b.dataset.view)return; curView=b.dataset.view; try{localStorage.setItem('mantraView',curView);}catch(e){} if(curMantra)keepPlace(b,'unit',function(){renderMantra(curMantra.id);}); };
 });
 document.querySelectorAll('#lyReadSeg button').forEach(function(b){
-  b.onclick=function(){ if(lyReading===b.dataset.r)return; var pr=lyReading; lyReading=b.dataset.r; try{localStorage.setItem('lyReading',lyReading);}catch(e){} if(curMantra&&curMantra.ly)keepPlace(b,(pr==='bk'||lyReading==='bk')?'btn':'idx',function(){renderMantra(curMantra.id);}); };
+  b.onclick=function(){ if(lyReading===b.dataset.r)return; var pr=lyReading; lyReading=b.dataset.r; try{localStorage.setItem('lyReading',lyReading);}catch(e){} if(curMantra&&curMantra.ly)keepPlace(b,(pr==='bk'||lyReading==='bk')?'btn':'unit',function(){renderMantra(curMantra.id);}); };
 });
-document.querySelectorAll('#lyViewSeg button').forEach(function(b){
-  b.onclick=function(){ if(lyView===b.dataset.v)return; lyView=b.dataset.v; try{localStorage.setItem('lyView',lyView);}catch(e){} if(curMantra&&curMantra.ly)keepPlace(b,'unit',function(){renderMantra(curMantra.id);}); };
-});
+var WGK={"240":";--k:.73;--ka:.61;--kb:.45;--ks:.56","265":";--k:.65;--ka:.55;--kb:.43;--ks:.54","300":";--k:.52;--ka:.45;--kb:.39;--ks:.47","330":";--k:.67;--ka:.58;--kb:.46;--ks:.59"};
+// ---- next11 preview (2026-10-31, River): 詞義色標 A2 — word groups from each row's own 中文意思 (r.wg, built by next11.py) ----
+// r.wg = {s:'seg|seg|…' (IAST letters), m:[word index per seg, -1 = unmarked], w:[[gloss, term, hue, highlight, nth], …], u:'unsure note'}
+var WG=(function(){
+  var KEY='wordMark', on=true; try{on=localStorage.getItem(KEY)!=='0';}catch(e){}
+  var LETS=/[^a-zāīūṛṝḷḹṃḥṅñṭḍṇśṣ]/g, io=null, vis=new Set(), rep=[];
+  function norm(s){return String(s||'').normalize('NFC').toLowerCase().replace(/ṁ/g,'ṃ').replace(LETS,'');}
+  // per-hue tint scale (WGK from next11.py tint_balance: purple / magenta hues lighter, others A2 as is)
+  function hs(h){return '--h:'+h+((typeof WGK!=='undefined'&&WGK[h])||'');}
+  function esc2(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function setOn(v){on=!!v; try{localStorage.setItem(KEY,on?'1':'0');}catch(e){}
+    document.documentElement.classList.toggle('wg-off',!on);
+    var b=document.getElementById('wgBtn'); if(b){b.classList.toggle('on',on); b.setAttribute('aria-checked',on);}
+    if(on) vis.forEach(function(c){draw(c);}); else document.querySelectorAll('.card').forEach(function(c){tip(c,null);});}
+  // hover tips only where some pointer can hover: on phones the browser's emulated "mouse" (left at the last tap point)
+  // fires pointerover when the page scrolls under it, which opened stray tips (2026-10-31)
+  var HQ=window.matchMedia?matchMedia('(any-hover: hover)'):null; function HOV(){return !HQ||HQ.matches;}
+  function cols(card){
+    var out=[]; card.querySelectorAll('.sl .wd:not(.lw) .sg').forEach(function(sg){
+      [].slice.call(sg.querySelectorAll(':scope>.ci')).forEach(function(ci){var c=+(ci.style.gridColumn||'1').split('/')[0];
+        out.push({ci:ci,sg:sg,txt:ci.textContent,cells:[].slice.call(sg.children).filter(function(e){var g=(e.style.gridColumn||'1').split('/'),a=+g[0],b=g[1]?+g[1]:a+1;return a<=c&&c<b;})});});});
+    return out;}
+  function setup(card,r){
+    var spec=r.wg, segs=spec.s.split('|'), C=cols(card);
+    var line=norm(C.map(function(c){return c.txt;}).join(''));
+    if(line!==segs.join('')){rep.push(card.id+' mismatch'); card.classList.add('wg-miss'); return false;}
+    var segOf=[]; segs.forEach(function(s,i){for(var j=0;j<s.length;j++) segOf.push(spec.m[i]);});
+    var pos=0; C.forEach(function(c){var L=norm(c.txt).length, ws=[]; for(var j=pos;j<pos+L;j++){var w=segOf[j]; if(w>=0&&ws.indexOf(w)<0) ws.push(w);} c.w=ws; c.split=ws.length>1; pos+=L;
+      c.cells.forEach(function(el){if(ws.length){el.classList.add('wgc'); el.dataset.wgi=ws.join(' ');}});});
+    card._wg={C:C,spec:spec};
+    var sl=card.querySelector('.sl');
+    sl.addEventListener('pointerover',function(ev){if(ev.pointerType==='mouse'&&on&&HOV()) hover(card,ev);});
+    sl.addEventListener('pointerleave',function(ev){if(ev.pointerType==='mouse'&&HOV()) tip(card,null);});
+    sl.addEventListener('click',function(ev){if(on) hover(card,ev,true);});
+    var mean=card.querySelector('.grid .mean');
+    if(mean){mean.addEventListener('pointerover',function(ev){var m=ev.target.closest('mark.wgm'); if(m&&on&&ev.pointerType==='mouse'&&HOV()) tip(card,+m.dataset.wgi);});
+      mean.addEventListener('pointerleave',function(ev){if(ev.pointerType==='mouse'&&HOV()) tip(card,null);});
+      mean.addEventListener('click',function(ev){var m=ev.target.closest('mark.wgm'); if(m&&on){var i=+m.dataset.wgi; tip(card,card._wgOpen===i?null:i);}});}
+    return true;}
+  function marks(card,r){   // 中文意思: the 「梵文 中文」 pair (and the gloss in the head clause) in the word's hue
+    var mean=card.querySelector('.grid .mean'); if(!mean) return; var txt=mean.textContent, M=[];
+    r.wg.w.forEach(function(e,i){
+      var at=-1; for(var n=0;n<(e[4]||1);n++){at=txt.indexOf(e[3],at+1); if(at<0) break;}
+      if(at>=0) M.push({a:at,b:at+e[3].length,i:i,h:e[2]}); else rep.push(card.id+' no highlight '+e[3]);
+      var head=txt.split('（')[0], g=head.indexOf(e[0]); if(e[3]!==e[0]&&g>=0) M.push({a:g,b:g+e[0].length,i:i,h:e[2]});});
+    if(!M.length) return; M.sort(function(x,y){return x.a-y.a||y.b-x.b;}); var o='',p=0;
+    M.forEach(function(k){if(k.a<p) return; o+=esc2(txt.slice(p,k.a))+'<mark class="wgm" data-wgi="'+k.i+'" style="'+hs(k.h)+'">'+esc2(txt.slice(k.a,k.b))+'</mark>'; p=k.b;});
+    mean.innerHTML=o+esc2(txt.slice(p));}
+  function draw(card){
+    var W=card._wg; if(!W||!on) return; var sl=card.querySelector('.sl'); if(!sl) return;
+    var lay=sl.querySelector(':scope>.wgl'); if(!lay){lay=document.createElement('div');lay.className='wgl';sl.insertBefore(lay,sl.firstChild);}
+    var R=sl.getBoundingClientRect(), sx=sl.scrollLeft, html='';
+    W.spec.w.forEach(function(e,i){var h=e[2], runs=[];
+      W.C.forEach(function(c){if(c.w.indexOf(i)<0) return;
+        var x0=Infinity,x1=-Infinity; c.cells.forEach(function(el){var g=(el.style.gridColumn||'1').split('/'); if(g[1]&&+g[1]-+g[0]>1) return; var b=el.getBoundingClientRect(); if(b.width){x0=Math.min(x0,b.left);x1=Math.max(x1,b.right);}});
+        if(x0===Infinity) return;
+        var sb=c.sg.getBoundingClientRect(), L=false, Rr=false;
+        if(c.split){var k=c.w.indexOf(i), n=c.w.length, wdt=(x1-x0)/n; x0=x0+wdt*k; x1=x0+wdt; L=k>0; Rr=k<n-1;}
+        var last=runs[runs.length-1];
+        if(last&&Math.abs(last.t-sb.top)<4&&x0-last.x1<16){last.x1=x1; last.r=Rr;} else runs.push({t:sb.top,b:sb.bottom,x0:x0,x1:x1,l:L,r:Rr});});
+      runs.forEach(function(u){html+='<div class="wgb'+(u.l?' sl-l':'')+(u.r?' sl-r':'')+'" data-wgi="'+i+'" style="'+hs(h)+';left:'+(u.x0-R.left+sx-(u.l?0:4))+'px;width:'+(u.x1-u.x0+(u.l?0:4)+(u.r?0:4))+'px;top:'+(u.t-R.top-3)+'px;height:'+(u.b-u.t+6)+'px"></div>';});});
+    lay.innerHTML=html; card._wgDrawn=1;
+    if(card._wgOpen!=null){var o=card._wgOpen; card._wgOpen=null; tip(card,o);}}
+  function hover(card,ev,tap){var el=ev.target.closest('[data-wgi]'); if(!el){if(tap) tip(card,null); return;}
+    var i=+el.dataset.wgi.split(' ')[0]; if(tap&&card._wgOpen===i){tip(card,null);return;} tip(card,i);}
+  function tip(card,i){
+    card.querySelectorAll('.wg-on').forEach(function(x){x.classList.remove('wg-on');});
+    var t=card.querySelector(':scope>.wgt'); if(i==null||!card._wg){if(t) t.remove(); card._wgOpen=null; return;}
+    var e=card._wg.spec.w[i]; if(!e) return; card._wgOpen=i;
+    card.querySelectorAll('[data-wgi]').forEach(function(x){if((' '+x.dataset.wgi+' ').indexOf(' '+i+' ')>=0) x.classList.add('wg-on');});
+    var boxes=card.querySelectorAll('.wgb[data-wgi="'+i+'"]'); if(!boxes.length) return;
+    if(!t){t=document.createElement('div');t.className='wgt';t.setAttribute('role','tooltip');card.appendChild(t);}
+    t.style.setProperty('--h',e[2]); t.innerHTML='<b>'+esc2(e[0])+'</b><small>'+esc2(e[1])+'</small>';
+    place(card,t,boxes[0]);}
+  // keep the tip off the sticky toolbar (River 2026-10-31): above the word only if it fits below the toolbar's
+  // bottom edge, else below the word (never higher than the toolbar's bottom); x clamped to the card and the viewport
+  function place(card,t,bx){
+    var b=bx.getBoundingClientRect(), cr=card.getBoundingClientRect(), tb=document.querySelector('.toolbar');
+    var top0=tb?Math.max(0,tb.getBoundingClientRect().bottom):0, vw=document.documentElement.clientWidth||innerWidth;
+    var lo=Math.max(cr.left,0)+4, hi0=Math.min(cr.right,vw)-4;
+    t.style.maxWidth=Math.max(60,hi0-lo)+'px';
+    var w=t.offsetWidth, h=t.offsetHeight, cx=b.left+b.width/2;
+    var x=Math.max(lo,Math.min(hi0-w,cx-w/2));
+    var up=b.top-h-4-6>=top0, y=up?b.top-h-4:Math.max(b.bottom+4,top0+6);
+    t.classList.toggle('dn',!up);
+    t.style.visibility=(b.bottom<=top0||b.top>=innerHeight)?'hidden':'';   // word scrolled under the toolbar / off screen: hide, don't pin
+    t.style.left=(x-cr.left)+'px'; t.style.top=(y-cr.top)+'px';
+    t.style.setProperty('--ax',Math.max(9,Math.min(w-9,cx-x))+'px');}
+  var scRaf=0; addEventListener('scroll',function(){if(scRaf) return; scRaf=requestAnimationFrame(function(){scRaf=0;
+    document.querySelectorAll('.card>.wgt').forEach(function(t){var c=t.parentNode, i=c._wgOpen; var bx=i!=null&&c.querySelector('.wgb[data-wgi="'+i+'"]'); if(bx) place(c,t,bx);});});},{passive:true});
+  function mount(m){
+    if(io){io.disconnect(); vis.clear();}
+    if(!window.IntersectionObserver||!ROWS) return;
+    io=new IntersectionObserver(function(es){es.forEach(function(en){var c=en.target;
+      if(en.isIntersecting){vis.add(c); if(!c._wgDrawn) draw(c);} else vis.delete(c);});},{rootMargin:'400px 0px'});
+    var n=0, st={wg:0,nosl:[],nocard:[]}; rep=[];
+    ROWS.forEach(function(r,idx){if(!r||!r.wg) return; st.wg++; if(!r.sl){st.nosl.push(idx); return;}
+      var c=document.getElementById('card'+idx); if(!c){st.nocard.push(idx); return;}
+      marks(c,r); if(setup(c,r)){io.observe(c); n++;}});
+    window.__wgCount=n; window.__wgReport=rep; window.__wgStat=st;}
+  var rt; addEventListener('resize',function(){clearTimeout(rt); rt=setTimeout(function(){document.querySelectorAll('.card').forEach(function(c){c._wgDrawn=0;}); vis.forEach(function(c){draw(c);});},80);});
+  if(document.fonts&&document.fonts.addEventListener) document.fonts.addEventListener('loadingdone',function(){vis.forEach(function(c){draw(c);});});
+  document.addEventListener('click',function(ev){if(!ev.target.closest('.sl')&&!ev.target.closest('mark.wgm')) document.querySelectorAll('.card>.wgt').forEach(function(t){tip(t.parentNode,null);});});
+  document.documentElement.classList.add('wg-tint2'); document.documentElement.classList.toggle('wg-off',!on);
+  return {mount:mount,setOn:setOn,isOn:function(){return on;},draw:draw,tip:tip,KEY:KEY};
+})();
+document.getElementById('wgBtn').onclick=function(){WG.setOn(!WG.isOn());}; WG.setOn(WG.isOn());
 var tabs=document.getElementById('mantraTabs');
 MANTRAS.forEach(function(m){var b=document.createElement('button');b.dataset.id=m.id;b.textContent=m.name;b.onclick=function(){renderMantra(m.id);};tabs.appendChild(b);});
 window.addEventListener('hashchange',function(){var h=location.hash.slice(1);if(h&&(!curMantra||h!==curMantra.id))renderMantra(h);});
