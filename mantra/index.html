@@ -313,6 +313,66 @@ mark.wgm.wg-on{background:hsla(var(--h),80%,55%,calc(.32*var(--ka,1)))}
 .kans b.kans-s{font-family:"Noto Sans Siddham",serif;font-size:2.6rem}
 .kmchint{font-size:.8rem;color:var(--muted);text-align:center;margin:8px 0;line-height:1.5}
 .kgrade .kshow small{display:block;font-size:.75rem;color:var(--muted);font-weight:normal}
+/* srs-quiz: question first, then the original card */
+.kqz{width:100%;max-width:520px;display:flex;flex-direction:column;gap:10px;margin:0 auto}
+.acard.kqcard{height:calc(var(--ch)*.56);cursor:default}
+.acard.kqcard.kdir-lv,.acard.kqcard.kdir-ls{height:calc(var(--ch)*.36);justify-content:center}
+.acard.kqcard .kq{height:auto;flex:1;gap:8px}
+.acard.kqcard .kpair{height:calc(var(--ch)*.36)}
+.acard.kqcard .ks.solo{font-size:calc(var(--ch)*.3)}
+.acard.kqcard .kq .kmcplay{width:52px;height:52px;font-size:1.3rem;margin-top:6px}
+.acard.kqo{height:auto;padding:0;border:0;background:none;box-shadow:none;cursor:default;overflow:visible;min-height:0}
+.acard.kqo:hover{transform:none;box-shadow:none}
+.kqo .kopts{gap:10px}
+.kqo .kopt{position:relative;height:calc(var(--ch)*.19);min-height:66px;border:1px solid var(--line,#e2d8c8);cursor:pointer;font-size:1rem;touch-action:manipulation}
+.kqo .kopt:not(:disabled):hover{border-color:#b89f7f;background:#fffaf2}
+.kqz.done .kqo .kopt{height:calc(var(--ch)*.12);min-height:52px;cursor:default}
+.kqz.done .kqo .kopt .kd{font-size:calc(var(--ch)*.075)}
+.kqz.done .kqo .kopt .ks{font-size:calc(var(--ch)*.065)}
+.kqz.done .kqo:not(.kdir-ds) .kopt{flex-direction:row;gap:10px}
+.kqz.done .kqo .kopt .kd,.kqz.done .kqo .kopt .ks{line-height:1.1}
+.kqo .kopt:disabled{opacity:1;color:#2b2118}
+.kqo .kopt.dim:disabled{opacity:.5}
+.kqo .kopt.ok{border:2px solid #5f9a4c}
+.kqo .kopt.bad{border:2px solid #c46a6a}
+.kqo .kopt.ok::after{content:'✓';position:absolute;right:8px;top:4px;color:#4b8a39;font-weight:700}
+.kqo .kopt.bad::after{content:'✗';position:absolute;right:8px;top:4px;color:#b14d4d;font-weight:700}
+.kkey{position:absolute;left:7px;top:5px;font:600 .72rem/1 system-ui,sans-serif;color:#a08f7c;background:none;border:0;padding:0}
+.kqi2{font-family:Georgia,"Times New Roman",serif;font-size:1.55rem;line-height:1.2;color:#2b2118}
+.kqz.done .kqi2{font-size:1.1rem}
+.kqo .kopt .kz{font-size:1rem;line-height:1.3}
+.kqo .kopt .kzn{font-size:.72rem;color:var(--muted);line-height:1.2}
+.kqz.done .kqo .kopt .kz{font-size:.85rem}
+.kqz.done .kqo .kopt .kzn{display:none}
+.kres{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 12px;padding:8px 12px;border-radius:12px;text-align:center}
+.kres.ok{background:#eef6ea;border:1px solid #a9c99a;color:#2f5f22}
+.kres.bad{background:#fbecec;border:1px solid #d9a3a3;color:#8a2f2f}
+.kres .kresh{font-weight:700;font-size:1.15rem;margin:0;color:inherit}
+.kres .kans{color:inherit}
+.kres .kmcplay{width:44px;height:44px;font-size:1.15rem;flex:none}
+.kans b.kans-i{font-family:Georgia,serif;font-size:1.4rem;font-weight:normal}
+.kqz.done > .acard.back:not(.kqo){height:calc(var(--ch)*.84)}
+.kqgrade{margin-top:12px}
+.kqgrade .kg{position:relative;min-height:60px;touch-action:manipulation}
+.kqgrade .kg .kkey{left:6px;top:4px}
+.kqgrade .kg.sug{box-shadow:0 0 0 3px rgba(95,154,76,.55);font-weight:700}
+.kgx{display:block;font-size:.7rem;color:var(--muted);font-weight:normal}
+.kqgrade .kshow{min-height:60px;grid-column:1/-1;width:100%}
+.kmchint kbd{font:600 .75rem system-ui,sans-serif;border:1px solid #cbbfae;border-radius:4px;padding:0 4px;background:#fff}
+@media (hover:none),(pointer:coarse){.kkey,.kkh{display:none}}
+@media (max-width:600px){.kqgrade .kg{padding:6px 2px;font-size:.95rem}.kqgrade .kg small{font-size:.68rem}.kqo .kopts{gap:8px}}
+
+/* srs-quiz v2 (River [pt388u]): 聽音選字 first — big glyph options, big 🔊, grouped direction toggles */
+.kqz.ask:not(.kdir-ds) .kqo .kopt{height:calc(var(--ch)*.3);min-height:96px}
+.kqz.ask .kqo .kopt .kd{font-size:calc(var(--ch)*.21);line-height:1.25}
+.kqz.ask .kqo .kopt .ks{font-size:calc(var(--ch)*.17)}
+.acard.kqcard.kdir-lv,.acard.kqcard.kdir-ls{height:calc(var(--ch)*.34)}
+.kqz.ask .kqcard.kdir-lv .kmcplay,.kqz.ask .kqcard.kdir-ls .kmcplay{width:96px;height:96px;font-size:2.6rem}
+.kqz.ask .kqcard .kqsub{font-size:.75rem;color:var(--muted)}
+.kset .kdirs{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.kset .kdirsh{flex-basis:100%;font-weight:700;color:#7a5a37;margin-top:4px}
+.kset .kdirc.kmain{font-weight:600}
+@media (max-width:600px){.acard.kqcard.kdir-lv,.acard.kqcard.kdir-ls{height:calc(var(--ch)*.4)}}
 </style>
 </head>
 <body>
@@ -907,13 +967,12 @@ var regionCancel=null;
 // Core (pure, Node-testable): AlphaSRS.next / queue / stats.  UI: asrsMount(L) inside the 字母練習 tab.
 // State in localStorage 'alphaSRS.v1'; everything runs in the page (no server); letter clips are fetched once into blob: URLs.
 var AlphaSRS=(function(){
-  var MIN=6e4, DAY=864e5, KEY='alphaSRS.v1', DIRS=['ds','sd','sid','lv','ls'];
+  var MIN=6e4, DAY=864e5, KEY='alphaSRS.v1', DIRS=['lv','ls','ds','sd','sid'];
   var clock=null;
   function now(){return clock?clock():Date.now();}
   function dayKey(t){var d=new Date(t-4*3600e3);return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}  // day rolls over at 04:00 local
-  function blank(){return {v:1,cards:{},settings:{newPerDay:10,dirs:{ds:true,sd:true,sid:false,lv:true,ls:false}},today:{day:'',n:0},reviews:0};}
-  function fix(st){var b=blank();if(!st||st.v!==1)return b;st.cards=st.cards||{};st.settings=Object.assign(b.settings,st.settings||{});
-    st.settings.dirs=Object.assign({ds:true,sd:true,sid:false,lv:true,ls:false},st.settings.dirs||{});st.today=st.today||b.today;st.reviews=st.reviews||0;return st;}
+  function blank(){return {v:1,cards:{},settings:{newPerDay:10,dirsV:2,dirs:{lv:true,ls:false,ds:false,sd:false,sid:false}},today:{day:'',n:0},reviews:0};}
+  function fix(st){var b=blank();if(!st||st.v!==1)return b;st.cards=st.cards||{};st.settings=asrsQzSettings(b.settings,st.settings);st.today=st.today||b.today;st.reviews=st.reviews||0;return st;}
   function load(store){try{return fix(JSON.parse((store||localStorage).getItem(KEY)||'null'));}catch(e){return blank();}}
   function save(st,store){try{(store||localStorage).setItem(KEY,JSON.stringify(st));return true;}catch(e){return false;}}
   // SM-2 variant. q: 0 不會 (Again), 3 模糊 (Hard), 4 會 (Good), 5 很熟 (Easy)
@@ -1066,7 +1125,7 @@ function asrsStatsHTML(){
   s.groups.forEach(function(G){var p=G.items?Math.round(100*G.seen/G.items):0,mp=G.items?Math.round(100*G.mature/G.items):0;
     h+='<tr data-g="'+esc(G.name)+'"><th>'+esc(G.name)+'</th><td><span class="kbar"><span class="kb1" style="width:'+p+'%"></span><span class="kb2" style="width:'+mp+'%"></span></span></td><td>'+G.seen+'/'+G.items+'</td><td>'+G.mature+'</td></tr>';});
   h+='</tbody></table><div class="kset"><label>每天新卡 <input type="number" id="kNew" min="0" max="49" value="'+s.newPerDay+'"></label>'+
-    AlphaSRS.DIRS.map(function(d){return '<label><input type="checkbox" data-dir="'+d+'"'+(ASRS.st.settings.dirs[d]?' checked':'')+'> '+ASRS_DIRN[d]+'</label>';}).join('')+'</div>'+
+    asrsQzDirsHTML()+'</div>'+
     '<div class="kio"><button type="button" id="kExport">匯出紀錄</button><label class="kimp">匯入紀錄<input type="file" id="kImport" accept="application/json,.json" hidden></label><button type="button" id="kReset">重設</button></div><p class="kfine">「熟練」= 下次間隔 ≥ 21 天。紀錄存在 localStorage（alphaSRS.v1），清除瀏覽器資料會不見，請定期匯出。</p></details>';
   return {h:h,s:s};
 }
@@ -1101,7 +1160,7 @@ function asrsSession(){
   var det=P.querySelector('#kStats'); det.addEventListener('toggle',function(){ASRS.statsOpen=det.open;});
   P.querySelector('#kNew').onchange=function(){var v=Math.max(0,Math.min(49,parseInt(this.value,10)||0));st.settings.newPerDay=v;asrsSave();ASRS.cur=null;ASRS.sflip=false;asrsSession();};
   P.querySelectorAll('input[data-dir]').forEach(function(cb){cb.onchange=function(){st.settings.dirs[cb.dataset.dir]=cb.checked;
-    if(!AlphaSRS.DIRS.some(function(d){return st.settings.dirs[d];})){st.settings.dirs.ds=true;}asrsSave();ASRS.cur=null;ASRS.sflip=false;asrsSession();};});
+    if(!AlphaSRS.DIRS.some(function(d){return st.settings.dirs[d];})){st.settings.dirs.lv=true;}asrsSave();ASRS.cur=null;ASRS.sflip=false;asrsSession();};});
   P.querySelector('#kExport').onclick=function(){
     var blob=new Blob([JSON.stringify(st,null,1)],{type:'application/json'}),a=document.createElement('a');
     a.href=URL.createObjectURL(blob); a.download='alpha-srs-'+AlphaSRS.dayKey(AlphaSRS.now())+'.json'; document.body.appendChild(a); a.click(); setTimeout(function(){a.remove();},0);};
@@ -1222,7 +1281,7 @@ function asrsFit(root){
       sEl.style.fontSize=px.toFixed(1)+'px'; sEl.dataset.fit=(px/dPx).toFixed(3); sEl.dataset.dink=d.h.toFixed(1); return {px:px,w:s.w*px/100,dw:d.w};}
     if(card.classList.contains('kmc')){   // options: every glyph as tall as its letter in 天城體 at the option size
       card.querySelectorAll('.kopt .ks').forEach(function(sEl){var b=sEl.parentNode, o=null; ASRS.letters.some(function(y){if(y.i===b.dataset.i){o=y;return true;}});
-        if(!o) return; var r=fit(sEl,o.d,ch*.13,b.clientWidth-10); if(!r) return;
+        if(!o) return; var qf=card.closest('.kqz.ask')?.21:.13, r=fit(sEl,o.d,ch*qf,b.clientWidth-10); if(!r) return;
         // keep the whole glyph inside the button: cap its ink height, then centre the ink in a line-height:1 box
         var lab=b.querySelector('small'), room=b.clientHeight-(lab?lab.offsetHeight:0)-8, m=asrsInk(sEl.textContent,'100px '+getComputedStyle(sEl).fontFamily);
         var px=r.px; if(m.h*px/100>room) px=100*room/m.h;
@@ -1233,7 +1292,7 @@ function asrsFit(root){
         var dx=(m.adv/2-(m.rr-m.l)/2)*k;   // centre the ink (not the advance box) horizontally
         sEl.style.overflow='visible'; sEl.style.display='block'; sEl.style.width='100%'; sEl.style.textAlign='center'; sEl.style.whiteSpace='nowrap';
         sEl.style.transform='translate('+dx.toFixed(1)+'px,'+(-top).toFixed(1)+'px)'; sEl.style.marginBottom='0';
-        sEl.dataset.fit=(px/(ch*.13)).toFixed(3); sEl.dataset.inkw=(m.w*k).toFixed(1);});
+        sEl.dataset.fit=(px/(ch*qf)).toFixed(3); sEl.dataset.inkw=(m.w*k).toFixed(1);});
       return;}
     var dEl=card.querySelector('.kpair .kd'), sEl=card.querySelector('.ks');
     if(!sEl) return;
@@ -1246,6 +1305,131 @@ function asrsFit(root){
   if(!asrsFontOk()&&document.fonts&&!root._fitWait){root._fitWait=1; document.fonts.load('100px "Noto Sans Siddham"','\uD805\uDD80').then(function(){ASRS_INK={}; root._fitWait=0; asrsFit(root);});}
 }
 if(typeof window!=='undefined'){window.__asrsFit=asrsFit; window.__asrsLetters=function(){return ASRS.letters;};}   // test hooks
+// ---- srs-quiz preview (2026-10-31, River [pt387u]「應該先出現選擇題，答完再出現原卡片，這樣才有效果」) ----
+// Every SRS card (ds 看字母選讀音 / sd 讀音選字形 / sid 悉曇選天城體 / lv 聽音選天城體 / ls 聽音選悉曇) is first a 4-option
+// question; after answering: ✓/✗, the clip plays, and the original card (full back side) is revealed.
+// Wrong -> graded 不會 at once (下一張). Right -> 不會（猜的）/模糊/會/很熟 (suggested: 會, or 模糊 after a replay / > 8 s).
+// Same SM-2 + alphaSRS.v1 cards (keys dir:iast). Keys: 1–4 choose / grade, Space or Enter = 下一張 / suggested grade.
+// Pure parts (asrsQzOpts / asrsQzSug / asrsQzKey) are Node-testable via module.exports.
+var ASRS_QN={0:'不會',3:'模糊',4:'會',5:'很熟'};
+var ASRS_QG=[[0,'不會','again','猜的'],[3,'模糊','hard'],[4,'會','good'],[5,'很熟','easy']];
+// v2 (River [pt388u]「我預期是先聽，然後畫面有天城或悉曇字讓你選，不是選讀音」): 聽音選字 is the main SRS — lv first and on,
+// ls second (off), ds / sd / sid off by default (still toggles).  Directions shown lv, ls, ds, sd, sid.
+var ASRS_QDIRN={lv:'聽音選字（天城體）',ls:'聽音選字（悉曇）',ds:'看字母，選讀音',sd:'看讀音，選字形',sid:'看悉曇，選天城體'};
+// settings from localStorage -> current settings.  b = blank() settings (dirsV 2 + new defaults).  Toggles never changed
+// (still the old live default: ds+sd(+lv) on, sid/ls off, or nothing saved) move to the new defaults once; customised
+// toggles are kept (a missing lv/ls key gets the new default).  dirsV 2 marks settings already on the new scheme.
+function asrsQzDefDirs(){return {lv:true,ls:false,ds:false,sd:false,sid:false};}
+function asrsQzOldDefault(d){
+  if(!d) return true;
+  var known={ds:1,sd:1,sid:1,lv:1,ls:1};
+  for(var k in d) if(!known[k]) return false;
+  return d.ds===true&&d.sd===true&&d.sid!==true&&d.lv!==false&&d.ls!==true;}
+function asrsQzSettings(b,s){
+  s=s||{}; var o={}, k, d=s.dirs, keep=s.dirsV===2||!asrsQzOldDefault(d);
+  for(k in b) o[k]=b[k]; for(k in s) o[k]=s[k];
+  o.dirs=asrsQzDefDirs(); if(keep&&d) for(k in d) o.dirs[k]=d[k];
+  o.dirsV=2; return o;}
+// direction toggles (inside 學習統計): 聽音選字 group first
+function asrsQzDirsHTML(){
+  var on=ASRS.st.settings.dirs;
+  function cb(d){return '<label class="kdirc kdir-'+d+((d==='lv'||d==='ls')?' kmain':'')+'"><input type="checkbox" data-dir="'+d+'"'+(on[d]?' checked':'')+'> '+ASRS_DIRN[d]+'</label>';}
+  return '<div class="kdirs" role="group" aria-label="複習方式"><div class="kdirsh">🔊 聽音選字（主要練習）</div>'+['lv','ls'].map(cb).join('')+
+    '<div class="kdirsh">其他練習</div>'+['ds','sd','sid'].map(cb).join('')+'</div>';}
+if(typeof ASRS_DIRN!=='undefined') for(var _qd in ASRS_QDIRN) ASRS_DIRN[_qd]=ASRS_QDIRN[_qd];
+function asrsIsMC(d){return d==='ds'||d==='sd'||d==='sid'||d==='lv'||d==='ls';}
+// options: answer + 3 confusable letters; ls compares Siddham glyphs, everything else Devanagari (reading options for ds)
+function asrsQzOpts(L,pool,F,dir,rnd){return asrsOptions(L,pool,F,4,rnd,dir==='ls'?'s':'d');}
+// suggested grade for a right answer (wrong is always 0): 4, or 3 after a replay or a slow (> 8 s) answer
+function asrsQzSug(ok,replays,ms){return asrsMCq(ok,replays,ms);}
+// key -> action: {pick:n} before answering, {grade:q} / {next:1} after
+function asrsQzKey(key,answered,ok,sug){
+  if(!answered) return /^[1-4]$/.test(key)?{pick:+key-1}:null;
+  if(key===' '||key==='Enter'||key==='Spacebar') return ok?{grade:sug}:{next:1};
+  if(ok&&/^[1-4]$/.test(key)) return {grade:ASRS_QG[+key-1][0]};
+  return null;}
+function asrsMCState(x){
+  if(!ASRS.mc||ASRS.mc.k!==x.k){
+    if(!ASRS.feat) ASRS.feat=asrsFeat(ASRS.L);
+    ASRS.mc={k:x.k,dir:x.dir,opts:asrsQzOpts(x.L,ASRS.letters,ASRS.feat,x.dir),t0:(x.dir==='ds'||x.dir==='sid')?AlphaSRS.now():0,replays:0,ans:null};}
+  return ASRS.mc;}
+function asrsQzOptHTML(o,dir,done){
+  if(dir==='ds') return '<span class="kqi2">'+markIAST(o.i)+'</span>'+asrsZy(o.z);
+  var g=dir==='ls'?'<span class="ks" lang="sa-Sidd">'+esc(o.s)+'</span>':'<span class="kd" lang="sa">'+esc(o.d)+'</span>';
+  return g+(done?'<small>'+markIAST(o.i)+'</small>':'');}
+function asrsMCHTML(x){
+  var mc=asrsMCState(x), L=x.L, d=x.dir, done=mc.ans!=null, sid=d==='ls';
+  var grp='<div class="kgrp">'+esc(L.g)+(L.sub?'・'+esc(L.sub):'')+'</div>';
+  var h='<div class="kqz kdir-'+d+(done?' done':' ask')+'" data-i="'+esc(L.i)+'">';
+  if(!done){
+    var D='<div class="kd" lang="sa">'+esc(L.d)+'</div>', S='<div class="ks" lang="sa-Sidd">'+esc(L.s)+'</div>', body;
+    if(d==='ds') body='<div class="kpair">'+D+S+'</div><div class="kqh">這個字母怎麼唸？</div>';
+    else if(d==='sid') body='<div class="ks solo" lang="sa-Sidd">'+esc(L.s)+'</div><div class="kqh">這個悉曇字的天城體是？</div>';
+    else if(d==='sd') body='<div class="kq"><div class="kqi">'+markIAST(L.i)+'</div>'+asrsZy(L.z)+(L.a?'<button type="button" class="kplay kmcplay" aria-label="播放">🔊</button>':'')+'<div class="kqh">選出這個讀音的天城體字母</div></div>';
+    else body='<div class="kmcq"><button type="button" class="kplay kmcplay big" aria-label="播放（再聽一次）">🔊</button><div class="kqh">聽音，選出'+(sid?'悉曇字':'天城體字母')+'</div><div class="kqsub">點 🔊 可以再聽一次</div></div>';
+    h+='<div class="acard front kqcard kdir-'+d+'" data-i="'+esc(L.i)+'" data-face="front">'+grp+body+'</div>';
+  } else {
+    var a=mc.ans, pk=null; ASRS.letters.some(function(y){if(y.i===a.pick){pk=y;return true;}});
+    var cor=d==='ds'?'<b class="kans-i">'+markIAST(L.i)+'</b>':'<b class="'+(sid?'kans-s':'kans-d')+'" lang="'+(sid?'sa-Sidd':'sa')+'">'+esc(sid?L.s:L.d)+'</b>';
+    h+='<div class="kres '+(a.ok?'ok':'bad')+'" role="status"><span class="kqh kresh">'+(a.ok?'✓ 答對了':'✗ 答錯了')+'</span>'+
+       (a.ok?'':'<span class="kans">你選 '+(pk?markIAST(pk.i):'')+'・正確：'+cor+'</span>')+
+       (a.ok?'<span class="kans">正確：'+cor+'</span>':'')+
+       (L.a?'<button type="button" class="kplay kmcplay" aria-label="再聽一次">🔊</button>':'')+'</div>';
+  }
+  h+='<div class="acard kmc kqo kdir-'+d+(done?' back':' front')+'" data-i="'+esc(L.i)+'"><div class="kopts n'+mc.opts.length+'" role="group" aria-label="選項">'+mc.opts.map(function(o,n){
+    var cls='kopt'; if(done){if(o.i===L.i) cls+=' ok'; else if(o.i===mc.ans.pick) cls+=' bad'; else cls+=' dim';}
+    return '<button type="button" class="'+cls+'" data-i="'+esc(o.i)+'"'+(done?' disabled':'')+'><kbd class="kkey">'+(n+1)+'</kbd>'+asrsQzOptHTML(o,d,done)+'</button>';}).join('')+'</div></div>';
+  if(done) h+=asrsFace(L,'card',true);      // the original card, full back side
+  return h+'</div>';}
+function asrsMCGrade(x,t){
+  var mc=ASRS.mc; if(!mc||mc.ans==null) return '<div class="kmchint">先作答：點選項或按 <kbd>1</kbd>–<kbd>4</kbd>。答完會播放標準音並翻出完整字卡。</div>';
+  var c=ASRS.st.cards[x.k];
+  if(!mc.ans.ok) return '<div class="kgrade kqgrade"><button type="button" id="kMcNext" class="kshow">下一張 ›<small>已記為「不會」・下次：'+asrsWhen(c.due)+'<span class="kkh">（Space）</span></small></button></div>';
+  var c0=mc.pre;
+  return '<div class="kgrade kqgrade">'+ASRS_QG.map(function(g,n){var sug=g[0]===mc.ans.q;
+    return '<button type="button" class="kg kg-'+g[2]+(sug?' sug':'')+'"'+(sug?' id="kMcNext"':'')+' data-q="'+g[0]+'" data-key="'+(n+1)+'"><kbd class="kkey">'+(n+1)+'</kbd>'+g[1]+(g[3]?'<span class="kgx">（'+g[3]+'）</span>':'')+
+      '<small>'+AlphaSRS.preview(c0,g[0],t)+'</small></button>';}).join('')+'</div><div class="kmchint">答對了，自己評一下熟不熟（框起來的是建議，按 Space 選它）。</div>';}
+function asrsQzDone(x,q){
+  var mc=ASRS.mc;
+  if(!mc.graded){AlphaSRS.grade(ASRS.st,x,q,AlphaSRS.now()); (window.__asrsMCLog=window.__asrsMCLog||[]).push([x.k,q]); asrsSave();}
+  ASRS.lastK=x.k; ASRS.cur=null; ASRS.sflip=false; ASRS.mc=null; asrsSession();}
+function asrsQzPick(P,x,i){
+  var mc=ASRS.mc; if(!mc||mc.ans!=null) return;
+  var ok=i===x.L.i, now=AlphaSRS.now(), ms=now-(mc.t0||now), q=asrsQzSug(ok,mc.replays,ms);
+  mc.ans={pick:i,ok:ok,q:q,ms:ms}; mc.at=Date.now(); mc.pre=ASRS.st.cards[x.k]?JSON.parse(JSON.stringify(ASRS.st.cards[x.k])):undefined;
+  if(!ok){AlphaSRS.grade(ASRS.st,x,0,now); (window.__asrsMCLog=window.__asrsMCLog||[]).push([x.k,0]); asrsSave(); mc.graded=true;}
+  ASRS.sflip=true; asrsSession();
+  if(x.L.a&&ASRS.autoplay!==false) asrsPlay(x.L,P.querySelector('.kres .kmcplay'));
+  var g=P.querySelector('.kgrade'), st=P.querySelector('#kStage');
+  if(g&&st){var r=g.getBoundingClientRect(); if(r.bottom>innerHeight){var top=st.getBoundingClientRect().top-asrsTop()-4; window.scrollBy(0,Math.max(0,Math.min(r.bottom-innerHeight+10,top)));}}}
+function asrsMCBind(P,x){
+  var mc=ASRS.mc;
+  P.querySelectorAll('.kqz .kmcplay').forEach(function(pb){pb.addEventListener('click',function(e){e.stopPropagation(); if(mc.ans==null&&mc.t0) mc.replays++; asrsPlay(x.L,pb); if(!mc.t0) mc.t0=AlphaSRS.now();});});
+  var back=P.querySelector('.kqz > .acard.back:not(.kqo)'); if(back) back.querySelectorAll('.kplay').forEach(function(b){b.addEventListener('click',function(e){e.stopPropagation();asrsPlay(x.L,b);});});
+  if(mc.ans==null){
+    var pb=P.querySelector('.kqcard .kmcplay');
+    if((x.dir==='lv'||x.dir==='ls'||x.dir==='sd')&&pb&&!mc.t0&&ASRS.autoplay!==false) setTimeout(function(){if(!mc.t0){mc.t0=AlphaSRS.now(); asrsPlay(x.L,pb);}},60);
+    if(!mc.t0&&(ASRS.autoplay===false||!pb)) mc.t0=AlphaSRS.now();
+    P.querySelectorAll('.kqo .kopt').forEach(function(b){b.onclick=function(){asrsQzPick(P,x,b.dataset.i);};});
+  } else {
+    P.querySelectorAll('.kqgrade button').forEach(function(b){b.onclick=function(){asrsQzDone(x,b.dataset.q!=null?+b.dataset.q:0);};});
+  }}
+function asrsQzKeydown(e){
+  if(e.ctrlKey||e.metaKey||e.altKey||e.repeat||ASRS.mode!=='srs') return;
+  var P=document.getElementById('asrsPanel'); if(!P||P.hidden||!P.isConnected) return;
+  var tg=e.target, tn=tg&&tg.tagName||'';
+  if(tn==='INPUT'||tn==='TEXTAREA'||tn==='SELECT'||(tg&&tg.isContentEditable)) return;
+  var x=ASRS.cur, mc=ASRS.mc; if(!x||!mc||mc.k!==x.k||!asrsIsMC(x.dir)) return;
+  var k=e.key===' '||e.key==='Spacebar'?' ':e.key;
+  if((k===' '||k==='Enter')&&tn==='BUTTON'&&P.contains(tg)) return;     // a focused button in the card handles its own key
+  if(mc.ans!=null&&Date.now()-(mc.at||0)<250) return;                   // no double action right after answering
+  var a=asrsQzKey(k,mc.ans!=null,mc.ans&&mc.ans.ok,mc.ans&&mc.ans.q); if(!a) return;
+  e.preventDefault(); if(tn==='BUTTON') tg.blur();
+  if(a.pick!=null){var b=P.querySelectorAll('.kqo .kopt')[a.pick]; if(b) asrsQzPick(P,x,b.dataset.i);}
+  else if(a.next) asrsQzDone(x,0);
+  else if(a.grade!=null) asrsQzDone(x,a.grade);}
+if(typeof document!=='undefined'&&document.addEventListener){document.addEventListener('keydown',asrsQzKeydown); window.__srsQuiz=1;}
+if(typeof window!=='undefined') window.__asrsQzSt=function(){return ASRS.st;};   // tests: loaded (migrated) state
 // ---- 字母練習: letter chart (vowels, 5x5 stops, semivowels, sibilants) ----
 var alphaAudio=null;
 function alphaCell(c){
