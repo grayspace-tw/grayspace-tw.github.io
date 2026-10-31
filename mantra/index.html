@@ -460,7 +460,7 @@ mark.wgm.wg-on{background:hsla(var(--h),80%,55%,calc(.32*var(--ka,1)))}
     <div id="manOut"></div>
   </details>
 </main>
-<footer>個人練習原型 · 標準音：<span id="mSrc"></span> · 悉曇字由 Aksharamukha 轉寫，字型 Noto Sans Siddham（SIL OFL）</footer>
+<footer>個人練習原型 · 標準音：<span id="mSrc"></span> · 悉曇字由 Aksharamukha 轉寫，字型 Noto Sans Siddham（SIL OFL） · 中譯文字型 全字庫楷書（<a href="../fonts/cns11643/ATTRIBUTION.txt">政府資料開放授權條款－第1版</a>）：數位發展部，CNS11643中文標準交換碼全字庫網站，<a href="https://www.cns11643.gov.tw">https://www.cns11643.gov.tw</a></footer>
 <button id="toTop" type="button" aria-label="回到頁頂" title="回到頁頂">↑</button>
 
 <script>
@@ -1475,6 +1475,7 @@ function keepPlace(btn, mode, render){
   }
   if(el) window.scrollTo(0, Math.max(0, window.scrollY + el.getBoundingClientRect().top - off));
 }
+function sutraFont(){if(document.getElementById('sutraFontCss'))return;var s=document.createElement('style');s.id='sutraFontCss';s.textContent="@font-face{font-family:\"TW-Kai-98\";src:url(\"../fonts/cns11643/TW-Kai-98_1.woff2\") format(\"woff2\");font-display:swap}@font-face{font-family:\"TW-Kai-98-Ext\";src:url(\"../fonts/cns11643/TW-Kai-Ext-B-98_1.woff2\") format(\"woff2\");font-display:swap;unicode-range:U+20000-3FFFF}@font-face{font-family:\"TW-Kai-98-Plus\";src:url(\"../fonts/cns11643/TW-Kai-Plus-98_1.woff2\") format(\"woff2\");font-display:swap;unicode-range:U+F0000-10FFFF}.zh{font-family:\"TW-Kai-98\",\"TW-Kai-98-Ext\",\"TW-Kai-98-Plus\",\"BiauKai\",\"DFKai-SB\",\"標楷體\",\"Kaiti TC\",\"KaiTi\",\"Noto Sans TC\",\"PingFang TC\",\"Microsoft JhengHei\",system-ui,sans-serif}";document.head.appendChild(s);}
 function renderMantra(id){
   var m=MANTRAS.filter(function(x){return x.id===id;})[0]||MANTRAS[0];
   if(!m.loaded){ loadChunk(m); return; }
@@ -1497,6 +1498,7 @@ function renderMantra(id){
   try{localStorage.setItem('mantra',m.id);}catch(e){}
   if(location.hash!=='#'+m.id)history.replaceState(null,'','#'+m.id);
   __SPLIT.shown=m.id;
+  sutraFont();
   AUDIO.forEach(function(src){
     var a=src?new Audio(src):null;
     if(a){a.preload='none'; a.preservesPitch=true;}
