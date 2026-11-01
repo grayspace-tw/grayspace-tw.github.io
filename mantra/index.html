@@ -373,16 +373,22 @@ mark.wgm.wg-on{background:hsla(var(--h),80%,55%,calc(.32*var(--ka,1)))}
 .kset .kdirsh{flex-basis:100%;font-weight:700;color:#7a5a37;margin-top:4px}
 .kset .kdirc.kmain{font-weight:600}
 @media (max-width:600px){.acard.kqcard.kdir-lv,.acard.kqcard.kdir-ls{height:calc(var(--ch)*.4)}}
-</style>
+.menubtn{font-weight:600;display:inline-flex;align-items:center;gap:.35em;max-width:100%}.menubtn .mb-i{font-size:1.1em;line-height:1}.menubtn[aria-expanded=true]{background:var(--accent);color:#fff;border-color:var(--accent)}.mmenu{position:absolute;left:0;top:100%;z-index:30;width:min(420px,calc(100vw - 28px));max-height:min(70vh,560px);overflow:auto;background:var(--card,#fff);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(60,40,20,.18);padding:10px 14px 14px}.mmenu[hidden]{display:none}.mmenu h2{font-size:.8rem;font-weight:600;color:var(--muted);letter-spacing:.08em;margin:6px 0 6px}.mmenu .tabs{margin:0 0 6px;gap:6px}.mmenu .tabs button{padding:5px 14px}.mmenu .mlinks{display:flex;flex-direction:column;gap:4px}.mmenu .mlinks a{color:var(--ink);text-decoration:none;padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:#fff}.mmenu .mlinks a:hover,.mmenu .mlinks a:focus{border-color:var(--accent2);color:#7a5a37}</style>
 </head>
 <body>
 <header>
   <h1><span id="mTitle">往生咒</span></h1>
   <p class="sub"><span id="mFull"></span>｜逐句對照・標準音・錄音比對（個人原型）</p>
-  <nav class="tabs" id="mantraTabs" aria-label="選擇咒語"></nav>
 </header>
 <main>
   <div class="toolbar">
+    <button id="menuBtn" class="menubtn" type="button" aria-expanded="false" aria-controls="mMenu" aria-label="選單：切換咒語、經文注音" title="切換咒語・經文注音"><span class="mb-i" aria-hidden="true">☰</span><span class="mb-n"></span></button>
+    <div id="mMenu" class="mmenu" hidden>
+      <h2 id="mmH1">咒語</h2>
+      <nav class="tabs" id="mantraTabs" aria-labelledby="mmH1"></nav>
+      <h2 id="mmH2">經文注音</h2>
+      <nav class="mlinks" aria-labelledby="mmH2"><a href="./dashizhi/">大勢至菩薩念佛圓通章（注音版）</a></nav>
+    </div>
     <button class="primary" id="playAll">▶ 全部播放</button>
     <button id="stopAll" disabled>■ 停止</button>
     <span class="seg" id="speedSeg" role="group" aria-label="播放速度"><button data-rate="0.5">0.5×</button><button data-rate="0.75">0.75×</button><button data-rate="1" class="on">1×</button><button data-rate="1.25">1.25×</button><button data-rate="1.5">1.5×</button><button data-rate="2">2×</button></span>
@@ -2217,6 +2223,16 @@ cardsEl.addEventListener('click',function(e){
 });
 (function(){var tt=document.getElementById('toTop');function upd(){tt.classList.toggle('show',window.scrollY>window.innerHeight*0.9);}window.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();tt.onclick=function(){window.scrollTo({top:0,behavior:'smooth'});};})();
 window.__APP_READY__=true;
+})();
+</script>
+<script>
+(function(){var b=document.getElementById('menuBtn'),m=document.getElementById('mMenu'),t=document.getElementById('mTitle'),l=b.querySelector('.mb-n');
+function sync(){l.textContent=t.textContent;}new MutationObserver(sync).observe(t,{childList:true,characterData:true,subtree:true});sync();
+function open(o,f){m.hidden=!o;b.setAttribute('aria-expanded',o);if(o){var c=m.querySelector('#mantraTabs button.on')||m.querySelector('button,a');c&&c.focus();}else if(f)b.focus();}
+b.addEventListener('click',function(e){e.stopPropagation();open(m.hidden);});
+m.addEventListener('click',function(e){if(e.target.closest('#mantraTabs button'))open(false,true);});
+document.addEventListener('click',function(e){if(!m.hidden&&!m.contains(e.target)&&e.target!==b)open(false);});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden){open(false,true);}});
 })();
 </script>
 </body>
