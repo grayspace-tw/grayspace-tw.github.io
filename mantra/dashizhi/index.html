@@ -47,7 +47,12 @@ h1{font-weight:normal;text-align:center;font-size:calc(var(--s)*1.05);letter-spa
 /* 直書: JS lays the units into pages of right-to-left columns; brackets take their vertical forms (「」『』（）《》〈〉
    → ﹁﹂﹃﹄︵︶︽︾︿﹀, swapped in JS, original kept in data-o); ，。、：！ are centred glyphs in TW-Kai and stay put */
 .mv .u{flex-direction:column}
-.pg{display:flex;flex-direction:row-reverse;justify-content:center;margin:0 auto 22px}
+/* 直書 book style (River 2026-11-01 「但水平置中好像很怪」): the first column sits flush at the right edge, leftover space on
+   the left; top-aligned. Build option --valign center adds html.vc: each .pg is as tall as the screen (JS) / A4 sheet and the
+   columns are centred vertically in it. 橫書 is left-aligned. */
+.pg{display:flex;flex-direction:row-reverse;justify-content:flex-start;align-items:flex-start;margin:0 0 22px}
+.vc .pg{align-items:center}
+.pg>.col:first-child{margin-right:0}
 .pg+.pg{padding-top:22px;border-top:1px dashed var(--rule)}
 .col{display:flex;flex-direction:column;padding:0 calc(var(--s)*.12)}
 .col+.col{border-right:1px solid var(--rule)}
@@ -67,11 +72,15 @@ footer a{color:var(--ui)}
 #top.on{display:block}
 @page{size:A4 portrait;margin:14mm}
 @media print{
-  :root{--s:26px!important;--bg:#fff;--zy:#333;--rule:#ccc}
+  /* print (River 2026-11-01 「預覽列印沒包含注音？」): bigger print size (注音 ≈ 8.7px instead of 7.5px), black 注音 with a
+     hairline stroke so it survives small previews / light printers, colours printed exactly */
+  :root{--s:30px!important;--bg:#fff;--ink:#000;--zy:#000;--rule:#ccc}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .z{-webkit-text-stroke:.35px #000}
   #bar,#top{display:none!important}
   h1{margin:0 0 10px}
   #wrap{padding:0;max-width:none}
-  .pg{break-after:page;margin:0}.pg:last-child{break-after:auto}
+  .pp{display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;break-after:page;overflow:hidden}.vc .pp{justify-content:center}.pp:last-child{break-after:auto}.pg{break-inside:avoid;margin:0;width:100%;overflow:hidden;flex:none}
   .pg+.pg{border:0;padding-top:0}
   .mh #txt{row-gap:12px}
   .bh{break-after:avoid}
@@ -108,10 +117,11 @@ function layout(){
   var m=mode();
   P.forEach(function(h){var o=h.getAttribute('data-o');h.textContent=m==='v'?VF[o]:o});
   D.getElementById('bv').setAttribute('aria-pressed',m==='v');D.getElementById('bh').setAttribute('aria-pressed',m==='h');
-  txt.textContent='';
+  txt.textContent='';txt.style.width='';
+  var PW=688,PH=1016;/* A4 portrait minus the 14mm @page margins, in CSS px */
   if(m==='h'){U.forEach(function(u){txt.appendChild(u)});return}
   var cs=getComputedStyle(R),cw=parseFloat(cs.getPropertyValue('--cw'))||1.72,ch=parseFloat(cs.getPropertyValue('--ch'))||1.26;
-  var s=printing?26:px(),cellH=s*ch,colW=s*cw+2*s*.12+1;
+  var s=printing?30:px(),cellH=s*ch,colW=s*cw+2*s*.12+1;
   var availH=printing?1010-s*1.05-40:window.innerHeight-bar.offsetHeight-36;
   var availW=printing?680:wrap.clientWidth-24;
   var rows=Math.max(6,Math.min(40,Math.floor(availH/cellH))),cols=availW/colW;
@@ -125,6 +135,21 @@ function layout(){
     var k=u.children.length;
     if(!col||n+k>rows){newCol(nb?' nb':'',nb?1.5:1);nb=false}
     col.appendChild(u);n+=k});
+  var ps=txt.querySelectorAll('.pg'),f=D.querySelector('footer'),t1=D.getElementById('ttl');
+  [].forEach.call(ps,function(p,i){var h=availH,cl=p.querySelectorAll('.col'),mn=0;
+    [].forEach.call(cl,function(x){mn=Math.max(mn,x.querySelectorAll('.c').length)});
+    mn=Math.min(rows,mn);[].forEach.call(cl,function(x){x.style.height=(mn*cellH)+'px'});/* columns only as tall as the page's longest */
+    if(printing){p.style.height=(mn*cellH)+'px';p._h=mn*cellH;return}
+    var q=getComputedStyle(p),pad=parseFloat(q.paddingTop)+parseFloat(q.borderTopWidth);/* border-box */
+    p.style.height=((R.classList.contains('vc')?Math.max(mn*cellH,h):mn*cellH)+pad)+'px'});
+  if(printing){/* print: pack the column bands onto A4 sheets (.pp), from the top (html.vc: centred); a band that starts a section starts a sheet */
+    var G=24,sh=[],cur=null,used=0,cap=function(){return PH-8-(sh.length?0:t1.offsetHeight+10)};
+    [].forEach.call(ps,function(p){var st=p.querySelector('[id^=sec-]'),sec=st&&st.id!=='sec-0'&&p.querySelector('.u,.bh')===st;
+      if(cur&&(sec||used+G+p._h>cap())){cur=null}
+      if(!cur){cur=document.createElement('div');cur.className='pp';cur._cap=cap();sh.push(cur);used=p._h}else used+=G+p._h;
+      cur.appendChild(p)});
+    var fw=f.style.width;f.style.width=PW+'px';var fh=f.offsetHeight+12;f.style.width=fw;/* measure at A4 width, not the screen's */sh.forEach(function(x,i){var hh=x._cap;if(i===sh.length-1){var u=0;[].forEach.call(x.children,function(p,j){u+=(j?G:0)+p._h});if(u+fh<=hh)hh-=fh}
+      x.style.height=hh+'px';x.style.rowGap=G+'px';txt.appendChild(x)})}
 }
 function setMode(m){R.classList.toggle('mh',m==='h');R.classList.toggle('mv',m!=='h');try{localStorage.setItem('sutra.mode',m)}catch(e){}layout()}
 function size(d){var s=Math.max(16,Math.min(64,px()+d));R.style.setProperty('--s',s+'px');try{localStorage.setItem('sutra.fs',s)}catch(e){}layout()}
