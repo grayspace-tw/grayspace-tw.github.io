@@ -10,10 +10,10 @@
 --long:#1f6fb2;--asp:#c0392b;--retro:#7b3fa0;--rv:#d35400;--nas:#178a6a;--ok:#2e8b57;--bad:#c0392b;}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"ZY Coda","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.6;}
-header{padding:28px 18px 8px;max-width:860px;margin:auto}
+header{padding:28px 18px 8px;max-width:1320px;margin:auto}
 h1{font-size:1.55rem;margin:0 0 4px;font-weight:600;letter-spacing:.04em}
 .sub{color:var(--muted);font-size:.92rem;margin:0}
-main{max-width:860px;margin:auto;padding:0 14px 60px}
+main{max-width:1320px;margin:auto;padding:0 14px 60px}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:14px 0}
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;position:sticky;top:0;z-index:5;background:rgba(246,243,238,.93);backdrop-filter:blur(6px);padding:10px 0;margin:0}
 button{font:inherit;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer;transition:.15s}
@@ -373,7 +373,65 @@ mark.wgm.wg-on{background:hsla(var(--h),80%,55%,calc(.32*var(--ka,1)))}
 .kset .kdirsh{flex-basis:100%;font-weight:700;color:#7a5a37;margin-top:4px}
 .kset .kdirc.kmain{font-weight:600}
 @media (max-width:600px){.acard.kqcard.kdir-lv,.acard.kqcard.kdir-ls{height:calc(var(--ch)*.4)}}
-.menubtn{font-weight:600;display:inline-flex;align-items:center;gap:.35em;max-width:100%}.menubtn .mb-i{font-size:1.1em;line-height:1}.menubtn[aria-expanded=true]{background:var(--accent);color:#fff;border-color:var(--accent)}.mmenu{position:absolute;left:0;top:100%;z-index:30;width:min(420px,calc(100vw - 28px));max-height:min(70vh,560px);overflow:auto;background:var(--card,#fff);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(60,40,20,.18);padding:10px 14px 14px}.mmenu[hidden]{display:none}.mmenu h2{font-size:.8rem;font-weight:600;color:var(--muted);letter-spacing:.08em;margin:6px 0 6px}.mmenu .tabs{margin:0 0 6px;gap:6px}.mmenu .tabs button{padding:5px 14px}.mmenu .mlinks{display:flex;flex-direction:column;gap:4px}.mmenu .mlinks a{color:var(--ink);text-decoration:none;padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:#fff}.mmenu .mlinks a:hover,.mmenu .mlinks a:focus{border-color:var(--accent2);color:#7a5a37}</style>
+.menubtn{font-weight:600;display:inline-flex;align-items:center;gap:.35em;max-width:100%}.menubtn .mb-i{font-size:1.1em;line-height:1}.menubtn[aria-expanded=true]{background:var(--accent);color:#fff;border-color:var(--accent)}.mmenu{position:absolute;left:0;top:100%;z-index:30;width:min(420px,calc(100vw - 28px));max-height:min(70vh,560px);overflow:auto;background:var(--card,#fff);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(60,40,20,.18);padding:10px 14px 14px}.mmenu[hidden]{display:none}.mmenu h2{font-size:.8rem;font-weight:600;color:var(--muted);letter-spacing:.08em;margin:6px 0 6px}.mmenu .tabs{margin:0 0 6px;gap:6px}.mmenu .tabs button{padding:5px 14px}.mmenu .mlinks{display:flex;flex-direction:column;gap:4px}.mmenu .mlinks a{color:var(--ink);text-decoration:none;padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:#fff}.mmenu .mlinks a:hover,.mmenu .mlinks a:focus{border-color:var(--accent2);color:#7a5a37}.toolbar>button.pzrun{box-shadow:0 0 0 2px rgba(138,90,43,.25)}body.pz-paused .card.playing{border-style:dashed}
+/* 詞語表 preview (vocab.py / data/vocab.js) */
+.voc{max-width:860px;margin:0 auto 24px}
+.voc .vseg{display:flex;gap:6px;justify-content:center;margin:4px 0 10px}
+.voc .vseg button.on{background:#f3e6d3;border-color:#b89f7f;font-weight:700}
+.voc .vbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 10px}
+.voc .vbar input[type=search]{flex:1 1 200px;min-width:0;font-size:1rem;padding:8px 10px;border:1px solid var(--line,#e2d8c8);border-radius:10px;background:#fff;color:#2b2118}
+.voc .vbar select{font-size:.95rem;padding:7px 6px;border-radius:10px;border:1px solid var(--line,#e2d8c8);background:#fff;color:#2b2118}
+.voc .vcount{font-size:.82rem;color:var(--muted);margin:0 0 6px}
+.voc .vlist{display:flex;flex-direction:column;gap:8px}
+.voc .vgh{font-weight:700;color:#6b4a2b;margin:12px 2px 0;font-size:.95rem}
+.voc .vw{display:grid;grid-template-columns:auto 1fr auto;gap:2px 10px;align-items:center;background:var(--card,#fff);border:1px solid var(--line,#e6ded2);border-radius:14px;padding:9px 12px}
+.voc .vw.flash{box-shadow:0 0 0 3px rgba(180,120,60,.35)}
+.voc .vw .kplay{grid-row:1/3}
+.voc .vhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px;min-width:0}
+.voc .vi{font-family:Georgia,"Times New Roman",serif;font-size:1.3rem;color:#2b2118}
+.voc .vd{font-family:"Noto Sans Devanagari","Nirmala UI",sans-serif;font-size:1.25rem;color:#2b2118}
+.voc .vs{font-family:"Noto Sans Siddham",serif;font-size:1.15rem;color:#6b4a2b}
+.voc .vz{font-size:1rem;line-height:1.9;padding-top:3px}
+.voc .vz .zw{display:inline-flex;flex-wrap:wrap;gap:3px;vertical-align:top}.voc .vz .zs{display:inline-flex}  /* one word: syllables side by side, not stacked under letters */
+/* 詞語 tab: no line cards, so the line-only controls and the 錄音比對 help are hidden */
+body.vtab #playAll,body.vtab #followBtn,body.vtab #loopBtn,body.vtab #wgBtn,body.vtab #supportBox,body.vtab #cards~details.panel{display:none!important}
+.voc .vf{font-size:.78rem;color:var(--muted);white-space:nowrap;align-self:start}
+.voc .vm{grid-column:2/4;font-size:.98rem;color:#3b3026;line-height:1.45}
+.voc .vm .vlow{font-size:.72rem;color:#9a5b12;border:1px solid #e0c48f;border-radius:6px;padding:0 4px;margin-left:4px;white-space:nowrap}
+.voc .vocc{grid-column:1/4;display:flex;flex-wrap:wrap;gap:4px 6px;font-size:.8rem}
+.voc .vocc a{color:#7a4a1c;text-decoration:none;border:1px solid #e6d6bf;border-radius:8px;padding:1px 7px;background:#fffaf2}
+.voc .vocc a:hover{border-color:#b89f7f}
+.voc .vocc .vmore{border:0;background:none;color:var(--muted);padding:1px 4px;font-size:.8rem;cursor:pointer}
+.voc .vmorebtn{display:block;margin:12px auto;padding:8px 18px}
+.voc .vnone{text-align:center;color:var(--muted);padding:18px}
+.voc .vfoot{font-size:.76rem;color:var(--muted);margin-top:16px;line-height:1.5}
+/* quiz */
+.voc .vqz{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.voc .vqtop{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted)}
+.voc .vqcard{background:var(--card,#fff);border:1px solid var(--line,#e6ded2);border-radius:18px;box-shadow:0 2px 10px rgba(80,50,20,.08);padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;min-height:170px;justify-content:center;text-align:center}
+.voc .vqcard .kplay.big{width:88px;height:88px;font-size:2.2rem}
+.voc .vqh{font-size:.9rem;color:var(--muted)}
+.voc .vqw{display:flex;flex-direction:column;align-items:center;gap:2px}
+.voc .vqw .vi{font-size:1.6rem}.voc .vqw .vd{font-size:1.7rem}.voc .vqw .vs{font-size:1.4rem}
+.voc .vopts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.voc .vopt{position:relative;min-height:74px;padding:8px 6px 8px 18px;border-radius:12px;border:1px solid var(--line,#e2d8c8);background:#fff;color:#2b2118;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;touch-action:manipulation;font-size:.98rem;line-height:1.3}
+.voc .vopt:not(:disabled):hover{border-color:#b89f7f;background:#fffaf2}
+.voc .vopt .vd{font-size:1.45rem}.voc .vopt .vs{font-size:1.1rem}
+.voc .vopt small{font-family:Georgia,serif;font-size:.85rem;color:var(--muted)}
+.voc .vopt:disabled{opacity:1;cursor:default}
+.voc .vopt.dim:disabled{opacity:.5}
+.voc .vopt.ok{border:2px solid #5f9a4c}.voc .vopt.bad{border:2px solid #c46a6a}
+.voc .vopt.ok::after{content:'✓';position:absolute;right:8px;top:4px;color:#4b8a39;font-weight:700}
+.voc .vopt.bad::after{content:'✗';position:absolute;right:8px;top:4px;color:#b14d4d;font-weight:700}
+.voc .vqhint{font-size:.82rem;color:var(--muted);text-align:center}
+.voc .vqdone{text-align:center;padding:24px 8px;color:#3b3026}
+.voc details.vqset{font-size:.88rem;color:#3b3026}
+.voc details.vqset label{display:block;margin:4px 0}
+.voc .vqset input[type=number]{width:4em}
+.voc .vlem{font-size:.85rem;color:var(--muted);margin-left:4px}
+.card.vflash{box-shadow:0 0 0 3px rgba(180,120,60,.55);transition:box-shadow .3s}
+@media (max-width:600px){.voc .vi{font-size:1.15rem}.voc .vd{font-size:1.1rem}.voc .vopt{min-height:66px;font-size:.92rem}}
+</style>
 </head>
 <body>
 <header>
@@ -382,19 +440,19 @@ mark.wgm.wg-on{background:hsla(var(--h),80%,55%,calc(.32*var(--ka,1)))}
 </header>
 <main>
   <div class="toolbar">
-    <button id="menuBtn" class="menubtn" type="button" aria-expanded="false" aria-controls="mMenu" aria-label="選單：切換咒語、經文注音" title="切換咒語・經文注音"><span class="mb-i" aria-hidden="true">☰</span><span class="mb-n"></span></button>
+    <button id="menuBtn" class="menubtn" type="button" aria-expanded="false" aria-controls="mMenu" aria-label="選單：切換咒語、經文" title="切換咒語・經文"><span class="mb-i" aria-hidden="true">☰</span><span class="mb-n"></span></button>
     <div id="mMenu" class="mmenu" hidden>
       <h2 id="mmH1">咒語</h2>
       <nav class="tabs" id="mantraTabs" aria-labelledby="mmH1"></nav>
-      <h2 id="mmH2">經文注音</h2>
-      <nav class="mlinks" aria-labelledby="mmH2"><a href="./dashizhi/">大勢至菩薩念佛圓通章（注音版）</a></nav>
+      <h2 id="mmH2">經文</h2>
+      <nav class="mlinks" aria-labelledby="mmH2"><a href="./dashizhi/">大勢至菩薩念佛圓通章</a><a href="./qiqingwen/">諸佛菩薩祈請文</a></nav>
     </div>
     <button class="primary" id="playAll">▶ 全部播放</button>
     <button id="stopAll" disabled>■ 停止</button>
     <span class="seg" id="speedSeg" role="group" aria-label="播放速度"><button data-rate="0.5">0.5×</button><button data-rate="0.75">0.75×</button><button data-rate="1" class="on">1×</button><button data-rate="1.25">1.25×</button><button data-rate="1.5">1.5×</button><button data-rate="2">2×</button></span>
     <button id="followBtn" title="開頭停 0.5 秒。先逐句播放，每句後面留 2.5 秒讓你跟著唸，再整段連續播放、句和句相接，結尾再停 0.5 秒。兩遍都用目前選的速度，音高不變。">逐句跟唸</button>
     <button id="loopBtn" type="button" role="switch" aria-checked="false" title="開啟後，全部播放、逐句跟唸和單句標準音播完會從頭再播，直到按「停止」"><span class="sw" aria-hidden="true"></span><span>循環<span class="lt2">播放</span></span></button>
-    <button id="wgBtn" type="button" role="switch" aria-checked="true" class="on" title="梵文詞組淡色底標出各詞，游標移上或點一下看詞義（詞義只取自這一句的中文意思）"><span class="sw" aria-hidden="true"></span><span>詞義<span class="lt2">色標</span></span></button>
+    <button id="wgBtn" type="button" role="switch" aria-checked="true" class="on" title="梵文詞組淡色底標出各詞，游標移上或點一下看詞義（詞義取自這部咒的中文意思；同一個詞在後面再出現也會再標，方便複習）"><span class="sw" aria-hidden="true"></span><span>詞義<span class="lt2">色標</span></span></button>
   </div>
 
   <div class="panel">
@@ -805,7 +863,7 @@ mark.wgm.wg-on{background:hsla(var(--h),80%,55%,calc(.32*var(--ka,1)))}
 <script>
 (function(){
 'use strict';
-var MANTRAS = [{"id": "xinjing", "name": "般若心經咒", "c": "c/xinjing.1c57a375a6.js"}, {"id": "wangsheng", "name": "往生咒", "c": "c/wangsheng.22515fd49f.js"}, {"id": "lengyan", "name": "楞嚴心咒", "c": "c/lengyan.4c68eb582b.js"}, {"id": "lengyanfull", "name": "楞嚴咒", "c": "c/lengyanfull.35270bf494.js"}, {"id": "yaoshi", "name": "藥師灌頂真言", "c": "c/yaoshi.8515be09fb.js"}, {"id": "dabei", "name": "大悲咒", "c": "c/dabei.55afe21b72.js"}, {"id": "alphabet", "name": "字母練習", "c": "c/alphabet.a68826d13a.js"}];
+var MANTRAS = [{"id": "xinjing", "name": "般若心經咒", "c": "c/xinjing.efbedac5c0.js"}, {"id": "wangsheng", "name": "往生咒", "c": "c/wangsheng.b4c8defd31.js"}, {"id": "lengyan", "name": "楞嚴心咒", "c": "c/lengyan.2f779c5929.js"}, {"id": "lengyanfull", "name": "楞嚴咒", "c": "c/lengyanfull.afcd2517dc.js"}, {"id": "yaoshi", "name": "藥師灌頂真言", "c": "c/yaoshi.92089a68dc.js"}, {"id": "dabei", "name": "大悲咒", "c": "c/dabei.703f10f4ea.js"}, {"id": "alphabet", "name": "字母練習", "c": "c/alphabet.a68826d13a.js"}, {"id": "vocab", "name": "詞語", "c": "c/vocab.5ff9d5b592.js"}];
 var __SPLIT=window.__SPLIT={pending:0,shown:null,want:null,loaded:[]};
 function chunkFind(id){return MANTRAS.filter(function(x){return x.id===id;})[0];}
 function loadChunk(m){
@@ -868,6 +926,51 @@ function lyUpdateBox(m){
   if(nav.dataset.built!==nk){ nav.dataset.built=nk; nav.querySelectorAll('button').forEach(function(b){b.remove();}); (bk?m.ly.huiBK:m.ly.hui).forEach(function(h){var b=document.createElement('button'); b.type='button'; b.dataset.sec=h.id; b.innerHTML=esc(h.label)+'<small>'+esc(h.name)+'・'+esc(h.span)+'</small>'; b.onclick=function(){var e=document.getElementById(h.id); if(e)e.scrollIntoView({block:'start'});}; nav.appendChild(b);}); }
 }
 var rate = 1, playAllToken = 0, current = null, waits = [];
+// ---- player2: 暫停／繼續 ----
+var RUN=null;   // {tok, kind:'all'|'follow'|'one', btn}
+var PZ={on:false, list:[], hooks:[], defer:[]};
+function pzLabel(){
+  var pa=document.getElementById('playAll'), fb=document.getElementById('followBtn');
+  var k=RUN&&RUN.kind, t=PZ.on?'▶ 繼續':'⏸ 暫停';
+  if(pa){ pa.textContent=k==='all'?t:'▶ 全部播放'; pa.classList.toggle('pzrun',k==='all'); }
+  if(fb){ fb.textContent=k==='follow'?t:'逐句跟唸'; fb.classList.toggle('pzrun',k==='follow'); }
+  document.querySelectorAll('.card .play.pzrun').forEach(function(b){ if(!(k==='one'&&RUN.btn===b)){ b.classList.remove('pzrun'); b.textContent='🔊 標準音'; } });
+  if(k==='one'&&RUN.btn){ RUN.btn.classList.add('pzrun'); RUN.btn.textContent=t; }
+  document.body.classList.toggle('pz-paused',!!(RUN&&PZ.on));
+}
+function runStart(kind,btn){
+  stopAll(); var tok=++playAllToken;
+  RUN={tok:tok, kind:kind, btn:btn||null};
+  document.getElementById('stopAll').disabled=false; pzLabel();
+  return tok;
+}
+function runEnd(tok){ if(tok===playAllToken){ RUN=null; PZ.on=false; document.getElementById('stopAll').disabled=true; pzLabel(); } }
+function pauseAll(extra){
+  if(!RUN||PZ.on) return false;
+  PZ.on=true;
+  waits.forEach(function(w){ w.hold(); });
+  PZ.list=[];
+  audios.forEach(function(a){ if(a&&!a.paused){ PZ.list.push(a); a.pause(); } });
+  if(extra&&PZ.list.indexOf(extra)<0) PZ.list.push(extra);
+  PZ.hooks.forEach(function(h){ h.hold(); });
+  pzLabel(); return true;
+}
+function resumeAll(){
+  if(!RUN||!PZ.on) return false;
+  PZ.on=false;
+  var L=PZ.list; PZ.list=[];
+  L.forEach(function(a){ a.preservesPitch=true; a.playbackRate=rate; var p=a.play(); if(p&&p.catch) p.catch(function(){}); });
+  PZ.hooks.slice().forEach(function(h){ h.go(); });
+  var D=PZ.defer; PZ.defer=[]; D.forEach(function(f){ f(); });
+  waits.forEach(function(w){ if(!w.id) w.arm(); });
+  pzLabel(); return true;
+}
+function togglePause(){ return PZ.on?resumeAll():pauseAll(); }
+window.__p2={cur:function(){ return current; }, st:function(){   // read-only probe for verify/verify_player2.py
+  var c=document.querySelector('.card.playing'), a=current;
+  return {run:RUN&&RUN.kind, paused:PZ.on, unit:c?c.dataset.unit:null, ai:a?audios.indexOf(a):-1, ct:a?a.currentTime:null,
+          apaused:a?a.paused:null, rate:a?a.playbackRate:null, nplaying:audios.filter(function(x){return x&&!x.paused;}).length,
+          waits:waits.map(function(w){return [Math.round(w.left), !!w.id];}), loop:loopOn};}};
 
 var LONG = {'ā':1,'ī':1,'ū':1,'ṝ':1,'ḹ':1,'e':1,'o':1,'ai':1,'au':1};
 var ASP = {'kh':1,'gh':1,'ch':1,'jh':1,'ṭh':1,'ḍh':1,'th':1,'dh':1,'ph':1,'bh':1};
@@ -1539,16 +1642,16 @@ function renderMantra(id){
   var playBtn=c.querySelector('.play');
   if(!a){playBtn.disabled=true; if(m.ly&&u>=0){playBtn.textContent=LY_PENDING; playBtn.classList.add('pending'); playBtn.title='這一組的標準音還在錄製，錄好後會補上';} else playBtn.textContent='無標準音';}
   else playBtn.onclick=async function(){
-    stopAll();
-    var tok=++playAllToken;
-    document.getElementById('stopAll').disabled=false;
+    if(RUN&&RUN.kind==='one'&&RUN.btn===playBtn){ togglePause(); return; }
+    var tok=runStart('one', playBtn);
     do{ await playOne(u); } while(loopOn && tok===playAllToken && (await wait(LOOP_LINE_GAP)) && tok===playAllToken);
-    if(tok===playAllToken) document.getElementById('stopAll').disabled=true;
+    runEnd(tok);
   };
   c.querySelector('.rec').onclick=function(){toggleRecord(idx,c);};
   c.querySelector('.mineBtn').onclick=function(){ if(c._mine){stopAll(); c._mine.currentTime=0; c._mine.play();} };
   });
   asrsReset(); if(m.alpha){ cardsEl.insertBefore(buildAlphaChart(m.alpha),cardsEl.firstChild); asrsMount(m.alpha); }
+  document.body.classList.toggle('vtab',!!m.vocab); if(m.vocab&&typeof vocabMount==='function') vocabMount(m);
   var anyAudio=AUDIO.some(function(x){return !!x;});
   document.getElementById('playAll').disabled=!anyAudio;
   document.getElementById('followBtn').disabled=!anyAudio;
@@ -1561,15 +1664,16 @@ function renderMantra(id){
 }
 
 function setPlaying(u){document.querySelectorAll('.card.playing').forEach(function(e){e.classList.remove('playing');}); if(u!=null){document.querySelectorAll('.card[data-unit="'+u+'"]').forEach(function(e){e.classList.add('playing');});}}
-function wait(ms){
+function wait(ms){   // player2: pausable; hold() keeps the remaining ms, arm() restarts it
   return new Promise(function(resolve){
-    var finished=false;
-    function finish(ok){if(finished)return; finished=true; resolve(ok);}
-    var id=setTimeout(function(){waits=waits.filter(function(w){return w.id!==id;}); finish(true);}, ms);
-    waits.push({id:id, finish:finish});
+    var finished=false, w={id:0, left:ms, t0:0};
+    w.finish=function(ok){ if(finished)return; finished=true; if(w.id){clearTimeout(w.id); w.id=0;} waits=waits.filter(function(x){return x!==w;}); resolve(ok); };
+    w.arm=function(){ w.t0=performance.now(); w.id=setTimeout(function(){ w.id=0; w.left=0; w.finish(true); }, w.left); };
+    w.hold=function(){ if(!w.id) return; clearTimeout(w.id); w.id=0; w.left=Math.max(0, w.left-(performance.now()-w.t0)); };
+    waits.push(w); if(!PZ.on) w.arm();
   });
 }
-function clearWaits(){waits.splice(0).forEach(function(w){clearTimeout(w.id); w.finish(false);});}
+function clearWaits(){waits.splice(0).forEach(function(w){ w.finish(false); });}
 // Leading/trailing room tone in the line clips. RMS over 10ms, threshold matched to the takes.
 function speechBounds(buffer){
   var ch=buffer.getChannelData(0), sr=buffer.sampleRate;
@@ -1629,9 +1733,11 @@ function playOne(idx){
     var a=audios[idx];
     if(!a){res();return;}
     var done=false;
-    function finish(){if(done)return; done=true; setPlaying(null); res();}
+    function finish(){if(done)return; done=true; a.onended=null; a.onpause=null; if(regionCancel===finish) regionCancel=null; setPlaying(null); res();}
+    regionCancel=finish;
     current=a; a.currentTime=0; a.preservesPitch=true; a.playbackRate=rate; setPlaying(idx);
-    a.onended=finish; a.onpause=finish;
+    a.onended=finish;
+    a.onpause=function(){ if(PZ.on||done) return; if(a.ended||!pauseAll(a)) finish(); };
     var p=a.play(); if(p&&p.catch)p.catch(finish);
   });
 }
@@ -1653,11 +1759,15 @@ function playRegion(idx, tok, chain){
       if(a._endTimer){ clearTimeout(a._endTimer); a._endTimer=0; }
       a.onended=null; a.onpause=null;
       if(regionCancel===finish) regionCancel=null;
+      PZ.hooks=PZ.hooks.filter(function(h){ return h!==hook; });
       if(!a.paused) a.pause();
       setPlaying(null);
       res();
     }
     regionCancel=finish;
+    var hook={hold:function(){ if(a._raf){ cancelAnimationFrame(a._raf); a._raf=0; } clearClipTimers(); },
+              go:function(){ if(!done && !a.paused) beginWatch(); }};
+    PZ.hooks.push(hook);
     function armNext(){
       if(!chain) return;
       var n=nextClip(idx);
@@ -1675,6 +1785,7 @@ function playRegion(idx, tok, chain){
       var nb=activeBounds(n);
       function go(){
         if(tok!==playAllToken){ n._prestarted=false; return; }
+        if(PZ.on){ PZ.defer.push(go); return; }
         var p=n.play();
         if(p&&p.catch) p.catch(function(){ n._prestarted=false; });
       }
@@ -1702,6 +1813,7 @@ function playRegion(idx, tok, chain){
     function watch(){
       if(done) return;
       if(tok!==playAllToken){ finish(); return; }
+      if(PZ.on){ a._raf=0; return; }
       if((a.playbackRate||1)!==scheduledRate) schedule();
       var look=JOIN*(a.playbackRate||1);
       if(chain && nextClip(idx) && a.currentTime>=b.end-look) prestartNext();
@@ -1709,9 +1821,12 @@ function playRegion(idx, tok, chain){
       a._raf=requestAnimationFrame(watch);
     }
     function beginWatch(){
+      if(PZ.on) return;
+      if(a._raf){ cancelAnimationFrame(a._raf); a._raf=0; }
       var ct0=a.currentTime, t0=performance.now();
       function calibrate(){
         if(done) return;
+        if(PZ.on){ a._raf=0; return; }
         if(a.currentTime>ct0+0.02 || performance.now()-t0>400){ schedule(); watch(); return; }
         a._raf=requestAnimationFrame(calibrate);
       }
@@ -1720,15 +1835,17 @@ function playRegion(idx, tok, chain){
     current=a; a.preservesPitch=true; a.playbackRate=rate; setPlaying(idx);
     armNext();
     a.onended=finish;
-    a.onpause=function(){ finish(); };
-    if(a._prestarted && !a.paused){ a._prestarted=false; beginWatch(); return; }
+    a.onpause=function(){ if(PZ.on||done) return; if(a.ended||!pauseAll(a)) finish(); };
+    if(a._prestarted && (!a.paused || (PZ.on && PZ.list.indexOf(a)>=0))){ a._prestarted=false; beginWatch(); return; }
     a._prestarted=false;
-    seekTo(a, b.start).then(function(){
+    function start(){
       if(done || tok!==playAllToken){ finish(); return; }
+      if(PZ.on){ PZ.defer.push(start); return; }
       var p=a.play();
-      if(p&&p.then) p.then(function(){ if(!done) beginWatch(); }).catch(finish);
+      if(p&&p.then) p.then(function(){ if(!done) beginWatch(); }).catch(function(){ if(!PZ.on) finish(); });
       else beginWatch();
-    });
+    }
+    seekTo(a, b.start).then(start);
   });
 }
 async function playSeamless(tok){
@@ -1741,8 +1858,274 @@ async function playSeamless(tok){
     await playRegion(i, tok, true);
   }
 }
+// ---- 詞語表 preview (2026-11-01, River [pt422u]「除了有字母表，也可以仿照從這些咒語蒐集一個詞語表」) ----
+// 詞語 tab (vocab.py chunk m.vocab): 📖 詞語表 (sort 頻率 / 字母 / 咒語, search, 🔊, links back to the line) and
+// 🎧 聽音練習 (listen-first SRS: vl 聽音選詞 (words with their own one-word clip), vm 聽音看詞選意思 (every word)).
+// Sound: a word's own clip, else its first containing line — speech-trimmed region, current speed, stopAll()-aware.
+// Scheduler: AlphaSRS.next/preview/grade/dayKey (SM-2 variant); grading + keys from srs_quiz.js (asrsQzSug /
+// asrsQzKey / ASRS_QG).  Cards 'vocab:<dir>:<iast>' in localStorage vocabSRS.v1 (separate from alphaSRS.v1).
+var VOC={V:null,mode:'list',sort:'freq',q:'',mf:-1,lim:60,st:null,mc:null,cur:null,lastK:null,timer:0,back:null,open:{}};
+try{var _vu=JSON.parse(localStorage.getItem('vocabUI')||'{}'); if(_vu.mode==='srs')VOC.mode='srs'; if(/^(freq|alpha|mantra)$/.test(_vu.sort))VOC.sort=_vu.sort;}catch(e){}
+function vocSaveUI(){try{localStorage.setItem('vocabUI',JSON.stringify({mode:VOC.mode,sort:VOC.sort}));}catch(e){}}
+var VOC_KEY='vocabSRS.v1', VOC_DIRN={vl:'聽音，選出聽到的詞（只用有單詞標準音的詞）',vm:'聽音看詞，選出意思（全部詞語）'};
+function vocBlank(){return {v:1,cards:{},settings:{newPerDay:10,dirs:{vl:true,vm:true}},today:{day:'',n:0},reviews:0};}
+function vocFix(st){var b=vocBlank(); if(!st||st.v!==1) return b; st.cards=st.cards||{}; st.settings=Object.assign(b.settings,st.settings||{});
+  st.settings.dirs=Object.assign({vl:true,vm:true},st.settings.dirs||{}); st.today=st.today||b.today; st.reviews=st.reviews||0; return st;}
+function vocLoad(){try{return vocFix(JSON.parse(localStorage.getItem(VOC_KEY)||'null'));}catch(e){return vocBlank();}}
+function vocSave(){try{localStorage.setItem(VOC_KEY,JSON.stringify(VOC.st));}catch(e){}}
+function vocSid(w){return (typeof DevSid!=='undefined'&&DevSid.toSid)?DevSid.toSid(w.d):'';}
+function vocFold(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/ṁ/g,'m');}
+function vocZy(z){return typeof fmtZy==='function'?fmtZy(z):esc(z);}
+// ---- sound ----
+function vocPlay(ci,btn,done){
+  var c=VOC.V&&VOC.V.clips[ci]; if(!c){if(done)done(); return;}
+  stopAll(); var tok=playAllToken;
+  if(!alphaAudio){alphaAudio=new Audio();} var a=alphaAudio; a.preservesPitch=true; a.onended=null; a.onpause=null; a.ontimeupdate=null;
+  var b0=c.length>2?c[1]:0, b1=c.length>2?c[2]:0, fired=false;
+  document.querySelectorAll('.voc .kplay.playing').forEach(function(x){x.classList.remove('playing');});
+  if(btn) btn.classList.add('playing');
+  var sb=document.getElementById('stopAll'); if(sb) sb.disabled=false;           // ■ 停止 stops a word clip too
+  function fin(){ if(fired) return; fired=true; if(VOC.timer){clearTimeout(VOC.timer); VOC.timer=0;} a.ontimeupdate=null; a.onpause=null; a.onended=null; if(btn) btn.classList.remove('playing'); if(sb&&tok===playAllToken) sb.disabled=true; if(done) done(); }
+  function stopAt(){ if(!fired){ a.pause(); fin(); } }
+  function go(){
+    if(tok!==playAllToken) return fin();
+    try{a.currentTime=b0;}catch(e){}
+    a.playbackRate=rate; a.onended=fin; a.onpause=fin;
+    if(b1>b0){
+      a.ontimeupdate=function(){ if(a.currentTime>=b1-0.02) stopAt(); };
+      var chk=function(){ VOC.timer=0; if(fired) return; if(tok!==playAllToken){fin(); return;}
+        var left=(b1-a.currentTime)*1000/(a.playbackRate||1); if(left<=25) stopAt(); else VOC.timer=setTimeout(chk,Math.max(15,left-15)); };
+      VOC.timer=setTimeout(chk,Math.max(15,(b1-b0)*1000/rate-40));
+    }
+    var pr=a.play(); if(pr&&pr.catch) pr.catch(function(){fin();});
+  }
+  if(a.getAttribute('src')!==c[0]){ a.src=c[0]; a.addEventListener('loadedmetadata',go,{once:true}); try{a.load();}catch(e){} } else if(a.readyState>=1) go(); else a.addEventListener('loadedmetadata',go,{once:true});
+}
+// ---- back to the line ----
+function vocGo(mi,idx,wn){
+  var id=VOC.V.ids[mi]; VOC.back=wn;
+  if(id==='dabei') curView='77';
+  if(id==='lengyanfull'){ lyReading='full'; lyView='g'; }
+  renderMantra(id);
+  var t0=Date.now();
+  (function wait(){
+    var c=document.getElementById('card'+idx);
+    if(c&&__SPLIT.shown===id&&curMantra&&curMantra.id===id){
+      c.scrollIntoView({block:'center'}); c.classList.add('vflash'); setTimeout(function(){c.classList.remove('vflash');},2600); return; }
+    if(Date.now()-t0<15000) setTimeout(wait,80);
+  })();
+}
+// ---- 📖 詞語表 ----
+function vocList(){
+  var V=VOC.V, W=V.w, q=vocFold(VOC.q.trim()), out=[];
+  function hit(w){ if(VOC.mf>=0&&!w.o.some(function(o){return o[0]===VOC.mf;})) return false;
+    if(!q) return true;
+    return vocFold(w.i).replace(/[^a-z]/g,'').indexOf(q.replace(/[^a-z]/g,''))>=0&&/[a-z]/.test(q)||w.d.indexOf(VOC.q.trim())>=0||w.m.indexOf(VOC.q.trim())>=0||(w.l&&vocFold(w.l).indexOf(q)>=0)||w.z.indexOf(VOC.q.trim())>=0; }
+  if(VOC.sort==='mantra'){
+    V.ids.forEach(function(id,mi){ if(VOC.mf>=0&&VOC.mf!==mi) return;
+      var g=[]; W.forEach(function(w,n){ var f=null; w.o.forEach(function(o){ if(o[0]===mi&&f===null) f=o[1]; }); if(f!==null&&hit(w)) g.push([f,n]); });
+      g.sort(function(a,b){return a[0]-b[0]||a[1]-b[1];});
+      if(g.length) out.push({h:V.names[mi],mi:mi,n:g.map(function(x){return x[1];})}); });
+  } else {
+    var ix=VOC.sort==='alpha'?V.alpha:W.map(function(_,n){return n;});
+    out.push({h:null,n:ix.filter(function(n){return hit(W[n]);})});
+  }
+  return out;
+}
+function vocOccHTML(w,n,mi){
+  var V=VOC.V, os=w.o.filter(function(o){return mi==null||o[0]===mi;}), all=VOC.open[n], max=6, h='';
+  os.forEach(function(o,k){ if(k>=max&&!all) return;
+    h+='<a href="#'+V.ids[o[0]]+'" data-mi="'+o[0]+'" data-idx="'+o[1]+'" title="回到這一句">'+(mi==null?esc(V.names[o[0]])+' ':'')+'第 '+o[2]+' 句</a>'; });
+  if(os.length>max&&!all) h+='<button type="button" class="vmore" data-n="'+n+'">＋另外 '+(os.length-max)+' 句</button>';
+  return h;
+}
+function vocWordHTML(w,n,mi){
+  return '<div class="vw" id="vw'+n+'" data-n="'+n+'">'+
+    '<button type="button" class="kplay" data-a="'+w.a+'" aria-label="播放 '+esc(w.i)+(w.w?'':'（整句）')+'" title="'+(w.w?'單詞標準音':'含這個詞的整句標準音')+'"'+(w.a<0?' disabled':'')+'>🔊</button>'+
+    '<div class="vhead"><span class="vi">'+markIAST(w.i)+'</span><span class="vd" lang="sa">'+esc(w.d)+'</span><span class="vs" lang="sa-Sidd">'+esc(vocSid(w))+'</span><span class="zy vz">'+vocZy(w.z)+'</span></div>'+
+    '<span class="vf">'+w.f+' 次・'+(w.w?'單詞音':'整句音')+'</span>'+
+    '<div class="vm">'+esc(w.m)+(w.l?'<span class="vlem">（'+markIAST(w.l)+'）</span>':'')+(w.c==='低'?'<span class="vlow" title="詞義待確認">待確認</span>':'')+'</div>'+
+    '<div class="vocc">'+vocOccHTML(w,n,mi)+'</div></div>';
+}
+function vocRenderList(){
+  var P=document.getElementById('vocPanel'), V=VOC.V, groups=vocList(), tot=0, shown=0, h='';
+  groups.forEach(function(g){tot+=g.n.length;});
+  if(VOC.back!=null){ var pos=0, found=-1; groups.forEach(function(g){g.n.forEach(function(n){ if(n===VOC.back&&found<0) found=pos; pos++; });}); if(found>=VOC.lim) VOC.lim=found+20; }
+  groups.forEach(function(g){ if(shown>=VOC.lim) return;
+    if(g.h) h+='<div class="vgh">'+esc(g.h)+'（'+g.n.length+' 詞）</div>';
+    g.n.forEach(function(n){ if(shown>=VOC.lim) return; shown++; h+=vocWordHTML(V.w[n],n,g.h?g.mi:null); }); });
+  P.querySelector('.vcount').textContent=(VOC.q||VOC.mf>=0?'找到 '+tot+' 個詞':'共 '+V.w.length+' 個詞')+(shown<tot?'・顯示 '+shown+' 個':'');
+  var L=P.querySelector('.vlist'); L.innerHTML=h||'<div class="vnone">找不到符合的詞語</div>';
+  if(shown<tot) L.insertAdjacentHTML('beforeend','<button type="button" class="vmorebtn">顯示更多（還有 '+(tot-shown)+' 個）</button>');
+  if(VOC.back!=null){ var e=document.getElementById('vw'+VOC.back); VOC.back=null;
+    if(e){ setTimeout(function(){ e.scrollIntoView({block:'center'}); e.classList.add('flash'); setTimeout(function(){e.classList.remove('flash');},2400); },30); } }
+}
+function vocListUI(){
+  var P=document.getElementById('vocPanel'), V=VOC.V;
+  P.innerHTML='<div class="vbar"><input type="search" id="vocQ" placeholder="搜尋：羅馬拼音（可不打符號）、天城體、中文意思" aria-label="搜尋詞語" value="'+esc(VOC.q)+'">'+
+    '<select id="vocSort" aria-label="排序"><option value="freq">依出現次數</option><option value="alpha">依梵文字母</option><option value="mantra">依咒語</option></select>'+
+    '<select id="vocMf" aria-label="咒語"><option value="-1">全部咒語</option>'+V.names.map(function(nm,i){return '<option value="'+i+'">'+esc(nm)+'</option>';}).join('')+'</select></div>'+
+    '<p class="vcount"></p><div class="vlist"></div>';
+  P.querySelector('#vocSort').value=VOC.sort; P.querySelector('#vocMf').value=String(VOC.mf);
+  var tm=0;
+  P.querySelector('#vocQ').addEventListener('input',function(e){ clearTimeout(tm); tm=setTimeout(function(){ VOC.q=e.target.value; VOC.lim=60; vocRenderList(); },120); });
+  P.querySelector('#vocSort').onchange=function(e){ VOC.sort=e.target.value; VOC.lim=60; vocSaveUI(); vocRenderList(); };
+  P.querySelector('#vocMf').onchange=function(e){ VOC.mf=+e.target.value; VOC.lim=60; vocRenderList(); };
+  P.querySelector('.vlist').addEventListener('click',function(e){
+    var b=e.target.closest('.kplay'); if(b){ vocPlay(+b.dataset.a,b); return; }
+    var a=e.target.closest('.vocc a'); if(a){ e.preventDefault(); vocGo(+a.dataset.mi,+a.dataset.idx,+a.closest('.vw').dataset.n); return; }
+    var m=e.target.closest('.vmore'); if(m){ VOC.open[m.dataset.n]=1; var wv=m.closest('.vw'), n=+wv.dataset.n, g=wv.previousElementSibling, mi=null;
+      while(g&&!g.classList.contains('vgh')) g=g.previousElementSibling;
+      if(g&&VOC.sort==='mantra'){ var nm=g.textContent.replace(/（.*$/,''); mi=VOC.V.names.indexOf(nm); if(mi<0) mi=null; }
+      wv.querySelector('.vocc').innerHTML=vocOccHTML(VOC.V.w[n],n,mi); return; }
+    if(e.target.closest('.vmorebtn')){ VOC.lim+=100; vocRenderList(); }
+  });
+  vocRenderList();
+}
+// ---- 🎧 聽音練習 (SRS) ----
+function vocItems(){
+  var st=VOC.st, d=st.settings.dirs, out=[];
+  VOC.V.w.forEach(function(w,n){
+    if(d.vl&&w.w) out.push({k:'vocab:vl:'+w.i,dir:'vl',n:n,w:w});
+    if(d.vm) out.push({k:'vocab:vm:'+w.i,dir:'vm',n:n,w:w}); });
+  return out;
+}
+function vocQueue(t){
+  var st=VOC.st, k=AlphaSRS.dayKey(t); if(st.today.day!==k) st.today={day:k,n:0};
+  var due=[],learn=[],ahead=[],fresh=[], it=vocItems();
+  it.forEach(function(x){ var c=st.cards[x.k]; if(!c||!c.seen){fresh.push(x); return;}
+    if(c.due<=t)(c.reps>0?due:learn).push(x); else if(c.reps===0&&c.due<=t+20*6e4) ahead.push(x); });
+  var by=function(a,b){return st.cards[a.k].due-st.cards[b.k].due;}; due.sort(by); learn.sort(by); ahead.sort(by);
+  var left=Math.max(0,(+st.settings.newPerDay||0)-st.today.n);
+  return {due:due,learn:learn,ahead:ahead,fresh:fresh.slice(0,left),newLeft:left,all:it};
+}
+function vocPick(Q){ var l=Q.due.concat(Q.learn,Q.fresh); if(!l.length) l=Q.ahead; var li=VOC.lastK?VOC.lastK.split(':').slice(2).join(':'):null;
+  return l.filter(function(y){return y.w.i!==li;})[0]||l.filter(function(y){return y.k!==VOC.lastK;})[0]||l[0]||null; }
+function vocShuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function vocOpts(x){
+  var W=VOC.V.w, me=x.w, pool, pick=[];
+  if(x.dir==='vl'){
+    pool=W.filter(function(w){return w.w&&w!==me&&w.d!==me.d;});
+    var near=pool.filter(function(w){return w.i[0]===me.i[0]||Math.abs(w.d.length-me.d.length)<=1;});
+    pick=vocShuffle(near.slice()).slice(0,3); if(pick.length<3) pick=pick.concat(vocShuffle(pool.filter(function(w){return pick.indexOf(w)<0;})).slice(0,3-pick.length));
+  } else {
+    var seen={}; seen[me.m]=1;
+    pool=[]; var lo=Math.max(0,x.n-60), hi=Math.min(W.length,x.n+60);
+    for(var n=lo;n<hi;n++){ var w=W[n]; if(w===me||seen[w.m]||w.m.indexOf(me.m)>=0||me.m.indexOf(w.m)>=0||/意義不明/.test(w.m)) continue; pool.push(w); }
+    vocShuffle(pool).forEach(function(w){ if(pick.length<3&&!seen[w.m]){ seen[w.m]=1; pick.push(w);} });
+  }
+  return vocShuffle(pick.concat([me]));
+}
+function vocSug(ok,rp,ms){return typeof asrsQzSug==='function'?asrsQzSug(ok,rp,ms):(!ok?0:(rp>0||ms>8000)?3:4);}
+function vocWhen(t){return typeof asrsWhen==='function'?asrsWhen(t):'';}
+function vocQG(){return typeof ASRS_QG!=='undefined'?ASRS_QG:[[0,'不會','again','猜的'],[3,'模糊','hard'],[4,'會','good'],[5,'很熟','easy']];}
+function vocSrsUI(){
+  var P=document.getElementById('vocPanel'), t=AlphaSRS.now(), Q=vocQueue(t);
+  if(!VOC.cur||!VOC.mc||VOC.mc.ans==null){ VOC.cur=vocPick(Q); if(!VOC.mc||!VOC.cur||VOC.mc.k!==VOC.cur.k) VOC.mc=null; }
+  var x=VOC.cur, st=VOC.st, seen=Q.all.filter(function(y){return st.cards[y.k]&&st.cards[y.k].seen;}).length;
+  var top='<div class="vqtop"><span>到期 '+(Q.due.length+Q.learn.length)+'・今天新卡 '+st.today.n+' / '+st.settings.newPerDay+'</span><span>已學 '+seen+' / '+Q.all.length+' 張</span></div>';
+  var set='<details class="vqset"><summary>練習設定</summary>'+['vl','vm'].map(function(d){return '<label><input type="checkbox" data-dir="'+d+'"'+(st.settings.dirs[d]?' checked':'')+'> '+VOC_DIRN[d]+'</label>';}).join('')+
+    '<label>每天新卡 <input type="number" id="vocNew" min="0" max="99" value="'+st.settings.newPerDay+'"></label><div class="vqhint" style="text-align:left">複習紀錄只存在這台裝置的瀏覽器裡（vocabSRS.v1，和字母練習分開）。</div></details>';
+  if(!x){
+    var nd=null; Q.all.forEach(function(y){var c=st.cards[y.k]; if(c&&c.seen&&c.due>t&&(nd===null||c.due<nd)) nd=c.due;});
+    P.innerHTML='<div class="vqz">'+top+'<div class="vqdone">🎉 今天的練習完成了'+(nd?'<br><small>下一張到期：'+vocWhen(nd)+'</small>':'')+'<br><button type="button" id="vocMoreNew" style="margin-top:12px">再學 5 張新卡</button></div>'+set+'</div>';
+    vocSetBind(P); var mb=P.querySelector('#vocMoreNew'); if(mb) mb.onclick=function(){ st.settings.newPerDay=(+st.settings.newPerDay||0)+5; vocSave(); vocSrsUI(); };
+    return;
+  }
+  if(!VOC.mc) VOC.mc={k:x.k,opts:vocOpts(x),t0:0,rp:0,ans:null};
+  var mc=VOC.mc, w=x.w, done=mc.ans!=null, h='<div class="vqz" id="vocQz">'+top;
+  if(!done){
+    h+='<div class="vqcard"><button type="button" class="kplay big" id="vocQPlay" aria-label="播放（再聽一次）">🔊</button>'+
+      (x.dir==='vm'?'<div class="vqw"><span class="vi">'+markIAST(w.i)+'</span><span class="vd" lang="sa">'+esc(w.d)+'</span><span class="zy vz">'+vocZy(w.z)+'</span></div><div class="vqh">選出這個詞的意思'+(w.w?'':'（播放的是含這個詞的整句）')+'</div>'
+        :'<div class="vqh">聽音，選出聽到的詞</div>')+'<div class="vqhint">點 🔊 可以再聽一次</div></div>';
+  } else {
+    var a=mc.ans, pk=VOC.V.w[a.pick];
+    h+='<div class="kres '+(a.ok?'ok':'bad')+'" role="status"><span class="kqh kresh">'+(a.ok?'✓ 答對了':'✗ 答錯了')+'</span>'+
+      (a.ok?'':'<span class="kans">你選 '+(x.dir==='vl'?markIAST(pk.i):esc(pk.m))+'</span>')+'<button type="button" class="kplay kmcplay" id="vocQPlay" aria-label="再聽一次">🔊</button></div>';
+  }
+  h+='<div class="vopts" role="group" aria-label="選項">'+mc.opts.map(function(o,k){
+    var n=VOC.V.w.indexOf(o), cls='vopt'; if(done){ if(o===w) cls+=' ok'; else if(n===mc.ans.pick) cls+=' bad'; else cls+=' dim'; }
+    var body=x.dir==='vl'?'<span class="vd" lang="sa">'+esc(o.d)+'</span>'+(done?'<small>'+markIAST(o.i)+'</small>':''):esc(o.m)+(done?'<small>'+markIAST(o.i)+'</small>':'');
+    return '<button type="button" class="'+cls+'" data-n="'+n+'"'+(done?' disabled':'')+'><kbd class="kkey">'+(k+1)+'</kbd>'+body+'</button>'; }).join('')+'</div>';
+  if(done){
+    h+='<div class="vlist">'+vocWordHTML(w,x.n,null)+'</div>';
+    var c=st.cards[x.k];
+    if(!mc.ans.ok) h+='<div class="kgrade kqgrade"><button type="button" id="vocNext" class="kshow">下一張 ›<small>已記為「不會」・下次：'+vocWhen(c.due)+'（Space）</small></button></div>';
+    else h+='<div class="kgrade kqgrade">'+vocQG().map(function(g,k){var sg=g[0]===mc.ans.q;
+      return '<button type="button" class="kg kg-'+g[2]+(sg?' sug':'')+'" data-q="'+g[0]+'"><kbd class="kkey">'+(k+1)+'</kbd>'+g[1]+(g[3]?'<span class="kgx">（'+g[3]+'）</span>':'')+'<small>'+AlphaSRS.preview(mc.pre,g[0],t)+'</small></button>';}).join('')+
+      '</div><div class="vqhint">答對了，自己評一下熟不熟（框起來的是建議，按 Space 選它）。</div>';
+  } else h+='<div class="vqhint">先聽，再點選項或按 1–4。</div>';
+  P.innerHTML=h+set+'</div>';
+  vocSetBind(P);
+  var pb=P.querySelector('#vocQPlay');
+  pb.onclick=function(){ if(mc.ans==null&&mc.t0) mc.rp++; vocPlay(w.a,pb); if(!mc.t0) mc.t0=AlphaSRS.now(); };
+  if(!done){
+    if(!mc.t0){ mc.t0=AlphaSRS.now(); setTimeout(function(){ if(VOC.mc===mc&&mc.ans==null&&pb.isConnected) vocPlay(w.a,pb); },60); }
+    P.querySelectorAll('.vopt').forEach(function(b){ b.onclick=function(){ vocAnswer(+b.dataset.n); }; });
+  } else {
+    P.querySelectorAll('.kqgrade button').forEach(function(b){ b.onclick=function(){ vocDone(b.dataset.q!=null?+b.dataset.q:0); }; });
+    P.querySelectorAll('.vlist .kplay').forEach(function(b){ b.onclick=function(){ vocPlay(+b.dataset.a,b); }; });
+    P.querySelectorAll('.vlist .vocc a').forEach(function(a){ a.onclick=function(e){ e.preventDefault(); vocGo(+a.dataset.mi,+a.dataset.idx,x.n); }; });
+  }
+}
+function vocSetBind(P){
+  P.querySelectorAll('.vqset input[data-dir]').forEach(function(cb){ cb.onchange=function(){ VOC.st.settings.dirs[cb.dataset.dir]=cb.checked; vocSave(); VOC.cur=null; VOC.mc=null; vocSrsUI(); }; });
+  var nw=P.querySelector('#vocNew'); if(nw) nw.onchange=function(){ VOC.st.settings.newPerDay=Math.max(0,Math.min(99,+nw.value||0)); vocSave(); vocSrsUI(); };
+  var d=P.querySelector('.vqset'); if(d){ d.open=!!VOC.setOpen; d.ontoggle=function(){VOC.setOpen=d.open;}; }
+}
+function vocAnswer(n){
+  var x=VOC.cur, mc=VOC.mc; if(!x||!mc||mc.ans!=null) return;
+  var ok=VOC.V.w[n]===x.w, now=AlphaSRS.now(), ms=now-(mc.t0||now);
+  mc.ans={pick:n,ok:ok,q:vocSug(ok,mc.rp,ms),ms:ms}; mc.at=Date.now();
+  mc.pre=VOC.st.cards[x.k]?JSON.parse(JSON.stringify(VOC.st.cards[x.k])):undefined;
+  if(!ok){ AlphaSRS.grade(VOC.st,x,0,now); vocSave(); mc.graded=true; (window.__vocLog=window.__vocLog||[]).push([x.k,0]); }
+  vocSrsUI();
+  var pb=document.getElementById('vocQPlay'); if(pb) vocPlay(x.w.a,pb);
+}
+function vocDone(q){
+  var x=VOC.cur, mc=VOC.mc; if(!x||!mc) return;
+  if(!mc.graded){ AlphaSRS.grade(VOC.st,x,q,AlphaSRS.now()); vocSave(); (window.__vocLog=window.__vocLog||[]).push([x.k,q]); }
+  VOC.lastK=x.k; VOC.cur=null; VOC.mc=null; stopAll(); vocSrsUI();
+  var z=document.getElementById('vocQz'); if(z){ var r=z.getBoundingClientRect(), tp=(typeof asrsTop==='function'?asrsTop():0); if(r.top<tp) window.scrollBy(0,r.top-tp-6); }
+}
+if(typeof document!=='undefined') document.addEventListener('keydown',function(e){
+  if(e.ctrlKey||e.metaKey||e.altKey||e.repeat||VOC.mode!=='srs') return;
+  var z=document.getElementById('vocQz'); if(!z||!z.isConnected) return;
+  var tg=e.target, tn=tg&&tg.tagName||''; if(tn==='INPUT'||tn==='TEXTAREA'||tn==='SELECT'||(tg&&tg.isContentEditable)) return;
+  var mc=VOC.mc; if(!mc||!VOC.cur) return;
+  var k=e.key===' '||e.key==='Spacebar'?' ':e.key;
+  if((k===' '||k==='Enter')&&tn==='BUTTON'&&z.contains(tg)) return;
+  if(mc.ans!=null&&Date.now()-(mc.at||0)<250) return;
+  var act=typeof asrsQzKey==='function'?asrsQzKey(k,mc.ans!=null,mc.ans&&mc.ans.ok,mc.ans&&mc.ans.q):null; if(!act) return;
+  e.preventDefault(); if(tn==='BUTTON') tg.blur();
+  if(act.pick!=null){ var b=z.querySelectorAll('.vopt')[act.pick]; if(b) vocAnswer(+b.dataset.n); }
+  else if(act.next) vocDone(0);
+  else if(act.grade!=null) vocDone(act.grade);
+});
+// ---- mount ----
+function vocShow(){
+  document.querySelectorAll('#vocSeg button').forEach(function(b){ var on=b.dataset.mode===VOC.mode; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on); });
+  if(VOC.mode==='srs'){ if(VOC.mc&&VOC.mc.ans==null) VOC.mc.t0=0; vocSrsUI(); } else vocListUI();
+}
+function vocDecode(V){                       // chunk rows are positional (vocab.py): -> objects, once
+  if(V._d) return V;
+  V.w=V.w.map(function(e){return {i:e[0],d:e[1],z:e[2],m:e[3],f:e[4],a:e[5],o:e[6].map(function(x){var mi=Math.floor(x/1000),ix=x%1000;return [mi,ix,ix+1];}),w:e[7]||0,c:e[8]||'',l:e[9]||''};});
+  V._d=1; return V;}
+function vocabMount(m){
+  VOC.V=vocDecode(m.vocab); if(!VOC.st) VOC.st=vocLoad();
+  if(VOC.back!=null) VOC.mode='list';
+  var box=document.createElement('div'); box.className='voc'; box.id='vocBox';
+  box.innerHTML='<div class="vseg" id="vocSeg" role="group" aria-label="詞語表模式"><button type="button" data-mode="list">📖 詞語表</button><button type="button" data-mode="srs">🎧 聽音練習</button></div>'+
+    '<div id="vocPanel"></div><p class="vfoot">共 '+m.vocab.w.length+' 個詞，取自往生咒、心經咒、楞嚴心咒、藥師灌頂真言、大悲咒（77 行）、楞嚴咒（完整梵本）。🔊：有單獨成句的詞播放那一句的標準音；其他詞播放第一個含這個詞的整句（跟著上方的速度）。'+
+    '詞義：本站各句的詞義色標；其餘依 Monier-Williams《梵英辭典》、Edgerton《佛教混合梵語辭典》與本站句義補上，標「待確認」的是學界也沒有定論的咒語用字。</p>';
+  cardsEl.appendChild(box);
+  box.querySelectorAll('#vocSeg button').forEach(function(b){ b.onclick=function(){ if(VOC.mode===b.dataset.mode) return; stopAll(); VOC.mode=b.dataset.mode; vocSaveUI(); vocShow(); }; });
+  vocShow();
+}
+if(typeof window!=='undefined'){ window.__vocab=1; window.__voc={VOC:VOC,audio:function(){return alphaAudio;},rate:function(){return rate;},stop:function(){stopAll();}}; }
+
 function stopAll(){
-  playAllToken++; clearWaits();
+  playAllToken++; RUN=null; PZ.on=false; PZ.list=[]; PZ.hooks=[]; PZ.defer=[]; clearWaits();
   if(alphaAudio){ try{alphaAudio.pause();}catch(e){} document.querySelectorAll('.acell.playing').forEach(function(e){e.classList.remove('playing');}); }
   var cancel=regionCancel; regionCancel=null;
   audios.forEach(function(a){
@@ -1756,18 +2139,19 @@ function stopAll(){
   if(cancel) cancel();
   audios.forEach(function(a){ if(a && !a.paused) a.pause(); });
   document.querySelectorAll('audio').forEach(function(a){ if(!a.paused) a.pause(); });
-  setPlaying(null); document.getElementById('stopAll').disabled=true;
+  setPlaying(null); document.getElementById('stopAll').disabled=true; pzLabel();
 }
 function scrollCard(u){var e=document.querySelector('.card[data-unit="'+u+'"]'); if(e)e.scrollIntoView({behavior:'smooth',block:'center'});}
 document.getElementById('playAll').onclick=async function(){
-  stopAll(); var tok=++playAllToken; document.getElementById('stopAll').disabled=false;
+  if(RUN&&RUN.kind==='all'){ togglePause(); return; }
+  var tok=runStart('all');
   do{ await playSeamless(tok); } while(loopOn && tok===playAllToken);
-  if(tok===playAllToken) document.getElementById('stopAll').disabled=true;
+  runEnd(tok);
 };
 // Line-by-line pass keeps a 2.5s repeat gap. The second pass is the same join as 全部播放:
 // no inter-line gap, speech trimmed, next clip preloaded. Both passes use #speedSeg.
 async function followAlong(){
-  stopAll(); var tok=++playAllToken; document.getElementById('stopAll').disabled=false;
+  var tok=runStart('follow');
   var ready=ensureSpeechBounds();
   var first=true;
   do{
@@ -1788,9 +2172,9 @@ async function followAlong(){
     await playSeamless(tok);
     if(!(await wait(500))||tok!==playAllToken)return;
   } while(loopOn && tok===playAllToken);
-  document.getElementById('stopAll').disabled=true;
+  runEnd(tok);
 }
-document.getElementById('followBtn').onclick=followAlong;
+document.getElementById('followBtn').onclick=function(){ if(RUN&&RUN.kind==='follow'){ togglePause(); return; } followAlong(); };
 function setLoop(v){
   loopOn=!!v; var b=document.getElementById('loopBtn');
   b.classList.toggle('on',loopOn); b.setAttribute('aria-checked',loopOn?'true':'false');
@@ -1799,6 +2183,13 @@ function setLoop(v){
 setLoop(loopOn);
 document.getElementById('loopBtn').onclick=function(){ setLoop(!loopOn); };
 document.getElementById('stopAll').onclick=stopAll;
+document.addEventListener('keydown',function(e){   // player2: Space = 暫停／繼續 while something is playing
+  if(!RUN||e.repeat||e.ctrlKey||e.metaKey||e.altKey) return;
+  if(e.key!==' '&&e.key!=='Spacebar') return;
+  var tg=e.target, tn=tg&&tg.tagName||'';
+  if(tn==='INPUT'||tn==='TEXTAREA'||tn==='SELECT'||tn==='BUTTON'||tn==='A'||(tg&&tg.isContentEditable)) return;
+  e.preventDefault(); togglePause();
+});
 document.querySelectorAll('#speedSeg button').forEach(function(b){
   b.onclick=function(){
     rate=parseFloat(b.dataset.rate);
@@ -2100,7 +2491,7 @@ document.querySelectorAll('#viewSeg button').forEach(function(b){
 document.querySelectorAll('#lyReadSeg button').forEach(function(b){
   b.onclick=function(){ if(lyReading===b.dataset.r)return; var pr=lyReading; lyReading=b.dataset.r; try{localStorage.setItem('lyReading',lyReading);}catch(e){} if(curMantra&&curMantra.ly)keepPlace(b,(pr==='bk'||lyReading==='bk')?'btn':'unit',function(){renderMantra(curMantra.id);}); };
 });
-var WGK={"240":";--k:.73;--ka:.61;--kb:.45;--ks:.56","265":";--k:.65;--ka:.55;--kb:.43;--ks:.54","300":";--k:.52;--ka:.45;--kb:.39;--ks:.47","330":";--k:.67;--ka:.58;--kb:.46;--ks:.59"};
+var WGK={"240":";--k:.73;--ka:.61;--kb:.45;--ks:.56","265":";--k:.78;--ka:.55;--kb:.43;--ks:.54","300":";--k:.78;--ka:.45;--kb:.39;--ks:.47","330":";--k:.67;--ka:.58;--kb:.46;--ks:.59"};
 // ---- next11 preview (2026-10-31, River): 詞義色標 A2 — word groups from each row's own 中文意思 (r.wg, built by next11.py) ----
 // r.wg = {s:'seg|seg|…' (IAST letters), m:[word index per seg, -1 = unmarked], w:[[gloss, term, hue, highlight, nth], …], u:'unsure note'}
 var WG=(function(){
@@ -2142,6 +2533,7 @@ var WG=(function(){
   function marks(card,r){   // 中文意思: the 「梵文 中文」 pair (and the gloss in the head clause) in the word's hue
     var mean=card.querySelector('.grid .mean'); if(!mean) return; var txt=mean.textContent, M=[];
     r.wg.w.forEach(function(e,i){
+      if(!e[3]) return;   // player2: carried from another row of this mantra, no pair in this 中文意思
       var at=-1; for(var n=0;n<(e[4]||1);n++){at=txt.indexOf(e[3],at+1); if(at<0) break;}
       if(at>=0) M.push({a:at,b:at+e[3].length,i:i,h:e[2]}); else rep.push(card.id+' no highlight '+e[3]);
       var head=txt.split('（')[0], g=head.indexOf(e[0]); if(e[3]!==e[0]&&g>=0) M.push({a:g,b:g+e[0].length,i:i,h:e[2]});});
