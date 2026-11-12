@@ -114,6 +114,11 @@ html:not([data-view="srs"]) #srs-view{display:none}
 #srs-cloze .result.ok{color:#2f6b3a}
 #srs-cloze .result.bad{color:#b5482a}
 #srs-view .grades button.suggest{outline:3px solid #f0a33a;outline-offset:2px}
+#srs-cloze .choices button.miss{border-color:#b5482a;color:#b5482a}
+#srs-autograde{height:5px;margin-top:8px;background:#e6ebf2;border-radius:3px;overflow:hidden}
+#srs-autograde .bar{height:100%;width:100%;background:#2f5d8a;transform-origin:left center}
+#srs-autograde.run .bar{animation:srs-autograde 1.5s linear forwards}
+@keyframes srs-autograde{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 #srs-cloze-mode{font-size:16px;border:1px solid #d5dbe3;border-radius:8px;padding:4px 6px;color:#222;background:#fff}
 #srs-view .prompt.lang-zh{font-size:1.45em;color:#b5482a}
 #srs-view .prompt .say{font-size:.7em}
@@ -219,6 +224,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
     </label>
     <label class="limit autoplay"><input id="srs-autoplay" type="checkbox" checked> 翻開自動朗讀</label>
     <label class="limit cloze-on"><input id="srs-cloze-on" type="checkbox" checked> 例句挖空練習</label>
+    <label class="limit autograde"><input id="srs-autograde-on" type="checkbox" checked> 自動評分</label>
     <label class="limit">題型
       <select id="srs-cloze-mode" aria-label="題型">
         <option value="auto">自動</option>
@@ -269,6 +275,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
       <button type="button" class="good" data-grade="good"><span class="k">3</span>Good<small></small></button>
       <button type="button" class="easy" data-grade="easy"><span class="k">4</span>Easy<small></small></button>
     </div>
+    <div id="srs-autograde" hidden><div class="bar"></div></div>
   </section>
   <section id="srs-done" class="done" hidden>
     <p class="lead">這輪沒有待練習的卡片</p>
@@ -305,7 +312,7 @@ function cardFields(c){return {word:c.dataset.word,zh:c.dataset.zh,ex:c.dataset.
 async function playSequence(fields,id){if(fields.el)mark(fields.el);var steps=[function(){return utter(fields.word)},function(){return utterZh(fields.zh)},function(){return utter(fields.ex)},function(){return utterZh(fields.tr)}];for(var i=0;i<steps.length;i++){if(id!==run)return;await steps[i]();if(id!==run)return;if(i<steps.length-1)await wait(500,id)}}
 function playOne(fields){stop();var id=run;setPlayStop(true);playSequence(fields,id).then(function(){if(id===run){mark(null);setPlayStop(false)}})}
 window.VOCAB_PLAY_CARD=playOne
-window.VOCAB_PLAY_LINES=function(lines,el){stop();var id=run;setPlayStop(true);if(el)mark(el);(async function(){for(var i=0;i<lines.length;i++){if(id!==run)return;var line=lines[i]||{};if(!line.text)continue;if(line.lang==='zh')await utterZh(line.text);else await utter(line.text);if(id!==run)return;if(i<lines.length-1)await wait(500,id)}if(id===run){mark(null);setPlayStop(false)}})()}
+window.VOCAB_PLAY_LINES=function(lines,el,done){stop();var id=run;setPlayStop(true);if(el)mark(el);(async function(){for(var i=0;i<lines.length;i++){if(id!==run)return;var line=lines[i]||{};if(!line.text)continue;if(line.lang==='zh')await utterZh(line.text);else await utter(line.text);if(id!==run)return;if(i<lines.length-1)await wait(500,id)}if(id===run){mark(null);setPlayStop(false);if(typeof done==='function')done()}})()}
 window.VOCAB_STOP=stop
 function setPlayStop(on, index, total){var b=document.getElementById('play-stop');if(!b)return;b.hidden=!on;if(!on)return;var label='■ Stop';if(index&&total)label+=' · '+index+'/'+total;b.textContent=label;b.setAttribute('aria-label',label)}
 function stop(){run++;if(S)S.cancel();mark(null);setPlayStop(false)}
@@ -2150,6 +2157,16 @@ document.getElementById('play-stop').addEventListener('click',stop);
     if (clozeBox && document.activeElement !== clozeBox) clozeBox.checked = clozeEnabled();
     var modeBox = document.getElementById('srs-cloze-mode');
     if (modeBox && document.activeElement !== modeBox) modeBox.value = clozeMode();
+    var gradeBox = document.getElementById('srs-autograde-on');
+    if (gradeBox && document.activeElement !== gradeBox) gradeBox.checked = autoGradeOn();
+  }
+
+  function autoGradeOn() {
+    try {
+      var v = localStorage.getItem('vocabSrsAutoGrade');
+      if (v == null || v === '') return true;
+      return v === '1';
+    } catch (e) { return true; }
   }
 
   function fillPrompt(entry, dir) {
@@ -2238,10 +2255,96 @@ document.getElementById('play-stop').addEventListener('click',stop);
   function paintGrades() {
     if (!active) return;
     var days = nextDays(view(active.word));
+    var task = active.task;
     el.grades.querySelectorAll('button').forEach(function (b) {
       b.querySelector('small').textContent = formatInterval(days[b.dataset.grade]);
-      var suggest = b.dataset.grade === 'again' && active.task && active.task.correct === false;
+      var suggest = false;
+      if (task && isClozeKey(active.word) && task.shape !== 'sentence') {
+        if (autoGradeOn() && task.autoRating) suggest = b.dataset.grade === task.autoRating;
+        else suggest = b.dataset.grade === 'again' && task.correct === false;
+      }
       b.classList.toggle('suggest', suggest);
+    });
+  }
+
+  var gradeToken = 0;
+  var autoTimer = null;
+
+  function hideAutoBar() {
+    var bar = document.getElementById('srs-autograde');
+    if (!bar) return;
+    bar.hidden = true;
+    bar.classList.remove('run');
+  }
+
+  function cancelAutoGrade() {
+    gradeToken++;
+    if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
+    hideAutoBar();
+  }
+
+  function answerChars(task) {
+    if (task.spans && task.spans.length && task.spec) {
+      return task.spans.map(function (sp) { return task.spec.sentence.slice(sp.start, sp.end); }).join(' ').length;
+    }
+    return String((task.accepts && task.accepts[0]) || '').length;
+  }
+
+  function clozeAutoRating(task) {
+    if (!task.matched || task.dirty) return 'again';
+    var secs = ((task.firstAt || Date.now()) - (task.shownAt || task.firstAt || Date.now())) / 1000;
+    var goodAt = 3;
+    var hardAt = 8;
+    if (task.shape === 'mature' || task.shape === 'word-type') {
+      var extra = Math.max(0, answerChars(task) - 4) * 0.5;
+      goodAt += extra;
+      hardAt += extra;
+    }
+    if (secs < goodAt) return 'easy';
+    if (secs <= hardAt) return 'good';
+    return 'hard';
+  }
+
+  function armAutoGrade() {
+    var task = active && active.task;
+    if (!task || !task.autoRating || task.shape === 'sentence' || !autoGradeOn()) return;
+    var token = ++gradeToken;
+    var key = active.word;
+    var rating = task.autoRating;
+    var bar = document.getElementById('srs-autograde');
+    if (bar) {
+      bar.hidden = false;
+      bar.classList.remove('run');
+      void bar.offsetWidth;
+      bar.classList.add('run');
+    }
+    autoTimer = setTimeout(function () {
+      autoTimer = null;
+      if (token !== gradeToken) return;
+      if (!active || active.word !== key || !active.revealed) return;
+      grade(rating);
+    }, 1500);
+  }
+
+  function afterClozeReveal() {
+    var task = active && active.task;
+    if (!task) return;
+    var lines = [
+      { lang: 'en', text: task.spec.speak },
+      { lang: 'zh', text: task.spec.speakTr }
+    ];
+    var speak = autoplayOn() && typeof window.VOCAB_PLAY_LINES === 'function';
+    var arm = task.shape !== 'sentence' && autoGradeOn() && task.autoRating;
+    if (!speak) {
+      if (arm) armAutoGrade();
+      return;
+    }
+    var token = ++gradeToken;
+    var key = active.word;
+    window.VOCAB_PLAY_LINES(lines, el.study, function () {
+      if (!arm || token !== gradeToken) return;
+      if (!active || active.word !== key || !active.revealed) return;
+      armAutoGrade();
     });
   }
 
@@ -2326,6 +2429,8 @@ document.getElementById('play-stop').addEventListener('click',stop);
     el.show.hidden = true;
     el.back.hidden = true;
     el.cloze.hidden = false;
+    if (!active.revealed && !task.shownAt) task.shownAt = Date.now();
+    if (!active.revealed) hideAutoBar();
     el.clozeKind.textContent = '例句挖空 · ' + task.kindLabel + (task.note ? '（' + task.note + '）' : '');
     el.clozeHint.textContent = '';
     el.clozeResult.hidden = true;
@@ -2347,7 +2452,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
           var b = document.createElement('button');
           b.type = 'button';
           b.textContent = opt;
-          b.addEventListener('click', function () { submitCloze(opt); });
+          b.addEventListener('click', function () { onClozeChoice(opt, b); });
           el.clozeChoices.appendChild(b);
         });
       } else el.clozeChoices.hidden = true;
@@ -2370,28 +2475,74 @@ document.getElementById('play-stop').addEventListener('click',stop);
       fillClozeSentence(el.clozeSent, spec.sentence, task.spans, 'mark');
       el.clozeHint.textContent = task.hint || '';
       el.clozeResult.hidden = false;
-      el.clozeResult.classList.add(task.correct ? 'ok' : 'bad');
-      el.clozeResult.textContent = task.correct ? '✓ 正確' : ('✗ 正確答案：' + task.spans.map(function (sp) { return spec.sentence.slice(sp.start, sp.end); }).join(' … '));
+      var matched = task.matched != null ? task.matched : !!task.correct;
+      el.clozeResult.classList.add(matched ? 'ok' : 'bad');
+      if (!matched) el.clozeResult.textContent = '✗ 正確答案：' + task.spans.map(function (sp) { return spec.sentence.slice(sp.start, sp.end); }).join(' … ');
+      else el.clozeResult.textContent = task.dirty ? '✓ 正確（改過答案）' : '✓ 正確';
     }
     el.grades.hidden = false;
     paintGrades();
+  }
+
+  function finishCloze(task) {
+    task.autoRating = (task.shape === 'sentence' || !autoGradeOn()) ? null : clozeAutoRating(task);
+    task.correct = !!(task.matched && !task.dirty);
+    active.revealed = true;
+    paintCard();
+    afterClozeReveal();
+  }
+
+  function onClozeChoice(opt, btn) {
+    if (!active || !isClozeKey(active.word) || active.revealed) return;
+    var task = active.task;
+    if (!task) return;
+    if (!autoGradeOn()) { submitCloze(opt); return; }
+    if (!task.firstAt) task.firstAt = Date.now();
+    var ok = answersMatch(opt, task.accepts);
+    if (!ok) {
+      task.dirty = true;
+      if (btn) { btn.classList.add('miss'); btn.disabled = true; }
+      return;
+    }
+    task.matched = true;
+    finishCloze(task);
   }
 
   function submitCloze(value) {
     if (!active || !isClozeKey(active.word) || active.revealed) return;
     var task = active.task;
     if (!task) return;
-    if (task.shape === 'sentence') task.correct = null;
-    else task.correct = answersMatch(value, task.accepts);
-    active.revealed = true;
-    paintCard();
-    if (autoplayOn() && typeof window.VOCAB_PLAY_LINES === 'function') {
-      var spec = task.spec;
-      window.VOCAB_PLAY_LINES([
-        { lang: 'en', text: spec.speak },
-        { lang: 'zh', text: spec.speakTr }
-      ], el.study);
+    if (task.shape === 'sentence') {
+      task.matched = null;
+      task.dirty = false;
+      task.correct = null;
+      task.autoRating = null;
+      active.revealed = true;
+      paintCard();
+      afterClozeReveal();
+      return;
     }
+    if (!autoGradeOn()) {
+      task.matched = answersMatch(value, task.accepts);
+      task.dirty = false;
+      task.correct = task.matched;
+      task.autoRating = null;
+      active.revealed = true;
+      paintCard();
+      afterClozeReveal();
+      return;
+    }
+    if (!task.firstAt) task.firstAt = Date.now();
+    var ok = answersMatch(value, task.accepts);
+    if (!ok && !task.dirty) {
+      task.dirty = true;
+      el.clozeResult.hidden = false;
+      el.clozeResult.className = 'result bad';
+      el.clozeResult.textContent = '✗ 不對。改完再送出，這題會記為 Again。';
+      return;
+    }
+    task.matched = ok;
+    finishCloze(task);
   }
 
   function paintCard() {
@@ -2572,6 +2723,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
 
   function grade(rating) {
     if (!srsOn() || !active || !active.revealed) return;
+    cancelAutoGrade();
     if (typeof window.VOCAB_STOP === 'function') window.VOCAB_STOP();
     else if (S) { try { S.cancel(); } catch (e) {} }
     var word = active.word;
@@ -2671,6 +2823,10 @@ document.getElementById('play-stop').addEventListener('click',stop);
   document.getElementById('srs-autoplay').addEventListener('change', function () {
     try { localStorage.setItem('vocabSrsAutoplay', this.checked ? '1' : '0'); } catch (e) {}
     if (!this.checked && typeof window.VOCAB_STOP === 'function') window.VOCAB_STOP();
+  });
+  document.getElementById('srs-autograde-on').addEventListener('change', function () {
+    try { localStorage.setItem('vocabSrsAutoGrade', this.checked ? '1' : '0'); } catch (e) {}
+    if (!this.checked) cancelAutoGrade();
   });
   document.getElementById('srs-cloze-on').addEventListener('change', function () {
     try { localStorage.setItem('vocabSrsCloze', this.checked ? '1' : '0'); } catch (e) {}
