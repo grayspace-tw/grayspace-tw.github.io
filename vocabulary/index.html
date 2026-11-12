@@ -11,7 +11,11 @@ main{max-width:960px;margin:0 auto;padding:12px}h2{border-left:5px solid #2f5d8a
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
 .card{position:relative;background:#fff;border-radius:10px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
 .head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.num{background:#2f5d8a;color:#fff;border-radius:12px;padding:0 8px;font-size:.85em}
-.word{font-size:1.35em;font-weight:700}.word.split{font-weight:500}.word.split b{font-weight:800}.ipa{color:#666;font-family:"Lucida Sans Unicode","Arial Unicode MS",sans-serif}
+.head-break{flex-basis:100%;height:0}
+.word{font-size:clamp(1.5rem, 1.15rem + 1.1vw, 1.9rem);font-weight:700;min-width:0;overflow-wrap:anywhere;line-height:1.2}
+.syl{font-size:.95rem;font-weight:500;line-height:1.35;color:#6d7580;letter-spacing:.01em}
+.syl b{font-weight:800;color:#2f5d8a}
+.ipa{color:#666;font-family:"Lucida Sans Unicode","Arial Unicode MS",sans-serif}
 .zh{margin:6px 0;color:#b5482a}.forms{display:flex;gap:12px;flex-wrap:wrap;font-size:.9em;color:#444}
 .phrase{font-size:.9em;color:#2f6b3a;margin-top:4px}.ex{margin-top:8px;padding:8px;background:#f0f4f9;border-radius:6px}.tr{color:#666;font-size:.92em}
 .ex mark.hw{background:#ffe9a8;color:inherit;font-weight:700;border-radius:3px;padding:0 2px}
@@ -72,9 +76,10 @@ html:not([data-view="srs"]) #srs-view{display:none}
 #srs-view .practice,#srs-view .done{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
 #srs-view .meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:#888;font-size:.85em}
 #srs-view .prompt{margin:16px 0;font-size:2em;font-weight:700;text-align:center;overflow-wrap:anywhere}
-#srs-view .prompt .word{font-size:1em}
-#srs-view .prompt .word.split{font-weight:500}
-#srs-view .prompt .word.split b{font-weight:800}
+#srs-view .prompt .word{font-size:clamp(2.15rem, 1.85rem + 1.5vw, 2.6rem);font-weight:700;line-height:1.15}
+#srs-view .prompt .syl{display:block;margin-top:4px;font-size:1.05rem;font-weight:500;line-height:1.35}
+#srs-view #srs-word.word{font-size:clamp(1.5rem, 1.15rem + 1.1vw, 1.9rem)}
+#srs-back>.syl{margin:8px 0 0;padding-right:52px}
 #srs-view .prompt.lang-zh{font-size:1.45em;color:#b5482a}
 #srs-view .prompt .say{font-size:.7em}
 #srs-view .show{display:block;width:100%;margin-top:8px;border:none;border-radius:20px;padding:12px 18px;background:#2f5d8a;color:#fff;font-size:1.05em;font-weight:700;cursor:pointer;min-height:48px}
@@ -191,6 +196,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
     <button type="button" id="srs-show" class="show" aria-label="Show answer">顯示答案</button>
     <div id="srs-back" hidden>
       <div class="head"><span id="srs-word" class="word"></span></div>
+      <div id="srs-syl" class="syl" hidden></div>
       <div id="srs-ipa" class="ipa"></div>
       <div id="srs-zh" class="zh"></div>
       <div id="srs-forms" class="forms"></div>
@@ -323,26 +329,30 @@ document.getElementById('play-stop').addEventListener('click',stop);
   function headword(entry) {
     var span = document.createElement('span');
     span.className = 'word';
-    var syl = entry && entry.syllables;
-    var stress = entry && entry.stress;
-    if (syl && syl.length >= 3 && typeof stress === 'number' && stress >= 0 && stress < syl.length) {
-      span.classList.add('split');
-      syl.forEach(function (part, i) {
-        if (i) span.appendChild(document.createTextNode('\u00b7'));
-        if (i === stress) {
-          var b = document.createElement('b');
-          b.textContent = part;
-          span.appendChild(b);
-        } else {
-          span.appendChild(document.createTextNode(part));
-        }
-      });
-    } else {
-      span.textContent = (entry && entry.word) || '';
-    }
+    span.textContent = (entry && entry.word) || '';
     return span;
   }
   window.VOCAB_HEADWORD = headword;
+
+  function syllableLine(entry) {
+    var syl = entry && entry.syllables;
+    if (!syl || !syl.length) return null;
+    var span = document.createElement('span');
+    span.className = 'syl';
+    var stress = entry.stress;
+    syl.forEach(function (part, i) {
+      if (i) span.appendChild(document.createTextNode('\u00b7'));
+      if (typeof stress === 'number' && i === stress) {
+        var b = document.createElement('b');
+        b.textContent = part;
+        span.appendChild(b);
+      } else {
+        span.appendChild(document.createTextNode(part));
+      }
+    });
+    return span;
+  }
+  window.VOCAB_SYLLABLE = syllableLine;
 
   function cardAllButton() {
     var b = document.createElement('button');
@@ -557,6 +567,11 @@ document.getElementById('play-stop').addEventListener('click',stop);
     head.appendChild(el('span', 'num', String(w.num)));
     head.appendChild(headword(w));
     head.appendChild(say('sw', 'Play word'));
+    var syl = syllableLine(w);
+    if (syl) {
+      head.appendChild(el('span', 'head-break'));
+      head.appendChild(syl);
+    }
     head.appendChild(el('span', 'ipa', w.phonetics || ''));
     card.appendChild(head);
     card.appendChild(cardAllButton());
@@ -1524,6 +1539,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     show: document.getElementById('srs-show'),
     back: document.getElementById('srs-back'),
     backWord: document.getElementById('srs-word'),
+    backSyl: document.getElementById('srs-syl'),
     backIpa: document.getElementById('srs-ipa'),
     backZh: document.getElementById('srs-zh'),
     backForms: document.getElementById('srs-forms'),
@@ -1588,19 +1604,30 @@ document.getElementById('play-stop').addEventListener('click',stop);
       el.prompt.appendChild(window.VOCAB_HEADWORD(entry));
       el.prompt.appendChild(document.createTextNode(' '));
       el.prompt.appendChild(sayButton('word', 'Play word'));
+      var syl = window.VOCAB_SYLLABLE(entry);
+      if (syl) el.prompt.appendChild(syl);
     }
   }
 
   function fillHead(node, entry) {
-    node.textContent = '';
+    node.textContent = (entry && entry.word) || '';
     node.classList.remove('split');
-    var built = window.VOCAB_HEADWORD(entry);
-    if (built.classList.contains('split')) node.classList.add('split');
+  }
+
+  function fillSyl(node, entry) {
+    node.textContent = '';
+    var built = window.VOCAB_SYLLABLE ? window.VOCAB_SYLLABLE(entry) : null;
+    if (!built) {
+      node.hidden = true;
+      return;
+    }
     while (built.firstChild) node.appendChild(built.firstChild);
+    node.hidden = false;
   }
 
   function fillBack(entry, dir) {
     fillHead(el.backWord, entry);
+    fillSyl(el.backSyl, entry);
     el.backWord.appendChild(document.createTextNode(' '));
     el.backWord.appendChild(sayButton('word', 'Play word'));
     var prevCardPlay = el.back.querySelector('.sc');
