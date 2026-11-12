@@ -20,6 +20,15 @@ main{max-width:960px;margin:0 auto;padding:12px}h2{border-left:5px solid #2f5d8a
 .phrase{font-size:.9em;color:#2f6b3a;margin-top:4px}.ex{margin-top:8px;padding:8px;background:#f0f4f9;border-radius:6px}.tr{color:#666;font-size:.92em}
 .ex mark.hw{background:#ffe9a8;color:inherit;font-weight:700;border-radius:3px;padding:0 2px}
 .ex mark.also{background:transparent;color:#3d6b8a;font-weight:600;text-decoration:underline dotted;text-decoration-thickness:1px;text-underline-offset:2px;cursor:pointer}
+.ex .coloc{cursor:pointer}
+.ex .coloc.prep{background:#fff3cc;border-radius:4px;padding:0 1px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.ex .coloc.prep mark.hw{border-radius:3px 0 0 3px;padding:0 1px 0 2px}
+.ex .coloc.prep mark.prep{background:#fff3cc;color:inherit;font-weight:600;border-radius:0 3px 3px 0;padding:0 2px 0 0}
+.ex .coloc.phrase{background:rgba(47,107,58,.08);border-bottom:2px solid #2a7a45;box-shadow:inset 1.5px 0 0 #2a7a45,inset -1.5px 0 0 #2a7a45;padding:0 2px 1px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.ex .coloc.phrase mark.hw{border-radius:3px}
+.ex .coloc .linkdot{display:inline-block;width:.38em;height:.38em;margin-left:1px;border-radius:50%;background:#2a7a45;vertical-align:super}
+#coloc-tip{position:fixed;z-index:40;max-width:min(260px,calc(100vw - 16px));background:#243044;color:#fff;font-size:.85rem;line-height:1.4;padding:6px 8px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.22);pointer-events:none}
+#coloc-tip[hidden]{display:none !important}
 #srs-ex mark.also{cursor:help}
 .card.flash{animation:cardflash 1.2s ease}
 @keyframes cardflash{0%{box-shadow:0 0 0 3px #f0a33a}100%{box-shadow:0 1px 3px rgba(0,0,0,.1)}}
@@ -41,6 +50,10 @@ html[data-view="srs"] #filter-bar{display:none}
 .tag.page,.fchips button.page{background:#f4f1ea;color:#6b542a}
 .tag.affix,.fchips button.affix{background:#e7f6ee;color:#2f6b3a}
 .tag.comparison,.fchips button.comparison{background:#fdeee8;color:#b5482a}
+.tag.colloc,.fchips button.colloc{background:#f3eef8;color:#6b3a7a}
+.tag.note,.tag.note:disabled{background:#f7f1e6;color:#6b542a;cursor:default;opacity:1}
+.fsub{display:flex;flex-wrap:wrap;gap:4px;align-items:center;flex:1}
+.fsublabel{color:#888;font-size:.75em;margin:0 2px 0 4px}
 .tag.on,.fchips button.on{outline:2px solid currentColor}
 .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;padding-right:44px}
 .card.filtered-out{display:none}
@@ -80,6 +93,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
 #srs-view .prompt .syl{display:block;margin-top:4px;font-size:1.05rem;font-weight:500;line-height:1.35}
 #srs-view #srs-word.word{font-size:clamp(1.5rem, 1.15rem + 1.1vw, 1.9rem)}
 #srs-back>.syl{margin:8px 0 0;padding-right:52px}
+#srs-tags{padding-right:0;margin-top:8px}
 #srs-view .prompt.lang-zh{font-size:1.45em;color:#b5482a}
 #srs-view .prompt .say{font-size:.7em}
 #srs-view .show{display:block;width:100%;margin-top:8px;border:none;border-radius:20px;padding:12px 18px;background:#2f5d8a;color:#fff;font-size:1.05em;font-weight:700;cursor:pointer;min-height:48px}
@@ -161,6 +175,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
   <div class="fgroup"><span class="flabel">字首字母</span><div class="fchips" data-kind="letter"></div></div>
   <div class="fgroup"><span class="flabel">字根字首</span><div class="fchips" data-kind="affix"></div></div>
   <div class="fgroup"><span class="flabel">比較級</span><div class="fchips" data-kind="comparison"></div></div>
+  <div class="fgroup"><span class="flabel">搭配詞</span><div class="fsub"><span class="fsublabel">介系詞搭配</span><div class="fchips" data-kind="colloc" data-sub="prep"></div><span class="fsublabel">片語</span><div class="fchips" data-kind="colloc" data-sub="phrase"></div></div></div>
   <div id="filter-active"></div>
   <p id="filter-count"></p>
 </div>
@@ -205,6 +220,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
         <div class="en"><span id="srs-ex"></span></div>
         <div class="tr"><span id="srs-tr"></span></div>
       </div>
+      <div id="srs-tags" class="tags" hidden></div>
     </div>
     <div id="srs-grades" class="grades" hidden>
       <button type="button" class="again" data-grade="again"><span class="k">1</span>Again<small></small></button>
@@ -501,17 +517,58 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return found;
   }
 
+  function findLiteral(text, needle, from) {
+    var n = String(needle || '');
+    if (!n) return null;
+    var i = text.toLowerCase().indexOf(n.toLowerCase(), from || 0);
+    if (i < 0) return null;
+    return { start: i, end: i + n.length, text: text.slice(i, i + n.length) };
+  }
+
+  function colocParts(entry, text) {
+    var out = [];
+    var list = (entry && entry.collocations) || [];
+    var linkN = 0;
+    list.forEach(function (c, ci) {
+      if (!c) return;
+      var parts = Array.isArray(c.match) ? c.match : [c.match];
+      if (!parts.length || parts.some(function (p) { return !p; })) return;
+      var found = [];
+      var from = 0;
+      for (var i = 0; i < parts.length; i++) {
+        var hit = findLiteral(text, parts[i], from);
+        if (!hit) return;
+        found.push(hit);
+        from = hit.end;
+      }
+      var link = parts.length > 1 ? String(++linkN) : '';
+      found.forEach(function (hit, pi) {
+        out.push({
+          start: hit.start,
+          end: hit.end,
+          kind: c.kind === 'prep' ? 'prep' : 'phrase',
+          zh: c.zh || c.text || '',
+          link: link,
+          group: 'c' + ci + 'p' + pi
+        });
+      });
+    });
+    return out;
+  }
+
   function markSentence(parent, sentence, entry, opts) {
     opts = opts || {};
     var text = sentence || '';
     var primary = findRanges(text, phraseList(entry)).map(function (r) {
       return { start: r.start, end: r.end, text: r.text, kind: 'hw' };
     });
+    var colocs = opts.onlyThisWord ? [] : colocParts(entry, text);
     var marks = primary.slice();
     if (!opts.onlyThisWord) {
       function pushAlso(r, word, meaning) {
         var item = { start: r.start, end: r.end, text: r.text, kind: 'also', word: word, meaning: meaning || '' };
         if (primary.some(function (p) { return overlapsRange(p, item); })) return;
+        if (colocs.some(function (p) { return overlapsRange(p, item); })) return;
         if (marks.some(function (p) { return overlapsRange(p, item); })) return;
         marks.push(item);
       }
@@ -535,23 +592,72 @@ document.getElementById('play-stop').addEventListener('click',stop);
         });
       }
     }
-    marks.sort(function (a, b) { return a.start - b.start; });
-    var last = 0;
-    marks.forEach(function (item) {
-      if (item.start < last) return;
-      if (item.start > last) parent.appendChild(document.createTextNode(text.slice(last, item.start)));
-      var mark = document.createElement('mark');
-      mark.className = item.kind;
-      mark.textContent = item.text;
-      if (item.kind === 'also') {
-        mark.title = item.meaning || item.word;
-        if (opts.nav === false) mark.setAttribute('data-nav', '0');
-        else mark.setAttribute('data-word', item.word);
+    var points = [0, text.length];
+    primary.forEach(function (r) { points.push(r.start, r.end); });
+    colocs.forEach(function (r) { points.push(r.start, r.end); });
+    marks.forEach(function (r) { if (r.kind === 'also') points.push(r.start, r.end); });
+    points = points.filter(function (n, i) { return points.indexOf(n) === i; }).sort(function (a, b) { return a - b; });
+    var pieces = [];
+    for (var pi = 0; pi < points.length - 1; pi++) {
+      var a = points[pi];
+      var b = points[pi + 1];
+      if (b <= a) continue;
+      var mid = { start: a, end: b };
+      var hw = primary.some(function (r) { return overlapsRange(r, mid); });
+      var coloc = null;
+      colocs.forEach(function (r) { if (overlapsRange(r, mid)) coloc = r; });
+      var also = null;
+      if (!hw && !coloc) {
+        marks.forEach(function (r) { if (r.kind === 'also' && overlapsRange(r, mid)) also = r; });
       }
-      parent.appendChild(mark);
-      last = item.end;
+      pieces.push({ start: a, end: b, text: text.slice(a, b), hw: hw, coloc: coloc, also: also });
+    }
+    var open = null;
+    var wrap = null;
+    function closeWrap() {
+      if (!wrap) return;
+      if (open && open.link) {
+        var dot = document.createElement('sup');
+        dot.className = 'linkdot';
+        dot.setAttribute('aria-hidden', 'true');
+        wrap.appendChild(dot);
+      }
+      parent.appendChild(wrap);
+      wrap = null;
+      open = null;
+    }
+    pieces.forEach(function (p) {
+      var group = p.coloc ? p.coloc.group : '';
+      if (!open || open.group !== group) {
+        closeWrap();
+        if (p.coloc) {
+          wrap = document.createElement('span');
+          wrap.className = 'coloc ' + p.coloc.kind + (p.coloc.link ? ' link' : '');
+          wrap.setAttribute('data-zh', p.coloc.zh);
+          wrap.tabIndex = 0;
+          if (p.coloc.link) wrap.setAttribute('data-link', p.coloc.link);
+          open = p.coloc;
+        }
+      }
+      var host = wrap || parent;
+      if (p.hw || (p.coloc && p.coloc.kind === 'prep' && !p.hw)) {
+        var mark = document.createElement('mark');
+        mark.className = p.hw ? 'hw' : 'prep';
+        mark.textContent = p.text;
+        host.appendChild(mark);
+      } else if (p.also) {
+        var also = document.createElement('mark');
+        also.className = 'also';
+        also.textContent = p.text;
+        also.title = p.also.meaning || p.also.word;
+        if (opts.nav === false) also.setAttribute('data-nav', '0');
+        else also.setAttribute('data-word', p.also.word);
+        host.appendChild(also);
+      } else {
+        host.appendChild(document.createTextNode(p.text));
+      }
     });
-    if (last < text.length) parent.appendChild(document.createTextNode(text.slice(last)));
+    closeWrap();
     return primary.length > 0;
   }
   window.VOCAB_MARK_SENTENCE = markSentence;
@@ -623,8 +729,16 @@ document.getElementById('play-stop').addEventListener('click',stop);
   function tagKind(tag) {
     var k = String(tag).split(':')[0];
     if (k === 'prefix' || k === 'suffix' || k === 'root') return 'affix';
-    if (k === 'letter' || k === 'page' || k === 'comparison') return k;
+    if (k === 'letter' || k === 'page' || k === 'comparison' || k === 'colloc' || k === 'note') return k;
     return null;
+  }
+
+  function tagSub(tag) {
+    if (tagKind(tag) !== 'colloc') return '';
+    var rest = tag.slice('colloc:'.length);
+    var i = rest.indexOf(':');
+    var sub = i === -1 ? '' : rest.slice(0, i);
+    return sub === 'prep' || sub === 'phrase' ? sub : '';
   }
 
   function shownTags(tags) {
@@ -642,11 +756,15 @@ document.getElementById('play-stop').addEventListener('click',stop);
     if (k === 'comparison') return v;
     if (k === 'root') return 'root: ' + v.split('（')[0].trim();
     if (k === 'suffix' || k === 'prefix') return v.split('（')[0].split('(')[0].trim();
+    if (k === 'colloc') {
+      var j = v.indexOf(':');
+      return j === -1 ? v : v.slice(j + 1);
+    }
     return v;
   }
 
   function tagIcon(kind) {
-    return { letter: '🔤', page: '📄', affix: '🧩', comparison: '📈' }[kind] || '';
+    return { letter: '🔤', page: '📄', affix: '🧩', comparison: '📈', colloc: '🔗' }[kind] || '';
   }
 
   function tagChip(tag, extra) {
@@ -657,9 +775,13 @@ document.getElementById('play-stop').addEventListener('click',stop);
     b.setAttribute('data-tag', tag);
     b.title = tag;
     b.textContent = (tagIcon(kind) ? tagIcon(kind) + ' ' : '') + tagShort(tag);
-    if (activeFilters.indexOf(tag) !== -1) b.classList.add('on');
+    if (kind === 'note') {
+      b.removeAttribute('data-tag');
+      b.disabled = true;
+    } else if (activeFilters.indexOf(tag) !== -1) b.classList.add('on');
     return b;
   }
+  window.VOCAB_TAG_ROW = tagRow;
 
   function tagRow(tags) {
     var list = shownTags(tags);
@@ -702,10 +824,10 @@ document.getElementById('play-stop').addEventListener('click',stop);
 
   function wordMatches(tags) {
     if (!activeFilters.length) return true;
-    var groups = { page: [], letter: [], affix: [], comparison: [] };
+    var groups = { page: [], letter: [], affix: [], comparison: [], colloc: [] };
     activeFilters.forEach(function (t) {
       var kind = tagKind(t);
-      if (kind) groups[kind].push(t);
+      if (kind && groups[kind]) groups[kind].push(t);
     });
     var names = Object.keys(groups);
     for (var i = 0; i < names.length; i++) {
@@ -769,8 +891,16 @@ document.getElementById('play-stop').addEventListener('click',stop);
     var tags = knownTags();
     bar.querySelectorAll('.fchips').forEach(function (box) {
       var kind = box.getAttribute('data-kind');
+      var sub = box.getAttribute('data-sub');
       box.textContent = '';
-      tags.filter(function (t) { return tagKind(t) === kind; }).forEach(function (tag) {
+      var matched = tags.filter(function (t) {
+        if (tagKind(t) !== kind) return false;
+        if (sub && tagSub(t) !== sub) return false;
+        return true;
+      });
+      var label = box.previousElementSibling;
+      if (label && label.classList.contains('fsublabel')) label.hidden = matched.length === 0;
+      matched.forEach(function (tag) {
         var b = tagChip(tag);
         b.addEventListener('click', function () { toggleFilter(tag); });
         box.appendChild(b);
@@ -976,6 +1106,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     else activeFilters.splice(i, 1);
     commitFilters();
   }
+  window.VOCAB_TOGGLE_FILTER = toggleFilter;
 
   function readHashFilters() {
     var parsed = filtersFromHash();
@@ -1178,6 +1309,65 @@ document.getElementById('play-stop').addEventListener('click',stop);
     window.addEventListener('resize', pump);
     pump();
   }
+
+  var colocTip = document.createElement('div');
+  colocTip.id = 'coloc-tip';
+  colocTip.setAttribute('role', 'tooltip');
+  colocTip.hidden = true;
+  document.body.appendChild(colocTip);
+  var colocPinned = false;
+  function hideColocTip() {
+    colocTip.hidden = true;
+    colocPinned = false;
+  }
+  function showColocTip(anchor) {
+    var zh = anchor.getAttribute('data-zh') || '';
+    if (!zh) return;
+    colocTip.textContent = zh;
+    colocTip.hidden = false;
+    var r = anchor.getBoundingClientRect();
+    var left = Math.max(8, Math.min(r.left, window.innerWidth - colocTip.offsetWidth - 8));
+    var top = r.bottom + 6;
+    if (top + colocTip.offsetHeight > window.innerHeight - 8) top = Math.max(8, r.top - colocTip.offsetHeight - 6);
+    colocTip.style.left = left + 'px';
+    colocTip.style.top = top + 'px';
+  }
+  document.addEventListener('mouseover', function (e) {
+    var c = e.target.closest && e.target.closest('.coloc');
+    if (!c || colocPinned) return;
+    showColocTip(c);
+  });
+  document.addEventListener('mouseout', function (e) {
+    if (colocPinned) return;
+    var c = e.target.closest && e.target.closest('.coloc');
+    if (!c) return;
+    var rel = e.relatedTarget;
+    if (rel && c.contains(rel)) return;
+    colocTip.hidden = true;
+  });
+  document.addEventListener('click', function (e) {
+    var c = e.target.closest && e.target.closest('.coloc');
+    if (!c) { hideColocTip(); return; }
+    e.preventDefault();
+    e.stopPropagation();
+    if (colocPinned && !colocTip.hidden) { hideColocTip(); return; }
+    showColocTip(c);
+    colocPinned = true;
+  });
+  document.addEventListener('focusin', function (e) {
+    var c = e.target.closest && e.target.closest('.coloc');
+    if (c) showColocTip(c);
+  });
+  document.addEventListener('keydown', function (e) {
+    var c = e.target.closest && e.target.closest('.coloc');
+    if (c && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      showColocTip(c);
+      colocPinned = true;
+      return;
+    }
+    if (e.key === 'Escape') hideColocTip();
+  });
 
   paintHeader();
   if (!window.VOCAB_MANIFEST) {
@@ -1546,6 +1736,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     backPhrase: document.getElementById('srs-phrase'),
     backEx: document.getElementById('srs-ex'),
     backTr: document.getElementById('srs-tr'),
+    backTags: document.getElementById('srs-tags'),
     grades: document.getElementById('srs-grades'),
     list: document.getElementById('list-view'),
     srs: document.getElementById('srs-view'),
@@ -1661,6 +1852,12 @@ document.getElementById('play-stop').addEventListener('click',stop);
     el.backTr.textContent = '';
     el.backTr.appendChild(document.createTextNode(entry.example_translation + ' '));
     el.backTr.appendChild(sayButton('translation', 'Play translation'));
+    el.backTags.textContent = '';
+    var tagRow = window.VOCAB_TAG_ROW ? window.VOCAB_TAG_ROW(entry.tags) : null;
+    if (tagRow) {
+      while (tagRow.firstChild) el.backTags.appendChild(tagRow.firstChild);
+      el.backTags.hidden = false;
+    } else el.backTags.hidden = true;
   }
 
   function paintGrades() {
@@ -2014,6 +2211,15 @@ document.getElementById('play-stop').addEventListener('click',stop);
       return;
     }
     speakPart(byWord[active.word], b.dataset.say);
+  });
+
+  el.backTags.addEventListener('click', function (e) {
+    var chip = e.target.closest && e.target.closest('.tag');
+    if (!chip) return;
+    var tag = chip.getAttribute('data-tag');
+    if (!tag || typeof window.VOCAB_TOGGLE_FILTER !== 'function') return;
+    window.VOCAB_TOGGLE_FILTER(tag);
+    applyTab('list');
   });
 
   el.tabList.addEventListener('click', function () { applyTab('list'); });

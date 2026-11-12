@@ -17,6 +17,23 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "comparative": "more beautiful",
     "superlative": "most beautiful",
     "phrase": "",
+    "collocations": [
+      {
+        "text": "so … that",
+        "kind": "phrase",
+        "zh": "如此…以致於",
+        "match": [
+          "so",
+          "that"
+        ]
+      },
+      {
+        "text": "can't help + V-ing",
+        "kind": "phrase",
+        "zh": "忍不住…",
+        "match": "can't help looking"
+      }
+    ],
     "example_sentence": "The woman is so beautiful that I can't help looking at her.",
     "example_translation": "這個女子如此美麗以致於我忍不住注視著她。",
     "page": 6,
@@ -31,7 +48,9 @@ window.VOCAB_REGISTER("tango2000-p6", [
       "unit:Unit 2 個人特徵",
       "suffix:-ful（充滿…的；具有…的）",
       "root:beauty（美）",
-      "comparison:more/most"
+      "comparison:more/most",
+      "colloc:phrase:so … that",
+      "colloc:phrase:can't help + V-ing"
     ]
   },
   {
@@ -156,6 +175,14 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "comparative": "older",
     "superlative": "oldest",
     "phrase": "",
+    "collocations": [
+      {
+        "text": "It's never too old to learn",
+        "kind": "phrase",
+        "zh": "活到老學到老",
+        "match": "never too old to learn"
+      }
+    ],
     "example_sentence": "It's never too old to learn.",
     "example_translation": "學習永遠不嫌晚。",
     "page": 6,
@@ -168,7 +195,8 @@ window.VOCAB_REGISTER("tango2000-p6", [
       "page:6",
       "book:單字2000活用練習",
       "unit:Unit 2 個人特徵",
-      "comparison:-er/-est"
+      "comparison:-er/-est",
+      "colloc:phrase:It's never too old to learn"
     ]
   },
   {
@@ -225,6 +253,14 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "comparative": "slimmer",
     "superlative": "slimmest",
     "phrase": "",
+    "collocations": [
+      {
+        "text": "be on a diet",
+        "kind": "phrase",
+        "zh": "節食",
+        "match": "be on a diet"
+      }
+    ],
     "example_sentence": "To become slim, you need to be on a diet.",
     "example_translation": "為了變苗條，你需要節食。",
     "page": 6,
@@ -237,7 +273,8 @@ window.VOCAB_REGISTER("tango2000-p6", [
       "page:6",
       "book:單字2000活用練習",
       "unit:Unit 2 個人特徵",
-      "comparison:-er/-est"
+      "comparison:-er/-est",
+      "colloc:phrase:be on a diet"
     ]
   },
   {
@@ -316,6 +353,17 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "comparative": "younger",
     "superlative": "youngest",
     "phrase": "",
+    "collocations": [
+      {
+        "text": "too … to",
+        "kind": "phrase",
+        "zh": "太…而不能",
+        "match": [
+          "too",
+          "to stay"
+        ]
+      }
+    ],
     "example_sentence": "You are still too young to stay at home alone.",
     "example_translation": "你還太小，不能單獨留在家中。",
     "page": 6,
@@ -328,7 +376,8 @@ window.VOCAB_REGISTER("tango2000-p6", [
       "page:6",
       "book:單字2000活用練習",
       "unit:Unit 2 個人特徵",
-      "comparison:-er/-est"
+      "comparison:-er/-est",
+      "colloc:phrase:too … to"
     ]
   },
   {
@@ -339,6 +388,14 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "comparative": "angrier",
     "superlative": "angriest",
     "phrase": "angry with (at) ＋人；angry about (at) ＋事",
+    "collocations": [
+      {
+        "text": "angry with",
+        "kind": "prep",
+        "zh": "對（人）生氣",
+        "match": "angry with"
+      }
+    ],
     "example_sentence": "Don't be angry with me for not lending you my CD.",
     "example_translation": "不要因為我不借你 CD 就生氣。",
     "page": 6,
@@ -353,7 +410,9 @@ window.VOCAB_REGISTER("tango2000-p6", [
       "unit:Unit 2 個人特徵",
       "suffix:-y（充滿…的；有…性質的）",
       "root:anger（憤怒）",
-      "comparison:-er/-est"
+      "comparison:-er/-est",
+      "colloc:prep:angry with",
+      "note:angry with (at) ＋人；angry about (at) ＋事"
     ]
   },
   {

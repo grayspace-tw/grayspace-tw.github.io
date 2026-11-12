@@ -11,6 +11,14 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "comparative": null,
     "superlative": null,
     "phrase": "be ＋ bored ＋ by (with)",
+    "collocations": [
+      {
+        "text": "be bored by (with)",
+        "kind": "prep",
+        "zh": "對…感到厭煩",
+        "match": "bored by"
+      }
+    ],
     "example_sentence": "I am bored by the boring book.",
     "example_translation": "我對這本無聊的書感到厭煩。",
     "page": 7,
@@ -24,7 +32,8 @@ window.VOCAB_REGISTER("tango2000-p7", [
       "book:單字2000活用練習",
       "unit:Unit 2 個人特徵",
       "suffix:-ed (participial adjective)（過去分詞形容詞，表示「感到…的」）",
-      "root:bore（使厭煩）"
+      "root:bore（使厭煩）",
+      "colloc:prep:be bored by (with)"
     ]
   },
   {
@@ -104,6 +113,14 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "comparative": "more careful",
     "superlative": "most careful",
     "phrase": "",
+    "collocations": [
+      {
+        "text": "Be careful when …",
+        "kind": "phrase",
+        "zh": "…時要小心",
+        "match": "careful when"
+      }
+    ],
     "example_sentence": "Be careful when you cross the street.",
     "example_translation": "過馬路時要小心。",
     "page": 7,
@@ -118,7 +135,8 @@ window.VOCAB_REGISTER("tango2000-p7", [
       "unit:Unit 2 個人特徵",
       "suffix:-ful（充滿…的；具有…的）",
       "root:care（小心、關心）",
-      "comparison:more/most"
+      "comparison:more/most",
+      "colloc:phrase:Be careful when …"
     ]
   },
   {
@@ -152,6 +170,14 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "comparative": null,
     "superlative": null,
     "phrase": "",
+    "collocations": [
+      {
+        "text": "be crazy about",
+        "kind": "prep",
+        "zh": "熱衷於、為…瘡狂",
+        "match": "crazy about"
+      }
+    ],
     "example_sentence": "My brothers are crazy about Jay Chou.",
     "example_translation": "我的弟弟們對 Jay Chou 很著迷。",
     "page": 7,
@@ -163,7 +189,8 @@ window.VOCAB_REGISTER("tango2000-p7", [
       "letter:C",
       "page:7",
       "book:單字2000活用練習",
-      "unit:Unit 2 個人特徵"
+      "unit:Unit 2 個人特徵",
+      "colloc:prep:be crazy about"
     ]
   },
   {
@@ -180,6 +207,14 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "comparative": null,
     "superlative": null,
     "phrase": "",
+    "collocations": [
+      {
+        "text": "be excited about",
+        "kind": "prep",
+        "zh": "對…感到興奮",
+        "match": "excited about"
+      }
+    ],
     "example_sentence": "The children are excited about going on a trip tomorrow.",
     "example_translation": "學生對於明天要去旅行感到很興奮。",
     "page": 7,
@@ -193,7 +228,8 @@ window.VOCAB_REGISTER("tango2000-p7", [
       "book:單字2000活用練習",
       "unit:Unit 2 個人特徵",
       "suffix:-ed (participial adjective)（過去分詞形容詞，表示「感到…的」）",
-      "root:excite（使興奮）"
+      "root:excite（使興奮）",
+      "colloc:prep:be excited about"
     ]
   },
   {
@@ -234,6 +270,14 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "comparative": "more famous",
     "superlative": "most famous",
     "phrase": "",
+    "collocations": [
+      {
+        "text": "be famous for",
+        "kind": "prep",
+        "zh": "以…聞名",
+        "match": "famous for"
+      }
+    ],
     "example_sentence": "The restaurant is famous for its apple pie.",
     "example_translation": "這家餐廳以它的蘋果派著名。",
     "page": 7,
@@ -248,7 +292,8 @@ window.VOCAB_REGISTER("tango2000-p7", [
       "unit:Unit 2 個人特徵",
       "suffix:-ous（具有…性質的）",
       "root:fame（名聲）",
-      "comparison:more/most"
+      "comparison:more/most",
+      "colloc:prep:be famous for"
     ]
   },
   {
@@ -259,6 +304,14 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "comparative": "friendlier (more friendly)",
     "superlative": "friendliest (most friendly)",
     "phrase": "",
+    "collocations": [
+      {
+        "text": "be friendly to",
+        "kind": "prep",
+        "zh": "對…友善",
+        "match": "friendly to"
+      }
+    ],
     "example_sentence": "We should be friendly to our new classmates.",
     "example_translation": "我們應該對我們的新同學友善。",
     "page": 7,
@@ -274,7 +327,8 @@ window.VOCAB_REGISTER("tango2000-p7", [
       "suffix:-ly（具有…特質的，作形容詞後綴）",
       "root:friend（朋友）",
       "comparison:-er/-est",
-      "comparison:more/most"
+      "comparison:more/most",
+      "colloc:prep:be friendly to"
     ]
   },
   {
@@ -285,6 +339,14 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "comparative": "funnier",
     "superlative": "funniest",
     "phrase": "",
+    "collocations": [
+      {
+        "text": "laugh out loud(ly)",
+        "kind": "phrase",
+        "zh": "放聲大笑",
+        "match": "laugh out loudly"
+      }
+    ],
     "example_sentence": "The funny TV show makes me laugh out loudly.",
     "example_translation": "這個好笑的電視劇使我放聲大笑。",
     "page": 7,
@@ -299,7 +361,8 @@ window.VOCAB_REGISTER("tango2000-p7", [
       "unit:Unit 2 個人特徵",
       "suffix:-y（充滿…的；有…性質的）",
       "root:fun（樂趣）",
-      "comparison:-er/-est"
+      "comparison:-er/-est",
+      "colloc:phrase:laugh out loud(ly)"
     ]
   },
   {
@@ -310,6 +373,14 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "comparative": "better",
     "superlative": "best",
     "phrase": "",
+    "collocations": [
+      {
+        "text": "be good for",
+        "kind": "prep",
+        "zh": "對…有益",
+        "match": "good for"
+      }
+    ],
     "example_sentence": "Vegetables are good for health.",
     "example_translation": "蔬菜有益健康。",
     "page": 7,
@@ -322,7 +393,8 @@ window.VOCAB_REGISTER("tango2000-p7", [
       "page:7",
       "book:單字2000活用練習",
       "unit:Unit 2 個人特徵",
-      "comparison:irregular"
+      "comparison:irregular",
+      "colloc:prep:be good for"
     ]
   },
   {
@@ -407,6 +479,14 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "comparative": null,
     "superlative": null,
     "phrase": "",
+    "collocations": [
+      {
+        "text": "be interested in",
+        "kind": "prep",
+        "zh": "對…感興趣",
+        "match": "interested in"
+      }
+    ],
     "example_sentence": "My brother is interested in the new software.",
     "example_translation": "我的哥哥對這個新的軟體感興趣。",
     "page": 7,
@@ -420,7 +500,8 @@ window.VOCAB_REGISTER("tango2000-p7", [
       "book:單字2000活用練習",
       "unit:Unit 2 個人特徵",
       "suffix:-ed (participial adjective)（過去分詞形容詞，表示「感到…的」）",
-      "root:interest（興趣）"
+      "root:interest（興趣）",
+      "colloc:prep:be interested in"
     ]
   }
 ]);
