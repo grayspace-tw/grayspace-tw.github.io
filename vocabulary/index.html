@@ -104,6 +104,8 @@ html:not([data-view="srs"]) #srs-view{display:none}
 #srs-cloze .sent{margin:0;font-size:1.15rem;line-height:1.65;text-align:center}
 #srs-cloze .blank{display:inline-block;min-width:2.4em;border-bottom:2px solid #2f5d8a;text-align:center}
 #srs-cloze .hint{margin:8px 0 0;color:#666;font-size:.95rem;text-align:center}
+#srs-cloze-peek{display:inline-block;margin-top:8px;border:1px solid #d5dbe3;background:#fff;color:#2f5d8a;border-radius:14px;padding:4px 10px;font-size:.9rem;font-weight:700;cursor:pointer}
+#srs-grade-note{margin:6px 0 0;text-align:center;color:#888;font-size:.75rem}
 #srs-cloze .choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
 #srs-cloze .choices button{min-height:48px;padding:8px 10px;border:1px solid #d5dbe3;border-radius:10px;background:#fff;color:#2f5d8a;font-size:1.05rem;font-weight:700;cursor:pointer}
 #srs-cloze .choices button:focus{outline:3px solid #f0a33a}
@@ -247,6 +249,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
       <p id="srs-cloze-kind" class="kind"></p>
       <p id="srs-cloze-sent" class="sent"></p>
       <p id="srs-cloze-hint" class="hint"></p>
+      <button type="button" id="srs-cloze-peek" hidden>💡 看提示</button>
       <div id="srs-cloze-choices" class="choices"></div>
       <form id="srs-cloze-form">
         <input id="srs-cloze-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" aria-label="填空答案">
@@ -275,6 +278,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
       <button type="button" class="good" data-grade="good"><span class="k">3</span>Good<small></small></button>
       <button type="button" class="easy" data-grade="easy"><span class="k">4</span>Easy<small></small></button>
     </div>
+    <p id="srs-grade-note" hidden>已看提示</p>
     <div id="srs-autograde" hidden><div class="bar"></div></div>
   </section>
   <section id="srs-done" class="done" hidden>
@@ -2265,6 +2269,18 @@ document.getElementById('play-stop').addEventListener('click',stop);
       }
       b.classList.toggle('suggest', suggest);
     });
+    var note = document.getElementById('srs-grade-note');
+    if (note) {
+      var showNote = !!(task && task.peeked && task.autoRating && autoGradeOn() && task.shape !== 'sentence' && active.revealed && isClozeKey(active.word));
+      note.hidden = !showNote;
+    }
+  }
+
+  function showClozeHint(task, force) {
+    var btn = document.getElementById('srs-cloze-peek');
+    var open = force || !task.hideHint || task.peeked;
+    if (btn) btn.hidden = !!open;
+    el.clozeHint.textContent = open ? (task.hint || '') : '';
   }
 
   var gradeToken = 0;
@@ -2300,9 +2316,9 @@ document.getElementById('play-stop').addEventListener('click',stop);
       goodAt += extra;
       hardAt += extra;
     }
-    if (secs < goodAt) return 'easy';
-    if (secs <= hardAt) return 'good';
-    return 'hard';
+    var rating = secs < goodAt ? 'easy' : secs <= hardAt ? 'good' : 'hard';
+    if (task.peeked && rating === 'easy') return 'good';
+    return rating;
   }
 
   function armAutoGrade() {
@@ -2386,7 +2402,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
   function clozeTask(entry, card) {
     var spec = window.VOCAB_CLOZE_SPEC(entry);
     var shape = clozeShape(card, spec);
-    var task = { shape: shape, spec: spec, correct: null, spans: [], accepts: [], options: [] };
+    var task = { shape: shape, spec: spec, correct: null, spans: [], accepts: [], options: [], peeked: false, hideHint: shape !== 'sentence' && card.interval >= 7 };
     if (shape === 'sentence') {
       task.kindLabel = '整句';
       task.hint = '';
@@ -2431,8 +2447,12 @@ document.getElementById('play-stop').addEventListener('click',stop);
     el.cloze.hidden = false;
     if (!active.revealed && !task.shownAt) task.shownAt = Date.now();
     if (!active.revealed) hideAutoBar();
+    var gradeNote = document.getElementById('srs-grade-note');
+    if (gradeNote && !active.revealed) gradeNote.hidden = true;
     el.clozeKind.textContent = '例句挖空 · ' + task.kindLabel + (task.note ? '（' + task.note + '）' : '');
     el.clozeHint.textContent = '';
+    var peekBtn = document.getElementById('srs-cloze-peek');
+    if (peekBtn) peekBtn.hidden = true;
     el.clozeResult.hidden = true;
     el.clozeResult.textContent = '';
     el.clozeResult.className = 'result';
@@ -2444,7 +2464,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
         el.clozeHint.textContent = '看中文，輸入或說出整句英文，再對答案。';
       } else {
         fillClozeSentence(el.clozeSent, spec.sentence, task.spans, 'blank');
-        el.clozeHint.textContent = task.hint || '';
+        showClozeHint(task, false);
       }
       if (task.options && task.options.length && task.shape !== 'mature' && task.shape !== 'word-type' && task.shape !== 'sentence') {
         el.clozeChoices.hidden = false;
@@ -2473,7 +2493,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
       el.clozeResult.textContent = '請對照答案自己評分';
     } else {
       fillClozeSentence(el.clozeSent, spec.sentence, task.spans, 'mark');
-      el.clozeHint.textContent = task.hint || '';
+      showClozeHint(task, true);
       el.clozeResult.hidden = false;
       var matched = task.matched != null ? task.matched : !!task.correct;
       el.clozeResult.classList.add(matched ? 'ok' : 'bad');
@@ -2846,6 +2866,11 @@ document.getElementById('play-stop').addEventListener('click',stop);
   el.clozeForm.addEventListener('submit', function (e) {
     e.preventDefault();
     submitCloze(el.clozeInput.value);
+  });
+  document.getElementById('srs-cloze-peek').addEventListener('click', function () {
+    if (!active || !active.task || active.revealed || !isClozeKey(active.word)) return;
+    active.task.peeked = true;
+    showClozeHint(active.task, false);
   });
 
   el.perDay.addEventListener('change', function () {
