@@ -1,5 +1,10 @@
-<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>單字2000活用練習 Unit 2 個人特徵</title><style>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>單字2000活用練習 Unit 2 個人特徵</title>
+<style>
 body{margin:0;font-family:-apple-system,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;background:#f5f6f8;color:#222;line-height:1.5}
 header{background:#2f5d8a;color:#fff;padding:20px 16px;text-align:center}header h1{margin:0;font-size:1.5em}header p{margin:4px 0 0;opacity:.9}
 main{max-width:960px;margin:0 auto;padding:12px}h2{border-left:5px solid #2f5d8a;padding-left:10px;margin:24px 0 12px}h2 small{color:#888;font-weight:normal;font-size:.6em}
@@ -12,7 +17,7 @@ main{max-width:960px;margin:0 auto;padding:12px}h2{border-left:5px solid #2f5d8a
 .say{border:none;background:none;padding:0 2px;margin:0 2px;cursor:pointer;font-size:.9em;line-height:1;opacity:.55;vertical-align:middle}.say:hover,.say:focus{opacity:1}
 .ctl{margin-top:12px;display:flex;gap:8px;justify-content:center}.ctl button{border:none;border-radius:20px;padding:8px 18px;font-size:1em;cursor:pointer;background:#fff;color:#2f5d8a;font-weight:600}
 .rate{margin-top:10px;font-size:.9em;display:flex;gap:6px;justify-content:center;align-items:center;flex-wrap:wrap}.rate button{border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:14px;padding:3px 10px;cursor:pointer;font-size:.9em}.rate button.on{background:#fff;color:#2f5d8a;font-weight:700}
-.card.playing{outline:3px solid #f0a33a}
+.card.playing,#srs-study.playing{outline:3px solid #f0a33a}
 .tabs{margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .tabs button{border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:14px;padding:4px 14px;font-size:.95em;font-weight:600;cursor:pointer}
 .tabs button:hover,.tabs button:focus{background:rgba(255,255,255,.18)}
@@ -61,7 +66,19 @@ html:not([data-view="srs"]) #srs-view{display:none}
   #srs-view .prompt.lang-zh{font-size:1.25em}
   #srs-view .tools{margin-left:0}
 }
-</style><script>
+.chunk-status{grid-column:1/-1;margin:0;color:#666}
+.chunk-error{color:#b5482a}
+#list-view,#srs-view{padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+#to-top{position:fixed;z-index:30;right:max(12px,env(safe-area-inset-right));bottom:calc(12px + env(safe-area-inset-bottom));width:44px;height:44px;border:none;border-radius:22px;background:#2f5d8a;color:#fff;font-size:1.25em;line-height:1;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+#to-top[hidden]{display:none !important}
+#play-stop{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));border:none;border-radius:22px;background:#2f5d8a;color:#fff;font-weight:700;font-size:.95em;line-height:1;padding:12px 16px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.25);white-space:nowrap}
+#play-stop[hidden]{display:none !important}
+@media (max-width:560px){
+  #to-top{right:max(10px,env(safe-area-inset-right));bottom:calc(10px + env(safe-area-inset-bottom));width:40px;height:40px}
+  #play-stop{bottom:calc(10px + env(safe-area-inset-bottom));max-width:calc(100vw - 72px);padding:10px 14px}
+}
+</style>
+<script>
 (function(){
   var tab='list';
   try{
@@ -74,73 +91,28 @@ html:not([data-view="srs"]) #srs-view{display:none}
   }catch(e){}
   document.documentElement.setAttribute('data-view', tab);
 })();
-</script></head><body><header><h1>單字2000活用練習</h1><p>Unit 2 個人特徵 Personal characteristics</p><div class="tabs" role="tablist" aria-label="檢視"><button type="button" role="tab" id="tab-list" aria-controls="list-view">單字列表</button><button type="button" role="tab" id="tab-srs" aria-controls="srs-view">SRS 練習</button></div><div class="ctl"><button id="all">▶ Play All</button><button id="stop">■ Stop</button></div><div class="rate" role="group" aria-label="Speech rate">速度 <button data-r="0.5">0.5x</button><button data-r="0.75">0.75x</button><button data-r="1" class="on">1x</button><button data-r="1.5">1.5x</button><button data-r="2">2x</button></div></header><main id="list-view"><section><h2>第6頁 <small>words 1–16</small></h2><div class="grid"><div class="card" data-word="beautiful" data-zh="美麗的" data-tr="這個女子如此美麗以致於我忍不住注視著她。" data-ex="The woman is so beautiful that I can&#x27;t help looking at her."><div class="head"><span class="num">1</span><span class="word">beautiful</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈbjutəfəl]</span></div>
-<div class="zh">形 美麗的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>more beautiful</b></span><span>最高級 <b>most beautiful</b></span></div>
-<div class="ex"><div class="en">The woman is so beautiful that I can&#x27;t help looking at her. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">這個女子如此美麗以致於我忍不住注視著她。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="blind" data-zh="瞎的 ，百葉窗" data-tr="導盲犬可以幫助盲人在街上行走。" data-ex="Guide dogs can help the blind walk on the street."><div class="head"><span class="num">2</span><span class="word">blind</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[blaɪnd]</span></div>
-<div class="zh">❶形 瞎的 ❷名 百葉窗（常用複數形） <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
-<div class="ex"><div class="en">Guide dogs can help the blind walk on the street. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">導盲犬可以幫助盲人在街上行走。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="cute" data-zh="可愛的，伶俐的" data-tr="動物園裡的動物寶寶很可愛。" data-ex="The baby animals in the zoo are so cute."><div class="head"><span class="num">3</span><span class="word">cute</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[kjut]</span></div>
-<div class="zh">形 可愛的；伶俐的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>cuter</b></span><span>最高級 <b>cutest</b></span></div>
-<div class="ex"><div class="en">The baby animals in the zoo are so cute. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">動物園裡的動物寶寶很可愛。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="fat" data-zh="肥胖的" data-tr="她看起來比以前胖很多。" data-ex="She looks much fatter than before."><div class="head"><span class="num">4</span><span class="word">fat</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[fæt]</span></div>
-<div class="zh">形 肥胖的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>fatter</b></span><span>最高級 <b>fattest</b></span></div>
-<div class="ex"><div class="en">She looks much fatter than before. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">她看起來比以前胖很多。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="handsome" data-zh="英俊的" data-tr="你穿那件藍襯衫看起來很帥。" data-ex="You look handsome in that blue shirt."><div class="head"><span class="num">5</span><span class="word">handsome</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈhænsəm]</span></div>
-<div class="zh">形 英俊的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>more handsome</b></span><span>最高級 <b>most handsome</b></span></div>
-<div class="ex"><div class="en">You look handsome in that blue shirt. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">你穿那件藍襯衫看起來很帥。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="heavy" data-zh="沉重的" data-tr="學生們不該背沉重的書包。" data-ex="Students should not carry heavy book bags."><div class="head"><span class="num">6</span><span class="word">heavy</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈhɛvɪ]</span></div>
-<div class="zh">形 沉重的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>heavier</b></span><span>最高級 <b>heaviest</b></span></div>
-<div class="ex"><div class="en">Students should not carry heavy book bags. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">學生們不該背沉重的書包。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="old" data-zh="老的 ，舊的" data-tr="學習永遠不嫌晚。" data-ex="It&#x27;s never too old to learn."><div class="head"><span class="num">7</span><span class="word">old</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[old]</span></div>
-<div class="zh">形 ❶老的 ❷舊的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>older</b></span><span>最高級 <b>oldest</b></span></div>
-<div class="ex"><div class="en">It&#x27;s never too old to learn. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">學習永遠不嫌晚。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="pretty" data-zh="秀麗的，可愛的" data-tr="留短髮的那女孩看起來很漂亮。" data-ex="The girl with short hair looks pretty."><div class="head"><span class="num">8</span><span class="word">pretty</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈprɪtɪ]</span></div>
-<div class="zh">形 秀麗的；可愛的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>prettier</b></span><span>最高級 <b>prettiest</b></span></div>
-<div class="ex"><div class="en">The girl with short hair looks pretty. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">留短髮的那女孩看起來很漂亮。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="short" data-zh="矮的，短的" data-tr="我的姐姐比我矮。" data-ex="My sister is shorter than me."><div class="head"><span class="num">9</span><span class="word">short</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ʃɔrt]</span></div>
-<div class="zh">形 矮的；短的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>shorter</b></span><span>最高級 <b>shortest</b></span></div>
-<div class="ex"><div class="en">My sister is shorter than me. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">我的姐姐比我矮。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="slim" data-zh="苗條的，纖細的" data-tr="為了變苗條，你需要節食。" data-ex="To become slim, you need to be on a diet."><div class="head"><span class="num">10</span><span class="word">slim</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[slɪm]</span></div>
-<div class="zh">形 苗條的；纖細的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>slimmer</b></span><span>最高級 <b>slimmest</b></span></div>
-<div class="ex"><div class="en">To become slim, you need to be on a diet. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">為了變苗條，你需要節食。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="tall" data-zh="高大的" data-tr="這個歌手又高又帥。" data-ex="The singer is tall and handsome."><div class="head"><span class="num">11</span><span class="word">tall</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[tɔl]</span></div>
-<div class="zh">形 高大的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>taller</b></span><span>最高級 <b>tallest</b></span></div>
-<div class="ex"><div class="en">The singer is tall and handsome. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">這個歌手又高又帥。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="thin" data-zh="瘦的，薄的" data-tr="我的老師看起來比以前瘦。" data-ex="My teacher looks thinner than before."><div class="head"><span class="num">12</span><span class="word">thin</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[θɪn]</span></div>
-<div class="zh">形 瘦的；薄的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>thinner</b></span><span>最高級 <b>thinnest</b></span></div>
-<div class="ex"><div class="en">My teacher looks thinner than before. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">我的老師看起來比以前瘦。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="ugly" data-zh="醜的，難看的" data-tr="不要逼我戴那頂帽子。很醜。" data-ex="Don&#x27;t make me wear that hat. It&#x27;s so ugly."><div class="head"><span class="num">13</span><span class="word">ugly</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈʌglɪ]</span></div>
-<div class="zh">形 醜的；難看的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
-<div class="ex"><div class="en">Don&#x27;t make me wear that hat. It&#x27;s so ugly. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">不要逼我戴那頂帽子。很醜。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="young" data-zh="年輕的" data-tr="你還太小，不能單獨留在家中。" data-ex="You are still too young to stay at home alone."><div class="head"><span class="num">14</span><span class="word">young</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[jʌŋ]</span></div>
-<div class="zh">形 年輕的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>younger</b></span><span>最高級 <b>youngest</b></span></div>
-<div class="ex"><div class="en">You are still too young to stay at home alone. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">你還太小，不能單獨留在家中。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="angry" data-zh="生氣的" data-tr="不要因為我不借你 CD 就生氣。" data-ex="Don&#x27;t be angry with me for not lending you my CD."><div class="head"><span class="num">15</span><span class="word">angry</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈæŋgrɪ]</span></div>
-<div class="zh">形 生氣的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>angrier</b></span><span>最高級 <b>angriest</b></span></div><div class="phrase">片語：angry with (at) ＋人；angry about (at) ＋事</div>
-<div class="ex"><div class="en">Don&#x27;t be angry with me for not lending you my CD. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">不要因為我不借你 CD 就生氣。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="bad" data-zh="不好的，拙劣的" data-tr="抄襲別人的作業是不對的。" data-ex="It&#x27;s bad to copy others&#x27; homework."><div class="head"><span class="num">16</span><span class="word">bad</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[bæd]</span></div>
-<div class="zh">形 不好的；拙劣的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>worse</b></span><span>最高級 <b>worst</b></span></div>
-<div class="ex"><div class="en">It&#x27;s bad to copy others&#x27; homework. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">抄襲別人的作業是不對的。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div></div></section><section><h2>第7頁 <small>words 17–33</small></h2><div class="grid"><div class="card" data-word="bored" data-zh="厭倦的，厭煩的" data-tr="我對這本無聊的書感到厭煩。" data-ex="I am bored by the boring book."><div class="head"><span class="num">17</span><span class="word">bored</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[bord]</span></div>
-<div class="zh">形 厭倦的；厭煩的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="phrase">片語：be ＋ bored ＋ by (with)</div>
-<div class="ex"><div class="en">I am bored by the boring book. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">我對這本無聊的書感到厭煩。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="boring" data-zh="無聊的，令人厭煩的" data-tr="他是個很無聊的人。沒人想和他說話。" data-ex="He is a boring person. Nobody wants to talk to him."><div class="head"><span class="num">18</span><span class="word">boring</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈborɪŋ]</span></div>
-<div class="zh">形 無聊的；令人厭煩的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
-<div class="ex"><div class="en">He is a boring person. Nobody wants to talk to him. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">他是個很無聊的人。沒人想和他說話。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="brave" data-zh="勇敢的" data-tr="這個勇敢的消防隊員從火災中救過人。" data-ex="The brave fireman saved people from the fire."><div class="head"><span class="num">19</span><span class="word">brave</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[brev]</span></div>
-<div class="zh">形 勇敢的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
-<div class="ex"><div class="en">The brave fireman saved people from the fire. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">這個勇敢的消防隊員從火災中救過人。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="busy" data-zh="忙碌的" data-tr="她現在很忙。你可以待會兒再打來嗎？" data-ex="She is busy now. Can you call later?"><div class="head"><span class="num">20</span><span class="word">busy</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈbɪzɪ]</span></div>
-<div class="zh">形 忙碌的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>busier</b></span><span>最高級 <b>busiest</b></span></div>
-<div class="ex"><div class="en">She is busy now. Can you call later? <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">她現在很忙。你可以待會兒再打來嗎？ <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="careful" data-zh="仔細的，小心的" data-tr="過馬路時要小心。" data-ex="Be careful when you cross the street."><div class="head"><span class="num">21</span><span class="word">careful</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈkɛrfəl]</span></div>
-<div class="zh">形 仔細的；小心的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>more careful</b></span><span>最高級 <b>most careful</b></span></div>
-<div class="ex"><div class="en">Be careful when you cross the street. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">過馬路時要小心。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="cool" data-zh="涼爽的 ，很酷的" data-tr="秋天是涼爽的季節。 你新的 MP3 播放器真的很酷。" data-ex="Fall is a cool season. Your new MP3 player is really cool."><div class="head"><span class="num">22</span><span class="word">cool</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[kul]</span></div>
-<div class="zh">形 ❶涼爽的 ❷很酷的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>cooler</b></span><span>最高級 <b>coolest</b></span></div>
-<div class="ex"><div class="en">❶Fall is a cool season. ❷Your new MP3 player is really cool. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">❶秋天是涼爽的季節。 ❷你新的 MP3 播放器真的很酷。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="crazy" data-zh="瘋狂的 ，蠢的 ，古怪的" data-tr="我的弟弟們對 Jay Chou 很著迷。" data-ex="My brothers are crazy about Jay Chou."><div class="head"><span class="num">23</span><span class="word">crazy</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈkrezɪ]</span></div>
-<div class="zh">形 ❶瘋狂的 ❷蠢的 ❸古怪的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
-<div class="ex"><div class="en">My brothers are crazy about Jay Chou. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">我的弟弟們對 Jay Chou 很著迷。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="excited" data-zh="感到興奮的" data-tr="學生對於明天要去旅行感到很興奮。" data-ex="The children are excited about going on a trip tomorrow."><div class="head"><span class="num">24</span><span class="word">excited</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ɪkˈsaɪtɪd]</span></div>
-<div class="zh">形 感到興奮的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
-<div class="ex"><div class="en">The children are excited about going on a trip tomorrow. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">學生對於明天要去旅行感到很興奮。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="exciting" data-zh="令人興奮的，刺激的" data-tr="獅隊和象隊的比賽真的很刺激。" data-ex="The game between the Lions and the Elephants is really exciting."><div class="head"><span class="num">25</span><span class="word">exciting</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ɪkˈsaɪtɪŋ]</span></div>
-<div class="zh">形 令人興奮的；刺激的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
-<div class="ex"><div class="en">The game between the Lions and the Elephants is really exciting. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">獅隊和象隊的比賽真的很刺激。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="famous" data-zh="著名的" data-tr="這家餐廳以它的蘋果派著名。" data-ex="The restaurant is famous for its apple pie."><div class="head"><span class="num">26</span><span class="word">famous</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈfeməs]</span></div>
-<div class="zh">形 著名的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>more famous</b></span><span>最高級 <b>most famous</b></span></div>
-<div class="ex"><div class="en">The restaurant is famous for its apple pie. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">這家餐廳以它的蘋果派著名。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="friendly" data-zh="友善的" data-tr="我們應該對我們的新同學友善。" data-ex="We should be friendly to our new classmates."><div class="head"><span class="num">27</span><span class="word">friendly</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈfrɛndlɪ]</span></div>
-<div class="zh">形 友善的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>friendlier (more friendly)</b></span><span>最高級 <b>friendliest (most friendly)</b></span></div>
-<div class="ex"><div class="en">We should be friendly to our new classmates. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">我們應該對我們的新同學友善。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="funny" data-zh="可笑的" data-tr="這個好笑的電視劇使我放聲大笑。" data-ex="The funny TV show makes me laugh out loudly."><div class="head"><span class="num">28</span><span class="word">funny</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈfʌnɪ]</span></div>
-<div class="zh">形 可笑的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>funnier</b></span><span>最高級 <b>funniest</b></span></div>
-<div class="ex"><div class="en">The funny TV show makes me laugh out loudly. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">這個好笑的電視劇使我放聲大笑。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="good" data-zh="好的" data-tr="蔬菜有益健康。" data-ex="Vegetables are good for health."><div class="head"><span class="num">29</span><span class="word">good</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[gʊd]</span></div>
-<div class="zh">形 好的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>better</b></span><span>最高級 <b>best</b></span></div>
-<div class="ex"><div class="en">Vegetables are good for health. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">蔬菜有益健康。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="happy" data-zh="快樂的" data-tr="別煩惱。要快樂些。" data-ex="Don&#x27;t worry. Be happy."><div class="head"><span class="num">30</span><span class="word">happy</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈhæpɪ]</span></div>
-<div class="zh">形 快樂的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>happier</b></span><span>最高級 <b>happiest</b></span></div>
-<div class="ex"><div class="en">Don&#x27;t worry. Be happy. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">別煩惱。要快樂些。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="hard-working" data-zh="努力工作的，勤奮的" data-tr="這個勤奮的男子一天工作 20 小時。" data-ex="The hard-working man works 20 hours a day."><div class="head"><span class="num">31</span><span class="word">hard-working</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˌhɑrdˈwɝkɪŋ]</span></div>
-<div class="zh">形 努力工作的；勤奮的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
-<div class="ex"><div class="en">The hard-working man works 20 hours a day. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">這個勤奮的男子一天工作 20 小時。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="honest" data-zh="誠實的 ，正直的" data-tr="誠實的學生不說謊。" data-ex="An honest student doesn&#x27;t tell a lie."><div class="head"><span class="num">32</span><span class="word">honest</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈɑnɪst]</span></div>
-<div class="zh">形 ❶誠實的 ❷正直的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
-<div class="ex"><div class="en">An honest student doesn&#x27;t tell a lie. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">誠實的學生不說謊。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="interested" data-zh="感興趣的" data-tr="我的哥哥對這個新的軟體感興趣。" data-ex="My brother is interested in the new software."><div class="head"><span class="num">33</span><span class="word">interested</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈɪntərɪstɪd]</span></div>
-<div class="zh">形 感興趣的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
-<div class="ex"><div class="en">My brother is interested in the new software. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">我的哥哥對這個新的軟體感興趣。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div></div></section></main>
+</script>
+</head>
+<body>
+<button type="button" id="play-stop" hidden>■ Stop</button>
+<button type="button" id="to-top" aria-label="回到頁頂" hidden>↑</button>
+<header>
+  <h1>單字2000活用練習</h1>
+  <p>Unit 2 個人特徵 Personal characteristics</p>
+  <div class="tabs" role="tablist" aria-label="檢視">
+    <button type="button" role="tab" id="tab-list" aria-controls="list-view">單字列表</button>
+    <button type="button" role="tab" id="tab-srs" aria-controls="srs-view">SRS 練習</button>
+  </div>
+  <div class="ctl"><button id="all" type="button">▶ Play All</button><button id="stop" type="button">■ Stop</button></div>
+  <div class="rate" role="group" aria-label="Speech rate">速度
+    <button type="button" data-r="0.5">0.5x</button>
+    <button type="button" data-r="0.75">0.75x</button>
+    <button type="button" data-r="1" class="on">1x</button>
+    <button type="button" data-r="1.5">1.5x</button>
+    <button type="button" data-r="2">2x</button>
+  </div>
+</header>
+<main id="list-view"></main>
 <div id="srs-view" aria-labelledby="tab-srs">
   <div class="stats" aria-label="SRS 統計">
     <div class="stat" title="今天到期或逾期的卡片"><b id="srs-due">0</b><span>今日到期</span></div>
@@ -193,6 +165,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
   </section>
   <p class="hint">空白鍵顯示答案 · 數字鍵 1–4 評分</p>
 </div>
+<script src="data/manifest.js"></script>
 <script>
 (function(){
 var S=window.speechSynthesis,voice=null,run=0,RATE=1;
@@ -201,21 +174,342 @@ function setRate(r){RATE=r;document.body.dataset.rate=r;document.querySelectorAl
 document.querySelectorAll('.rate button').forEach(function(b){b.addEventListener('click',function(){setRate(parseFloat(b.dataset.r))})});setRate(RATE);
 function pick(){var v=S.getVoices().filter(function(x){return x.lang&&x.lang.replace('_','-').toLowerCase()==='en-us'});voice=v[0]||null}
 if(S){pick();S.onvoiceschanged=pick}
-function utter(t){return new Promise(function(r){var u=new SpeechSynthesisUtterance(t);u.lang='en-US';if(voice)u.voice=voice;u.rate=RATE;u.onend=r;u.onerror=r;S.speak(u)})}
+function bindUtter(u){return new Promise(function(r){var id=run,done=false;function finish(){if(done)return;done=true;r()}var poll=setInterval(function(){if(id!==run){clearInterval(poll);finish()}},40);u.onend=u.onerror=function(){clearInterval(poll);finish()};u.rate=RATE;S.speak(u)})}
+function utter(t){var u=new SpeechSynthesisUtterance(t);u.lang='en-US';if(voice)u.voice=voice;return bindUtter(u)}
 var zhv=null;function pickZh(){var a=S.getVoices(),n=function(x){return (x.lang||'').replace('_','-').toLowerCase()};zhv=a.filter(function(x){return n(x)==='zh-tw'})[0]||a.filter(function(x){return n(x)==='zh-cn'})[0]||a.filter(function(x){return n(x).indexOf('zh')===0})[0]||null}
 if(S){pickZh();S.addEventListener('voiceschanged',pickZh)}
-function utterZh(t){return new Promise(function(r){var u=new SpeechSynthesisUtterance(t);u.lang=zhv?zhv.lang:'zh-TW';if(zhv)u.voice=zhv;u.rate=RATE;u.onend=r;u.onerror=r;S.speak(u)})}
-function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
-function mark(c){document.querySelectorAll('.card.playing').forEach(function(x){x.classList.remove('playing')});if(c){c.classList.add('playing');c.scrollIntoView({behavior:'smooth',block:'center'})}}
-async function playCard(c,id){mark(c);await utter(c.dataset.word);if(id!==run)return;await wait(400);if(id!==run)return;await utter(c.dataset.ex)}
-function stop(){run++;if(S)S.cancel();mark(null)}
+function utterZh(t){var u=new SpeechSynthesisUtterance(t);u.lang=zhv?zhv.lang:'zh-TW';if(zhv)u.voice=zhv;return bindUtter(u)}
+function wait(ms,id){return new Promise(function(r){var start=Date.now();(function tick(){if((id!=null&&id!==run)||Date.now()-start>=ms)r();else setTimeout(tick,40)})()})}
+function mark(c){document.querySelectorAll('.card.playing,#srs-study.playing').forEach(function(x){x.classList.remove('playing')});if(c){c.classList.add('playing');c.scrollIntoView({behavior:'smooth',block:'center'})}}
+function cardFields(c){return {word:c.dataset.word,zh:c.dataset.zh,ex:c.dataset.ex,tr:c.dataset.tr,el:c}}
+async function playSequence(fields,id){if(fields.el)mark(fields.el);var steps=[function(){return utter(fields.word)},function(){return utterZh(fields.zh)},function(){return utter(fields.ex)},function(){return utterZh(fields.tr)}];for(var i=0;i<steps.length;i++){if(id!==run)return;await steps[i]();if(id!==run)return;if(i<steps.length-1)await wait(500,id)}}
+function playOne(fields){stop();var id=run;setPlayStop(true);playSequence(fields,id).then(function(){if(id===run){mark(null);setPlayStop(false)}})}
+window.VOCAB_PLAY_CARD=playOne
+function setPlayStop(on, index, total){var b=document.getElementById('play-stop');if(!b)return;b.hidden=!on;if(!on)return;var label='■ Stop';if(index&&total)label+=' · '+index+'/'+total;b.textContent=label;b.setAttribute('aria-label',label)}
+function stop(){run++;if(S)S.cancel();mark(null);setPlayStop(false)}
 if(!S){alert('This browser does not support speech (Web Speech API).');return}
-document.querySelectorAll('.card .say').forEach(function(b){b.addEventListener('click',async function(){stop();var id=run;var c=b.closest('.card');mark(c);if(b.classList.contains('sz'))await utterZh(c.dataset.zh);else if(b.classList.contains('st'))await utterZh(c.dataset.tr);else await utter(b.classList.contains('sw')?c.dataset.word:c.dataset.ex);if(id===run)mark(null)})});
-document.getElementById('all').addEventListener('click',async function(){stop();var id=run;var cs=document.querySelectorAll('.card');for(var i=0;i<cs.length;i++){if(id!==run)return;await playCard(cs[i],id);if(id!==run)return;await wait(1200)}mark(null)});
+document.getElementById('list-view').addEventListener('click',async function(e){var b=e.target.closest&&e.target.closest('.say');if(!b)return;var c=b.closest('.card');if(!c)return;if(b.classList.contains('sc')){playOne(cardFields(c));return}stop();var id=run;mark(c);if(b.classList.contains('sz'))await utterZh(c.dataset.zh);else if(b.classList.contains('st'))await utterZh(c.dataset.tr);else await utter(b.classList.contains('sw')?c.dataset.word:c.dataset.ex);if(id===run)mark(null)});
+document.getElementById('all').addEventListener('click',async function(){stop();var id=run;setPlayStop(true);try{if(window.VOCAB_ENSURE_ALL)await window.VOCAB_ENSURE_ALL()}catch(e){if(id===run)setPlayStop(false);return}if(id!==run)return;var cs=document.querySelectorAll('#list-view .card');for(var i=0;i<cs.length;i++){if(id!==run)return;setPlayStop(true,i+1,cs.length);await playSequence(cardFields(cs[i]),id);if(id!==run)return;await wait(1200,id)}if(id===run){mark(null);setPlayStop(false)}});
 document.getElementById('stop').addEventListener('click',stop);
+document.getElementById('play-stop').addEventListener('click',stop);
 })();
 </script>
 <script>
+(function () {
+  window.VOCAB_CHUNKS = window.VOCAB_CHUNKS || {};
+  window.VOCAB_REGISTER = function (id, words) {
+    if (!id || !Array.isArray(words)) return;
+    window.VOCAB_CHUNKS[id] = words;
+  };
+
+  var listEl = document.getElementById('list-view');
+  var inflight = {};
+
+  function manifest() {
+    return window.VOCAB_MANIFEST || { books: [] };
+  }
+
+  function eachChunk(fn) {
+    (manifest().books || []).forEach(function (book) {
+      (book.units || []).forEach(function (unit) {
+        (unit.chunks || []).forEach(function (chunk) {
+          fn(book, unit, chunk);
+        });
+      });
+    });
+  }
+
+  function chunkById(id) {
+    var found = null;
+    eachChunk(function (book, unit, chunk) {
+      if (chunk.id === id) found = chunk;
+    });
+    return found;
+  }
+
+  function unitLine(unit) {
+    if (unit.id === 'u2') return unit.title + ' Personal characteristics';
+    return unit.title;
+  }
+
+  function paintHeader() {
+    var books = manifest().books || [];
+    if (!books.length) return;
+    var h1 = document.querySelector('header h1');
+    var sub = document.querySelector('header p');
+    if (books.length === 1 && h1) h1.textContent = books[0].title;
+    var units = books.length === 1 ? (books[0].units || []) : [];
+    if (units.length === 1 && sub) sub.textContent = unitLine(units[0]);
+    else if (books.length === 1 && units.length > 1 && sub) {
+      sub.textContent = units.map(function (u) { return u.title; }).join(' · ');
+    }
+  }
+
+  function el(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function say(cls, label) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'say ' + cls;
+    b.title = label;
+    b.setAttribute('aria-label', label);
+    b.textContent = '🔊';
+    return b;
+  }
+
+  function cardAllButton() {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'say sc';
+    b.title = 'Play card';
+    b.setAttribute('aria-label', '全部朗讀');
+    b.textContent = '▶';
+    return b;
+  }
+
+  function renderCard(w) {
+    var card = el('div', 'card');
+    card.dataset.word = w.word || '';
+    card.dataset.zh = w.speak_meaning || '';
+    card.dataset.tr = w.speak_translation || '';
+    card.dataset.ex = w.speak_sentence || '';
+
+    var head = el('div', 'head');
+    head.appendChild(el('span', 'num', String(w.num)));
+    head.appendChild(el('span', 'word', w.word || ''));
+    head.appendChild(say('sw', 'Play word'));
+    head.appendChild(cardAllButton());
+    head.appendChild(el('span', 'ipa', w.phonetics || ''));
+    card.appendChild(head);
+
+    var zh = el('div', 'zh');
+    zh.appendChild(document.createTextNode((w.chinese_meaning || '') + ' '));
+    zh.appendChild(say('sz', 'Play meaning'));
+    card.appendChild(zh);
+
+    if (w.comparative || w.superlative) {
+      var forms = el('div', 'forms');
+      if (w.comparative) {
+        var c = el('span');
+        c.appendChild(document.createTextNode('比較級 '));
+        c.appendChild(el('b', null, w.comparative));
+        forms.appendChild(c);
+      }
+      if (w.superlative) {
+        var s = el('span');
+        s.appendChild(document.createTextNode('最高級 '));
+        s.appendChild(el('b', null, w.superlative));
+        forms.appendChild(s);
+      }
+      card.appendChild(forms);
+    }
+    if (w.phrase) card.appendChild(el('div', 'phrase', '片語：' + w.phrase));
+
+    var ex = el('div', 'ex');
+    var en = el('div', 'en');
+    en.appendChild(document.createTextNode((w.example_sentence || '') + ' '));
+    en.appendChild(say('ss', 'Play sentence'));
+    var tr = el('div', 'tr');
+    tr.appendChild(document.createTextNode((w.example_translation || '') + ' '));
+    tr.appendChild(say('st', 'Play translation'));
+    ex.appendChild(en);
+    ex.appendChild(tr);
+    card.appendChild(ex);
+    return card;
+  }
+
+  function sectionOf(id) {
+    return listEl.querySelector('[data-chunk="' + id + '"]');
+  }
+
+  function setStatus(section, text, isError) {
+    var grid = section.querySelector('.grid');
+    grid.textContent = '';
+    var p = el('p', 'chunk-status' + (isError ? ' chunk-error' : ''), text);
+    grid.appendChild(p);
+    section.removeAttribute('data-state');
+    section.setAttribute('aria-busy', isError ? 'false' : 'true');
+  }
+
+  function renderWords(section, words) {
+    var grid = section.querySelector('.grid');
+    grid.textContent = '';
+    words.forEach(function (w) { grid.appendChild(renderCard(w)); });
+    section.setAttribute('data-state', 'ready');
+    section.setAttribute('aria-busy', 'false');
+  }
+
+  function loadScript(chunk) {
+    if (window.VOCAB_CHUNKS[chunk.id]) return Promise.resolve(window.VOCAB_CHUNKS[chunk.id]);
+    if (inflight[chunk.id]) return inflight[chunk.id];
+    inflight[chunk.id] = new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      try {
+        s.src = new URL(chunk.file, document.baseURI).href;
+      } catch (e) {
+        s.src = chunk.file;
+      }
+      s.async = true;
+      s.charset = 'utf-8';
+      var timer = setTimeout(function () {
+        s.onload = s.onerror = null;
+        reject(new Error('timeout'));
+      }, 20000);
+      s.onload = function () {
+        clearTimeout(timer);
+        var data = window.VOCAB_CHUNKS[chunk.id];
+        if (!data) reject(new Error('empty'));
+        else resolve(data);
+      };
+      s.onerror = function () {
+        clearTimeout(timer);
+        reject(new Error('load'));
+      };
+      document.head.appendChild(s);
+    }).catch(function (err) {
+      delete inflight[chunk.id];
+      throw err;
+    });
+    return inflight[chunk.id];
+  }
+
+  function loadSection(id) {
+    var chunk = chunkById(id);
+    var section = sectionOf(id);
+    if (!chunk) return Promise.reject(new Error('missing'));
+    if (section && section.getAttribute('data-state') === 'ready' && window.VOCAB_CHUNKS[id]) {
+      return Promise.resolve(window.VOCAB_CHUNKS[id]);
+    }
+    if (section) setStatus(section, '載入中…', false);
+    return loadScript(chunk).then(function (words) {
+      if (section) renderWords(section, words);
+      return words;
+    }).catch(function (err) {
+      if (section) {
+        setStatus(section, '無法載入' + (chunk.label || '') + '。', true);
+        section.setAttribute('data-state', 'error');
+      }
+      throw err;
+    });
+  }
+
+  function collectWords() {
+    var out = [];
+    eachChunk(function (book, unit, chunk) {
+      var words = window.VOCAB_CHUNKS[chunk.id] || [];
+      words.forEach(function (w) { out.push(w); });
+    });
+    return out;
+  }
+
+  window.VOCAB_LOAD_SECTION = loadSection;
+  window.VOCAB_ENSURE_ALL = function () {
+    var jobs = [];
+    eachChunk(function (book, unit, chunk) { jobs.push(loadSection(chunk.id)); });
+    if (!jobs.length) return Promise.reject(new Error('empty'));
+    return Promise.all(jobs).then(collectWords);
+  };
+
+  function buildList() {
+    listEl.textContent = '';
+    if (!manifest().books || !manifest().books.length) {
+      listEl.appendChild(el('p', 'chunk-status chunk-error', '無法載入單字清單。'));
+      return;
+    }
+    var wordNo = 1;
+    (manifest().books || []).forEach(function (book) {
+      var bookEl = el('div', 'book');
+      bookEl.dataset.book = book.id || '';
+      if ((manifest().books || []).length > 1) {
+        bookEl.appendChild(el('h2', 'book-title', book.title || book.id || ''));
+      }
+      (book.units || []).forEach(function (unit) {
+        var unitEl = el('div', 'unit');
+        unitEl.dataset.unit = unit.id || '';
+        if ((book.units || []).length > 1) {
+          unitEl.appendChild(el('h2', 'unit-title', unit.title || unit.id || ''));
+        }
+        (unit.chunks || []).forEach(function (chunk) {
+          var from = wordNo;
+          var to = wordNo + (Number(chunk.count) || 0) - 1;
+          if (to < from) to = from;
+          wordNo = to + 1;
+          var section = document.createElement('section');
+          section.dataset.chunk = chunk.id;
+          section.setAttribute('aria-busy', 'true');
+          var h2 = document.createElement('h2');
+          h2.appendChild(document.createTextNode((chunk.label || chunk.id) + ' '));
+          h2.appendChild(el('small', null, 'words ' + from + '\u2013' + to));
+          h2.addEventListener('click', function () {
+            if (section.getAttribute('data-state') === 'error') section.removeAttribute('data-state');
+            loadSection(chunk.id);
+          });
+          section.appendChild(h2);
+          var grid = el('div', 'grid');
+          grid.appendChild(el('p', 'chunk-status', '載入中…'));
+          section.appendChild(grid);
+          unitEl.appendChild(section);
+        });
+        bookEl.appendChild(unitEl);
+      });
+      listEl.appendChild(bookEl);
+    });
+  }
+
+  function nearViewport(node) {
+    var rect = node.getBoundingClientRect();
+    var margin = 240;
+    return rect.bottom >= -margin && rect.top <= (window.innerHeight || 800) + margin;
+  }
+
+  // Empty sections are only a heading tall, so they all sit in the first
+  // screen until earlier pages render. Load a page when it is actually near
+  // the viewport and the previous page has already been laid out, and also
+  // when its heading is clicked.
+  function pump() {
+    var sections = [].slice.call(listEl.querySelectorAll('[data-chunk]'));
+    sections.forEach(function (section, idx) {
+      if (section.getAttribute('data-state') === 'ready' || section.getAttribute('data-state') === 'error') return;
+      if (section.getAttribute('data-loading') === '1') return;
+      var prevReady = idx === 0 || sections[idx - 1].getAttribute('data-state') === 'ready';
+      if (!prevReady) return;
+      if (idx !== 0 && !nearViewport(section)) return;
+      section.setAttribute('data-loading', '1');
+      loadSection(section.getAttribute('data-chunk')).then(function () {
+        section.removeAttribute('data-loading');
+        pump();
+      }).catch(function () {
+        section.removeAttribute('data-loading');
+      });
+    });
+  }
+
+  function watchSections() {
+    if (!('IntersectionObserver' in window)) {
+      eachChunk(function (book, unit, chunk) { loadSection(chunk.id); });
+      return;
+    }
+    var io = new IntersectionObserver(function () { pump(); }, { rootMargin: '240px 0px' });
+    listEl.querySelectorAll('[data-chunk]').forEach(function (section) { io.observe(section); });
+    window.addEventListener('scroll', pump, { passive: true });
+    window.addEventListener('resize', pump);
+    pump();
+  }
+
+  paintHeader();
+  if (!window.VOCAB_MANIFEST) {
+    listEl.appendChild(el('p', 'chunk-status chunk-error', '無法載入單字清單。'));
+    window.VOCAB_ENSURE_ALL = function () { return Promise.reject(new Error('manifest')); };
+    return;
+  }
+  buildList();
+  watchSections();
+})();
 (function () {
   var KEY = 'vocabSRS_v1';
   var TAB_KEY = 'vocabTab';
@@ -224,56 +518,17 @@ document.getElementById('stop').addEventListener('click',stop);
   var AGAIN_MS = 60 * 1000;
   var DAY_MS = 24 * 60 * 60 * 1000;
 
-  function textWithoutButtons(el) {
-    if (!el) return '';
-    var clone = el.cloneNode(true);
-    clone.querySelectorAll('button').forEach(function (b) { b.remove(); });
-    return clone.textContent.replace(/\s+/g, ' ').trim();
-  }
-
-  function loadWords() {
-    var words = [];
-    document.querySelectorAll('#list-view section').forEach(function (sec) {
-      var heading = sec.querySelector('h2');
-      var pageMatch = heading && heading.textContent.match(/第(\d+)頁/);
-      var page = pageMatch ? Number(pageMatch[1]) : 0;
-      sec.querySelectorAll('.card').forEach(function (card) {
-        var comp = null;
-        var sup = null;
-        card.querySelectorAll('.forms span').forEach(function (span) {
-          var label = span.textContent.trim();
-          var b = span.querySelector('b');
-          var val = b ? b.textContent.trim() : '';
-          if (label.indexOf('比較級') === 0) comp = val || null;
-          if (label.indexOf('最高級') === 0) sup = val || null;
-        });
-        var phraseEl = card.querySelector('.phrase');
-        var phrase = phraseEl ? phraseEl.textContent.replace(/^片語：/, '').trim() : '';
-        var numEl = card.querySelector('.num');
-        var ipaEl = card.querySelector('.ipa');
-        words.push({
-          num: numEl ? Number(numEl.textContent) : words.length + 1,
-          word: card.dataset.word,
-          phonetics: ipaEl ? ipaEl.textContent.trim() : '',
-          chinese_meaning: textWithoutButtons(card.querySelector('.zh')),
-          comparative: comp,
-          superlative: sup,
-          phrase: phrase,
-          example_sentence: textWithoutButtons(card.querySelector('.en')),
-          example_translation: textWithoutButtons(card.querySelector('.tr')),
-          page: page,
-          speak_meaning: card.dataset.zh || '',
-          speak_sentence: card.dataset.ex || '',
-          speak_translation: card.dataset.tr || ''
-        });
-      });
-    });
-    return words;
-  }
-
-  var WORDS = loadWords();
+  // Deck comes from the lazily loaded chunks. Keys stay the English word,
+  // which is what vocabSRS_v1 already uses, so older progress still matches.
+  var WORDS = [];
   var byWord = {};
-  WORDS.forEach(function (w) { byWord[w.word] = w; });
+  var deckReady = false;
+  var deckPromise = null;
+  function setWords(list) {
+    WORDS = list || [];
+    byWord = {};
+    WORDS.forEach(function (w) { if (w && w.word) byWord[w.word] = w; });
+  }
 
   var S = window.speechSynthesis;
   var voice = null;
@@ -363,6 +618,8 @@ document.getElementById('stop').addEventListener('click',stop);
         if (isFinite(n)) state.newPerDay = Math.max(0, Math.min(999, Math.round(n)));
         if (raw.direction === 'zh' || raw.direction === 'mixed' || raw.direction === 'en') state.direction = raw.direction;
         if (raw.cards && typeof raw.cards === 'object') {
+          // Keep every saved key. Do not drop cards that are not in the
+          // current chunk yet, and do not rename keys (they are the word).
           Object.keys(raw.cards).forEach(function (word) {
             state.cards[word] = clampCard(raw.cards[word]);
           });
@@ -563,6 +820,17 @@ document.getElementById('stop').addEventListener('click',stop);
     return b;
   }
 
+  function cardSpeakButton() {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'say sc';
+    b.dataset.say = 'card';
+    b.title = 'Play card';
+    b.setAttribute('aria-label', '全部朗讀');
+    b.textContent = '▶';
+    return b;
+  }
+
   function paintStats() {
     var s = stats(Date.now());
     el.due.textContent = String(s.due);
@@ -596,6 +864,7 @@ document.getElementById('stop').addEventListener('click',stop);
     el.backWord.textContent = '';
     el.backWord.appendChild(document.createTextNode(entry.word + ' '));
     el.backWord.appendChild(sayButton('word', 'Play word'));
+    el.backWord.appendChild(cardSpeakButton());
     el.backWord.classList.toggle('answer', dir === 'zh');
     el.backIpa.textContent = entry.phonetics || '';
     el.backZh.textContent = '';
@@ -678,7 +947,42 @@ document.getElementById('stop').addEventListener('click',stop);
     return state.direction;
   }
 
+  function ensureDeck() {
+    if (deckReady) return Promise.resolve();
+    if (deckPromise) return deckPromise;
+    el.study.hidden = false;
+    el.done.hidden = true;
+    el.back.hidden = true;
+    el.grades.hidden = true;
+    el.show.hidden = true;
+    el.prompt.classList.remove('lang-zh');
+    el.prompt.textContent = '載入中…';
+    el.meta.textContent = '';
+    el.remain.textContent = '';
+    el.msg.textContent = '';
+    var loadAll = window.VOCAB_ENSURE_ALL;
+    deckPromise = Promise.resolve()
+      .then(function () {
+        if (typeof loadAll !== 'function') throw new Error('loader');
+        return loadAll();
+      })
+      .then(function (words) {
+        setWords(words);
+        deckReady = true;
+        el.msg.textContent = '';
+      })
+      .catch(function (err) {
+        deckPromise = null;
+        deckReady = false;
+        el.study.hidden = true;
+        el.msg.textContent = '無法載入單字。';
+        throw err;
+      });
+    return deckPromise;
+  }
+
   function showNext() {
+    if (!deckReady) return;
     paintStats();
     paintDirection();
     if (!WORDS.length) {
@@ -741,12 +1045,15 @@ document.getElementById('stop').addEventListener('click',stop);
       if (stopBtn) stopBtn.click();
     }
     if (onSrs) {
-      if (!active) showNext();
-      else {
-        paintStats();
-        paintDirection();
-        paintCard();
-      }
+      ensureDeck().then(function () {
+        if (!srsOn()) return;
+        if (!active) showNext();
+        else {
+          paintStats();
+          paintDirection();
+          paintCard();
+        }
+      }).catch(function () {});
     }
   }
 
@@ -838,6 +1145,18 @@ document.getElementById('stop').addEventListener('click',stop);
   el.srs.addEventListener('click', function (e) {
     var b = e.target.closest('.say');
     if (!b || !active) return;
+    if (b.classList.contains('sc') || b.dataset.say === 'card') {
+      var entry = byWord[active.word];
+      if (!entry || typeof window.VOCAB_PLAY_CARD !== 'function') return;
+      window.VOCAB_PLAY_CARD({
+        word: entry.word,
+        zh: entry.speak_meaning || entry.chinese_meaning,
+        ex: entry.speak_sentence || entry.example_sentence,
+        tr: entry.speak_translation || entry.example_translation,
+        el: el.study
+      });
+      return;
+    }
     speakPart(byWord[active.word], b.dataset.say);
   });
 
@@ -865,11 +1184,23 @@ document.getElementById('stop').addEventListener('click',stop);
   });
 
   setInterval(function () {
-    if (!srsOn()) return;
+    if (!srsOn() || !deckReady) return;
     if (!active) showNext();
     else paintStats();
   }, 1000);
 
   applyTab(document.documentElement.getAttribute('data-view') || 'list', { skipHash: true });
 })();
-</script></body></html>
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('to-top');
+  function sync(){var show=window.scrollY>300;btn.hidden=!show}
+  window.addEventListener('scroll',sync,{passive:true});
+  window.addEventListener('resize',sync);
+  btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+  sync();
+})();
+</script>
+</body>
+</html>
