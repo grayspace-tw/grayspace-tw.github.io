@@ -94,6 +94,22 @@ html:not([data-view="srs"]) #srs-view{display:none}
 #srs-view #srs-word.word{font-size:clamp(1.5rem, 1.15rem + 1.1vw, 1.9rem)}
 #srs-back>.syl{margin:8px 0 0;padding-right:52px}
 #srs-tags{padding-right:0;margin-top:8px}
+#srs-cloze{margin:8px 0 12px}
+#srs-cloze .kind{margin:0 0 6px;color:#888;font-size:.85em;text-align:center}
+#srs-cloze .sent{margin:0;font-size:1.15rem;line-height:1.65;text-align:center}
+#srs-cloze .blank{display:inline-block;min-width:2.4em;border-bottom:2px solid #2f5d8a;text-align:center}
+#srs-cloze .hint{margin:8px 0 0;color:#666;font-size:.95rem;text-align:center}
+#srs-cloze .choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+#srs-cloze .choices button{min-height:48px;padding:8px 10px;border:1px solid #d5dbe3;border-radius:10px;background:#fff;color:#2f5d8a;font-size:1.05rem;font-weight:700;cursor:pointer}
+#srs-cloze .choices button:focus{outline:3px solid #f0a33a}
+#srs-cloze form{display:flex;gap:8px;margin-top:12px}
+#srs-cloze input{flex:1;min-width:0;font-size:16px;padding:10px 12px;border:1px solid #d5dbe3;border-radius:10px;color:#222}
+#srs-cloze form button,#srs-cloze .reveal-btn{font-size:16px;min-height:48px;padding:0 14px;border:none;border-radius:10px;background:#2f5d8a;color:#fff;font-weight:700;cursor:pointer}
+#srs-cloze .result{margin:10px 0 0;text-align:center;font-weight:700}
+#srs-cloze .result.ok{color:#2f6b3a}
+#srs-cloze .result.bad{color:#b5482a}
+#srs-view .grades button.suggest{outline:3px solid #f0a33a;outline-offset:2px}
+#srs-cloze-mode{font-size:16px;border:1px solid #d5dbe3;border-radius:8px;padding:4px 6px;color:#222;background:#fff}
 #srs-view .prompt.lang-zh{font-size:1.45em;color:#b5482a}
 #srs-view .prompt .say{font-size:.7em}
 #srs-view .show{display:block;width:100%;margin-top:8px;border:none;border-radius:20px;padding:12px 18px;background:#2f5d8a;color:#fff;font-size:1.05em;font-weight:700;cursor:pointer;min-height:48px}
@@ -197,6 +213,14 @@ html:not([data-view="srs"]) #srs-view{display:none}
       <input id="srs-limit" type="number" min="0" max="999" step="1" inputmode="numeric" aria-label="New cards per day">
     </label>
     <label class="limit autoplay"><input id="srs-autoplay" type="checkbox" checked> 翻開自動朗讀</label>
+    <label class="limit cloze-on"><input id="srs-cloze-on" type="checkbox" checked> 例句挖空練習</label>
+    <label class="limit">題型
+      <select id="srs-cloze-mode" aria-label="題型">
+        <option value="auto">自動</option>
+        <option value="choice">選擇題</option>
+        <option value="type">填空</option>
+      </select>
+    </label>
     <div class="tools">
       <button type="button" id="srs-export" aria-label="Export progress">匯出進度</button>
       <button type="button" id="srs-import" aria-label="Import progress">匯入進度</button>
@@ -208,6 +232,17 @@ html:not([data-view="srs"]) #srs-view{display:none}
   <section id="srs-study" class="practice" hidden>
     <div class="meta"><span id="srs-meta"></span><span id="srs-remain"></span></div>
     <div id="srs-prompt" class="prompt"></div>
+    <div id="srs-cloze" hidden>
+      <p id="srs-cloze-kind" class="kind"></p>
+      <p id="srs-cloze-sent" class="sent"></p>
+      <p id="srs-cloze-hint" class="hint"></p>
+      <div id="srs-cloze-choices" class="choices"></div>
+      <form id="srs-cloze-form">
+        <input id="srs-cloze-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" aria-label="填空答案">
+        <button type="submit" id="srs-cloze-go">送出</button>
+      </form>
+      <p id="srs-cloze-result" class="result" hidden></p>
+    </div>
     <button type="button" id="srs-show" class="show" aria-label="Show answer">顯示答案</button>
     <div id="srs-back" hidden>
       <div class="head"><span id="srs-word" class="word"></span></div>
@@ -239,7 +274,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
       <button type="button" id="cram-all" class="cram">全部已學卡片</button>
     </div>
   </section>
-  <p class="hint">空白鍵顯示答案 · 數字鍵 1–4 評分</p>
+  <p class="hint">空白鍵顯示答案 · Enter 送出挖空 · 數字鍵 1–4 評分</p>
 </div>
 <script src="data/manifest.js"></script>
 <script src="data/sentence-index.js"></script>
@@ -264,6 +299,7 @@ function cardFields(c){return {word:c.dataset.word,zh:c.dataset.zh,ex:c.dataset.
 async function playSequence(fields,id){if(fields.el)mark(fields.el);var steps=[function(){return utter(fields.word)},function(){return utterZh(fields.zh)},function(){return utter(fields.ex)},function(){return utterZh(fields.tr)}];for(var i=0;i<steps.length;i++){if(id!==run)return;await steps[i]();if(id!==run)return;if(i<steps.length-1)await wait(500,id)}}
 function playOne(fields){stop();var id=run;setPlayStop(true);playSequence(fields,id).then(function(){if(id===run){mark(null);setPlayStop(false)}})}
 window.VOCAB_PLAY_CARD=playOne
+window.VOCAB_PLAY_LINES=function(lines,el){stop();var id=run;setPlayStop(true);if(el)mark(el);(async function(){for(var i=0;i<lines.length;i++){if(id!==run)return;var line=lines[i]||{};if(!line.text)continue;if(line.lang==='zh')await utterZh(line.text);else await utter(line.text);if(id!==run)return;if(i<lines.length-1)await wait(500,id)}if(id===run){mark(null);setPlayStop(false)}})()}
 window.VOCAB_STOP=stop
 function setPlayStop(on, index, total){var b=document.getElementById('play-stop');if(!b)return;b.hidden=!on;if(!on)return;var label='■ Stop';if(index&&total)label+=' · '+index+'/'+total;b.textContent=label;b.setAttribute('aria-label',label)}
 function stop(){run++;if(S)S.cancel();mark(null);setPlayStop(false)}
@@ -661,6 +697,194 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return primary.length > 0;
   }
   window.VOCAB_MARK_SENTENCE = markSentence;
+
+  var PREP_POOL = ['in', 'on', 'at', 'with', 'about', 'for', 'to', 'by', 'of'];
+  var PREP_ALTS = { angry: ['with', 'at'], bored: ['by', 'with'] };
+  var PHRASE_KEY = {
+    'so … that': 'so',
+    "can't help + V-ing": 'help',
+    'too … to': 'to',
+    "It's never too old to learn": 'to',
+    'be on a diet': 'on',
+    'laugh out loud(ly)': 'out',
+    'Be careful when …': 'when'
+  };
+
+  function seededOrder(list, seed) {
+    var arr = list.slice();
+    var s = (seed || 1) % 2147483647;
+    if (s < 1) s += 2147483646;
+    function rnd() {
+      s = (s * 48271) % 2147483647;
+      return s / 2147483647;
+    }
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(rnd() * (i + 1));
+      var tmp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = tmp;
+    }
+    return arr;
+  }
+
+  function wordSeed(text) {
+    var n = 1;
+    String(text || '').split('').forEach(function (ch) { n = (n + ch.charCodeAt(0)) % 100000; });
+    return n + 17;
+  }
+
+  function findWordIn(text, start, end, word) {
+    var slice = text.slice(start, end);
+    var re = new RegExp('\\b' + String(word).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+    var m = re.exec(slice);
+    if (!m) return null;
+    return { start: start + m.index, end: start + m.index + m[0].length, text: m[0] };
+  }
+
+  function matchSpans(text, coloc) {
+    var parts = Array.isArray(coloc.match) ? coloc.match : [coloc.match];
+    var spans = [];
+    var from = 0;
+    for (var i = 0; i < parts.length; i++) {
+      var hit = findLiteral(text, parts[i], from);
+      if (!hit) return null;
+      spans.push(hit);
+      from = hit.end;
+    }
+    return spans;
+  }
+
+  function posBucket(entry) {
+    var s = entry && entry.chinese_meaning || '';
+    var m = s.match(/[形名動副代]/);
+    return m ? m[0] : '';
+  }
+
+  function wordBlank(entry) {
+    var sentence = entry.example_sentence || '';
+    var ranges = findRanges(sentence, phraseList(entry));
+    if (ranges.length) return { how: 'form', span: ranges[0], note: '' };
+    var re = /[A-Za-z][A-Za-z'-]*/g;
+    var lemma = String(entry.word || '').toLowerCase();
+    var best = null;
+    var bestScore = 0;
+    var m;
+    while ((m = re.exec(sentence))) {
+      var w = m[0].toLowerCase();
+      var score = 0;
+      var n = Math.min(w.length, lemma.length);
+      for (var i = 0; i < n; i++) {
+        if (w.charAt(i) !== lemma.charAt(i)) break;
+        score++;
+      }
+      if (score > bestScore) {
+        bestScore = score;
+        best = { start: m.index, end: m.index + m[0].length, text: m[0] };
+      }
+    }
+    if (best && bestScore >= 3) {
+      return { how: 'closest', span: best, note: '例句沒有這個字的變化形，改挖最接近的「' + best.text + '」' };
+    }
+    return { how: 'skip', span: null, note: '例句裡找不到這個字，挖空略過' };
+  }
+
+  function choiceOptions(correct, banned, seed) {
+    var ban = {};
+    ban[String(correct || '').toLowerCase()] = true;
+    (banned || []).forEach(function (b) { ban[String(b || '').toLowerCase()] = true; });
+    var pool = PREP_POOL.filter(function (p) { return !ban[p.toLowerCase()]; });
+    var picked = seededOrder(pool, seed).slice(0, 3);
+    if (picked.length < 3) {
+      PREP_POOL.forEach(function (p) {
+        if (picked.length >= 3 || ban[p.toLowerCase()] || picked.indexOf(p) !== -1) return;
+        picked.push(p);
+      });
+    }
+    return seededOrder(picked.concat([correct]), seed + 3);
+  }
+
+  function wordOptions(entry, correct) {
+    var bucket = posBucket(entry);
+    var others = allEntries().filter(function (w) { return w.word !== entry.word; });
+    var same = others.filter(function (w) { return posBucket(w) === bucket; });
+    var pool = same.length >= 3 ? same : others;
+    var picked = seededOrder(pool, wordSeed(entry.word)).slice(0, 3).map(function (w) { return w.word; });
+    return seededOrder(picked.concat([correct]), wordSeed(correct) + 9);
+  }
+
+  function clozeSpec(entry) {
+    var sentence = entry.example_sentence || '';
+    var blank = wordBlank(entry);
+    var spec = {
+      word: entry.word,
+      sentence: sentence,
+      translation: entry.example_translation || '',
+      meaning: entry.chinese_meaning || '',
+      speak: entry.speak_sentence || sentence,
+      speakTr: entry.speak_translation || entry.example_translation || '',
+      hasColoc: false,
+      learn: null,
+      mature: null,
+      wordBlank: blank
+    };
+    var list = entry.collocations || [];
+    if (!list.length) return spec;
+    var coloc = list[0];
+    var spans = matchSpans(sentence, coloc);
+    if (!spans) {
+      spec.wordBlank = blank.how === 'form' ? blank : {
+        how: 'skip',
+        span: blank.span,
+        note: (blank.note ? blank.note + '；' : '') + '搭配詞不在例句裡'
+      };
+      return spec;
+    }
+    spec.hasColoc = true;
+    var alts = PREP_ALTS[entry.word] || [];
+    if (coloc.kind === 'prep') {
+      var whole = spans[0];
+      var prep = whole.text.trim().split(/\s+/).pop();
+      var prepSpan = findWordIn(sentence, whole.start, whole.end, prep);
+      if (!prepSpan) prepSpan = { start: whole.end - prep.length, end: whole.end, text: sentence.slice(whole.end - prep.length, whole.end) };
+      var learnAccept = alts.length ? alts.slice() : [prepSpan.text];
+      if (learnAccept.map(function (s) { return s.toLowerCase(); }).indexOf(prepSpan.text.toLowerCase()) === -1) learnAccept.unshift(prepSpan.text);
+      var fulls = [whole.text];
+      alts.forEach(function (alt) {
+        var bits = whole.text.trim().split(/\s+/);
+        if (alt.toLowerCase() === bits[bits.length - 1].toLowerCase()) return;
+        bits[bits.length - 1] = alt;
+        fulls.push(bits.join(' '));
+      });
+      spec.learn = {
+        spans: [prepSpan],
+        accepts: learnAccept,
+        options: choiceOptions(prepSpan.text, learnAccept, wordSeed(entry.word))
+      };
+      spec.mature = { spans: [whole], accepts: fulls };
+      return spec;
+    }
+    var key = PHRASE_KEY[coloc.text] || '';
+    var keySpan = null;
+    if (key) {
+      for (var i = 0; i < spans.length && !keySpan; i++) keySpan = findWordIn(sentence, spans[i].start, spans[i].end, key);
+    }
+    if (!keySpan) {
+      var shortest = spans.slice().sort(function (a, b) { return (a.end - a.start) - (b.end - b.start); })[0];
+      keySpan = shortest;
+    }
+    var joined = spans.map(function (s) { return s.text; }).join(' ');
+    var matureAccept = [joined];
+    if (coloc.text && matureAccept.indexOf(coloc.text) === -1) matureAccept.push(coloc.text);
+    spec.learn = {
+      spans: [keySpan],
+      accepts: [keySpan.text],
+      options: choiceOptions(keySpan.text, [keySpan.text], wordSeed(entry.word))
+    };
+    spec.mature = { spans: spans, accepts: matureAccept };
+    return spec;
+  }
+  window.VOCAB_CLOZE_SPEC = clozeSpec;
+  window.VOCAB_CLOZE_OPTIONS = wordOptions;
 
   function renderCard(w) {
     var card = el('div', 'card');
@@ -1650,9 +1874,66 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return list;
   }
 
+  function clozeKey(word) { return 'cloze:' + word; }
+  function isClozeKey(key) { return String(key || '').indexOf('cloze:') === 0; }
+  function baseWord(key) { return isClozeKey(key) ? key.slice(6) : key; }
+  function clozeEnabled() {
+    try {
+      var v = localStorage.getItem('vocabSrsCloze');
+      if (v == null || v === '') return true;
+      return v === '1';
+    } catch (e) { return true; }
+  }
+  function clozeMode() {
+    try {
+      var v = localStorage.getItem('vocabSrsClozeMode');
+      if (v === 'choice' || v === 'type' || v === 'auto') return v;
+    } catch (e) {}
+    return 'auto';
+  }
+  function wordReadyForCloze(word) {
+    var card = view(word);
+    return card.repetitions >= 2 || card.interval >= 3;
+  }
+  function clozeIntroducedToday(today) {
+    var n = 0;
+    Object.keys(state.cards).forEach(function (key) {
+      if (isClozeKey(key) && state.cards[key].introduced === today) n += 1;
+    });
+    return n;
+  }
+  function clozeShape(card, spec) {
+    var mode = clozeMode();
+    if (mode === 'auto' && card.interval >= 21) return 'sentence';
+    var choice = mode === 'choice' || (mode === 'auto' && card.interval < 7);
+    if (spec && spec.hasColoc) return choice ? 'learn' : 'mature';
+    return choice ? 'word-choice' : 'word-type';
+  }
+  function clozePlayable(entry) {
+    if (!entry || typeof window.VOCAB_CLOZE_SPEC !== 'function') return false;
+    if (!wordReadyForCloze(entry.word)) return false;
+    var spec = window.VOCAB_CLOZE_SPEC(entry);
+    var shape = clozeShape(view(clozeKey(entry.word)), spec);
+    if (shape === 'sentence') return !!spec.translation;
+    if (shape === 'learn' || shape === 'mature') return !!spec.hasColoc;
+    return !!(spec.wordBlank && spec.wordBlank.how !== 'skip');
+  }
+
+  function sortByEase(keys) {
+    keys.sort(function (a, b) {
+      var ca = view(a);
+      var cb = view(b);
+      if (ca.ease !== cb.ease) return ca.ease - cb.ease;
+      if (ca.lapses !== cb.lapses) return cb.lapses - ca.lapses;
+      return (ca.due || 0) - (cb.due || 0);
+    });
+    return keys;
+  }
+
   function cramCandidates(now) {
     var end = endOfDay(now);
     var list = [];
+    var cloze = [];
     WORDS.forEach(function (w) {
       var card = view(w.word);
       if (isNew(card)) return;
@@ -1660,35 +1941,48 @@ document.getElementById('play-stop').addEventListener('click',stop);
       var reviewDue = card.interval >= 1 && card.due != null && card.due <= end;
       if (learningDue || reviewDue) return;
       list.push(w.word);
+      if (!clozeEnabled() || !clozePlayable(w)) return;
+      var ck = clozeKey(w.word);
+      var cc = view(ck);
+      if (isNew(cc)) return;
+      var cLearn = cc.due != null && cc.interval > 0 && cc.interval < 1 && cc.due <= now;
+      var cReview = cc.interval >= 1 && cc.due != null && cc.due <= end;
+      if (cLearn || cReview) return;
+      cloze.push(ck);
     });
-    list.sort(function (a, b) {
-      var ca = view(a);
-      var cb = view(b);
-      if (ca.ease !== cb.ease) return ca.ease - cb.ease;
-      if (ca.lapses !== cb.lapses) return cb.lapses - ca.lapses;
-      return (ca.due || 0) - (cb.due || 0);
-    });
-    return list;
+    sortByEase(list);
+    sortByEase(cloze);
+    return list.concat(cloze);
   }
 
-  function queueWords(now) {
+  function bucketQueue(keys, now, newCap, introducedToday) {
     var learning = [];
     var review = [];
     var pendingNew = [];
     var unseen = [];
-    WORDS.forEach(function (w) {
-      var card = view(w.word);
-      if (card.due != null && card.interval > 0 && card.interval < 1 && card.due <= now) learning.push(w.word);
-      else if (card.interval >= 1 && card.due != null && card.due <= endOfDay(now)) review.push(w.word);
+    var end = endOfDay(now);
+    keys.forEach(function (key) {
+      var card = view(key);
+      if (card.due != null && card.interval > 0 && card.interval < 1 && card.due <= now) learning.push(key);
+      else if (card.interval >= 1 && card.due != null && card.due <= end) review.push(key);
       else if (isNew(card)) {
-        if (card.introduced) pendingNew.push(w.word);
-        else unseen.push(w.word);
+        if (card.introduced) pendingNew.push(key);
+        else unseen.push(key);
       }
     });
     learning.sort(function (a, b) { return view(a).due - view(b).due; });
     review.sort(function (a, b) { return view(a).due - view(b).due; });
-    var slots = Math.max(0, newLimit(dayKey(now)) - introducedTodayCount(dayKey(now)));
+    var slots = Math.max(0, newCap - introducedToday);
     return learning.concat(review, pendingNew, unseen.slice(0, slots));
+  }
+
+  function queueWords(now) {
+    var words = bucketQueue(WORDS.map(function (w) { return w.word; }), now, newLimit(dayKey(now)), introducedTodayCount(dayKey(now)));
+    if (!clozeEnabled()) return words;
+    var clozeKeys = [];
+    WORDS.forEach(function (w) { if (clozePlayable(w)) clozeKeys.push(clozeKey(w.word)); });
+    var cloze = bucketQueue(clozeKeys, now, 10, clozeIntroducedToday(dayKey(now)));
+    return words.concat(cloze);
   }
 
   function stats(now) {
@@ -1737,6 +2031,15 @@ document.getElementById('play-stop').addEventListener('click',stop);
     backEx: document.getElementById('srs-ex'),
     backTr: document.getElementById('srs-tr'),
     backTags: document.getElementById('srs-tags'),
+    cloze: document.getElementById('srs-cloze'),
+    clozeKind: document.getElementById('srs-cloze-kind'),
+    clozeSent: document.getElementById('srs-cloze-sent'),
+    clozeHint: document.getElementById('srs-cloze-hint'),
+    clozeChoices: document.getElementById('srs-cloze-choices'),
+    clozeForm: document.getElementById('srs-cloze-form'),
+    clozeInput: document.getElementById('srs-cloze-input'),
+    clozeGo: document.getElementById('srs-cloze-go'),
+    clozeResult: document.getElementById('srs-cloze-result'),
     grades: document.getElementById('srs-grades'),
     list: document.getElementById('list-view'),
     srs: document.getElementById('srs-view'),
@@ -1783,6 +2086,10 @@ document.getElementById('play-stop').addEventListener('click',stop);
     if (document.activeElement !== el.perDay) el.perDay.value = String(state.newPerDay);
     var autoBox = document.getElementById('srs-autoplay');
     if (autoBox && document.activeElement !== autoBox) autoBox.checked = autoplayOn();
+    var clozeBox = document.getElementById('srs-cloze-on');
+    if (clozeBox && document.activeElement !== clozeBox) clozeBox.checked = clozeEnabled();
+    var modeBox = document.getElementById('srs-cloze-mode');
+    if (modeBox && document.activeElement !== modeBox) modeBox.value = clozeMode();
   }
 
   function fillPrompt(entry, dir) {
@@ -1865,11 +2172,162 @@ document.getElementById('play-stop').addEventListener('click',stop);
     var days = nextDays(view(active.word));
     el.grades.querySelectorAll('button').forEach(function (b) {
       b.querySelector('small').textContent = formatInterval(days[b.dataset.grade]);
+      var suggest = b.dataset.grade === 'again' && active.task && active.task.correct === false;
+      b.classList.toggle('suggest', suggest);
     });
   }
 
+  function normAnswer(s) {
+    return String(s || '').replace(/…/g, ' ').trim().replace(/\s+/g, ' ').replace(/[.,!?;:，。！？；：]+$/g, '').toLowerCase();
+  }
+
+  function answersMatch(input, accepts) {
+    var n = normAnswer(input);
+    if (!n) return false;
+    return (accepts || []).some(function (a) { return normAnswer(a) === n; });
+  }
+
+  function fillClozeSentence(parent, sentence, spans, mode) {
+    parent.textContent = '';
+    var parts = (spans || []).slice().sort(function (a, b) { return a.start - b.start; });
+    var last = 0;
+    parts.forEach(function (sp) {
+      if (sp.start < last) return;
+      if (sp.start > last) parent.appendChild(document.createTextNode(sentence.slice(last, sp.start)));
+      if (mode === 'blank') {
+        var blank = document.createElement('span');
+        blank.className = 'blank';
+        blank.setAttribute('aria-label', '空白');
+        blank.textContent = '\u00a0';
+        blank.style.minWidth = Math.max(2.4, (sp.end - sp.start) * 0.55) + 'em';
+        parent.appendChild(blank);
+      } else {
+        var mark = document.createElement('mark');
+        mark.className = 'hw';
+        mark.textContent = sentence.slice(sp.start, sp.end);
+        parent.appendChild(mark);
+      }
+      last = sp.end;
+    });
+    if (last < sentence.length) parent.appendChild(document.createTextNode(sentence.slice(last)));
+  }
+
+  function clozeTask(entry, card) {
+    var spec = window.VOCAB_CLOZE_SPEC(entry);
+    var shape = clozeShape(card, spec);
+    var task = { shape: shape, spec: spec, correct: null, spans: [], accepts: [], options: [] };
+    if (shape === 'sentence') {
+      task.kindLabel = '整句';
+      task.hint = '';
+      return task;
+    }
+    if (shape === 'learn') {
+      task.kindLabel = '選擇題 · 搭配';
+      task.spans = spec.learn.spans;
+      task.accepts = spec.learn.accepts;
+      task.options = spec.learn.options;
+      task.hint = spec.translation;
+      return task;
+    }
+    if (shape === 'mature') {
+      task.kindLabel = '填空 · 搭配';
+      task.spans = spec.mature.spans;
+      task.accepts = spec.mature.accepts;
+      task.hint = spec.translation;
+      return task;
+    }
+    var surface = spec.wordBlank && spec.wordBlank.span ? spec.wordBlank.span.text : entry.word;
+    task.spans = spec.wordBlank && spec.wordBlank.span ? [spec.wordBlank.span] : [];
+    task.accepts = [surface];
+    task.hint = spec.meaning + (spec.translation ? '　' + spec.translation : '');
+    task.note = spec.wordBlank ? spec.wordBlank.note : '';
+    if (shape === 'word-choice') {
+      task.kindLabel = '選擇題';
+      task.options = window.VOCAB_CLOZE_OPTIONS(entry, surface);
+    } else {
+      task.kindLabel = '填空';
+    }
+    return task;
+  }
+
+  function paintCloze(entry) {
+    if (!active.task) active.task = clozeTask(entry, view(active.word));
+    var task = active.task;
+    var spec = task.spec;
+    el.prompt.hidden = true;
+    el.show.hidden = true;
+    el.back.hidden = true;
+    el.cloze.hidden = false;
+    el.clozeKind.textContent = '例句挖空 · ' + task.kindLabel + (task.note ? '（' + task.note + '）' : '');
+    el.clozeHint.textContent = '';
+    el.clozeResult.hidden = true;
+    el.clozeResult.textContent = '';
+    el.clozeResult.className = 'result';
+    el.clozeChoices.textContent = '';
+    el.clozeForm.hidden = true;
+    if (!active.revealed) {
+      if (task.shape === 'sentence') {
+        el.clozeSent.textContent = spec.translation || '';
+        el.clozeHint.textContent = '看中文，輸入或說出整句英文，再對答案。';
+      } else {
+        fillClozeSentence(el.clozeSent, spec.sentence, task.spans, 'blank');
+        el.clozeHint.textContent = task.hint || '';
+      }
+      if (task.options && task.options.length && task.shape !== 'mature' && task.shape !== 'word-type' && task.shape !== 'sentence') {
+        el.clozeChoices.hidden = false;
+        task.options.forEach(function (opt) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = opt;
+          b.addEventListener('click', function () { submitCloze(opt); });
+          el.clozeChoices.appendChild(b);
+        });
+      } else el.clozeChoices.hidden = true;
+      if (!task.options || !task.options.length || task.shape === 'mature' || task.shape === 'word-type' || task.shape === 'sentence') {
+        el.clozeForm.hidden = false;
+        el.clozeInput.value = '';
+        el.clozeGo.textContent = task.shape === 'sentence' ? '看答案' : '送出';
+      }
+      el.grades.hidden = true;
+      return;
+    }
+    el.clozeChoices.hidden = true;
+    el.clozeForm.hidden = true;
+    if (task.shape === 'sentence') {
+      el.clozeSent.textContent = spec.sentence;
+      el.clozeHint.textContent = spec.translation || '';
+      el.clozeResult.hidden = false;
+      el.clozeResult.textContent = '請對照答案自己評分';
+    } else {
+      fillClozeSentence(el.clozeSent, spec.sentence, task.spans, 'mark');
+      el.clozeHint.textContent = task.hint || '';
+      el.clozeResult.hidden = false;
+      el.clozeResult.classList.add(task.correct ? 'ok' : 'bad');
+      el.clozeResult.textContent = task.correct ? '✓ 正確' : ('✗ 正確答案：' + task.spans.map(function (sp) { return spec.sentence.slice(sp.start, sp.end); }).join(' … '));
+    }
+    el.grades.hidden = false;
+    paintGrades();
+  }
+
+  function submitCloze(value) {
+    if (!active || !isClozeKey(active.word) || active.revealed) return;
+    var task = active.task;
+    if (!task) return;
+    if (task.shape === 'sentence') task.correct = null;
+    else task.correct = answersMatch(value, task.accepts);
+    active.revealed = true;
+    paintCard();
+    if (autoplayOn() && typeof window.VOCAB_PLAY_LINES === 'function') {
+      var spec = task.spec;
+      window.VOCAB_PLAY_LINES([
+        { lang: 'en', text: spec.speak },
+        { lang: 'zh', text: spec.speakTr }
+      ], el.study);
+    }
+  }
+
   function paintCard() {
-    var entry = byWord[active.word];
+    var entry = byWord[baseWord(active.word)];
     if (!entry) return;
     var now = Date.now();
     var q = queueWords(now);
@@ -1878,10 +2336,21 @@ document.getElementById('play-stop').addEventListener('click',stop);
     if (cramOn) {
       el.meta.textContent = '加碼模式・不影響排程 · ' + dirLabel;
       el.remain.textContent = '這輪 ' + (cramQueue.length + 1) + ' 張';
+    } else if (isClozeKey(active.word)) {
+      el.meta.textContent = '#' + entry.num + ' · 第' + entry.page + '頁 · 例句挖空';
+      el.remain.textContent = '這輪 ' + left + ' 張';
     } else {
       el.meta.textContent = '#' + entry.num + ' · 第' + entry.page + '頁 · ' + dirLabel;
       el.remain.textContent = '這輪 ' + left + ' 張';
     }
+    if (isClozeKey(active.word)) {
+      paintCloze(entry);
+      el.study.hidden = false;
+      el.done.hidden = true;
+      return;
+    }
+    if (el.cloze) el.cloze.hidden = true;
+    el.prompt.hidden = false;
     fillPrompt(entry, active.dir);
     fillBack(entry, active.dir);
     el.show.hidden = active.revealed;
@@ -1921,6 +2390,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     if (cramAll) cramAll.hidden = learned === 0;
     el.study.hidden = true;
     el.done.hidden = false;
+    if (el.cloze) el.cloze.hidden = true;
   }
 
   function chooseDir() {
@@ -1936,6 +2406,8 @@ document.getElementById('play-stop').addEventListener('click',stop);
     el.back.hidden = true;
     el.grades.hidden = true;
     el.show.hidden = true;
+    if (el.cloze) el.cloze.hidden = true;
+    el.prompt.hidden = false;
     el.prompt.classList.remove('lang-zh');
     el.prompt.textContent = '載入中…';
     el.meta.textContent = '';
@@ -2111,7 +2583,13 @@ document.getElementById('play-stop').addEventListener('click',stop);
   function beginCram(all) {
     var list = cramCandidates(Date.now());
     if (!list.length) return;
-    cramQueue = all ? list.slice() : list.slice(0, 15);
+    if (all) cramQueue = list.slice();
+    else {
+      var words = list.filter(function (k) { return !isClozeKey(k); });
+      var cloze = list.filter(isClozeKey);
+      cramQueue = words.slice(0, 15);
+      if (cramQueue.length < 15) cramQueue = cramQueue.concat(cloze.slice(0, 15 - cramQueue.length));
+    }
     cramOn = true;
     active = null;
     if (typeof window.VOCAB_STOP === 'function') window.VOCAB_STOP();
@@ -2125,6 +2603,25 @@ document.getElementById('play-stop').addEventListener('click',stop);
   document.getElementById('srs-autoplay').addEventListener('change', function () {
     try { localStorage.setItem('vocabSrsAutoplay', this.checked ? '1' : '0'); } catch (e) {}
     if (!this.checked && typeof window.VOCAB_STOP === 'function') window.VOCAB_STOP();
+  });
+  document.getElementById('srs-cloze-on').addEventListener('change', function () {
+    try { localStorage.setItem('vocabSrsCloze', this.checked ? '1' : '0'); } catch (e) {}
+    if (!this.checked && active && isClozeKey(active.word)) {
+      active = null;
+      if (typeof window.VOCAB_STOP === 'function') window.VOCAB_STOP();
+      if (srsOn()) showNext();
+    }
+  });
+  document.getElementById('srs-cloze-mode').addEventListener('change', function () {
+    try { localStorage.setItem('vocabSrsClozeMode', this.value); } catch (e) {}
+    if (active && isClozeKey(active.word) && !active.revealed) {
+      active.task = null;
+      paintCard();
+    }
+  });
+  el.clozeForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    submitCloze(el.clozeInput.value);
   });
 
   el.perDay.addEventListener('change', function () {
@@ -2239,7 +2736,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     if (e.key === ' ' || e.code === 'Space') {
       if (e.target && e.target.closest && e.target.closest('button, a, .tabs, .rate')) return;
       e.preventDefault();
-      if (active && !active.revealed) reveal();
+      if (active && !active.revealed && !isClozeKey(active.word)) reveal();
       return;
     }
     if (e.repeat || !active || !active.revealed) return;
