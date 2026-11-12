@@ -13,7 +13,68 @@ main{max-width:960px;margin:0 auto;padding:12px}h2{border-left:5px solid #2f5d8a
 .ctl{margin-top:12px;display:flex;gap:8px;justify-content:center}.ctl button{border:none;border-radius:20px;padding:8px 18px;font-size:1em;cursor:pointer;background:#fff;color:#2f5d8a;font-weight:600}
 .rate{margin-top:10px;font-size:.9em;display:flex;gap:6px;justify-content:center;align-items:center;flex-wrap:wrap}.rate button{border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:14px;padding:3px 10px;cursor:pointer;font-size:.9em}.rate button.on{background:#fff;color:#2f5d8a;font-weight:700}
 .card.playing{outline:3px solid #f0a33a}
-</style></head><body><header><h1>單字2000活用練習</h1><p>Unit 2 個人特徵 Personal characteristics</p><div class="ctl"><button id="all">▶ Play All</button><button id="stop">■ Stop</button></div><div class="rate" role="group" aria-label="Speech rate">速度 <button data-r="0.5">0.5x</button><button data-r="0.75">0.75x</button><button data-r="1" class="on">1x</button><button data-r="1.5">1.5x</button><button data-r="2">2x</button></div></header><main><section><h2>第6頁 <small>words 1–16</small></h2><div class="grid"><div class="card" data-word="beautiful" data-zh="美麗的" data-tr="這個女子如此美麗以致於我忍不住注視著她。" data-ex="The woman is so beautiful that I can&#x27;t help looking at her."><div class="head"><span class="num">1</span><span class="word">beautiful</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈbjutəfəl]</span></div>
+.tabs{margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.tabs button{border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:14px;padding:4px 14px;font-size:.95em;font-weight:600;cursor:pointer}
+.tabs button:hover,.tabs button:focus{background:rgba(255,255,255,.18)}
+html[data-view="srs"] #tab-srs,html:not([data-view="srs"]) #tab-list{background:#fff;color:#2f5d8a;font-weight:700}
+html[data-view="srs"] #list-view,html[data-view="srs"] .ctl{display:none}
+html:not([data-view="srs"]) #srs-view{display:none}
+#srs-view,#srs-view *,#srs-view *::before,#srs-view *::after{box-sizing:border-box}
+#srs-view [hidden]{display:none !important}
+#srs-view{max-width:720px;margin:0 auto;padding:12px}
+#srs-view .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:4px 0 12px}
+#srs-view .stat{background:#fff;border-radius:10px;padding:8px 4px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+#srs-view .stat b{display:block;font-size:1.35em;color:#2f5d8a;font-variant-numeric:tabular-nums}
+#srs-view .stat span{font-size:.75em;color:#666}
+#srs-view .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+#srs-view .seg,#srs-view .tools{display:flex;flex-wrap:wrap;gap:6px}
+#srs-view .seg button,#srs-view .tools button,#srs-view .limit{border:1px solid #d5dbe3;background:#fff;color:#2f5d8a;border-radius:16px;padding:6px 10px;font-size:.9em;font-weight:600;cursor:pointer}
+#srs-view .seg button.on{background:#2f5d8a;color:#fff;border-color:#2f5d8a}
+#srs-view .limit{display:inline-flex;align-items:center;gap:6px;color:#444;cursor:default}
+#srs-view .limit input{width:4.2em;font-size:16px;border:1px solid #d5dbe3;border-radius:8px;padding:4px 6px;color:#222}
+#srs-view .tools{margin-left:auto}
+#srs-view .msg{min-height:1.2em;margin:0 0 8px;color:#b5482a;font-size:.9em}
+#srs-view .practice,#srs-view .done{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+#srs-view .meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:#888;font-size:.85em}
+#srs-view .prompt{margin:16px 0;font-size:2em;font-weight:700;text-align:center;overflow-wrap:anywhere}
+#srs-view .prompt.lang-zh{font-size:1.45em;color:#b5482a}
+#srs-view .prompt .say{font-size:.7em}
+#srs-view .show{display:block;width:100%;margin-top:8px;border:none;border-radius:20px;padding:12px 18px;background:#2f5d8a;color:#fff;font-size:1.05em;font-weight:700;cursor:pointer;min-height:48px}
+#srs-view .show:focus,#srs-view .grades button:focus{outline:3px solid #f0a33a}
+#srs-view .answer{font-size:1.5em}
+#srs-view .zh.answer{font-size:1.35em;font-weight:700}
+#srs-view .grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+#srs-view .grades button{border:none;border-radius:10px;padding:8px 4px;color:#fff;font-size:.95em;font-weight:700;cursor:pointer;min-height:64px}
+#srs-view .grades .k{display:block;font-size:.72em;font-weight:600;opacity:.85}
+#srs-view .grades small{display:block;margin-top:2px;font-size:.95em;font-weight:700}
+#srs-view .grades .again{background:#b5482a}
+#srs-view .grades .hard{background:#c47b14}
+#srs-view .grades .good{background:#2f6b3a}
+#srs-view .grades .easy{background:#2f5d8a}
+#srs-view .done{padding:28px 16px;text-align:center}
+#srs-view .done .lead{margin:0 0 8px;font-size:1.25em;font-weight:700}
+#srs-view .done p{margin:6px 0}
+#srs-view .hint{margin:10px 0 0;color:#888;font-size:.85em;text-align:center}
+@media (max-width:560px){
+  #srs-view .grades{grid-template-columns:repeat(2,1fr)}
+  #srs-view .prompt{font-size:1.65em}
+  #srs-view .prompt.lang-zh{font-size:1.25em}
+  #srs-view .tools{margin-left:0}
+}
+</style><script>
+(function(){
+  var tab='list';
+  try{
+    var h=location.hash;
+    if(h==='#srs'||h==='#list') tab=h.slice(1);
+    else {
+      var s=localStorage.getItem('vocabTab');
+      if(s==='srs'||s==='list') tab=s;
+    }
+  }catch(e){}
+  document.documentElement.setAttribute('data-view', tab);
+})();
+</script></head><body><header><h1>單字2000活用練習</h1><p>Unit 2 個人特徵 Personal characteristics</p><div class="tabs" role="tablist" aria-label="檢視"><button type="button" role="tab" id="tab-list" aria-controls="list-view">單字列表</button><button type="button" role="tab" id="tab-srs" aria-controls="srs-view">SRS 練習</button></div><div class="ctl"><button id="all">▶ Play All</button><button id="stop">■ Stop</button></div><div class="rate" role="group" aria-label="Speech rate">速度 <button data-r="0.5">0.5x</button><button data-r="0.75">0.75x</button><button data-r="1" class="on">1x</button><button data-r="1.5">1.5x</button><button data-r="2">2x</button></div></header><main id="list-view"><section><h2>第6頁 <small>words 1–16</small></h2><div class="grid"><div class="card" data-word="beautiful" data-zh="美麗的" data-tr="這個女子如此美麗以致於我忍不住注視著她。" data-ex="The woman is so beautiful that I can&#x27;t help looking at her."><div class="head"><span class="num">1</span><span class="word">beautiful</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈbjutəfəl]</span></div>
 <div class="zh">形 美麗的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div><div class="forms"><span>比較級 <b>more beautiful</b></span><span>最高級 <b>most beautiful</b></span></div>
 <div class="ex"><div class="en">The woman is so beautiful that I can&#x27;t help looking at her. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">這個女子如此美麗以致於我忍不住注視著她。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="blind" data-zh="瞎的 ，百葉窗" data-tr="導盲犬可以幫助盲人在街上行走。" data-ex="Guide dogs can help the blind walk on the street."><div class="head"><span class="num">2</span><span class="word">blind</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[blaɪnd]</span></div>
 <div class="zh">❶形 瞎的 ❷名 百葉窗（常用複數形） <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
@@ -79,7 +140,60 @@ main{max-width:960px;margin:0 auto;padding:12px}h2{border-left:5px solid #2f5d8a
 <div class="zh">形 ❶誠實的 ❷正直的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
 <div class="ex"><div class="en">An honest student doesn&#x27;t tell a lie. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">誠實的學生不說謊。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div><div class="card" data-word="interested" data-zh="感興趣的" data-tr="我的哥哥對這個新的軟體感興趣。" data-ex="My brother is interested in the new software."><div class="head"><span class="num">33</span><span class="word">interested</span><button class="say sw" title="Play word" aria-label="Play word">🔊</button><span class="ipa">[ˈɪntərɪstɪd]</span></div>
 <div class="zh">形 感興趣的 <button class="say sz" title="Play meaning" aria-label="Play meaning">🔊</button></div>
-<div class="ex"><div class="en">My brother is interested in the new software. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">我的哥哥對這個新的軟體感興趣。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div></div></section></main><script>
+<div class="ex"><div class="en">My brother is interested in the new software. <button class="say ss" title="Play sentence" aria-label="Play sentence">🔊</button></div><div class="tr">我的哥哥對這個新的軟體感興趣。 <button class="say st" title="Play translation" aria-label="Play translation">🔊</button></div></div></div></div></section></main>
+<div id="srs-view" aria-labelledby="tab-srs">
+  <div class="stats" aria-label="SRS 統計">
+    <div class="stat" title="今天到期或逾期的卡片"><b id="srs-due">0</b><span>今日到期</span></div>
+    <div class="stat" title="還沒評過分的卡片"><b id="srs-new">0</b><span>新卡</span></div>
+    <div class="stat" title="間隔短於 1 天，含重來"><b id="srs-learning">0</b><span>學習中</span></div>
+    <div class="stat" title="間隔 21 天以上"><b id="srs-mature">0</b><span>成熟</span></div>
+  </div>
+  <div class="toolbar">
+    <div class="seg" role="group" aria-label="練習方向">
+      <button type="button" id="srs-dir-en" data-dir="en">English → 中文</button>
+      <button type="button" id="srs-dir-zh" data-dir="zh">中文 → English</button>
+      <button type="button" id="srs-dir-mixed" data-dir="mixed">Mixed</button>
+    </div>
+    <label class="limit">每日新卡
+      <input id="srs-limit" type="number" min="0" max="999" step="1" inputmode="numeric" aria-label="New cards per day">
+    </label>
+    <div class="tools">
+      <button type="button" id="srs-export" aria-label="Export progress">匯出進度</button>
+      <button type="button" id="srs-import" aria-label="Import progress">匯入進度</button>
+      <input id="srs-file" type="file" accept="application/json,.json" hidden>
+      <button type="button" id="srs-reset" aria-label="Reset progress">重設進度</button>
+    </div>
+  </div>
+  <p id="srs-msg" class="msg" role="status"></p>
+  <section id="srs-study" class="practice" hidden>
+    <div class="meta"><span id="srs-meta"></span><span id="srs-remain"></span></div>
+    <div id="srs-prompt" class="prompt"></div>
+    <button type="button" id="srs-show" class="show" aria-label="Show answer">顯示答案</button>
+    <div id="srs-back" hidden>
+      <div class="head"><span id="srs-word" class="word"></span></div>
+      <div id="srs-ipa" class="ipa"></div>
+      <div id="srs-zh" class="zh"></div>
+      <div id="srs-forms" class="forms"></div>
+      <div id="srs-phrase" class="phrase"></div>
+      <div class="ex">
+        <div class="en"><span id="srs-ex"></span></div>
+        <div class="tr"><span id="srs-tr"></span></div>
+      </div>
+    </div>
+    <div id="srs-grades" class="grades" hidden>
+      <button type="button" class="again" data-grade="again"><span class="k">1</span>Again<small></small></button>
+      <button type="button" class="hard" data-grade="hard"><span class="k">2</span>Hard<small></small></button>
+      <button type="button" class="good" data-grade="good"><span class="k">3</span>Good<small></small></button>
+      <button type="button" class="easy" data-grade="easy"><span class="k">4</span>Easy<small></small></button>
+    </div>
+  </section>
+  <section id="srs-done" class="done" hidden>
+    <p class="lead">這輪沒有待練習的卡片</p>
+    <p id="srs-done-text"></p>
+  </section>
+  <p class="hint">空白鍵顯示答案 · 數字鍵 1–4 評分</p>
+</div>
+<script>
 (function(){
 var S=window.speechSynthesis,voice=null,run=0,RATE=1;
 try{var sr=parseFloat(localStorage.getItem('vocabRate'));if(sr>=0.5&&sr<=2)RATE=sr}catch(e){}
@@ -99,5 +213,663 @@ if(!S){alert('This browser does not support speech (Web Speech API).');return}
 document.querySelectorAll('.card .say').forEach(function(b){b.addEventListener('click',async function(){stop();var id=run;var c=b.closest('.card');mark(c);if(b.classList.contains('sz'))await utterZh(c.dataset.zh);else if(b.classList.contains('st'))await utterZh(c.dataset.tr);else await utter(b.classList.contains('sw')?c.dataset.word:c.dataset.ex);if(id===run)mark(null)})});
 document.getElementById('all').addEventListener('click',async function(){stop();var id=run;var cs=document.querySelectorAll('.card');for(var i=0;i<cs.length;i++){if(id!==run)return;await playCard(cs[i],id);if(id!==run)return;await wait(1200)}mark(null)});
 document.getElementById('stop').addEventListener('click',stop);
+})();
+</script>
+<script>
+(function () {
+  var KEY = 'vocabSRS_v1';
+  var TAB_KEY = 'vocabTab';
+  var MIN_EASE = 1.3;
+  var MATURE_DAYS = 21;
+  var AGAIN_MS = 60 * 1000;
+  var DAY_MS = 24 * 60 * 60 * 1000;
+
+  function textWithoutButtons(el) {
+    if (!el) return '';
+    var clone = el.cloneNode(true);
+    clone.querySelectorAll('button').forEach(function (b) { b.remove(); });
+    return clone.textContent.replace(/\s+/g, ' ').trim();
+  }
+
+  function loadWords() {
+    var words = [];
+    document.querySelectorAll('#list-view section').forEach(function (sec) {
+      var heading = sec.querySelector('h2');
+      var pageMatch = heading && heading.textContent.match(/第(\d+)頁/);
+      var page = pageMatch ? Number(pageMatch[1]) : 0;
+      sec.querySelectorAll('.card').forEach(function (card) {
+        var comp = null;
+        var sup = null;
+        card.querySelectorAll('.forms span').forEach(function (span) {
+          var label = span.textContent.trim();
+          var b = span.querySelector('b');
+          var val = b ? b.textContent.trim() : '';
+          if (label.indexOf('比較級') === 0) comp = val || null;
+          if (label.indexOf('最高級') === 0) sup = val || null;
+        });
+        var phraseEl = card.querySelector('.phrase');
+        var phrase = phraseEl ? phraseEl.textContent.replace(/^片語：/, '').trim() : '';
+        var numEl = card.querySelector('.num');
+        var ipaEl = card.querySelector('.ipa');
+        words.push({
+          num: numEl ? Number(numEl.textContent) : words.length + 1,
+          word: card.dataset.word,
+          phonetics: ipaEl ? ipaEl.textContent.trim() : '',
+          chinese_meaning: textWithoutButtons(card.querySelector('.zh')),
+          comparative: comp,
+          superlative: sup,
+          phrase: phrase,
+          example_sentence: textWithoutButtons(card.querySelector('.en')),
+          example_translation: textWithoutButtons(card.querySelector('.tr')),
+          page: page,
+          speak_meaning: card.dataset.zh || '',
+          speak_sentence: card.dataset.ex || '',
+          speak_translation: card.dataset.tr || ''
+        });
+      });
+    });
+    return words;
+  }
+
+  var WORDS = loadWords();
+  var byWord = {};
+  WORDS.forEach(function (w) { byWord[w.word] = w; });
+
+  var S = window.speechSynthesis;
+  var voice = null;
+  var zhv = null;
+
+  function normLang(x) { return (x.lang || '').replace('_', '-').toLowerCase(); }
+  function pickVoices() {
+    if (!S) return;
+    var all = S.getVoices() || [];
+    voice = all.filter(function (x) { return normLang(x) === 'en-us'; })[0] || null;
+    zhv = all.filter(function (x) { return normLang(x) === 'zh-tw'; })[0]
+      || all.filter(function (x) { return normLang(x) === 'zh-cn'; })[0]
+      || all.filter(function (x) { return normLang(x).indexOf('zh') === 0; })[0]
+      || null;
+  }
+  if (S) {
+    pickVoices();
+    if (S.addEventListener) S.addEventListener('voiceschanged', pickVoices);
+  }
+
+  function currentRate() {
+    try {
+      var r = parseFloat(localStorage.getItem('vocabRate'));
+      if (r >= 0.5 && r <= 2) return r;
+    } catch (e) {}
+    return 1;
+  }
+
+  function speak(text, lang) {
+    if (!S || !text) return;
+    try { S.cancel(); } catch (e) {}
+    try {
+      var u = new SpeechSynthesisUtterance(text);
+      u.rate = currentRate();
+      if (lang === 'zh') {
+        u.lang = zhv ? zhv.lang : 'zh-TW';
+        if (zhv) u.voice = zhv;
+      } else {
+        u.lang = 'en-US';
+        if (voice) u.voice = voice;
+      }
+      u.onerror = function () {};
+      S.speak(u);
+    } catch (e) {}
+  }
+
+  function speakPart(entry, part) {
+    if (!entry) return;
+    if (part === 'word') speak(entry.word, 'en');
+    else if (part === 'meaning') speak(entry.speak_meaning || entry.chinese_meaning, 'zh');
+    else if (part === 'sentence') speak(entry.speak_sentence || entry.example_sentence, 'en');
+    else if (part === 'translation') speak(entry.speak_translation || entry.example_translation, 'zh');
+  }
+
+  function defaultCard() {
+    return { ease: 2.5, interval: 0, repetitions: 0, due: null, lapses: 0, introduced: null };
+  }
+  function defaultState() {
+    return { version: 1, newPerDay: 10, direction: 'en', cards: {} };
+  }
+  function roundEase(n) { return Math.round(n * 100) / 100; }
+  function roundIv(n) { return Math.round(n * 10000) / 10000; }
+
+  function clampCard(raw) {
+    var base = defaultCard();
+    if (!raw || typeof raw !== 'object') return base;
+    var ease = Number(raw.ease);
+    var interval = Number(raw.interval);
+    var repetitions = Number(raw.repetitions);
+    var lapses = Number(raw.lapses);
+    var due = raw.due == null || raw.due === '' ? null : Number(raw.due);
+    base.ease = roundEase(Math.max(MIN_EASE, isFinite(ease) ? ease : 2.5));
+    base.interval = roundIv(Math.max(0, isFinite(interval) ? interval : 0));
+    base.repetitions = Math.max(0, Math.round(isFinite(repetitions) ? repetitions : 0));
+    base.lapses = Math.max(0, Math.round(isFinite(lapses) ? lapses : 0));
+    base.due = due != null && isFinite(due) ? due : null;
+    base.introduced = typeof raw.introduced === 'string' && raw.introduced ? raw.introduced : null;
+    return base;
+  }
+
+  function load() {
+    var state = defaultState();
+    try {
+      var raw = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+        var n = Number(raw.newPerDay);
+        if (isFinite(n)) state.newPerDay = Math.max(0, Math.min(999, Math.round(n)));
+        if (raw.direction === 'zh' || raw.direction === 'mixed' || raw.direction === 'en') state.direction = raw.direction;
+        if (raw.cards && typeof raw.cards === 'object') {
+          Object.keys(raw.cards).forEach(function (word) {
+            state.cards[word] = clampCard(raw.cards[word]);
+          });
+        }
+      }
+    } catch (e) {}
+    return state;
+  }
+
+  var state = load();
+  var active = null;
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function view(word) { return state.cards[word] || defaultCard(); }
+  function ensure(word) {
+    if (!state.cards[word]) state.cards[word] = defaultCard();
+    return state.cards[word];
+  }
+  function isNew(card) {
+    return card.repetitions === 0 && card.lapses === 0 && card.interval === 0 && card.due == null;
+  }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function dayKey(ts) {
+    var d = new Date(ts);
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+  function endOfDay(ts) {
+    var d = new Date(ts);
+    d.setHours(23, 59, 59, 999);
+    return d.getTime();
+  }
+  function srsOn() { return document.documentElement.getAttribute('data-view') === 'srs'; }
+
+  // Good follows SM-2: 1 day, then 6 days, then interval × ease.
+  // Hard multiplies a day-scale interval by 1.2 and ease drops 0.15.
+  // A new card or a 1-minute relearn has no day-scale interval, so Hard is
+  // the Good step shortened by about 1.2 (still sooner than Good).
+  // Easy is interval × ease × 1.3, then ease rises 0.15.
+  function nextDays(card) {
+    var good = card.repetitions <= 0 ? 1 : card.repetitions === 1 ? 6 : roundIv(card.interval * card.ease);
+    var hard = card.interval >= 1 ? roundIv(card.interval * 1.2) : roundIv(good / 1.2);
+    var easyBase = card.repetitions <= 0 ? 1 : card.repetitions === 1 ? 6 : card.interval;
+    var easy = roundIv(easyBase * card.ease * 1.3);
+    return { again: 1 / 1440, hard: hard, good: good, easy: easy };
+  }
+
+  function schedule(card, rating, now) {
+    var next = {
+      ease: card.ease,
+      interval: card.interval,
+      repetitions: card.repetitions,
+      due: card.due,
+      lapses: card.lapses,
+      introduced: card.introduced || null
+    };
+    var days = nextDays(card);
+    if (rating === 'again') {
+      if (next.repetitions > 0 || next.interval >= 1) next.lapses += 1;
+      next.repetitions = 0;
+      next.interval = roundIv(days.again);
+      next.due = now + AGAIN_MS;
+      return next;
+    }
+    if (rating === 'hard') {
+      next.ease = roundEase(Math.max(MIN_EASE, next.ease - 0.15));
+      next.interval = days.hard;
+      next.repetitions += 1;
+    } else if (rating === 'good') {
+      next.interval = days.good;
+      next.repetitions += 1;
+    } else if (rating === 'easy') {
+      next.interval = days.easy;
+      next.ease = roundEase(next.ease + 0.15);
+      next.repetitions += 1;
+    }
+    next.due = now + next.interval * DAY_MS;
+    return next;
+  }
+
+  function formatInterval(days) {
+    if (!(days > 0)) return '<1m';
+    var mins = days * 1440;
+    if (mins <= 1.05) return '<1m';
+    if (mins < 60) return Math.round(mins) + 'm';
+    var hours = days * 24;
+    if (hours < 24) return Math.round(hours) + 'h';
+    var shown = Math.round(days * 10) / 10;
+    if (Math.abs(shown - Math.round(shown)) < 0.05) return Math.round(shown) + 'd';
+    return shown.toFixed(1) + 'd';
+  }
+
+  function formatWhen(ts, now) {
+    var d = new Date(ts);
+    var time = pad(d.getHours()) + ':' + pad(d.getMinutes());
+    var startToday = new Date(now);
+    startToday.setHours(0, 0, 0, 0);
+    var startThat = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    var dayDiff = Math.round((startThat.getTime() - startToday.getTime()) / DAY_MS);
+    var day = dayDiff === 0 ? '今天' : dayDiff === 1 ? '明天' : (d.getMonth() + 1) + '/' + d.getDate();
+    var ms = ts - now;
+    var rel;
+    if (ms < 60000) rel = '不到 1 分鐘';
+    else if (ms < 3600000) rel = Math.max(1, Math.round(ms / 60000)) + ' 分鐘';
+    else if (ms < DAY_MS) rel = Math.round(ms / 3600000) + ' 小時';
+    else rel = Math.round(ms / DAY_MS) + ' 天';
+    return day + ' ' + time + '（約 ' + rel + '）';
+  }
+
+  function introducedTodayCount(today) {
+    var n = 0;
+    Object.keys(state.cards).forEach(function (word) {
+      if (byWord[word] && state.cards[word].introduced === today) n += 1;
+    });
+    return n;
+  }
+
+  function queueWords(now) {
+    var learning = [];
+    var review = [];
+    var pendingNew = [];
+    var unseen = [];
+    WORDS.forEach(function (w) {
+      var card = view(w.word);
+      if (card.due != null && card.interval > 0 && card.interval < 1 && card.due <= now) learning.push(w.word);
+      else if (card.interval >= 1 && card.due != null && card.due <= endOfDay(now)) review.push(w.word);
+      else if (isNew(card)) {
+        if (card.introduced) pendingNew.push(w.word);
+        else unseen.push(w.word);
+      }
+    });
+    learning.sort(function (a, b) { return view(a).due - view(b).due; });
+    review.sort(function (a, b) { return view(a).due - view(b).due; });
+    var slots = Math.max(0, state.newPerDay - introducedTodayCount(dayKey(now)));
+    return learning.concat(review, pendingNew, unseen.slice(0, slots));
+  }
+
+  function stats(now) {
+    var end = endOfDay(now);
+    var due = 0, fresh = 0, learning = 0, mature = 0;
+    WORDS.forEach(function (w) {
+      var card = view(w.word);
+      if (isNew(card)) fresh += 1;
+      if (card.due != null && card.interval > 0 && card.interval < 1) learning += 1;
+      if (card.interval >= MATURE_DAYS) mature += 1;
+      if (card.due != null && card.due <= end) due += 1;
+    });
+    return { due: due, fresh: fresh, learning: learning, mature: mature };
+  }
+
+  function nextDue(now) {
+    var soonest = null;
+    WORDS.forEach(function (w) {
+      var card = view(w.word);
+      if (card.due != null && card.due > now && (soonest == null || card.due < soonest)) soonest = card.due;
+    });
+    return soonest;
+  }
+
+  var el = {
+    due: document.getElementById('srs-due'),
+    fresh: document.getElementById('srs-new'),
+    learning: document.getElementById('srs-learning'),
+    mature: document.getElementById('srs-mature'),
+    perDay: document.getElementById('srs-limit'),
+    msg: document.getElementById('srs-msg'),
+    study: document.getElementById('srs-study'),
+    done: document.getElementById('srs-done'),
+    doneText: document.getElementById('srs-done-text'),
+    meta: document.getElementById('srs-meta'),
+    remain: document.getElementById('srs-remain'),
+    prompt: document.getElementById('srs-prompt'),
+    show: document.getElementById('srs-show'),
+    back: document.getElementById('srs-back'),
+    backWord: document.getElementById('srs-word'),
+    backIpa: document.getElementById('srs-ipa'),
+    backZh: document.getElementById('srs-zh'),
+    backForms: document.getElementById('srs-forms'),
+    backPhrase: document.getElementById('srs-phrase'),
+    backEx: document.getElementById('srs-ex'),
+    backTr: document.getElementById('srs-tr'),
+    grades: document.getElementById('srs-grades'),
+    list: document.getElementById('list-view'),
+    srs: document.getElementById('srs-view'),
+    tabList: document.getElementById('tab-list'),
+    tabSrs: document.getElementById('tab-srs')
+  };
+
+  function sayButton(part, label) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'say';
+    b.dataset.say = part;
+    b.setAttribute('aria-label', label);
+    b.title = label;
+    b.textContent = '🔊';
+    return b;
+  }
+
+  function paintStats() {
+    var s = stats(Date.now());
+    el.due.textContent = String(s.due);
+    el.fresh.textContent = String(s.fresh);
+    el.learning.textContent = String(s.learning);
+    el.mature.textContent = String(s.mature);
+  }
+
+  function paintDirection() {
+    document.querySelectorAll('#srs-view .seg button').forEach(function (b) {
+      var on = b.dataset.dir === state.direction;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    if (document.activeElement !== el.perDay) el.perDay.value = String(state.newPerDay);
+  }
+
+  function fillPrompt(entry, dir) {
+    el.prompt.classList.toggle('lang-zh', dir === 'zh');
+    el.prompt.textContent = '';
+    if (dir === 'zh') {
+      el.prompt.appendChild(document.createTextNode(entry.chinese_meaning + ' '));
+      el.prompt.appendChild(sayButton('meaning', 'Play meaning'));
+    } else {
+      el.prompt.appendChild(document.createTextNode(entry.word + ' '));
+      el.prompt.appendChild(sayButton('word', 'Play word'));
+    }
+  }
+
+  function fillBack(entry, dir) {
+    el.backWord.textContent = '';
+    el.backWord.appendChild(document.createTextNode(entry.word + ' '));
+    el.backWord.appendChild(sayButton('word', 'Play word'));
+    el.backWord.classList.toggle('answer', dir === 'zh');
+    el.backIpa.textContent = entry.phonetics || '';
+    el.backZh.textContent = '';
+    el.backZh.appendChild(document.createTextNode(entry.chinese_meaning + ' '));
+    el.backZh.appendChild(sayButton('meaning', 'Play meaning'));
+    el.backZh.classList.toggle('answer', dir === 'en');
+    el.backForms.textContent = '';
+    if (entry.comparative) {
+      var c = document.createElement('span');
+      c.textContent = '比較級 ' + entry.comparative;
+      el.backForms.appendChild(c);
+    }
+    if (entry.superlative) {
+      var s = document.createElement('span');
+      s.textContent = '最高級 ' + entry.superlative;
+      el.backForms.appendChild(s);
+    }
+    el.backForms.hidden = !entry.comparative && !entry.superlative;
+    el.backPhrase.textContent = entry.phrase ? '片語：' + entry.phrase : '';
+    el.backPhrase.hidden = !entry.phrase;
+    el.backEx.textContent = '';
+    el.backEx.appendChild(document.createTextNode(entry.example_sentence + ' '));
+    el.backEx.appendChild(sayButton('sentence', 'Play sentence'));
+    el.backTr.textContent = '';
+    el.backTr.appendChild(document.createTextNode(entry.example_translation + ' '));
+    el.backTr.appendChild(sayButton('translation', 'Play translation'));
+  }
+
+  function paintGrades() {
+    if (!active) return;
+    var days = nextDays(view(active.word));
+    el.grades.querySelectorAll('button').forEach(function (b) {
+      b.querySelector('small').textContent = formatInterval(days[b.dataset.grade]);
+    });
+  }
+
+  function paintCard() {
+    var entry = byWord[active.word];
+    if (!entry) return;
+    var now = Date.now();
+    var q = queueWords(now);
+    var left = q.length + (q.indexOf(active.word) === -1 ? 1 : 0);
+    var dirLabel = active.dir === 'zh' ? '中文 → English' : 'English → 中文';
+    el.meta.textContent = '#' + entry.num + ' · 第' + entry.page + '頁 · ' + dirLabel;
+    el.remain.textContent = '這輪 ' + left + ' 張';
+    fillPrompt(entry, active.dir);
+    fillBack(entry, active.dir);
+    el.show.hidden = active.revealed;
+    el.back.hidden = !active.revealed;
+    el.grades.hidden = !active.revealed;
+    paintGrades();
+    el.study.hidden = false;
+    el.done.hidden = true;
+  }
+
+  function paintDone() {
+    var now = Date.now();
+    var soonest = nextDue(now);
+    var today = dayKey(now);
+    var unseen = 0;
+    WORDS.forEach(function (w) {
+      if (isNew(view(w.word)) && !view(w.word).introduced) unseen += 1;
+    });
+    var lines = [];
+    if (soonest) lines.push('下一張到期：' + formatWhen(soonest, now) + '。');
+    if (unseen > 0 && introducedTodayCount(today) >= state.newPerDay) {
+      lines.push('新卡已達今日上限（' + state.newPerDay + '）。其餘 ' + unseen + ' 張新卡明天再練習。');
+    } else if (!soonest && unseen === 0) {
+      lines.push('目前沒有更晚的到期時間。');
+    }
+    if (!lines.length) lines.push('調整每日新卡數量，或稍後再來。');
+    var text = lines.join(' ');
+    if (el.doneText.textContent !== text) el.doneText.textContent = text;
+    el.study.hidden = true;
+    el.done.hidden = false;
+  }
+
+  function chooseDir() {
+    if (state.direction === 'mixed') return Math.random() < 0.5 ? 'en' : 'zh';
+    return state.direction;
+  }
+
+  function showNext() {
+    paintStats();
+    paintDirection();
+    if (!WORDS.length) {
+      active = null;
+      paintDone();
+      return;
+    }
+    var now = Date.now();
+    var q = queueWords(now);
+    if (!q.length) {
+      active = null;
+      paintDone();
+      return;
+    }
+    var word = q[0];
+    var card = ensure(word);
+    if (isNew(card) && !card.introduced) {
+      card.introduced = dayKey(now);
+      save();
+    }
+    active = { word: word, dir: chooseDir(), revealed: false };
+    paintCard();
+    paintStats();
+  }
+
+  function reveal() {
+    if (!active || active.revealed) return;
+    active.revealed = true;
+    paintCard();
+  }
+
+  function grade(rating) {
+    if (!srsOn() || !active || !active.revealed) return;
+    if (S) { try { S.cancel(); } catch (e) {} }
+    var word = active.word;
+    state.cards[word] = schedule(ensure(word), rating, Date.now());
+    save();
+    el.msg.textContent = '';
+    active = null;
+    showNext();
+  }
+
+  function applyTab(tab, opts) {
+    opts = opts || {};
+    if (tab !== 'srs') tab = 'list';
+    var was = document.documentElement.getAttribute('data-view');
+    document.documentElement.setAttribute('data-view', tab);
+    try { localStorage.setItem(TAB_KEY, tab); } catch (e) {}
+    var onSrs = tab === 'srs';
+    el.tabList.setAttribute('aria-selected', onSrs ? 'false' : 'true');
+    el.tabSrs.setAttribute('aria-selected', onSrs ? 'true' : 'false');
+    el.list.setAttribute('aria-hidden', onSrs ? 'true' : 'false');
+    el.srs.setAttribute('aria-hidden', onSrs ? 'false' : 'true');
+    if (!opts.skipHash) {
+      var want = '#' + tab;
+      if (location.hash !== want) history.replaceState(null, '', want);
+    }
+    if (onSrs && was !== 'srs') {
+      var stopBtn = document.getElementById('stop');
+      if (stopBtn) stopBtn.click();
+    }
+    if (onSrs) {
+      if (!active) showNext();
+      else {
+        paintStats();
+        paintDirection();
+        paintCard();
+      }
+    }
+  }
+
+  el.show.addEventListener('click', reveal);
+  el.grades.addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b || !b.dataset.grade) return;
+    grade(b.dataset.grade);
+  });
+  document.querySelector('#srs-view .seg').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b || !b.dataset.dir) return;
+    state.direction = b.dataset.dir;
+    save();
+    paintDirection();
+    if (active && !active.revealed) {
+      active.dir = chooseDir();
+      paintCard();
+    }
+  });
+  el.perDay.addEventListener('change', function () {
+    var n = Number(el.perDay.value);
+    if (!isFinite(n)) {
+      el.perDay.value = String(state.newPerDay);
+      return;
+    }
+    state.newPerDay = Math.max(0, Math.min(999, Math.round(n)));
+    el.perDay.value = String(state.newPerDay);
+    save();
+    if (!srsOn()) return;
+    if (active) paintCard();
+    else showNext();
+  });
+
+  document.getElementById('srs-export').addEventListener('click', function () {
+    var blob = new Blob([JSON.stringify(state, null, 2) + '\n'], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'vocabSRS_v1.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
+    el.msg.textContent = '';
+  });
+  document.getElementById('srs-import').addEventListener('click', function () {
+    document.getElementById('srs-file').click();
+  });
+  document.getElementById('srs-file').addEventListener('change', function (e) {
+    var file = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var raw = JSON.parse(String(reader.result));
+        if (!raw || typeof raw !== 'object' || Array.isArray(raw) || !raw.cards || typeof raw.cards !== 'object') {
+          throw new Error('bad shape');
+        }
+        var next = defaultState();
+        var n = Number(raw.newPerDay);
+        if (isFinite(n)) next.newPerDay = Math.max(0, Math.min(999, Math.round(n)));
+        if (raw.direction === 'zh' || raw.direction === 'mixed' || raw.direction === 'en') next.direction = raw.direction;
+        Object.keys(raw.cards).forEach(function (word) {
+          next.cards[word] = clampCard(raw.cards[word]);
+        });
+        state = next;
+        save();
+        active = null;
+        el.msg.textContent = '已匯入進度。';
+        if (srsOn()) showNext();
+        else paintStats();
+      } catch (err) {
+        el.msg.textContent = '無法匯入這個檔案。請選擇先前匯出的 JSON。';
+      }
+    };
+    reader.readAsText(file);
+  });
+  document.getElementById('srs-reset').addEventListener('click', function () {
+    if (!confirm('Reset progress?\n這會清除本機的 SRS 進度，無法復原。')) return;
+    state = defaultState();
+    save();
+    active = null;
+    el.msg.textContent = '進度已重設。';
+    if (srsOn()) showNext();
+    else paintStats();
+  });
+
+  el.srs.addEventListener('click', function (e) {
+    var b = e.target.closest('.say');
+    if (!b || !active) return;
+    speakPart(byWord[active.word], b.dataset.say);
+  });
+
+  el.tabList.addEventListener('click', function () { applyTab('list'); });
+  el.tabSrs.addEventListener('click', function () { applyTab('srs'); });
+  window.addEventListener('hashchange', function () {
+    if (location.hash === '#srs' || location.hash === '#list') applyTab(location.hash.slice(1), { skipHash: true });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!srsOn()) return;
+    if (e.target && e.target.closest && e.target.closest('input, textarea, select')) return;
+    if (e.key === ' ' || e.code === 'Space') {
+      if (e.target && e.target.closest && e.target.closest('button, a, .tabs, .rate')) return;
+      e.preventDefault();
+      if (active && !active.revealed) reveal();
+      return;
+    }
+    if (e.repeat || !active || !active.revealed) return;
+    var map = { '1': 'again', '2': 'hard', '3': 'good', '4': 'easy' };
+    if (map[e.key]) {
+      e.preventDefault();
+      grade(map[e.key]);
+    }
+  });
+
+  setInterval(function () {
+    if (!srsOn()) return;
+    if (!active) showNext();
+    else paintStats();
+  }, 1000);
+
+  applyTab(document.documentElement.getAttribute('data-view') || 'list', { skipHash: true });
 })();
 </script></body></html>
