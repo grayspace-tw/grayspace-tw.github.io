@@ -20,15 +20,20 @@ main{max-width:960px;margin:0 auto;padding:12px}h2{border-left:5px solid #2f5d8a
 .phrase{font-size:.9em;color:#2f6b3a;margin-top:4px}.ex{margin-top:8px;padding:8px;background:#f0f4f9;border-radius:6px}.tr{color:#666;font-size:.92em}
 .ex mark.hw{background:#ffe9a8;color:inherit;font-weight:700;border-radius:3px;padding:0 2px}
 .ex mark.also{background:transparent;color:#3d6b8a;font-weight:600;text-decoration:underline dotted;text-decoration-thickness:1px;text-underline-offset:2px;cursor:pointer}
-.ex .coloc{cursor:pointer}
-.ex .coloc.prep{background:#fff3cc;border-radius:4px;padding:0 1px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.ex .coloc.prep{border-radius:4px;padding:0 1px;background-color:transparent;transition:background-color .28s ease;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.ex .coloc.prep.on{background-color:#fff3cc}
 .ex .coloc.prep mark.hw{border-radius:3px 0 0 3px;padding:0 1px 0 2px}
-.ex .coloc.prep mark.prep{background:#fff3cc;color:inherit;font-weight:600;border-radius:0 3px 3px 0;padding:0 2px 0 0}
-.ex .coloc.phrase{background:rgba(47,107,58,.08);border-bottom:2px solid #2a7a45;box-shadow:inset 1.5px 0 0 #2a7a45,inset -1.5px 0 0 #2a7a45;padding:0 2px 1px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.ex .coloc.prep mark.prep{background:transparent;color:inherit;font-weight:600;border-radius:0 3px 3px 0;padding:0 2px 0 0}
+.ex .coloc.phrase{padding:0 2px 1px;background-color:transparent;border-bottom:2px solid transparent;box-shadow:inset 1.5px 0 0 transparent,inset -1.5px 0 0 transparent;transition:background-color .28s ease,border-color .28s ease,box-shadow .28s ease;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.ex .coloc.phrase.on{background-color:rgba(47,107,58,.1);border-bottom-color:#2a7a45;box-shadow:inset 1.5px 0 0 #2a7a45,inset -1.5px 0 0 #2a7a45}
 .ex .coloc.phrase mark.hw{border-radius:3px}
-.ex .coloc .linkdot{display:inline-block;width:.38em;height:.38em;margin-left:1px;border-radius:50%;background:#2a7a45;vertical-align:super}
-#coloc-tip{position:fixed;z-index:40;max-width:min(260px,calc(100vw - 16px));background:#243044;color:#fff;font-size:.85rem;line-height:1.4;padding:6px 8px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.22);pointer-events:none}
-#coloc-tip[hidden]{display:none !important}
+.ex .coloc .linkdot{display:inline-block;width:.38em;height:.38em;margin-left:1px;border-radius:50%;background:#2a7a45;vertical-align:super;opacity:0;transition:opacity .28s ease}
+.ex .coloc.on .linkdot{opacity:1}
+.coloc-cap{margin:4px 0 0;color:#5c4d78;font-size:.88em;line-height:1.4;max-height:0;opacity:0;overflow:hidden;transition:opacity .28s ease,max-height .28s ease}
+.coloc-cap.show{max-height:2.8em;opacity:1}
+.coloc-chip{border:none;border-radius:999px;padding:3px 8px;font-size:.75em;line-height:1.45;cursor:pointer;background:#f3eef8;color:#6b3a7a}
+.coloc-chip.phrase{background:#e7f6ee;color:#2f6b3a}
+.coloc-chip[aria-pressed="true"]{outline:2px solid currentColor}
 #srs-ex mark.also{cursor:help}
 .card.flash{animation:cardflash 1.2s ease}
 @keyframes cardflash{0%{box-shadow:0 0 0 3px #f0a33a}100%{box-shadow:0 1px 3px rgba(0,0,0,.1)}}
@@ -191,7 +196,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
   <div class="fgroup"><span class="flabel">字首字母</span><div class="fchips" data-kind="letter"></div></div>
   <div class="fgroup"><span class="flabel">字根字首</span><div class="fchips" data-kind="affix"></div></div>
   <div class="fgroup"><span class="flabel">比較級</span><div class="fchips" data-kind="comparison"></div></div>
-  <div class="fgroup"><span class="flabel">搭配詞</span><div class="fsub"><span class="fsublabel">介系詞搭配</span><div class="fchips" data-kind="colloc" data-sub="prep"></div><span class="fsublabel">片語</span><div class="fchips" data-kind="colloc" data-sub="phrase"></div></div></div>
+  <div class="fgroup"><span class="flabel">搭配詞</span><div class="fchips" data-kind="colloc" data-sub="prep"></div></div>
   <div id="filter-active"></div>
   <p id="filter-count"></p>
 </div>
@@ -254,6 +259,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
       <div class="ex">
         <div class="en"><span id="srs-ex"></span></div>
         <div class="tr"><span id="srs-tr"></span></div>
+        <p id="srs-coloc-cap" class="coloc-cap" aria-hidden="true"></p>
       </div>
       <div id="srs-tags" class="tags" hidden></div>
     </div>
@@ -598,7 +604,11 @@ document.getElementById('play-stop').addEventListener('click',stop);
     var primary = findRanges(text, phraseList(entry)).map(function (r) {
       return { start: r.start, end: r.end, text: r.text, kind: 'hw' };
     });
-    var colocs = opts.onlyThisWord ? [] : colocParts(entry, text);
+    var colocs = [];
+    if (!opts.onlyThisWord && typeof opts.colocIndex === 'number') {
+      var one = (entry && entry.collocations || [])[opts.colocIndex];
+      if (one) colocs = colocParts({ collocations: [one] }, text);
+    }
     var marks = primary.slice();
     if (!opts.onlyThisWord) {
       function pushAlso(r, word, meaning) {
@@ -669,10 +679,10 @@ document.getElementById('play-stop').addEventListener('click',stop);
         if (p.coloc) {
           wrap = document.createElement('span');
           wrap.className = 'coloc ' + p.coloc.kind + (p.coloc.link ? ' link' : '');
-          wrap.setAttribute('data-zh', p.coloc.zh);
-          wrap.tabIndex = 0;
+          wrap.title = p.coloc.zh || '';
           if (p.coloc.link) wrap.setAttribute('data-link', p.coloc.link);
           open = p.coloc;
+          (function (node) { requestAnimationFrame(function () { node.classList.add('on'); }); })(wrap);
         }
       }
       var host = wrap || parent;
@@ -941,11 +951,74 @@ document.getElementById('play-stop').addEventListener('click',stop);
     tr.appendChild(say('st', 'Play translation'));
     ex.appendChild(en);
     ex.appendChild(tr);
+    var cap = el('p', 'coloc-cap');
+    cap.setAttribute('aria-hidden', 'true');
+    ex.appendChild(cap);
     card.appendChild(ex);
-    var chips = tagRow(w.tags);
-    if (chips) card.appendChild(chips);
+    var chips = tagRow(w.tags) || el('div', 'tags');
+    var coloc = colocChipNodes(w);
+    if (coloc) chips.appendChild(coloc);
+    if (chips.childNodes.length) card.appendChild(chips);
     return card;
   }
+
+  function colocChipLabel(text) {
+    return String(text || '').replace(/^be\s+/i, '');
+  }
+
+  function colocChipNodes(entry) {
+    var list = (entry && entry.collocations) || [];
+    if (!list.length) return null;
+    var frag = document.createDocumentFragment();
+    list.forEach(function (c, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'coloc-chip ' + (c.kind === 'phrase' ? 'phrase' : 'prep');
+      b.setAttribute('data-coloc', String(i));
+      b.setAttribute('aria-pressed', 'false');
+      b.title = c.zh || '';
+      b.setAttribute('aria-label', colocChipLabel(c.text) + (c.zh ? '，' + c.zh : ''));
+      b.textContent = '🔗 ' + colocChipLabel(c.text);
+      frag.appendChild(b);
+    });
+    return frag;
+  }
+  window.VOCAB_COLOC_CHIPS = colocChipNodes;
+
+  function paintColoc(root, entry, index, nav) {
+    var sent = root.querySelector('.sent') || root.querySelector('#srs-ex');
+    var cap = root.querySelector('.coloc-cap');
+    if (!sent || !entry) return;
+    root.querySelectorAll('.coloc-chip').forEach(function (b) {
+      var pressed = index != null && b.getAttribute('data-coloc') === String(index);
+      b.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      b.classList.toggle('on', pressed);
+    });
+    function draw(idx) {
+      sent.textContent = '';
+      markSentence(sent, entry.example_sentence, entry, { nav: nav !== false, colocIndex: idx });
+    }
+    if (index == null) {
+      if (cap) {
+        cap.classList.remove('show');
+        cap.setAttribute('aria-hidden', 'true');
+      }
+      var live = sent.querySelectorAll('.coloc.on');
+      if (live.length) {
+        live.forEach(function (node) { node.classList.remove('on'); });
+        setTimeout(function () { draw(null); }, 280);
+      } else draw(null);
+      return;
+    }
+    draw(index);
+    if (cap) {
+      var item = (entry.collocations || [])[index];
+      cap.textContent = item && item.zh ? item.zh : '';
+      cap.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(function () { cap.classList.add('show'); });
+    }
+  }
+  window.VOCAB_PAINT_COLOC = paintColoc;
 
   var FILTER_KEY = 'vocabFilter';
   var activeFilters = [];
@@ -967,8 +1040,36 @@ document.getElementById('play-stop').addEventListener('click',stop);
 
   function shownTags(tags) {
     return (tags || []).filter(function (t) {
-      return t.indexOf('book:') !== 0 && t.indexOf('unit:') !== 0 && tagKind(t);
+      return t.indexOf('book:') !== 0 && t.indexOf('unit:') !== 0 && t.indexOf('colloc:') !== 0 && tagKind(t);
     });
+  }
+
+  function prepOf(coloc) {
+    if (!coloc || coloc.kind !== 'prep') return '';
+    var src = Array.isArray(coloc.match) ? coloc.match[coloc.match.length - 1] : coloc.match;
+    var bits = String(src || '').trim().split(/\s+/);
+    return (bits[bits.length - 1] || '').replace(/[^a-z]/gi, '').toLowerCase();
+  }
+
+  function entryPreps(entry) {
+    var out = [];
+    (entry && entry.collocations || []).forEach(function (c) {
+      var p = prepOf(c);
+      if (p && out.indexOf(p) === -1) out.push(p);
+    });
+    return out;
+  }
+
+  function prepFilterTags() {
+    var tags = [];
+    allEntries().forEach(function (w) {
+      entryPreps(w).forEach(function (p) {
+        var tag = 'colloc:+' + p;
+        if (tags.indexOf(tag) === -1) tags.push(tag);
+      });
+    });
+    tags.sort();
+    return tags;
   }
 
   function tagShort(tag) {
@@ -981,6 +1082,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     if (k === 'root') return 'root: ' + v.split('（')[0].trim();
     if (k === 'suffix' || k === 'prefix') return v.split('（')[0].split('(')[0].trim();
     if (k === 'colloc') {
+      if (v.charAt(0) === '+') return v;
       var j = v.indexOf(':');
       return j === -1 ? v : v.slice(j + 1);
     }
@@ -998,7 +1100,8 @@ document.getElementById('play-stop').addEventListener('click',stop);
     b.className = 'tag ' + kind + (extra || '');
     b.setAttribute('data-tag', tag);
     b.title = tag;
-    b.textContent = (tagIcon(kind) ? tagIcon(kind) + ' ' : '') + tagShort(tag);
+    var short = tagShort(tag);
+    b.textContent = (kind === 'colloc' && short.charAt(0) === '+') ? short : ((tagIcon(kind) ? tagIcon(kind) + ' ' : '') + short);
     if (kind === 'note') {
       b.removeAttribute('data-tag');
       b.disabled = true;
@@ -1046,20 +1149,25 @@ document.getElementById('play-stop').addEventListener('click',stop);
     writeHash(tab);
   }
 
-  function wordMatches(tags) {
+  function wordMatches(entry) {
     if (!activeFilters.length) return true;
+    var tags = (entry && entry.tags) || [];
     var groups = { page: [], letter: [], affix: [], comparison: [], colloc: [] };
     activeFilters.forEach(function (t) {
       var kind = tagKind(t);
       if (kind && groups[kind]) groups[kind].push(t);
     });
+    var preps = entryPreps(entry);
     var names = Object.keys(groups);
     for (var i = 0; i < names.length; i++) {
       var sel = groups[names[i]];
       if (!sel.length) continue;
       var ok = false;
       for (var j = 0; j < sel.length; j++) {
-        if ((tags || []).indexOf(sel[j]) !== -1) { ok = true; break; }
+        if (names[i] === 'colloc') {
+          var prep = sel[j].indexOf('colloc:+') === 0 ? sel[j].slice(8) : '';
+          if (prep && preps.indexOf(prep) !== -1) { ok = true; break; }
+        } else if (tags.indexOf(sel[j]) !== -1) { ok = true; break; }
       }
       if (!ok) return false;
     }
@@ -1117,7 +1225,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
       var kind = box.getAttribute('data-kind');
       var sub = box.getAttribute('data-sub');
       box.textContent = '';
-      var matched = tags.filter(function (t) {
+      var matched = kind === 'colloc' ? prepFilterTags() : tags.filter(function (t) {
         if (tagKind(t) !== kind) return false;
         if (sub && tagSub(t) !== sub) return false;
         return true;
@@ -1168,15 +1276,15 @@ document.getElementById('play-stop').addEventListener('click',stop);
       var cards = section.querySelectorAll('.card');
       cards.forEach(function (card) {
         readyCards++;
-        var tags = [];
+        var entry = null;
         Object.keys(window.VOCAB_CHUNKS).some(function (id) {
           return (window.VOCAB_CHUNKS[id] || []).some(function (w) {
             if (w.word !== card.dataset.word) return false;
-            tags = w.tags || [];
+            entry = w;
             return true;
           });
         });
-        var ok = wordMatches(tags);
+        var ok = wordMatches(entry || { tags: [] });
         card.classList.toggle('filtered-out', !ok);
         if (ok) { n++; shown++; }
       });
@@ -1342,6 +1450,17 @@ document.getElementById('play-stop').addEventListener('click',stop);
   window.VOCAB_READ_HASH = readHashFilters;
 
   listEl.addEventListener('click', function (e) {
+    var colocBtn = e.target.closest && e.target.closest('.coloc-chip');
+    if (colocBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      var card = colocBtn.closest('.card');
+      var entry = card && findEntry(card.dataset.word);
+      if (!entry) return;
+      var idx = Number(colocBtn.getAttribute('data-coloc'));
+      paintColoc(card, entry, colocBtn.getAttribute('aria-pressed') === 'true' ? null : idx, true);
+      return;
+    }
     var chip = e.target.closest && e.target.closest('.tag');
     if (!chip) return;
     e.preventDefault();
@@ -1533,65 +1652,6 @@ document.getElementById('play-stop').addEventListener('click',stop);
     window.addEventListener('resize', pump);
     pump();
   }
-
-  var colocTip = document.createElement('div');
-  colocTip.id = 'coloc-tip';
-  colocTip.setAttribute('role', 'tooltip');
-  colocTip.hidden = true;
-  document.body.appendChild(colocTip);
-  var colocPinned = false;
-  function hideColocTip() {
-    colocTip.hidden = true;
-    colocPinned = false;
-  }
-  function showColocTip(anchor) {
-    var zh = anchor.getAttribute('data-zh') || '';
-    if (!zh) return;
-    colocTip.textContent = zh;
-    colocTip.hidden = false;
-    var r = anchor.getBoundingClientRect();
-    var left = Math.max(8, Math.min(r.left, window.innerWidth - colocTip.offsetWidth - 8));
-    var top = r.bottom + 6;
-    if (top + colocTip.offsetHeight > window.innerHeight - 8) top = Math.max(8, r.top - colocTip.offsetHeight - 6);
-    colocTip.style.left = left + 'px';
-    colocTip.style.top = top + 'px';
-  }
-  document.addEventListener('mouseover', function (e) {
-    var c = e.target.closest && e.target.closest('.coloc');
-    if (!c || colocPinned) return;
-    showColocTip(c);
-  });
-  document.addEventListener('mouseout', function (e) {
-    if (colocPinned) return;
-    var c = e.target.closest && e.target.closest('.coloc');
-    if (!c) return;
-    var rel = e.relatedTarget;
-    if (rel && c.contains(rel)) return;
-    colocTip.hidden = true;
-  });
-  document.addEventListener('click', function (e) {
-    var c = e.target.closest && e.target.closest('.coloc');
-    if (!c) { hideColocTip(); return; }
-    e.preventDefault();
-    e.stopPropagation();
-    if (colocPinned && !colocTip.hidden) { hideColocTip(); return; }
-    showColocTip(c);
-    colocPinned = true;
-  });
-  document.addEventListener('focusin', function (e) {
-    var c = e.target.closest && e.target.closest('.coloc');
-    if (c) showColocTip(c);
-  });
-  document.addEventListener('keydown', function (e) {
-    var c = e.target.closest && e.target.closest('.coloc');
-    if (c && (e.key === 'Enter' || e.key === ' ')) {
-      e.preventDefault();
-      showColocTip(c);
-      colocPinned = true;
-      return;
-    }
-    if (e.key === 'Escape') hideColocTip();
-  });
 
   paintHeader();
   if (!window.VOCAB_MANIFEST) {
@@ -2161,10 +2221,18 @@ document.getElementById('play-stop').addEventListener('click',stop);
     el.backTr.appendChild(sayButton('translation', 'Play translation'));
     el.backTags.textContent = '';
     var tagRow = window.VOCAB_TAG_ROW ? window.VOCAB_TAG_ROW(entry.tags) : null;
-    if (tagRow) {
-      while (tagRow.firstChild) el.backTags.appendChild(tagRow.firstChild);
-      el.backTags.hidden = false;
-    } else el.backTags.hidden = true;
+    if (tagRow) while (tagRow.firstChild) el.backTags.appendChild(tagRow.firstChild);
+    if (window.VOCAB_COLOC_CHIPS) {
+      var colocNodes = window.VOCAB_COLOC_CHIPS(entry);
+      if (colocNodes) el.backTags.appendChild(colocNodes);
+    }
+    var srsCap = document.getElementById('srs-coloc-cap');
+    if (srsCap) {
+      srsCap.textContent = '';
+      srsCap.classList.remove('show');
+      srsCap.setAttribute('aria-hidden', 'true');
+    }
+    el.backTags.hidden = !el.backTags.childNodes.length;
   }
 
   function paintGrades() {
@@ -2711,6 +2779,15 @@ document.getElementById('play-stop').addEventListener('click',stop);
   });
 
   el.backTags.addEventListener('click', function (e) {
+    var colocBtn = e.target.closest && e.target.closest('.coloc-chip');
+    if (colocBtn && active && window.VOCAB_PAINT_COLOC) {
+      e.preventDefault();
+      var entry = byWord[baseWord(active.word)];
+      if (!entry) return;
+      var idx = Number(colocBtn.getAttribute('data-coloc'));
+      window.VOCAB_PAINT_COLOC(el.back, entry, colocBtn.getAttribute('aria-pressed') === 'true' ? null : idx, false);
+      return;
+    }
     var chip = e.target.closest && e.target.closest('.tag');
     if (!chip) return;
     var tag = chip.getAttribute('data-tag');

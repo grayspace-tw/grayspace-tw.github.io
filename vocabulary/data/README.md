@@ -20,7 +20,7 @@
 | `comparative` | 比較級；沒有就寫 `null` |
 | `superlative` | 最高級；沒有就寫 `null` |
 | `phrase` | 片語；沒有就寫 `""` |
-| `collocations` | 選填。例句裡的搭配，陣列。每一項是 `{ text, kind, zh, match }`。`kind` 是 `prep`（介系詞）或 `phrase`（片語）。`text` 是卡片和篩選上的寫法，`zh` 是中文。`match` 是這句例句裡實際出現的字（大小寫不拘）；分開的兩段（例如 so … that）就寫成陣列。同時在 `tags` 加 `colloc:prep:…` 或 `colloc:phrase:…`，篩選列才看得到。 |
+| `collocations` | 選填。例句裡的搭配，陣列。每一項是 `{ text, kind, zh, match }`。`kind` 是 `prep`（介系詞）或 `phrase`（片語）。`text` 是卡片上的寫法，`zh` 是點芯片時顯示的中文。`match` 是這句例句裡實際出現的字（大小寫不拘）；分開的兩段（例如 so … that）就寫成陣列。例句平常只標單字本身；點卡片上的 🔗 芯片才把該搭配標出來。篩選列的「搭配詞」只收介系詞，一顆芯片一個介系詞（例如 `+in`、`+about`），片語不進篩選列。 |
 | `example_sentence` | 卡片上的例句 |
 | `example_translation` | 卡片上的中譯 |
 | `page` | 頁碼 |
