@@ -77,10 +77,15 @@ html:not([data-view="srs"]) #srs-view{display:none}
 #srs-view,#srs-view *,#srs-view *::before,#srs-view *::after{box-sizing:border-box}
 #srs-view [hidden]{display:none !important}
 #srs-view{max-width:720px;margin:0 auto;padding:12px}
-#srs-view .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:4px 0 12px}
-#srs-view .stat{background:#fff;border-radius:10px;padding:8px 4px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.1)}
-#srs-view .stat b{display:block;font-size:1.35em;color:#2f5d8a;font-variant-numeric:tabular-nums}
-#srs-view .stat span{font-size:.75em;color:#666}
+#srs-view .stats{display:flex;flex-direction:column;gap:6px;margin:4px 0 10px}
+#srs-view .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+#srs-view .stat-head{grid-column:1/-1;display:flex;align-items:baseline;gap:8px;min-height:1em}
+#srs-view .stat-label{font-size:.72rem;font-weight:700;color:#5c6b7a}
+#srs-view .stat-extra,#srs-view .stat-off{font-size:.7rem;color:#888}
+#srs-view .stat-row.off .stat{opacity:.4}
+#srs-view .stat{background:#fff;border-radius:10px;padding:6px 2px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+#srs-view .stat b{display:block;font-size:1.15em;color:#2f5d8a;font-variant-numeric:tabular-nums}
+#srs-view .stat span{font-size:.72em;color:#666}
 #srs-view .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
 #srs-view .seg,#srs-view .tools{display:flex;flex-wrap:wrap;gap:6px}
 #srs-view .seg button,#srs-view .tools button,#srs-view .limit{border:1px solid #d5dbe3;background:#fff;color:#2f5d8a;border-radius:16px;padding:6px 10px;font-size:.9em;font-weight:600;cursor:pointer}
@@ -210,10 +215,24 @@ html:not([data-view="srs"]) #srs-view{display:none}
 <main id="list-view"></main>
 <div id="srs-view" aria-labelledby="tab-srs">
   <div class="stats" aria-label="SRS 統計">
-    <div class="stat" title="今天到期或逾期的卡片"><b id="srs-due">0</b><span>今日到期</span></div>
-    <div class="stat" title="還沒評過分的卡片"><b id="srs-new">0</b><span>新卡</span></div>
-    <div class="stat" title="間隔短於 1 天，含重來"><b id="srs-learning">0</b><span>學習中</span></div>
-    <div class="stat" title="間隔 21 天以上"><b id="srs-mature">0</b><span>成熟</span></div>
+    <div class="stat-row" id="srs-stats-words">
+      <div class="stat-head"><span class="stat-label">單字卡</span></div>
+      <div class="stat" title="今天到期或逾期的卡片"><b id="srs-due">0</b><span>今日到期</span></div>
+      <div class="stat" title="還沒評過分的卡片"><b id="srs-new">0</b><span>新卡</span></div>
+      <div class="stat" title="間隔短於 1 天，含重來"><b id="srs-learning">0</b><span>學習中</span></div>
+      <div class="stat" title="間隔 21 天以上"><b id="srs-mature">0</b><span>成熟</span></div>
+    </div>
+    <div class="stat-row" id="srs-stats-cloze">
+      <div class="stat-head">
+        <span class="stat-label">例句挖空</span>
+        <span class="stat-extra" id="srs-cloze-locked"></span>
+        <span class="stat-off" id="srs-cloze-off" hidden>已關閉</span>
+      </div>
+      <div class="stat" title="今天到期或逾期的挖空卡"><b id="srs-cloze-due">0</b><span>今日到期</span></div>
+      <div class="stat" title="已解鎖、還沒評過分的挖空卡"><b id="srs-cloze-new">0</b><span>新卡</span></div>
+      <div class="stat" title="間隔短於 1 天，含重來"><b id="srs-cloze-learning">0</b><span>學習中</span></div>
+      <div class="stat" title="間隔 21 天以上"><b id="srs-cloze-mature">0</b><span>成熟</span></div>
+    </div>
   </div>
   <div class="toolbar">
     <div class="seg" role="group" aria-label="練習方向">
@@ -2056,17 +2075,28 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return words.concat(cloze);
   }
 
+  function tallyCard(card, now, end, bag) {
+    if (isNew(card)) bag.fresh += 1;
+    if (card.due != null && card.interval > 0 && card.interval < 1) bag.learning += 1;
+    if (card.interval >= MATURE_DAYS) bag.mature += 1;
+    if (card.due != null && card.due <= end) bag.due += 1;
+  }
+
   function stats(now) {
     var end = endOfDay(now);
-    var due = 0, fresh = 0, learning = 0, mature = 0;
+    var bag = { due: 0, fresh: 0, learning: 0, mature: 0 };
+    WORDS.forEach(function (w) { tallyCard(view(w.word), now, end, bag); });
+    return bag;
+  }
+
+  function clozeStats(now) {
+    var end = endOfDay(now);
+    var bag = { due: 0, fresh: 0, learning: 0, mature: 0, locked: 0 };
     WORDS.forEach(function (w) {
-      var card = view(w.word);
-      if (isNew(card)) fresh += 1;
-      if (card.due != null && card.interval > 0 && card.interval < 1) learning += 1;
-      if (card.interval >= MATURE_DAYS) mature += 1;
-      if (card.due != null && card.due <= end) due += 1;
+      if (!wordReadyForCloze(w.word)) { bag.locked += 1; return; }
+      tallyCard(view(clozeKey(w.word)), now, end, bag);
     });
-    return { due: due, fresh: fresh, learning: learning, mature: mature };
+    return bag;
   }
 
   function nextDue(now) {
@@ -2141,11 +2171,28 @@ document.getElementById('play-stop').addEventListener('click',stop);
   }
 
   function paintStats() {
-    var s = stats(Date.now());
+    var now = Date.now();
+    var s = stats(now);
     el.due.textContent = String(s.due);
     el.fresh.textContent = String(s.fresh);
     el.learning.textContent = String(s.learning);
     el.mature.textContent = String(s.mature);
+    var c = clozeStats(now);
+    var due = document.getElementById('srs-cloze-due');
+    var fresh = document.getElementById('srs-cloze-new');
+    var learning = document.getElementById('srs-cloze-learning');
+    var mature = document.getElementById('srs-cloze-mature');
+    if (due) due.textContent = String(c.due);
+    if (fresh) fresh.textContent = String(c.fresh);
+    if (learning) learning.textContent = String(c.learning);
+    if (mature) mature.textContent = String(c.mature);
+    var locked = document.getElementById('srs-cloze-locked');
+    if (locked) locked.textContent = c.locked ? ('未解鎖 ' + c.locked) : '';
+    var row = document.getElementById('srs-stats-cloze');
+    var off = document.getElementById('srs-cloze-off');
+    var enabled = clozeEnabled();
+    if (row) row.classList.toggle('off', !enabled);
+    if (off) off.hidden = enabled;
   }
 
   function paintDirection() {
@@ -2855,6 +2902,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
       if (typeof window.VOCAB_STOP === 'function') window.VOCAB_STOP();
       if (srsOn()) showNext();
     }
+    paintStats();
   });
   document.getElementById('srs-cloze-mode').addEventListener('change', function () {
     try { localStorage.setItem('vocabSrsClozeMode', this.value); } catch (e) {}
