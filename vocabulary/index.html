@@ -9,12 +9,31 @@ body{margin:0;font-family:-apple-system,"Segoe UI","Noto Sans TC","PingFang TC",
 header{background:#2f5d8a;color:#fff;padding:20px 16px;text-align:center}header h1{margin:0;font-size:1.5em}header p{margin:4px 0 0;opacity:.9}
 main{max-width:960px;margin:0 auto;padding:12px}h2{border-left:5px solid #2f5d8a;padding-left:10px;margin:24px 0 12px}h2 small{color:#888;font-weight:normal;font-size:.6em}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
-.card{background:#fff;border-radius:10px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.card{position:relative;background:#fff;border-radius:10px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
 .head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.num{background:#2f5d8a;color:#fff;border-radius:12px;padding:0 8px;font-size:.85em}
-.word{font-size:1.35em;font-weight:700}.ipa{color:#666;font-family:"Lucida Sans Unicode","Arial Unicode MS",sans-serif}
+.word{font-size:1.35em;font-weight:700}.word.split{font-weight:500}.word.split b{font-weight:800}.ipa{color:#666;font-family:"Lucida Sans Unicode","Arial Unicode MS",sans-serif}
 .zh{margin:6px 0;color:#b5482a}.forms{display:flex;gap:12px;flex-wrap:wrap;font-size:.9em;color:#444}
 .phrase{font-size:.9em;color:#2f6b3a;margin-top:4px}.ex{margin-top:8px;padding:8px;background:#f0f4f9;border-radius:6px}.tr{color:#666;font-size:.92em}
 .say{border:none;background:none;padding:0 2px;margin:0 2px;cursor:pointer;font-size:.9em;line-height:1;opacity:.55;vertical-align:middle}.say:hover,.say:focus{opacity:1}
+.card>.sc,#srs-back>.sc{position:absolute;top:6px;right:6px;z-index:2;box-sizing:border-box;width:40px;height:40px;min-width:40px;min-height:40px;margin:0;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:1.15em;opacity:.8}
+.card>.head,#srs-back>.head{padding-right:52px;min-height:40px}
+#srs-back{position:relative}
+#filter-bar{max-width:960px;margin:0 auto;padding:8px 12px 0}
+html[data-view="srs"] #filter-bar{display:none}
+.fgroup{display:flex;gap:6px;align-items:flex-start;flex-wrap:wrap;margin:4px 0}
+.flabel{flex:0 0 auto;min-width:4.2em;padding-top:5px;color:#666;font-size:.78em}
+.fchips{display:flex;flex-wrap:wrap;gap:4px}
+.tag,.fchips button{border:none;border-radius:999px;padding:3px 8px;font-size:.75em;line-height:1.45;cursor:pointer;background:#eef1f4;color:#333}
+.tag.letter,.fchips button.letter{background:#e7f0f8;color:#2f5d8a}
+.tag.page,.fchips button.page{background:#f4f1ea;color:#6b542a}
+.tag.affix,.fchips button.affix{background:#e7f6ee;color:#2f6b3a}
+.tag.comparison,.fchips button.comparison{background:#fdeee8;color:#b5482a}
+.tag.on,.fchips button.on{outline:2px solid currentColor}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;padding-right:44px}
+.card.filtered-out{display:none}
+#filter-active{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;font-size:.85em}
+#filter-active button{border:1px solid #d5dbe3;background:#fff;color:#2f5d8a;border-radius:14px;padding:3px 8px;cursor:pointer;font-weight:600}
+#filter-count{margin:4px 0 0;color:#666;font-size:.85em}
 .ctl{margin-top:12px;display:flex;gap:8px;justify-content:center}.ctl button{border:none;border-radius:20px;padding:8px 18px;font-size:1em;cursor:pointer;background:#fff;color:#2f5d8a;font-weight:600}
 .rate{margin-top:10px;font-size:.9em;display:flex;gap:6px;justify-content:center;align-items:center;flex-wrap:wrap}.rate button{border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:14px;padding:3px 10px;cursor:pointer;font-size:.9em}.rate button.on{background:#fff;color:#2f5d8a;font-weight:700}
 .card.playing,#srs-study.playing{outline:3px solid #f0a33a}
@@ -37,11 +56,16 @@ html:not([data-view="srs"]) #srs-view{display:none}
 #srs-view .seg button.on{background:#2f5d8a;color:#fff;border-color:#2f5d8a}
 #srs-view .limit{display:inline-flex;align-items:center;gap:6px;color:#444;cursor:default}
 #srs-view .limit input{width:4.2em;font-size:16px;border:1px solid #d5dbe3;border-radius:8px;padding:4px 6px;color:#222}
+#srs-view .autoplay{cursor:pointer}
+#srs-view .autoplay input{width:1.05em;height:1.05em;padding:0}
 #srs-view .tools{margin-left:auto}
 #srs-view .msg{min-height:1.2em;margin:0 0 8px;color:#b5482a;font-size:.9em}
 #srs-view .practice,#srs-view .done{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
 #srs-view .meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:#888;font-size:.85em}
 #srs-view .prompt{margin:16px 0;font-size:2em;font-weight:700;text-align:center;overflow-wrap:anywhere}
+#srs-view .prompt .word{font-size:1em}
+#srs-view .prompt .word.split{font-weight:500}
+#srs-view .prompt .word.split b{font-weight:800}
 #srs-view .prompt.lang-zh{font-size:1.45em;color:#b5482a}
 #srs-view .prompt .say{font-size:.7em}
 #srs-view .show{display:block;width:100%;margin-top:8px;border:none;border-radius:20px;padding:12px 18px;background:#2f5d8a;color:#fff;font-size:1.05em;font-weight:700;cursor:pointer;min-height:48px}
@@ -59,6 +83,11 @@ html:not([data-view="srs"]) #srs-view{display:none}
 #srs-view .done{padding:28px 16px;text-align:center}
 #srs-view .done .lead{margin:0 0 8px;font-size:1.25em;font-weight:700}
 #srs-view .done p{margin:6px 0}
+#srs-view .bonus{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+#srs-view .bonus button{border:1px solid #d5dbe3;background:#fff;color:#2f5d8a;border-radius:16px;padding:8px 12px;font-weight:700;cursor:pointer}
+#srs-view .bonus button.cram{background:#2f5d8a;color:#fff;border-color:#2f5d8a}
+#srs-view .bonus button[hidden]{display:none !important}
+#srs-view .cram-tag{color:#b5482a;font-weight:700}
 #srs-view .hint{margin:10px 0 0;color:#888;font-size:.85em;text-align:center}
 @media (max-width:560px){
   #srs-view .grades{grid-template-columns:repeat(2,1fr)}
@@ -83,7 +112,9 @@ html:not([data-view="srs"]) #srs-view{display:none}
   var tab='list';
   try{
     var h=location.hash;
-    if(h==='#srs'||h==='#list') tab=h.slice(1);
+    var body=h.replace(/^#/,'');
+    if(body==='srs'||body.indexOf('srs/')===0) tab='srs';
+    else if(body==='list'||body.indexOf('list/')===0) tab='list';
     else {
       var s=localStorage.getItem('vocabTab');
       if(s==='srs'||s==='list') tab=s;
@@ -108,10 +139,17 @@ html:not([data-view="srs"]) #srs-view{display:none}
     <button type="button" data-r="0.5">0.5x</button>
     <button type="button" data-r="0.75">0.75x</button>
     <button type="button" data-r="1" class="on">1x</button>
-    <button type="button" data-r="1.5">1.5x</button>
-    <button type="button" data-r="2">2x</button>
+    <button type="button" data-r="1.25">1.25x</button>
   </div>
 </header>
+<div id="filter-bar">
+  <div class="fgroup"><span class="flabel">頁碼</span><div class="fchips" data-kind="page"></div></div>
+  <div class="fgroup"><span class="flabel">字首字母</span><div class="fchips" data-kind="letter"></div></div>
+  <div class="fgroup"><span class="flabel">字根字首</span><div class="fchips" data-kind="affix"></div></div>
+  <div class="fgroup"><span class="flabel">比較級</span><div class="fchips" data-kind="comparison"></div></div>
+  <div id="filter-active"></div>
+  <p id="filter-count"></p>
+</div>
 <main id="list-view"></main>
 <div id="srs-view" aria-labelledby="tab-srs">
   <div class="stats" aria-label="SRS 統計">
@@ -129,6 +167,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
     <label class="limit">每日新卡
       <input id="srs-limit" type="number" min="0" max="999" step="1" inputmode="numeric" aria-label="New cards per day">
     </label>
+    <label class="limit autoplay"><input id="srs-autoplay" type="checkbox" checked> 翻開自動朗讀</label>
     <div class="tools">
       <button type="button" id="srs-export" aria-label="Export progress">匯出進度</button>
       <button type="button" id="srs-import" aria-label="Import progress">匯入進度</button>
@@ -162,6 +201,12 @@ html:not([data-view="srs"]) #srs-view{display:none}
   <section id="srs-done" class="done" hidden>
     <p class="lead">這輪沒有待練習的卡片</p>
     <p id="srs-done-text"></p>
+    <div id="srs-bonus" class="bonus">
+      <button type="button" id="bonus-5">再加 5 張新卡</button>
+      <button type="button" id="bonus-10">再加 10 張新卡</button>
+      <button type="button" id="cram-round" class="cram">加碼再練一輪</button>
+      <button type="button" id="cram-all" class="cram">全部已學卡片</button>
+    </div>
   </section>
   <p class="hint">空白鍵顯示答案 · 數字鍵 1–4 評分</p>
 </div>
@@ -169,7 +214,9 @@ html:not([data-view="srs"]) #srs-view{display:none}
 <script>
 (function(){
 var S=window.speechSynthesis,voice=null,run=0,RATE=1;
-try{var sr=parseFloat(localStorage.getItem('vocabRate'));if(sr>=0.5&&sr<=2)RATE=sr}catch(e){}
+var PRESETS=[0.5,0.75,1,1.25];
+function matchPreset(n){for(var i=0;i<PRESETS.length;i++){if(Math.abs(n-PRESETS[i])<0.001)return PRESETS[i]}return null}
+try{var stored=localStorage.getItem('vocabRate');if(stored!=null&&stored!==''){var hit=matchPreset(parseFloat(stored));if(hit==null){RATE=1.25;localStorage.setItem('vocabRate','1.25')}else RATE=hit}}catch(e){}
 function setRate(r){RATE=r;document.body.dataset.rate=r;document.querySelectorAll('.rate button').forEach(function(b){b.classList.toggle('on',parseFloat(b.dataset.r)===r)});try{localStorage.setItem('vocabRate',r)}catch(e){}}
 document.querySelectorAll('.rate button').forEach(function(b){b.addEventListener('click',function(){setRate(parseFloat(b.dataset.r))})});setRate(RATE);
 function pick(){var v=S.getVoices().filter(function(x){return x.lang&&x.lang.replace('_','-').toLowerCase()==='en-us'});voice=v[0]||null}
@@ -185,11 +232,12 @@ function cardFields(c){return {word:c.dataset.word,zh:c.dataset.zh,ex:c.dataset.
 async function playSequence(fields,id){if(fields.el)mark(fields.el);var steps=[function(){return utter(fields.word)},function(){return utterZh(fields.zh)},function(){return utter(fields.ex)},function(){return utterZh(fields.tr)}];for(var i=0;i<steps.length;i++){if(id!==run)return;await steps[i]();if(id!==run)return;if(i<steps.length-1)await wait(500,id)}}
 function playOne(fields){stop();var id=run;setPlayStop(true);playSequence(fields,id).then(function(){if(id===run){mark(null);setPlayStop(false)}})}
 window.VOCAB_PLAY_CARD=playOne
+window.VOCAB_STOP=stop
 function setPlayStop(on, index, total){var b=document.getElementById('play-stop');if(!b)return;b.hidden=!on;if(!on)return;var label='■ Stop';if(index&&total)label+=' · '+index+'/'+total;b.textContent=label;b.setAttribute('aria-label',label)}
 function stop(){run++;if(S)S.cancel();mark(null);setPlayStop(false)}
 if(!S){alert('This browser does not support speech (Web Speech API).');return}
 document.getElementById('list-view').addEventListener('click',async function(e){var b=e.target.closest&&e.target.closest('.say');if(!b)return;var c=b.closest('.card');if(!c)return;if(b.classList.contains('sc')){playOne(cardFields(c));return}stop();var id=run;mark(c);if(b.classList.contains('sz'))await utterZh(c.dataset.zh);else if(b.classList.contains('st'))await utterZh(c.dataset.tr);else await utter(b.classList.contains('sw')?c.dataset.word:c.dataset.ex);if(id===run)mark(null)});
-document.getElementById('all').addEventListener('click',async function(){stop();var id=run;setPlayStop(true);try{if(window.VOCAB_ENSURE_ALL)await window.VOCAB_ENSURE_ALL()}catch(e){if(id===run)setPlayStop(false);return}if(id!==run)return;var cs=document.querySelectorAll('#list-view .card');for(var i=0;i<cs.length;i++){if(id!==run)return;setPlayStop(true,i+1,cs.length);await playSequence(cardFields(cs[i]),id);if(id!==run)return;await wait(1200,id)}if(id===run){mark(null);setPlayStop(false)}});
+document.getElementById('all').addEventListener('click',async function(){stop();var id=run;setPlayStop(true);try{if(window.VOCAB_PREPARE_PLAY)await window.VOCAB_PREPARE_PLAY();else if(window.VOCAB_ENSURE_ALL)await window.VOCAB_ENSURE_ALL()}catch(e){if(id===run)setPlayStop(false);return}if(id!==run)return;var cs=document.querySelectorAll('#list-view .card:not(.filtered-out)');for(var i=0;i<cs.length;i++){if(id!==run)return;setPlayStop(true,i+1,cs.length);await playSequence(cardFields(cs[i]),id);if(id!==run)return;await wait(1200,id)}if(id===run){mark(null);setPlayStop(false)}});
 document.getElementById('stop').addEventListener('click',stop);
 document.getElementById('play-stop').addEventListener('click',stop);
 })();
@@ -262,6 +310,30 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return b;
   }
 
+  function headword(entry) {
+    var span = document.createElement('span');
+    span.className = 'word';
+    var syl = entry && entry.syllables;
+    var stress = entry && entry.stress;
+    if (syl && syl.length >= 3 && typeof stress === 'number' && stress >= 0 && stress < syl.length) {
+      span.classList.add('split');
+      syl.forEach(function (part, i) {
+        if (i) span.appendChild(document.createTextNode('\u00b7'));
+        if (i === stress) {
+          var b = document.createElement('b');
+          b.textContent = part;
+          span.appendChild(b);
+        } else {
+          span.appendChild(document.createTextNode(part));
+        }
+      });
+    } else {
+      span.textContent = (entry && entry.word) || '';
+    }
+    return span;
+  }
+  window.VOCAB_HEADWORD = headword;
+
   function cardAllButton() {
     var b = document.createElement('button');
     b.type = 'button';
@@ -281,11 +353,11 @@ document.getElementById('play-stop').addEventListener('click',stop);
 
     var head = el('div', 'head');
     head.appendChild(el('span', 'num', String(w.num)));
-    head.appendChild(el('span', 'word', w.word || ''));
+    head.appendChild(headword(w));
     head.appendChild(say('sw', 'Play word'));
-    head.appendChild(cardAllButton());
     head.appendChild(el('span', 'ipa', w.phonetics || ''));
     card.appendChild(head);
+    card.appendChild(cardAllButton());
 
     var zh = el('div', 'zh');
     zh.appendChild(document.createTextNode((w.chinese_meaning || '') + ' '));
@@ -320,8 +392,261 @@ document.getElementById('play-stop').addEventListener('click',stop);
     ex.appendChild(en);
     ex.appendChild(tr);
     card.appendChild(ex);
+    var chips = tagRow(w.tags);
+    if (chips) card.appendChild(chips);
     return card;
   }
+
+  var FILTER_KEY = 'vocabFilter';
+  var activeFilters = [];
+
+  function tagKind(tag) {
+    var k = String(tag).split(':')[0];
+    if (k === 'prefix' || k === 'suffix' || k === 'root') return 'affix';
+    if (k === 'letter' || k === 'page' || k === 'comparison') return k;
+    return null;
+  }
+
+  function shownTags(tags) {
+    return (tags || []).filter(function (t) {
+      return t.indexOf('book:') !== 0 && t.indexOf('unit:') !== 0 && tagKind(t);
+    });
+  }
+
+  function tagShort(tag) {
+    var i = tag.indexOf(':');
+    var k = tag.slice(0, i);
+    var v = tag.slice(i + 1);
+    if (k === 'letter') return v;
+    if (k === 'page') return '第' + v + '頁';
+    if (k === 'comparison') return v;
+    if (k === 'root') return 'root: ' + v.split('（')[0].trim();
+    if (k === 'suffix' || k === 'prefix') return v.split('（')[0].split('(')[0].trim();
+    return v;
+  }
+
+  function tagIcon(kind) {
+    return { letter: '🔤', page: '📄', affix: '🧩', comparison: '📈' }[kind] || '';
+  }
+
+  function tagChip(tag, extra) {
+    var kind = tagKind(tag);
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tag ' + kind + (extra || '');
+    b.setAttribute('data-tag', tag);
+    b.title = tag;
+    b.textContent = (tagIcon(kind) ? tagIcon(kind) + ' ' : '') + tagShort(tag);
+    if (activeFilters.indexOf(tag) !== -1) b.classList.add('on');
+    return b;
+  }
+
+  function tagRow(tags) {
+    var list = shownTags(tags);
+    if (!list.length) return null;
+    var row = el('div', 'tags');
+    list.forEach(function (tag) { row.appendChild(tagChip(tag)); });
+    return row;
+  }
+
+  function filtersFromHash() {
+    var body = location.hash.replace(/^#/, '');
+    var rest = '';
+    if (body.indexOf('list/') === 0) rest = body.slice(5);
+    else if (body.indexOf('srs/') === 0) rest = body.slice(4);
+    if (!rest) return null;
+    return rest.split('&').map(decodeURIComponent).filter(Boolean);
+  }
+
+  function loadFilters() {
+    var fromHash = filtersFromHash();
+    if (fromHash) return fromHash;
+    try {
+      var raw = JSON.parse(localStorage.getItem(FILTER_KEY) || '[]');
+      return Array.isArray(raw) ? raw.filter(Boolean) : [];
+    } catch (e) { return []; }
+  }
+
+  function writeHash(tab) {
+    var h = '#' + tab;
+    if (tab === 'list' && activeFilters.length) h += '/' + activeFilters.map(encodeURIComponent).join('&');
+    if (location.hash !== h) history.replaceState(null, '', h);
+  }
+  window.VOCAB_WRITE_HASH = writeHash;
+
+  function saveFilters() {
+    try { localStorage.setItem(FILTER_KEY, JSON.stringify(activeFilters)); } catch (e) {}
+    var tab = document.documentElement.getAttribute('data-view') === 'srs' ? 'srs' : 'list';
+    writeHash(tab);
+  }
+
+  function wordMatches(tags) {
+    if (!activeFilters.length) return true;
+    var groups = { page: [], letter: [], affix: [], comparison: [] };
+    activeFilters.forEach(function (t) {
+      var kind = tagKind(t);
+      if (kind) groups[kind].push(t);
+    });
+    var names = Object.keys(groups);
+    for (var i = 0; i < names.length; i++) {
+      var sel = groups[names[i]];
+      if (!sel.length) continue;
+      var ok = false;
+      for (var j = 0; j < sel.length; j++) {
+        if ((tags || []).indexOf(sel[j]) !== -1) { ok = true; break; }
+      }
+      if (!ok) return false;
+    }
+    return true;
+  }
+
+  function chunkIdForPage(num) {
+    var found = null;
+    eachChunk(function (book, unit, chunk) {
+      if (chunk.label === '第' + num + '頁') found = chunk.id;
+    });
+    return found;
+  }
+
+  function prepareFiltered() {
+    var pages = [];
+    var other = false;
+    activeFilters.forEach(function (t) {
+      if (t.indexOf('page:') === 0) pages.push(t.slice(5));
+      else other = true;
+    });
+    if (!activeFilters.length || other) return window.VOCAB_ENSURE_ALL();
+    var jobs = [];
+    pages.forEach(function (num) {
+      var id = chunkIdForPage(num);
+      if (id) jobs.push(loadSection(id));
+    });
+    return Promise.all(jobs);
+  }
+  window.VOCAB_PREPARE_PLAY = function () {
+    if (!activeFilters.length) return window.VOCAB_ENSURE_ALL();
+    return prepareFiltered();
+  };
+
+  function knownTags() {
+    var tags = [];
+    function add(tag) { if (tags.indexOf(tag) === -1 && tagKind(tag)) tags.push(tag); }
+    eachChunk(function (book, unit, chunk) {
+      var m = String(chunk.label || '').match(/第(\d+)頁/);
+      if (m) add('page:' + m[1]);
+    });
+    Object.keys(window.VOCAB_CHUNKS).forEach(function (id) {
+      (window.VOCAB_CHUNKS[id] || []).forEach(function (w) {
+        shownTags(w.tags).forEach(add);
+      });
+    });
+    return tags;
+  }
+
+  function paintFilterBar() {
+    var bar = document.getElementById('filter-bar');
+    if (!bar) return;
+    var tags = knownTags();
+    bar.querySelectorAll('.fchips').forEach(function (box) {
+      var kind = box.getAttribute('data-kind');
+      box.textContent = '';
+      tags.filter(function (t) { return tagKind(t) === kind; }).forEach(function (tag) {
+        var b = tagChip(tag);
+        b.addEventListener('click', function () { toggleFilter(tag); });
+        box.appendChild(b);
+      });
+    });
+    var active = document.getElementById('filter-active');
+    active.textContent = '';
+    if (!activeFilters.length) return;
+    active.appendChild(document.createTextNode('篩選中'));
+    activeFilters.forEach(function (tag) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = tagShort(tag) + ' ×';
+      b.title = tag;
+      b.addEventListener('click', function () { toggleFilter(tag); });
+      active.appendChild(b);
+    });
+    var clear = document.createElement('button');
+    clear.type = 'button';
+    clear.id = 'filter-clear';
+    clear.textContent = '清除';
+    clear.addEventListener('click', function () { activeFilters = []; commitFilters(); });
+    active.appendChild(clear);
+  }
+
+  function refreshList() {
+    var shown = 0;
+    var readyCards = 0;
+    var pageSel = activeFilters.filter(function (t) { return t.indexOf('page:') === 0; });
+    listEl.querySelectorAll('section[data-chunk]').forEach(function (section) {
+      if (pageSel.length) {
+        var heading = section.querySelector('h2');
+        var pm = heading && heading.textContent.match(/第(\d+)頁/);
+        if (pm && pageSel.indexOf('page:' + pm[1]) === -1) {
+          section.hidden = true;
+          section.querySelectorAll('.card').forEach(function (card) { card.classList.add('filtered-out'); });
+          return;
+        }
+      }
+      var n = 0;
+      var cards = section.querySelectorAll('.card');
+      cards.forEach(function (card) {
+        readyCards++;
+        var tags = [];
+        Object.keys(window.VOCAB_CHUNKS).some(function (id) {
+          return (window.VOCAB_CHUNKS[id] || []).some(function (w) {
+            if (w.word !== card.dataset.word) return false;
+            tags = w.tags || [];
+            return true;
+          });
+        });
+        var ok = wordMatches(tags);
+        card.classList.toggle('filtered-out', !ok);
+        if (ok) { n++; shown++; }
+      });
+      if (section.getAttribute('data-state') === 'ready' && activeFilters.length) section.hidden = n === 0;
+      else section.hidden = false;
+    });
+    var count = document.getElementById('filter-count');
+    if (count) {
+      var total = 0;
+      eachChunk(function (book, unit, chunk) { total += Number(chunk.count) || 0; });
+      count.textContent = activeFilters.length ? ('顯示 ' + shown + ' / ' + total) : ('顯示 ' + shown + ' 個');
+    }
+    paintFilterBar();
+  }
+
+  function commitFilters() {
+    saveFilters();
+    prepareFiltered().then(refreshList).catch(function () { refreshList(); });
+  }
+
+  function toggleFilter(tag) {
+    if (!tag) return;
+    var i = activeFilters.indexOf(tag);
+    if (i === -1) activeFilters.push(tag);
+    else activeFilters.splice(i, 1);
+    commitFilters();
+  }
+
+  function readHashFilters() {
+    var parsed = filtersFromHash();
+    if (!parsed) return;
+    activeFilters = parsed;
+    try { localStorage.setItem(FILTER_KEY, JSON.stringify(activeFilters)); } catch (e) {}
+    commitFilters();
+  }
+  window.VOCAB_READ_HASH = readHashFilters;
+
+  listEl.addEventListener('click', function (e) {
+    var chip = e.target.closest && e.target.closest('.tag');
+    if (!chip) return;
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFilter(chip.getAttribute('data-tag'));
+  });
 
   function sectionOf(id) {
     return listEl.querySelector('[data-chunk="' + id + '"]');
@@ -342,6 +667,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     words.forEach(function (w) { grid.appendChild(renderCard(w)); });
     section.setAttribute('data-state', 'ready');
     section.setAttribute('aria-busy', 'false');
+    refreshList();
   }
 
   function loadScript(chunk) {
@@ -508,7 +834,10 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return;
   }
   buildList();
+  activeFilters = loadFilters();
   watchSections();
+  if (activeFilters.length) commitFilters();
+  else refreshList();
 })();
 (function () {
   var KEY = 'vocabSRS_v1';
@@ -550,9 +879,16 @@ document.getElementById('play-stop').addEventListener('click',stop);
   }
 
   function currentRate() {
+    var presets = [0.5, 0.75, 1, 1.25];
     try {
-      var r = parseFloat(localStorage.getItem('vocabRate'));
-      if (r >= 0.5 && r <= 2) return r;
+      var stored = localStorage.getItem('vocabRate');
+      if (stored == null || stored === '') return 1;
+      var r = parseFloat(stored);
+      for (var i = 0; i < presets.length; i++) {
+        if (Math.abs(r - presets[i]) < 0.001) return presets[i];
+      }
+      localStorage.setItem('vocabRate', '1.25');
+      return 1.25;
     } catch (e) {}
     return 1;
   }
@@ -631,6 +967,9 @@ document.getElementById('play-stop').addEventListener('click',stop);
 
   var state = load();
   var active = null;
+  var cramOn = false;
+  var cramQueue = [];
+  var BONUS_KEY = 'vocabNewBonus';
 
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
@@ -738,6 +1077,58 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return n;
   }
 
+  function bonusMap() {
+    try {
+      var raw = JSON.parse(localStorage.getItem(BONUS_KEY) || '{}');
+      return raw && typeof raw === 'object' ? raw : {};
+    } catch (e) { return {}; }
+  }
+
+  function bonusToday(today) {
+    return Math.max(0, Number(bonusMap()[today]) || 0);
+  }
+
+  function addBonus(n) {
+    var today = dayKey(Date.now());
+    var raw = bonusMap();
+    raw[today] = bonusToday(today) + n;
+    try { localStorage.setItem(BONUS_KEY, JSON.stringify(raw)); } catch (e) {}
+  }
+
+  function newLimit(today) {
+    return state.newPerDay + bonusToday(today);
+  }
+
+  function unseenNewWords() {
+    var list = [];
+    WORDS.forEach(function (w) {
+      var card = view(w.word);
+      if (isNew(card) && !card.introduced) list.push(w.word);
+    });
+    return list;
+  }
+
+  function cramCandidates(now) {
+    var end = endOfDay(now);
+    var list = [];
+    WORDS.forEach(function (w) {
+      var card = view(w.word);
+      if (isNew(card)) return;
+      var learningDue = card.due != null && card.interval > 0 && card.interval < 1 && card.due <= now;
+      var reviewDue = card.interval >= 1 && card.due != null && card.due <= end;
+      if (learningDue || reviewDue) return;
+      list.push(w.word);
+    });
+    list.sort(function (a, b) {
+      var ca = view(a);
+      var cb = view(b);
+      if (ca.ease !== cb.ease) return ca.ease - cb.ease;
+      if (ca.lapses !== cb.lapses) return cb.lapses - ca.lapses;
+      return (ca.due || 0) - (cb.due || 0);
+    });
+    return list;
+  }
+
   function queueWords(now) {
     var learning = [];
     var review = [];
@@ -754,7 +1145,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     });
     learning.sort(function (a, b) { return view(a).due - view(b).due; });
     review.sort(function (a, b) { return view(a).due - view(b).due; });
-    var slots = Math.max(0, state.newPerDay - introducedTodayCount(dayKey(now)));
+    var slots = Math.max(0, newLimit(dayKey(now)) - introducedTodayCount(dayKey(now)));
     return learning.concat(review, pendingNew, unseen.slice(0, slots));
   }
 
@@ -846,6 +1237,8 @@ document.getElementById('play-stop').addEventListener('click',stop);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     if (document.activeElement !== el.perDay) el.perDay.value = String(state.newPerDay);
+    var autoBox = document.getElementById('srs-autoplay');
+    if (autoBox && document.activeElement !== autoBox) autoBox.checked = autoplayOn();
   }
 
   function fillPrompt(entry, dir) {
@@ -855,16 +1248,27 @@ document.getElementById('play-stop').addEventListener('click',stop);
       el.prompt.appendChild(document.createTextNode(entry.chinese_meaning + ' '));
       el.prompt.appendChild(sayButton('meaning', 'Play meaning'));
     } else {
-      el.prompt.appendChild(document.createTextNode(entry.word + ' '));
+      el.prompt.appendChild(window.VOCAB_HEADWORD(entry));
+      el.prompt.appendChild(document.createTextNode(' '));
       el.prompt.appendChild(sayButton('word', 'Play word'));
     }
   }
 
+  function fillHead(node, entry) {
+    node.textContent = '';
+    node.classList.remove('split');
+    var built = window.VOCAB_HEADWORD(entry);
+    if (built.classList.contains('split')) node.classList.add('split');
+    while (built.firstChild) node.appendChild(built.firstChild);
+  }
+
   function fillBack(entry, dir) {
-    el.backWord.textContent = '';
-    el.backWord.appendChild(document.createTextNode(entry.word + ' '));
+    fillHead(el.backWord, entry);
+    el.backWord.appendChild(document.createTextNode(' '));
     el.backWord.appendChild(sayButton('word', 'Play word'));
-    el.backWord.appendChild(cardSpeakButton());
+    var prevCardPlay = el.back.querySelector('.sc');
+    if (prevCardPlay) prevCardPlay.remove();
+    el.back.appendChild(cardSpeakButton());
     el.backWord.classList.toggle('answer', dir === 'zh');
     el.backIpa.textContent = entry.phonetics || '';
     el.backZh.textContent = '';
@@ -908,8 +1312,13 @@ document.getElementById('play-stop').addEventListener('click',stop);
     var q = queueWords(now);
     var left = q.length + (q.indexOf(active.word) === -1 ? 1 : 0);
     var dirLabel = active.dir === 'zh' ? '中文 → English' : 'English → 中文';
-    el.meta.textContent = '#' + entry.num + ' · 第' + entry.page + '頁 · ' + dirLabel;
-    el.remain.textContent = '這輪 ' + left + ' 張';
+    if (cramOn) {
+      el.meta.textContent = '加碼模式・不影響排程 · ' + dirLabel;
+      el.remain.textContent = '這輪 ' + (cramQueue.length + 1) + ' 張';
+    } else {
+      el.meta.textContent = '#' + entry.num + ' · 第' + entry.page + '頁 · ' + dirLabel;
+      el.remain.textContent = '這輪 ' + left + ' 張';
+    }
     fillPrompt(entry, active.dir);
     fillBack(entry, active.dir);
     el.show.hidden = active.revealed;
@@ -930,14 +1339,23 @@ document.getElementById('play-stop').addEventListener('click',stop);
     });
     var lines = [];
     if (soonest) lines.push('下一張到期：' + formatWhen(soonest, now) + '。');
-    if (unseen > 0 && introducedTodayCount(today) >= state.newPerDay) {
-      lines.push('新卡已達今日上限（' + state.newPerDay + '）。其餘 ' + unseen + ' 張新卡明天再練習。');
+    if (unseen > 0 && introducedTodayCount(today) >= newLimit(today)) {
+      lines.push('新卡已達今日上限（' + newLimit(today) + '）。其餘 ' + unseen + ' 張新卡明天再練習。');
     } else if (!soonest && unseen === 0) {
       lines.push('目前沒有更晚的到期時間。');
     }
     if (!lines.length) lines.push('調整每日新卡數量，或稍後再來。');
     var text = lines.join(' ');
     if (el.doneText.textContent !== text) el.doneText.textContent = text;
+    var bonus5 = document.getElementById('bonus-5');
+    var bonus10 = document.getElementById('bonus-10');
+    var cramRound = document.getElementById('cram-round');
+    var cramAll = document.getElementById('cram-all');
+    if (bonus5) bonus5.hidden = unseen === 0;
+    if (bonus10) bonus10.hidden = unseen === 0;
+    var learned = cramCandidates(now).length;
+    if (cramRound) cramRound.hidden = learned === 0;
+    if (cramAll) cramAll.hidden = learned === 0;
     el.study.hidden = true;
     el.done.hidden = false;
   }
@@ -985,6 +1403,19 @@ document.getElementById('play-stop').addEventListener('click',stop);
     if (!deckReady) return;
     paintStats();
     paintDirection();
+    if (cramOn) {
+      if (!cramQueue.length) {
+        cramOn = false;
+        active = null;
+        paintDone();
+        return;
+      }
+      var nextWord = cramQueue.shift();
+      active = { word: nextWord, dir: chooseDir(), revealed: false };
+      paintCard();
+      paintStats();
+      return;
+    }
     if (!WORDS.length) {
       active = null;
       paintDone();
@@ -1008,16 +1439,46 @@ document.getElementById('play-stop').addEventListener('click',stop);
     paintStats();
   }
 
+  function autoplayOn() {
+    try {
+      var v = localStorage.getItem('vocabSrsAutoplay');
+      if (v == null || v === '') return true;
+      return v === '1';
+    } catch (e) { return true; }
+  }
+
+  function playShownCard() {
+    if (!active) return;
+    var entry = byWord[active.word];
+    if (!entry || typeof window.VOCAB_PLAY_CARD !== 'function') return;
+    window.VOCAB_PLAY_CARD({
+      word: entry.word,
+      zh: entry.speak_meaning || entry.chinese_meaning,
+      ex: entry.speak_sentence || entry.example_sentence,
+      tr: entry.speak_translation || entry.example_translation,
+      el: el.study
+    });
+  }
+
   function reveal() {
     if (!active || active.revealed) return;
     active.revealed = true;
     paintCard();
+    if (autoplayOn()) playShownCard();
   }
 
   function grade(rating) {
     if (!srsOn() || !active || !active.revealed) return;
-    if (S) { try { S.cancel(); } catch (e) {} }
+    if (typeof window.VOCAB_STOP === 'function') window.VOCAB_STOP();
+    else if (S) { try { S.cancel(); } catch (e) {} }
     var word = active.word;
+    if (cramOn) {
+      if (rating === 'again') cramQueue.push(word);
+      el.msg.textContent = '';
+      active = null;
+      showNext();
+      return;
+    }
     state.cards[word] = schedule(ensure(word), rating, Date.now());
     save();
     el.msg.textContent = '';
@@ -1038,7 +1499,8 @@ document.getElementById('play-stop').addEventListener('click',stop);
     el.srs.setAttribute('aria-hidden', onSrs ? 'false' : 'true');
     if (!opts.skipHash) {
       var want = '#' + tab;
-      if (location.hash !== want) history.replaceState(null, '', want);
+      if (window.VOCAB_WRITE_HASH) window.VOCAB_WRITE_HASH(tab);
+      else if (location.hash !== want) history.replaceState(null, '', want);
     }
     if (onSrs && was !== 'srs') {
       var stopBtn = document.getElementById('stop');
@@ -1074,6 +1536,34 @@ document.getElementById('play-stop').addEventListener('click',stop);
       paintCard();
     }
   });
+  function beginBonus(n) {
+    addBonus(n);
+    cramOn = false;
+    cramQueue = [];
+    active = null;
+    if (typeof window.VOCAB_STOP === 'function') window.VOCAB_STOP();
+    showNext();
+  }
+
+  function beginCram(all) {
+    var list = cramCandidates(Date.now());
+    if (!list.length) return;
+    cramQueue = all ? list.slice() : list.slice(0, 15);
+    cramOn = true;
+    active = null;
+    if (typeof window.VOCAB_STOP === 'function') window.VOCAB_STOP();
+    showNext();
+  }
+
+  document.getElementById('bonus-5').addEventListener('click', function () { beginBonus(5); });
+  document.getElementById('bonus-10').addEventListener('click', function () { beginBonus(10); });
+  document.getElementById('cram-round').addEventListener('click', function () { beginCram(false); });
+  document.getElementById('cram-all').addEventListener('click', function () { beginCram(true); });
+  document.getElementById('srs-autoplay').addEventListener('change', function () {
+    try { localStorage.setItem('vocabSrsAutoplay', this.checked ? '1' : '0'); } catch (e) {}
+    if (!this.checked && typeof window.VOCAB_STOP === 'function') window.VOCAB_STOP();
+  });
+
   el.perDay.addEventListener('change', function () {
     var n = Number(el.perDay.value);
     if (!isFinite(n)) {
@@ -1163,7 +1653,12 @@ document.getElementById('play-stop').addEventListener('click',stop);
   el.tabList.addEventListener('click', function () { applyTab('list'); });
   el.tabSrs.addEventListener('click', function () { applyTab('srs'); });
   window.addEventListener('hashchange', function () {
-    if (location.hash === '#srs' || location.hash === '#list') applyTab(location.hash.slice(1), { skipHash: true });
+    var hashBody = location.hash.replace(/^#/, '');
+    if (hashBody === 'srs' || hashBody.indexOf('srs/') === 0) applyTab('srs', { skipHash: true });
+    else if (hashBody === 'list' || hashBody.indexOf('list/') === 0) {
+      applyTab('list', { skipHash: true });
+      if (window.VOCAB_READ_HASH) window.VOCAB_READ_HASH();
+    }
   });
 
   document.addEventListener('keydown', function (e) {

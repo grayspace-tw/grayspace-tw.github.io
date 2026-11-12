@@ -16,7 +16,16 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "厭倦的，厭煩的",
     "speak_sentence": "I am bored by the boring book.",
-    "speak_translation": "我對這本無聊的書感到厭煩。"
+    "speak_translation": "我對這本無聊的書感到厭煩。",
+    "id": "p7-17",
+    "tags": [
+      "letter:B",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-ed (participial adjective)（過去分詞形容詞，表示「感到…的」）",
+      "root:bore（使厭煩）"
+    ]
   },
   {
     "num": 18,
@@ -31,7 +40,16 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "無聊的，令人厭煩的",
     "speak_sentence": "He is a boring person. Nobody wants to talk to him.",
-    "speak_translation": "他是個很無聊的人。沒人想和他說話。"
+    "speak_translation": "他是個很無聊的人。沒人想和他說話。",
+    "id": "p7-18",
+    "tags": [
+      "letter:B",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-ing (participial adjective)（現在分詞形容詞，表示「令人…的」）",
+      "root:bore（使厭煩）"
+    ]
   },
   {
     "num": 19,
@@ -46,7 +64,14 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "勇敢的",
     "speak_sentence": "The brave fireman saved people from the fire.",
-    "speak_translation": "這個勇敢的消防隊員從火災中救過人。"
+    "speak_translation": "這個勇敢的消防隊員從火災中救過人。",
+    "id": "p7-19",
+    "tags": [
+      "letter:B",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵"
+    ]
   },
   {
     "num": 20,
@@ -61,7 +86,15 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "忙碌的",
     "speak_sentence": "She is busy now. Can you call later?",
-    "speak_translation": "她現在很忙。你可以待會兒再打來嗎？"
+    "speak_translation": "她現在很忙。你可以待會兒再打來嗎？",
+    "id": "p7-20",
+    "tags": [
+      "letter:B",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 21,
@@ -76,7 +109,17 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "仔細的，小心的",
     "speak_sentence": "Be careful when you cross the street.",
-    "speak_translation": "過馬路時要小心。"
+    "speak_translation": "過馬路時要小心。",
+    "id": "p7-21",
+    "tags": [
+      "letter:C",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-ful（充滿…的；具有…的）",
+      "root:care（小心、關心）",
+      "comparison:more/most"
+    ]
   },
   {
     "num": 22,
@@ -91,7 +134,15 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "涼爽的 ，很酷的",
     "speak_sentence": "Fall is a cool season. Your new MP3 player is really cool.",
-    "speak_translation": "秋天是涼爽的季節。 你新的 MP3 播放器真的很酷。"
+    "speak_translation": "秋天是涼爽的季節。 你新的 MP3 播放器真的很酷。",
+    "id": "p7-22",
+    "tags": [
+      "letter:C",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 23,
@@ -106,11 +157,24 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "瘋狂的 ，蠢的 ，古怪的",
     "speak_sentence": "My brothers are crazy about Jay Chou.",
-    "speak_translation": "我的弟弟們對 Jay Chou 很著迷。"
+    "speak_translation": "我的弟弟們對 Jay Chou 很著迷。",
+    "id": "p7-23",
+    "tags": [
+      "letter:C",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵"
+    ]
   },
   {
     "num": 24,
     "word": "excited",
+    "syllables": [
+      "ex",
+      "cit",
+      "ed"
+    ],
+    "stress": 1,
     "phonetics": "[ɪkˈsaɪtɪd]",
     "chinese_meaning": "形 感到興奮的",
     "comparative": null,
@@ -121,11 +185,26 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "感到興奮的",
     "speak_sentence": "The children are excited about going on a trip tomorrow.",
-    "speak_translation": "學生對於明天要去旅行感到很興奮。"
+    "speak_translation": "學生對於明天要去旅行感到很興奮。",
+    "id": "p7-24",
+    "tags": [
+      "letter:E",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-ed (participial adjective)（過去分詞形容詞，表示「感到…的」）",
+      "root:excite（使興奮）"
+    ]
   },
   {
     "num": 25,
     "word": "exciting",
+    "syllables": [
+      "ex",
+      "cit",
+      "ing"
+    ],
+    "stress": 1,
     "phonetics": "[ɪkˈsaɪtɪŋ]",
     "chinese_meaning": "形 令人興奮的；刺激的",
     "comparative": null,
@@ -136,7 +215,16 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "令人興奮的，刺激的",
     "speak_sentence": "The game between the Lions and the Elephants is really exciting.",
-    "speak_translation": "獅隊和象隊的比賽真的很刺激。"
+    "speak_translation": "獅隊和象隊的比賽真的很刺激。",
+    "id": "p7-25",
+    "tags": [
+      "letter:E",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-ing (participial adjective)（現在分詞形容詞，表示「令人…的」）",
+      "root:excite（使興奮）"
+    ]
   },
   {
     "num": 26,
@@ -151,7 +239,17 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "著名的",
     "speak_sentence": "The restaurant is famous for its apple pie.",
-    "speak_translation": "這家餐廳以它的蘋果派著名。"
+    "speak_translation": "這家餐廳以它的蘋果派著名。",
+    "id": "p7-26",
+    "tags": [
+      "letter:F",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-ous（具有…性質的）",
+      "root:fame（名聲）",
+      "comparison:more/most"
+    ]
   },
   {
     "num": 27,
@@ -166,7 +264,18 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "友善的",
     "speak_sentence": "We should be friendly to our new classmates.",
-    "speak_translation": "我們應該對我們的新同學友善。"
+    "speak_translation": "我們應該對我們的新同學友善。",
+    "id": "p7-27",
+    "tags": [
+      "letter:F",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-ly（具有…特質的，作形容詞後綴）",
+      "root:friend（朋友）",
+      "comparison:-er/-est",
+      "comparison:more/most"
+    ]
   },
   {
     "num": 28,
@@ -181,7 +290,17 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "可笑的",
     "speak_sentence": "The funny TV show makes me laugh out loudly.",
-    "speak_translation": "這個好笑的電視劇使我放聲大笑。"
+    "speak_translation": "這個好笑的電視劇使我放聲大笑。",
+    "id": "p7-28",
+    "tags": [
+      "letter:F",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-y（充滿…的；有…性質的）",
+      "root:fun（樂趣）",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 29,
@@ -196,7 +315,15 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "好的",
     "speak_sentence": "Vegetables are good for health.",
-    "speak_translation": "蔬菜有益健康。"
+    "speak_translation": "蔬菜有益健康。",
+    "id": "p7-29",
+    "tags": [
+      "letter:G",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:irregular"
+    ]
   },
   {
     "num": 30,
@@ -211,7 +338,15 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "快樂的",
     "speak_sentence": "Don't worry. Be happy.",
-    "speak_translation": "別煩惱。要快樂些。"
+    "speak_translation": "別煩惱。要快樂些。",
+    "id": "p7-30",
+    "tags": [
+      "letter:H",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 31,
@@ -226,7 +361,14 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "努力工作的，勤奮的",
     "speak_sentence": "The hard-working man works 20 hours a day.",
-    "speak_translation": "這個勤奮的男子一天工作 20 小時。"
+    "speak_translation": "這個勤奮的男子一天工作 20 小時。",
+    "id": "p7-31",
+    "tags": [
+      "letter:H",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵"
+    ]
   },
   {
     "num": 32,
@@ -241,11 +383,25 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "誠實的 ，正直的",
     "speak_sentence": "An honest student doesn't tell a lie.",
-    "speak_translation": "誠實的學生不說謊。"
+    "speak_translation": "誠實的學生不說謊。",
+    "id": "p7-32",
+    "tags": [
+      "letter:H",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵"
+    ]
   },
   {
     "num": 33,
     "word": "interested",
+    "syllables": [
+      "in",
+      "ter",
+      "est",
+      "ed"
+    ],
+    "stress": 0,
     "phonetics": "[ˈɪntərɪstɪd]",
     "chinese_meaning": "形 感興趣的",
     "comparative": null,
@@ -256,6 +412,15 @@ window.VOCAB_REGISTER("tango2000-p7", [
     "page": 7,
     "speak_meaning": "感興趣的",
     "speak_sentence": "My brother is interested in the new software.",
-    "speak_translation": "我的哥哥對這個新的軟體感興趣。"
+    "speak_translation": "我的哥哥對這個新的軟體感興趣。",
+    "id": "p7-33",
+    "tags": [
+      "letter:I",
+      "page:7",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-ed (participial adjective)（過去分詞形容詞，表示「感到…的」）",
+      "root:interest（興趣）"
+    ]
   }
 ]);

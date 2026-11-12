@@ -6,6 +6,12 @@ window.VOCAB_REGISTER("tango2000-p6", [
   {
     "num": 1,
     "word": "beautiful",
+    "syllables": [
+      "beau",
+      "ti",
+      "ful"
+    ],
+    "stress": 0,
     "phonetics": "[ˈbjutəfəl]",
     "chinese_meaning": "形 美麗的",
     "comparative": "more beautiful",
@@ -16,7 +22,17 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "美麗的",
     "speak_sentence": "The woman is so beautiful that I can't help looking at her.",
-    "speak_translation": "這個女子如此美麗以致於我忍不住注視著她。"
+    "speak_translation": "這個女子如此美麗以致於我忍不住注視著她。",
+    "id": "p6-01",
+    "tags": [
+      "letter:B",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-ful（充滿…的；具有…的）",
+      "root:beauty（美）",
+      "comparison:more/most"
+    ]
   },
   {
     "num": 2,
@@ -31,7 +47,14 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "瞎的 ，百葉窗",
     "speak_sentence": "Guide dogs can help the blind walk on the street.",
-    "speak_translation": "導盲犬可以幫助盲人在街上行走。"
+    "speak_translation": "導盲犬可以幫助盲人在街上行走。",
+    "id": "p6-02",
+    "tags": [
+      "letter:B",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵"
+    ]
   },
   {
     "num": 3,
@@ -46,7 +69,15 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "可愛的，伶俐的",
     "speak_sentence": "The baby animals in the zoo are so cute.",
-    "speak_translation": "動物園裡的動物寶寶很可愛。"
+    "speak_translation": "動物園裡的動物寶寶很可愛。",
+    "id": "p6-03",
+    "tags": [
+      "letter:C",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 4,
@@ -61,7 +92,15 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "肥胖的",
     "speak_sentence": "She looks much fatter than before.",
-    "speak_translation": "她看起來比以前胖很多。"
+    "speak_translation": "她看起來比以前胖很多。",
+    "id": "p6-04",
+    "tags": [
+      "letter:F",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 5,
@@ -76,7 +115,15 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "英俊的",
     "speak_sentence": "You look handsome in that blue shirt.",
-    "speak_translation": "你穿那件藍襯衫看起來很帥。"
+    "speak_translation": "你穿那件藍襯衫看起來很帥。",
+    "id": "p6-05",
+    "tags": [
+      "letter:H",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:more/most"
+    ]
   },
   {
     "num": 6,
@@ -91,7 +138,15 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "沉重的",
     "speak_sentence": "Students should not carry heavy book bags.",
-    "speak_translation": "學生們不該背沉重的書包。"
+    "speak_translation": "學生們不該背沉重的書包。",
+    "id": "p6-06",
+    "tags": [
+      "letter:H",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 7,
@@ -106,7 +161,15 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "老的 ，舊的",
     "speak_sentence": "It's never too old to learn.",
-    "speak_translation": "學習永遠不嫌晚。"
+    "speak_translation": "學習永遠不嫌晚。",
+    "id": "p6-07",
+    "tags": [
+      "letter:O",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 8,
@@ -121,7 +184,15 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "秀麗的，可愛的",
     "speak_sentence": "The girl with short hair looks pretty.",
-    "speak_translation": "留短髮的那女孩看起來很漂亮。"
+    "speak_translation": "留短髮的那女孩看起來很漂亮。",
+    "id": "p6-08",
+    "tags": [
+      "letter:P",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 9,
@@ -136,7 +207,15 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "矮的，短的",
     "speak_sentence": "My sister is shorter than me.",
-    "speak_translation": "我的姐姐比我矮。"
+    "speak_translation": "我的姐姐比我矮。",
+    "id": "p6-09",
+    "tags": [
+      "letter:S",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 10,
@@ -151,7 +230,15 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "苗條的，纖細的",
     "speak_sentence": "To become slim, you need to be on a diet.",
-    "speak_translation": "為了變苗條，你需要節食。"
+    "speak_translation": "為了變苗條，你需要節食。",
+    "id": "p6-10",
+    "tags": [
+      "letter:S",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 11,
@@ -166,7 +253,15 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "高大的",
     "speak_sentence": "The singer is tall and handsome.",
-    "speak_translation": "這個歌手又高又帥。"
+    "speak_translation": "這個歌手又高又帥。",
+    "id": "p6-11",
+    "tags": [
+      "letter:T",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 12,
@@ -181,7 +276,15 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "瘦的，薄的",
     "speak_sentence": "My teacher looks thinner than before.",
-    "speak_translation": "我的老師看起來比以前瘦。"
+    "speak_translation": "我的老師看起來比以前瘦。",
+    "id": "p6-12",
+    "tags": [
+      "letter:T",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 13,
@@ -196,7 +299,14 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "醜的，難看的",
     "speak_sentence": "Don't make me wear that hat. It's so ugly.",
-    "speak_translation": "不要逼我戴那頂帽子。很醜。"
+    "speak_translation": "不要逼我戴那頂帽子。很醜。",
+    "id": "p6-13",
+    "tags": [
+      "letter:U",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵"
+    ]
   },
   {
     "num": 14,
@@ -211,7 +321,15 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "年輕的",
     "speak_sentence": "You are still too young to stay at home alone.",
-    "speak_translation": "你還太小，不能單獨留在家中。"
+    "speak_translation": "你還太小，不能單獨留在家中。",
+    "id": "p6-14",
+    "tags": [
+      "letter:Y",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 15,
@@ -226,7 +344,17 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "生氣的",
     "speak_sentence": "Don't be angry with me for not lending you my CD.",
-    "speak_translation": "不要因為我不借你 CD 就生氣。"
+    "speak_translation": "不要因為我不借你 CD 就生氣。",
+    "id": "p6-15",
+    "tags": [
+      "letter:A",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-y（充滿…的；有…性質的）",
+      "root:anger（憤怒）",
+      "comparison:-er/-est"
+    ]
   },
   {
     "num": 16,
@@ -241,6 +369,14 @@ window.VOCAB_REGISTER("tango2000-p6", [
     "page": 6,
     "speak_meaning": "不好的，拙劣的",
     "speak_sentence": "It's bad to copy others' homework.",
-    "speak_translation": "抄襲別人的作業是不對的。"
+    "speak_translation": "抄襲別人的作業是不對的。",
+    "id": "p6-16",
+    "tags": [
+      "letter:B",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:irregular"
+    ]
   }
 ]);

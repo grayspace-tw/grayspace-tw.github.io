@@ -11,7 +11,10 @@
 | 欄位 | 說明 |
 | --- | --- |
 | `num` | 編號 |
-| `word` | 英文單字。SRS 進度存在 `localStorage` 的 `vocabSRS_v1`，就是用這個字當鍵。已經上線的單字不要改 `word`，不然舊進度會對不到。程式不會清掉舊進度。 |
+| `word` | 英文單字。SRS 進度存在 `localStorage` 的 `vocabSRS_v1`，就是用這個字當鍵。已經上線的單字不要改 `word`，不然舊進度會對不到。程式不會清掉舊進度。朗讀也是讀這個字，不是下面的分音。 |
+| `syllables` | 選填。三個音節以上才填，例如 `["beau","ti","ful"]`。用美式辭典（Merriam-Webster）的移行分法，不要用自動斷字程式。一兩個音節、或自己不確定，就不要填。 |
+| `stress` | 選填。重音在 `syllables` 的第幾個（從 0 開始）。重音照這一筆的音標（ˈ 是主重音）。 |
+| `tags` | 標籤陣列，例如 `letter:B`、`page:6`、`suffix:-ful（…）`、`root:care（…）`、`comparison:more/most`。`book:` 和 `unit:` 會存著，但畫面上不顯示。 |
 | `phonetics` | 音標，連方括號一起寫 |
 | `chinese_meaning` | 卡片上的中文解釋 |
 | `comparative` | 比較級；沒有就寫 `null` |
