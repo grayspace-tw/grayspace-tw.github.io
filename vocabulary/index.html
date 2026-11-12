@@ -14,6 +14,15 @@ main{max-width:960px;margin:0 auto;padding:12px}h2{border-left:5px solid #2f5d8a
 .word{font-size:1.35em;font-weight:700}.word.split{font-weight:500}.word.split b{font-weight:800}.ipa{color:#666;font-family:"Lucida Sans Unicode","Arial Unicode MS",sans-serif}
 .zh{margin:6px 0;color:#b5482a}.forms{display:flex;gap:12px;flex-wrap:wrap;font-size:.9em;color:#444}
 .phrase{font-size:.9em;color:#2f6b3a;margin-top:4px}.ex{margin-top:8px;padding:8px;background:#f0f4f9;border-radius:6px}.tr{color:#666;font-size:.92em}
+.ex mark.hw{background:#ffe9a8;color:inherit;font-weight:700;border-radius:3px;padding:0 2px}
+.ex mark.also{background:transparent;color:#3d6b8a;font-weight:600;text-decoration:underline dotted;text-decoration-thickness:1px;text-underline-offset:2px;cursor:pointer}
+#srs-ex mark.also{cursor:help}
+.card.flash{animation:cardflash 1.2s ease}
+@keyframes cardflash{0%{box-shadow:0 0 0 3px #f0a33a}100%{box-shadow:0 1px 3px rgba(0,0,0,.1)}}
+.also{margin-top:8px;font-size:.88em;color:#444}
+.also summary{cursor:pointer;color:#2f5d8a;font-weight:600}
+.also li{margin:6px 0}
+.also-src{border:none;background:none;padding:0;color:#2f5d8a;font-weight:700;cursor:pointer}
 .say{border:none;background:none;padding:0 2px;margin:0 2px;cursor:pointer;font-size:.9em;line-height:1;opacity:.55;vertical-align:middle}.say:hover,.say:focus{opacity:1}
 .card>.sc,#srs-back>.sc{position:absolute;top:6px;right:6px;z-index:2;box-sizing:border-box;width:40px;height:40px;min-width:40px;min-height:40px;margin:0;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:1.15em;opacity:.8}
 .card>.head,#srs-back>.head{padding-right:52px;min-height:40px}
@@ -211,6 +220,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
   <p class="hint">空白鍵顯示答案 · 數字鍵 1–4 評分</p>
 </div>
 <script src="data/manifest.js"></script>
+<script src="data/sentence-index.js"></script>
 <script>
 (function(){
 var S=window.speechSynthesis,voice=null,run=0,RATE=1;
@@ -236,7 +246,7 @@ window.VOCAB_STOP=stop
 function setPlayStop(on, index, total){var b=document.getElementById('play-stop');if(!b)return;b.hidden=!on;if(!on)return;var label='■ Stop';if(index&&total)label+=' · '+index+'/'+total;b.textContent=label;b.setAttribute('aria-label',label)}
 function stop(){run++;if(S)S.cancel();mark(null);setPlayStop(false)}
 if(!S){alert('This browser does not support speech (Web Speech API).');return}
-document.getElementById('list-view').addEventListener('click',async function(e){var b=e.target.closest&&e.target.closest('.say');if(!b)return;var c=b.closest('.card');if(!c)return;if(b.classList.contains('sc')){playOne(cardFields(c));return}stop();var id=run;mark(c);if(b.classList.contains('sz'))await utterZh(c.dataset.zh);else if(b.classList.contains('st'))await utterZh(c.dataset.tr);else await utter(b.classList.contains('sw')?c.dataset.word:c.dataset.ex);if(id===run)mark(null)});
+document.getElementById('list-view').addEventListener('click',async function(e){var b=e.target.closest&&e.target.closest('.say');if(!b)return;var c=b.closest('.card');if(!c)return;if(b.classList.contains('sx')){stop();utter(b.getAttribute('data-speak')||'');return}if(b.classList.contains('sc')){playOne(cardFields(c));return}stop();var id=run;mark(c);if(b.classList.contains('sz'))await utterZh(c.dataset.zh);else if(b.classList.contains('st'))await utterZh(c.dataset.tr);else await utter(b.classList.contains('sw')?c.dataset.word:c.dataset.ex);if(id===run)mark(null)});
 document.getElementById('all').addEventListener('click',async function(){stop();var id=run;setPlayStop(true);try{if(window.VOCAB_PREPARE_PLAY)await window.VOCAB_PREPARE_PLAY();else if(window.VOCAB_ENSURE_ALL)await window.VOCAB_ENSURE_ALL()}catch(e){if(id===run)setPlayStop(false);return}if(id!==run)return;var cs=document.querySelectorAll('#list-view .card:not(.filtered-out)');for(var i=0;i<cs.length;i++){if(id!==run)return;setPlayStop(true,i+1,cs.length);await playSequence(cardFields(cs[i]),id);if(id!==run)return;await wait(1200,id)}if(id===run){mark(null);setPlayStop(false)}});
 document.getElementById('stop').addEventListener('click',stop);
 document.getElementById('play-stop').addEventListener('click',stop);
@@ -344,6 +354,198 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return b;
   }
 
+  function extraPhrases(value) {
+    if (!value) return [];
+    return String(value).split(/[()]/).map(function (part) { return part.trim(); }).filter(Boolean);
+  }
+
+  function inflections(word) {
+    var w = String(word || '').toLowerCase();
+    var out = [];
+    function push(s) { if (s && out.indexOf(s) === -1) out.push(s); }
+    push(w);
+    if (!w || /[\s-]/.test(w)) return out;
+    var vowels = 'aeiou';
+    if (/(?:[sxz]|[cs]h)$/.test(w)) push(w + 'es');
+    else if (/[^aeiou]y$/.test(w)) push(w.slice(0, -1) + 'ies');
+    else push(w + 's');
+    if (/[^aeiou]y$/.test(w)) {
+      var yi = w.slice(0, -1) + 'i';
+      push(yi + 'er');
+      push(yi + 'est');
+      push(yi + 'ed');
+      push(yi + 'ly');
+    }
+    if (/[^e]e$/.test(w) && w.length > 2) {
+      var stem = w.slice(0, -1);
+      push(stem + 'ing');
+      push(stem + 'er');
+      push(stem + 'est');
+      push(w + 'd');
+      push(w + 'r');
+    }
+    if (/[aeiou][^aeiouwxy]$/.test(w) && w.length <= 5) {
+      var dbl = w + w.slice(-1);
+      push(dbl + 'er');
+      push(dbl + 'est');
+      push(dbl + 'ed');
+      push(dbl + 'ing');
+    }
+    push(w + 'er');
+    push(w + 'est');
+    push(w + 'ed');
+    push(w + 'ing');
+    push(w + 'ly');
+    if (/y$/.test(w)) push(w.slice(0, -1) + 'ily');
+    return out;
+  }
+
+  function phraseList(entry) {
+    var phrases = [];
+    function add(p) {
+      p = String(p || '').trim();
+      if (p && phrases.indexOf(p.toLowerCase()) === -1) phrases.push(p);
+    }
+    if (!entry) return phrases;
+    add(entry.word);
+    extraPhrases(entry.comparative).forEach(add);
+    extraPhrases(entry.superlative).forEach(add);
+    inflections(entry.word).forEach(add);
+    if (entry.word && entry.word.indexOf(' ') === -1 && entry.word.indexOf('-') === -1) {
+      add('more ' + entry.word);
+      add('most ' + entry.word);
+    }
+    phrases.sort(function (a, b) { return b.length - a.length; });
+    return phrases;
+  }
+
+  function findRanges(text, phrases) {
+    if (!phrases.length || !text) return [];
+    var pattern = phrases.map(function (p) {
+      return p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
+    }).join('|');
+    var re = new RegExp('\\b(?:' + pattern + ')\\b', 'gi');
+    var ranges = [];
+    var match;
+    while ((match = re.exec(text))) {
+      if (!match[0]) { re.lastIndex++; continue; }
+      ranges.push({ start: match.index, end: match.index + match[0].length, text: match[0] });
+    }
+    return ranges;
+  }
+
+  function overlapsRange(a, b) {
+    return a.start < b.end && b.start < a.end;
+  }
+
+  function allEntries() {
+    var list = [];
+    Object.keys(window.VOCAB_CHUNKS || {}).forEach(function (id) {
+      (window.VOCAB_CHUNKS[id] || []).forEach(function (w) { list.push(w); });
+    });
+    return list;
+  }
+
+  function srsCards() {
+    try {
+      var raw = JSON.parse(localStorage.getItem('vocabSRS_v1') || '{}');
+      return raw && raw.cards ? raw.cards : {};
+    } catch (e) { return {}; }
+  }
+
+  function isReviewedCard(card) {
+    return !!(card && (card.repetitions > 0 || card.lapses > 0 || card.interval > 0 || card.due != null));
+  }
+
+  function reviewedEntries() {
+    var cards = srsCards();
+    return allEntries().filter(function (w) { return isReviewedCard(cards[w.word]); });
+  }
+
+  function indexFresh() {
+    if (window.VOCAB_FORCE_RUNTIME_LINKS) return false;
+    var idx = window.VOCAB_SENTENCE_INDEX;
+    if (!idx || !idx.occurrences || !idx.forms || !Array.isArray(idx.chunks)) return false;
+    var ok = true;
+    eachChunk(function (book, unit, chunk) {
+      if (idx.chunks.indexOf(chunk.id) === -1) ok = false;
+    });
+    return ok;
+  }
+
+  function wordMeta(id) {
+    var idx = window.VOCAB_SENTENCE_INDEX;
+    if (idx && idx.words && idx.words[id]) return idx.words[id];
+    var loaded = null;
+    allEntries().some(function (w) {
+      if (w.id === id) { loaded = w; return true; }
+    });
+    return loaded ? { word: loaded.word, meaning: loaded.chinese_meaning || '', chunk: '' } : null;
+  }
+
+  function findEntryById(id) {
+    var found = null;
+    allEntries().some(function (w) {
+      if (w.id === id) { found = w; return true; }
+    });
+    return found;
+  }
+
+  function markSentence(parent, sentence, entry, opts) {
+    opts = opts || {};
+    var text = sentence || '';
+    var primary = findRanges(text, phraseList(entry)).map(function (r) {
+      return { start: r.start, end: r.end, text: r.text, kind: 'hw' };
+    });
+    var marks = primary.slice();
+    if (!opts.onlyThisWord) {
+      function pushAlso(r, word, meaning) {
+        var item = { start: r.start, end: r.end, text: r.text, kind: 'also', word: word, meaning: meaning || '' };
+        if (primary.some(function (p) { return overlapsRange(p, item); })) return;
+        if (marks.some(function (p) { return overlapsRange(p, item); })) return;
+        marks.push(item);
+      }
+      if (indexFresh() && entry && entry.id) {
+        var occ = window.VOCAB_SENTENCE_INDEX.occurrences || {};
+        Object.keys(occ).forEach(function (otherId) {
+          if (otherId === entry.id) return;
+          (occ[otherId] || []).forEach(function (hit) {
+            if (hit.sentenceOf !== entry.id) return;
+            var meta = wordMeta(otherId);
+            if (!meta || !isReviewedCard(srsCards()[meta.word])) return;
+            findRanges(text, hit.forms || []).forEach(function (r) { pushAlso(r, meta.word, meta.meaning); });
+          });
+        });
+      } else {
+        reviewedEntries().forEach(function (other) {
+          if (!other || other.word === (entry && entry.word)) return;
+          findRanges(text, phraseList(other)).forEach(function (r) {
+            pushAlso(r, other.word, other.chinese_meaning || '');
+          });
+        });
+      }
+    }
+    marks.sort(function (a, b) { return a.start - b.start; });
+    var last = 0;
+    marks.forEach(function (item) {
+      if (item.start < last) return;
+      if (item.start > last) parent.appendChild(document.createTextNode(text.slice(last, item.start)));
+      var mark = document.createElement('mark');
+      mark.className = item.kind;
+      mark.textContent = item.text;
+      if (item.kind === 'also') {
+        mark.title = item.meaning || item.word;
+        if (opts.nav === false) mark.setAttribute('data-nav', '0');
+        else mark.setAttribute('data-word', item.word);
+      }
+      parent.appendChild(mark);
+      last = item.end;
+    });
+    if (last < text.length) parent.appendChild(document.createTextNode(text.slice(last)));
+    return primary.length > 0;
+  }
+  window.VOCAB_MARK_SENTENCE = markSentence;
+
   function renderCard(w) {
     var card = el('div', 'card');
     card.dataset.word = w.word || '';
@@ -384,7 +586,10 @@ document.getElementById('play-stop').addEventListener('click',stop);
 
     var ex = el('div', 'ex');
     var en = el('div', 'en');
-    en.appendChild(document.createTextNode((w.example_sentence || '') + ' '));
+    var sent = el('span', 'sent');
+    markSentence(sent, w.example_sentence, w, { nav: true });
+    en.appendChild(sent);
+    en.appendChild(document.createTextNode(' '));
     en.appendChild(say('ss', 'Play sentence'));
     var tr = el('div', 'tr');
     tr.appendChild(document.createTextNode((w.example_translation || '') + ' '));
@@ -616,7 +821,133 @@ document.getElementById('play-stop').addEventListener('click',stop);
       count.textContent = activeFilters.length ? ('顯示 ' + shown + ' / ' + total) : ('顯示 ' + shown + ' 個');
     }
     paintFilterBar();
+    refreshCrossLinks();
   }
+
+  function findEntry(word) {
+    var found = null;
+    allEntries().some(function (w) {
+      if (w.word === word) { found = w; return true; }
+      return false;
+    });
+    return found;
+  }
+
+  function goToWord(word) {
+    activeFilters = [];
+    saveFilters();
+    var tabBtn = document.getElementById('tab-list');
+    if (document.documentElement.getAttribute('data-view') !== 'list' && tabBtn) tabBtn.click();
+    var revealCard = function () {
+      refreshList();
+      var card = null;
+      listEl.querySelectorAll('.card').forEach(function (c) {
+        if (c.dataset.word === word) card = c;
+      });
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.remove('flash');
+      void card.offsetWidth;
+      card.classList.add('flash');
+      setTimeout(function () { card.classList.remove('flash'); }, 1400);
+    };
+    var have = false;
+    listEl.querySelectorAll('.card').forEach(function (c) { if (c.dataset.word === word) have = true; });
+    var ready = have ? Promise.resolve() : window.VOCAB_ENSURE_ALL();
+    ready.then(revealCard);
+  }
+
+  function indexOccurrences(entry) {
+    if (!(indexFresh() && entry && entry.id)) return null;
+    return (window.VOCAB_SENTENCE_INDEX.occurrences || {})[entry.id] || [];
+  }
+
+  function fillAlsoSources(also, entry, sources) {
+    var ul = also.querySelector('ul');
+    if (ul) ul.remove();
+    ul = document.createElement('ul');
+    sources.forEach(function (src) {
+      var li = document.createElement('li');
+      var name = document.createElement('button');
+      name.type = 'button';
+      name.className = 'also-src';
+      name.textContent = src.word;
+      name.title = src.chinese_meaning || '';
+      name.addEventListener('click', function () { goToWord(src.word); });
+      li.appendChild(name);
+      li.appendChild(document.createTextNode(' '));
+      var span = document.createElement('span');
+      span.className = 'also-sent';
+      markSentence(span, src.example_sentence, entry, { onlyThisWord: true, nav: false });
+      li.appendChild(span);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'say sx';
+      btn.setAttribute('aria-label', 'Play sentence');
+      btn.setAttribute('data-speak', src.speak_sentence || src.example_sentence || '');
+      btn.textContent = '🔊';
+      li.appendChild(document.createTextNode(' '));
+      li.appendChild(btn);
+      ul.appendChild(li);
+    });
+    also.appendChild(ul);
+    also.dataset.filled = '1';
+  }
+
+  function refreshCrossLinks() {
+    listEl.querySelectorAll('.card').forEach(function (card) {
+      var entry = findEntry(card.dataset.word);
+      if (!entry) return;
+      var sent = card.querySelector('.sent');
+      if (sent) {
+        sent.textContent = '';
+        markSentence(sent, entry.example_sentence, entry, { nav: true });
+      }
+      var indexed = indexOccurrences(entry);
+      var runtime = null;
+      if (!indexed) {
+        runtime = [];
+        allEntries().forEach(function (other) {
+          if (other.word === entry.word || !other.example_sentence) return;
+          if (findRanges(other.example_sentence, phraseList(entry)).length) runtime.push(other);
+        });
+      }
+      var count = indexed ? indexed.length : runtime.length;
+      var also = card.querySelector(':scope > .also');
+      if (!count) {
+        if (also) also.remove();
+        return;
+      }
+      if (!also) {
+        also = document.createElement('details');
+        also.className = 'also';
+        var summary = document.createElement('summary');
+        summary.textContent = '也出現在這些例句';
+        also.appendChild(summary);
+        card.appendChild(also);
+      }
+      if (!also.dataset.bound) {
+        also.dataset.bound = '1';
+        also.addEventListener('toggle', function () {
+          if (!also.open) return;
+          var current = findEntry(card.dataset.word);
+          var occ = indexOccurrences(current);
+          if (!occ) return;
+          Promise.all(occ.map(function (item) { return loadSection(item.chunk); })).then(function () {
+            fillAlsoSources(also, current, occ.map(function (item) { return findEntryById(item.sentenceOf); }).filter(Boolean));
+          });
+        });
+      }
+      if (runtime) fillAlsoSources(also, entry, runtime);
+      else if (indexed.every(function (item) { return window.VOCAB_CHUNKS[item.chunk]; })) fillAlsoSources(also, entry, indexed.map(function (item) { return findEntryById(item.sentenceOf); }).filter(Boolean));
+      else {
+        var stale = also.querySelector('ul');
+        if (stale) stale.remove();
+        also.dataset.filled = '';
+      }
+    });
+  }
+  window.VOCAB_REFRESH_LINKS = refreshCrossLinks;
 
   function commitFilters() {
     saveFilters();
@@ -646,6 +977,12 @@ document.getElementById('play-stop').addEventListener('click',stop);
     e.preventDefault();
     e.stopPropagation();
     toggleFilter(chip.getAttribute('data-tag'));
+  });
+  listEl.addEventListener('click', function (e) {
+    var mark = e.target.closest && e.target.closest('mark.also');
+    if (!mark || !mark.getAttribute('data-word')) return;
+    e.preventDefault();
+    goToWord(mark.getAttribute('data-word'));
   });
 
   function sectionOf(id) {
@@ -1290,7 +1627,9 @@ document.getElementById('play-stop').addEventListener('click',stop);
     el.backPhrase.textContent = entry.phrase ? '片語：' + entry.phrase : '';
     el.backPhrase.hidden = !entry.phrase;
     el.backEx.textContent = '';
-    el.backEx.appendChild(document.createTextNode(entry.example_sentence + ' '));
+    if (window.VOCAB_MARK_SENTENCE) window.VOCAB_MARK_SENTENCE(el.backEx, entry.example_sentence, entry, { nav: false });
+    else el.backEx.appendChild(document.createTextNode(entry.example_sentence || ''));
+    el.backEx.appendChild(document.createTextNode(' '));
     el.backEx.appendChild(sayButton('sentence', 'Play sentence'));
     el.backTr.textContent = '';
     el.backTr.appendChild(document.createTextNode(entry.example_translation + ' '));

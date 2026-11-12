@@ -60,6 +60,14 @@ window.VOCAB_REGISTER('tango2000-p8', [
 
 `count` 要等於陣列的長度。`file` 是從 `index.html` 看過去的路徑。
 
+4. 在 `vocabulary` 資料夾執行：
+
+```sh
+node tools/build-index.mjs
+```
+
+這會重寫 `data/sentence-index.js`（例句互相出現的索引）。頁面先讀這個小檔；若檔案不在，或某個 chunk id 沒有收進索引，就改回當場掃描已載入的例句。
+
 這樣就好，不用改 `index.html`。
 
 ## 新增一課或一本書
