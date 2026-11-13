@@ -315,8 +315,12 @@ html:not([data-view="srs"]) #srs-view{display:none}
   </section>
   <p class="hint">空白鍵顯示答案 · Enter 送出挖空 · 數字鍵 1–4 評分</p>
 </div>
-<script src="data/manifest.js"></script>
-<script src="data/sentence-index.js"></script>
+<script>
+var VOCAB_VERSION = 'ef12a546d3';
+var VOCAB_EXPECT_UNITS = 24;
+document.write('<script src="data/manifest.' + VOCAB_VERSION + '.js"><\/script>');
+document.write('<script src="data/sentence-index.' + VOCAB_VERSION + '.js"><\/script>');
+</script>
 <script>
 (function(){
 var S=window.speechSynthesis,voice=null,run=0,RATE=1;
@@ -1567,12 +1571,14 @@ document.getElementById('play-stop').addEventListener('click',stop);
   }
 
   var fileInflight = {};
+  function scriptSrc(file) {
+    try { return new URL(file, document.baseURI).href; }
+    catch (e) { return file; }
+  }
   function loadScript(chunk) {
     if (window.VOCAB_CHUNKS[chunk.id]) return Promise.resolve(window.VOCAB_CHUNKS[chunk.id]);
     if (inflight[chunk.id]) return inflight[chunk.id];
-    var src;
-    try { src = new URL(chunk.file, document.baseURI).href; }
-    catch (e) { src = chunk.file; }
+    var src = scriptSrc(chunk.file);
     function take() {
       var data = window.VOCAB_CHUNKS[chunk.id];
       if (!data) throw new Error('empty');
@@ -1732,19 +1738,40 @@ document.getElementById('play-stop').addEventListener('click',stop);
     pump();
   }
 
-  paintHeader();
-  if (!window.VOCAB_MANIFEST) {
-    listEl.appendChild(el('p', 'chunk-status chunk-error', '無法載入單字清單。'));
-    window.VOCAB_ENSURE_ALL = function () { return Promise.reject(new Error('manifest')); };
-    return;
+  function manifestUnitCount() {
+    var n = 0;
+    ((window.VOCAB_MANIFEST && window.VOCAB_MANIFEST.books) || []).forEach(function (book) {
+      n += (book.units || []).length;
+    });
+    return n;
   }
-  buildList();
-  activeFilters = loadFilters();
-  var unitSel = document.getElementById('unit-select');
-  if (unitSel && unitSel.value) applyUnit(unitSel.value);
-  watchSections();
-  if (activeFilters.length) commitFilters();
-  else refreshList();
+
+  function bootList() {
+    paintHeader();
+    if (!window.VOCAB_MANIFEST) {
+      listEl.appendChild(el('p', 'chunk-status chunk-error', '無法載入單字清單。'));
+      window.VOCAB_ENSURE_ALL = function () { return Promise.reject(new Error('manifest')); };
+      return;
+    }
+    buildList();
+    activeFilters = loadFilters();
+    var unitSel = document.getElementById('unit-select');
+    if (unitSel && unitSel.value) applyUnit(unitSel.value);
+    watchSections();
+    if (activeFilters.length) commitFilters();
+    else refreshList();
+  }
+
+  var expectUnits = window.VOCAB_EXPECT_UNITS || 0;
+  if (expectUnits && manifestUnitCount() < expectUnits && !window.__VOCAB_MANIFEST_RETRIED) {
+    window.__VOCAB_MANIFEST_RETRIED = true;
+    var fresh = document.createElement('script');
+    fresh.src = 'data/manifest.' + (window.VOCAB_VERSION || '') + '.js?r=' + Date.now();
+    fresh.onload = fresh.onerror = function () { bootList(); };
+    document.head.appendChild(fresh);
+  } else {
+    bootList();
+  }
 })();
 (function () {
   var KEY = 'vocabSRS_v1';

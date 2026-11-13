@@ -145,3 +145,6 @@ const outFile = path.join(vocabDir, 'data', 'sentence-index.js');
 fs.writeFileSync(outFile, 'window.VOCAB_SENTENCE_INDEX = ' + JSON.stringify(index, null, 2) + ';\n');
 const shared = Object.values(occurrences).reduce((n, list) => n + list.length, 0);
 console.log('wrote ' + path.relative(vocabDir, outFile) + ' (' + shared + ' shared sentences)');
+
+const { stampRelease } = await import('./stamp-release.mjs');
+stampRelease();

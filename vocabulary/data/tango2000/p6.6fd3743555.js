@@ -1,0 +1,441 @@
+window.VOCAB_CHUNKS = window.VOCAB_CHUNKS || {};
+window.VOCAB_REGISTER = window.VOCAB_REGISTER || function (id, words) {
+  window.VOCAB_CHUNKS[id] = words;
+};
+window.VOCAB_REGISTER("tango2000-p6", [
+  {
+    "num": 1,
+    "word": "beautiful",
+    "syllables": [
+      "beau",
+      "ti",
+      "ful"
+    ],
+    "stress": 0,
+    "phonetics": "[ˈbjutəfəl]",
+    "chinese_meaning": "形 美麗的",
+    "comparative": "more beautiful",
+    "superlative": "most beautiful",
+    "phrase": "",
+    "collocations": [
+      {
+        "text": "so … that",
+        "kind": "phrase",
+        "zh": "如此…以致於",
+        "match": [
+          "so",
+          "that"
+        ]
+      },
+      {
+        "text": "can't help + V-ing",
+        "kind": "phrase",
+        "zh": "忍不住…",
+        "match": "can't help looking"
+      }
+    ],
+    "example_sentence": "The woman is so beautiful that I can't help looking at her.",
+    "example_translation": "這個女子如此美麗以致於我忍不住注視著她。",
+    "page": 6,
+    "speak_meaning": "美麗的",
+    "speak_sentence": "The woman is so beautiful that I can't help looking at her.",
+    "speak_translation": "這個女子如此美麗以致於我忍不住注視著她。",
+    "id": "p6-01",
+    "tags": [
+      "letter:B",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-ful（充滿…的；具有…的）",
+      "root:beauty（美）",
+      "comparison:more/most",
+      "colloc:phrase:so … that",
+      "colloc:phrase:can't help + V-ing"
+    ]
+  },
+  {
+    "num": 2,
+    "word": "blind",
+    "phonetics": "[blaɪnd]",
+    "chinese_meaning": "❶形 瞎的 ❷名 百葉窗（常用複數形）",
+    "comparative": null,
+    "superlative": null,
+    "phrase": "",
+    "example_sentence": "Guide dogs can help the blind walk on the street.",
+    "example_translation": "導盲犬可以幫助盲人在街上行走。",
+    "page": 6,
+    "speak_meaning": "瞎的 ，百葉窗",
+    "speak_sentence": "Guide dogs can help the blind walk on the street.",
+    "speak_translation": "導盲犬可以幫助盲人在街上行走。",
+    "id": "p6-02",
+    "tags": [
+      "letter:B",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵"
+    ]
+  },
+  {
+    "num": 3,
+    "word": "cute",
+    "phonetics": "[kjut]",
+    "chinese_meaning": "形 可愛的；伶俐的",
+    "comparative": "cuter",
+    "superlative": "cutest",
+    "phrase": "",
+    "example_sentence": "The baby animals in the zoo are so cute.",
+    "example_translation": "動物園裡的動物寶寶很可愛。",
+    "page": 6,
+    "speak_meaning": "可愛的，伶俐的",
+    "speak_sentence": "The baby animals in the zoo are so cute.",
+    "speak_translation": "動物園裡的動物寶寶很可愛。",
+    "id": "p6-03",
+    "tags": [
+      "letter:C",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
+  },
+  {
+    "num": 4,
+    "word": "fat",
+    "phonetics": "[fæt]",
+    "chinese_meaning": "形 肥胖的",
+    "comparative": "fatter",
+    "superlative": "fattest",
+    "phrase": "",
+    "example_sentence": "She looks much fatter than before.",
+    "example_translation": "她看起來比以前胖很多。",
+    "page": 6,
+    "speak_meaning": "肥胖的",
+    "speak_sentence": "She looks much fatter than before.",
+    "speak_translation": "她看起來比以前胖很多。",
+    "id": "p6-04",
+    "tags": [
+      "letter:F",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
+  },
+  {
+    "num": 5,
+    "word": "handsome",
+    "phonetics": "[ˈhænsəm]",
+    "chinese_meaning": "形 英俊的",
+    "comparative": "more handsome",
+    "superlative": "most handsome",
+    "phrase": "",
+    "example_sentence": "You look handsome in that blue shirt.",
+    "example_translation": "你穿那件藍襯衫看起來很帥。",
+    "page": 6,
+    "speak_meaning": "英俊的",
+    "speak_sentence": "You look handsome in that blue shirt.",
+    "speak_translation": "你穿那件藍襯衫看起來很帥。",
+    "id": "p6-05",
+    "tags": [
+      "letter:H",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:more/most"
+    ]
+  },
+  {
+    "num": 6,
+    "word": "heavy",
+    "phonetics": "[ˈhɛvɪ]",
+    "chinese_meaning": "形 沉重的",
+    "comparative": "heavier",
+    "superlative": "heaviest",
+    "phrase": "",
+    "example_sentence": "Students should not carry heavy book bags.",
+    "example_translation": "學生們不該背沉重的書包。",
+    "page": 6,
+    "speak_meaning": "沉重的",
+    "speak_sentence": "Students should not carry heavy book bags.",
+    "speak_translation": "學生們不該背沉重的書包。",
+    "id": "p6-06",
+    "tags": [
+      "letter:H",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
+  },
+  {
+    "num": 7,
+    "word": "old",
+    "phonetics": "[old]",
+    "chinese_meaning": "形 ❶老的 ❷舊的",
+    "comparative": "older",
+    "superlative": "oldest",
+    "phrase": "",
+    "collocations": [
+      {
+        "text": "It's never too old to learn",
+        "kind": "phrase",
+        "zh": "活到老學到老",
+        "match": "never too old to learn"
+      }
+    ],
+    "example_sentence": "It's never too old to learn.",
+    "example_translation": "學習永遠不嫌晚。",
+    "page": 6,
+    "speak_meaning": "老的 ，舊的",
+    "speak_sentence": "It's never too old to learn.",
+    "speak_translation": "學習永遠不嫌晚。",
+    "id": "p6-07",
+    "tags": [
+      "letter:O",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est",
+      "colloc:phrase:It's never too old to learn"
+    ]
+  },
+  {
+    "num": 8,
+    "word": "pretty",
+    "phonetics": "[ˈprɪtɪ]",
+    "chinese_meaning": "形 秀麗的；可愛的",
+    "comparative": "prettier",
+    "superlative": "prettiest",
+    "phrase": "",
+    "example_sentence": "The girl with short hair looks pretty.",
+    "example_translation": "留短髮的那女孩看起來很漂亮。",
+    "page": 6,
+    "speak_meaning": "秀麗的，可愛的",
+    "speak_sentence": "The girl with short hair looks pretty.",
+    "speak_translation": "留短髮的那女孩看起來很漂亮。",
+    "id": "p6-08",
+    "tags": [
+      "letter:P",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
+  },
+  {
+    "num": 9,
+    "word": "short",
+    "phonetics": "[ʃɔrt]",
+    "chinese_meaning": "形 矮的；短的",
+    "comparative": "shorter",
+    "superlative": "shortest",
+    "phrase": "",
+    "example_sentence": "My sister is shorter than me.",
+    "example_translation": "我的姐姐比我矮。",
+    "page": 6,
+    "speak_meaning": "矮的，短的",
+    "speak_sentence": "My sister is shorter than me.",
+    "speak_translation": "我的姐姐比我矮。",
+    "id": "p6-09",
+    "tags": [
+      "letter:S",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
+  },
+  {
+    "num": 10,
+    "word": "slim",
+    "phonetics": "[slɪm]",
+    "chinese_meaning": "形 苗條的；纖細的",
+    "comparative": "slimmer",
+    "superlative": "slimmest",
+    "phrase": "",
+    "collocations": [
+      {
+        "text": "be on a diet",
+        "kind": "phrase",
+        "zh": "節食",
+        "match": "be on a diet"
+      }
+    ],
+    "example_sentence": "To become slim, you need to be on a diet.",
+    "example_translation": "為了變苗條，你需要節食。",
+    "page": 6,
+    "speak_meaning": "苗條的，纖細的",
+    "speak_sentence": "To become slim, you need to be on a diet.",
+    "speak_translation": "為了變苗條，你需要節食。",
+    "id": "p6-10",
+    "tags": [
+      "letter:S",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est",
+      "colloc:phrase:be on a diet"
+    ]
+  },
+  {
+    "num": 11,
+    "word": "tall",
+    "phonetics": "[tɔl]",
+    "chinese_meaning": "形 高大的",
+    "comparative": "taller",
+    "superlative": "tallest",
+    "phrase": "",
+    "example_sentence": "The singer is tall and handsome.",
+    "example_translation": "這個歌手又高又帥。",
+    "page": 6,
+    "speak_meaning": "高大的",
+    "speak_sentence": "The singer is tall and handsome.",
+    "speak_translation": "這個歌手又高又帥。",
+    "id": "p6-11",
+    "tags": [
+      "letter:T",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
+  },
+  {
+    "num": 12,
+    "word": "thin",
+    "phonetics": "[θɪn]",
+    "chinese_meaning": "形 瘦的；薄的",
+    "comparative": "thinner",
+    "superlative": "thinnest",
+    "phrase": "",
+    "example_sentence": "My teacher looks thinner than before.",
+    "example_translation": "我的老師看起來比以前瘦。",
+    "page": 6,
+    "speak_meaning": "瘦的，薄的",
+    "speak_sentence": "My teacher looks thinner than before.",
+    "speak_translation": "我的老師看起來比以前瘦。",
+    "id": "p6-12",
+    "tags": [
+      "letter:T",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est"
+    ]
+  },
+  {
+    "num": 13,
+    "word": "ugly",
+    "phonetics": "[ˈʌglɪ]",
+    "chinese_meaning": "形 醜的；難看的",
+    "comparative": null,
+    "superlative": null,
+    "phrase": "",
+    "example_sentence": "Don't make me wear that hat. It's so ugly.",
+    "example_translation": "不要逼我戴那頂帽子。很醜。",
+    "page": 6,
+    "speak_meaning": "醜的，難看的",
+    "speak_sentence": "Don't make me wear that hat. It's so ugly.",
+    "speak_translation": "不要逼我戴那頂帽子。很醜。",
+    "id": "p6-13",
+    "tags": [
+      "letter:U",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵"
+    ]
+  },
+  {
+    "num": 14,
+    "word": "young",
+    "phonetics": "[jʌŋ]",
+    "chinese_meaning": "形 年輕的",
+    "comparative": "younger",
+    "superlative": "youngest",
+    "phrase": "",
+    "collocations": [
+      {
+        "text": "too … to",
+        "kind": "phrase",
+        "zh": "太…而不能",
+        "match": [
+          "too",
+          "to stay"
+        ]
+      }
+    ],
+    "example_sentence": "You are still too young to stay at home alone.",
+    "example_translation": "你還太小，不能單獨留在家中。",
+    "page": 6,
+    "speak_meaning": "年輕的",
+    "speak_sentence": "You are still too young to stay at home alone.",
+    "speak_translation": "你還太小，不能單獨留在家中。",
+    "id": "p6-14",
+    "tags": [
+      "letter:Y",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:-er/-est",
+      "colloc:phrase:too … to"
+    ]
+  },
+  {
+    "num": 15,
+    "word": "angry",
+    "phonetics": "[ˈæŋgrɪ]",
+    "chinese_meaning": "形 生氣的",
+    "comparative": "angrier",
+    "superlative": "angriest",
+    "phrase": "angry with (at) ＋人；angry about (at) ＋事",
+    "collocations": [
+      {
+        "text": "angry with",
+        "kind": "prep",
+        "zh": "對（人）生氣",
+        "match": "angry with"
+      }
+    ],
+    "example_sentence": "Don't be angry with me for not lending you my CD.",
+    "example_translation": "不要因為我不借你 CD 就生氣。",
+    "page": 6,
+    "speak_meaning": "生氣的",
+    "speak_sentence": "Don't be angry with me for not lending you my CD.",
+    "speak_translation": "不要因為我不借你 CD 就生氣。",
+    "id": "p6-15",
+    "tags": [
+      "letter:A",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "suffix:-y（充滿…的；有…性質的）",
+      "root:anger（憤怒）",
+      "comparison:-er/-est",
+      "colloc:prep:angry with",
+      "note:angry with (at) ＋人；angry about (at) ＋事"
+    ]
+  },
+  {
+    "num": 16,
+    "word": "bad",
+    "phonetics": "[bæd]",
+    "chinese_meaning": "形 不好的；拙劣的",
+    "comparative": "worse",
+    "superlative": "worst",
+    "phrase": "",
+    "example_sentence": "It's bad to copy others' homework.",
+    "example_translation": "抄襲別人的作業是不對的。",
+    "page": 6,
+    "speak_meaning": "不好的，拙劣的",
+    "speak_sentence": "It's bad to copy others' homework.",
+    "speak_translation": "抄襲別人的作業是不對的。",
+    "id": "p6-16",
+    "tags": [
+      "letter:B",
+      "page:6",
+      "book:單字2000活用練習",
+      "unit:Unit 2 個人特徵",
+      "comparison:irregular"
+    ]
+  }
+]);

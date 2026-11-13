@@ -67,9 +67,11 @@ window.VOCAB_REGISTER('tango2000-p8', [
 node tools/build-index.mjs
 ```
 
-這會重寫 `data/sentence-index.js`（例句互相出現的索引）。頁面先讀這個小檔；若檔案不在，或某個 chunk id 沒有收進索引，就改回當場掃描已載入的例句。
+這會重寫 `data/sentence-index.js`（例句互相出現的索引），然後用內容雜湊把目錄、索引和每一頁複製成帶雜湊的檔名（例如 `manifest.<hash>.js`、`tango2000/p6.<hash>.js`），並把 `index.html` 的 `VOCAB_VERSION` 指到這次的雜湊。`index.html` 自己的檔名不變。頁面只載入這些新檔名，所以手機上的舊快取不會再套用。沒改過的頁面雜湊不變，還是可以沿用快取。
 
-這樣就好，不用改 `index.html`。
+你改的是不帶雜湊的原始檔（`manifest.js`、`p6.js` 這種）。帶雜湊的檔是發佈用的，不要手改。若載入的目錄單元數少於 `VOCAB_EXPECT_UNITS`，頁面會再用一個新的 query 重抓一次目錄。
+
+這樣就好，不用再手改 `index.html` 裡的路徑。
 
 ## 例句挖空
 
