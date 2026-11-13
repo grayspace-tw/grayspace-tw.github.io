@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>單字2000活用練習 Unit 2 個人特徵</title>
+<title>單字2000活用練習</title>
 <style>
 body{margin:0;font-family:-apple-system,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;background:#f5f6f8;color:#222;line-height:1.5}
 header{background:#2f5d8a;color:#fff;padding:20px 16px;text-align:center}header h1{margin:0;font-size:1.5em}header p{margin:4px 0 0;opacity:.9}
@@ -46,6 +46,8 @@ main{max-width:960px;margin:0 auto;padding:12px}h2{border-left:5px solid #2f5d8a
 .card>.head,#srs-back>.head{padding-right:52px;min-height:40px}
 #srs-back{position:relative}
 #filter-bar{max-width:960px;margin:0 auto;padding:8px 12px 0}
+#unit-select{font-size:16px;max-width:100%;border:1px solid #d5dbe3;border-radius:8px;padding:4px 8px;color:#222;background:#fff}
+#list-view .unit[hidden]{display:none}
 html[data-view="srs"] #filter-bar{display:none}
 .fgroup{display:flex;gap:6px;align-items:flex-start;flex-wrap:wrap;margin:4px 0}
 .flabel{flex:0 0 auto;min-width:4.2em;padding-top:5px;color:#666;font-size:.78em}
@@ -190,7 +192,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
 <button type="button" id="to-top" aria-label="回到頁頂" hidden>↑</button>
 <header>
   <h1>單字2000活用練習</h1>
-  <p>Unit 2 個人特徵 Personal characteristics</p>
+  <p>Units 1–24</p>
   <div class="tabs" role="tablist" aria-label="檢視">
     <button type="button" role="tab" id="tab-list" aria-controls="list-view">單字列表</button>
     <button type="button" role="tab" id="tab-srs" aria-controls="srs-view">SRS 練習</button>
@@ -204,6 +206,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
   </div>
 </header>
 <div id="filter-bar">
+  <div class="fgroup"><span class="flabel">單元</span><select id="unit-select" aria-label="選擇單元"></select></div>
   <div class="fgroup"><span class="flabel">頁碼</span><div class="fchips" data-kind="page"></div></div>
   <div class="fgroup"><span class="flabel">字首字母</span><div class="fchips" data-kind="letter"></div></div>
   <div class="fgroup"><span class="flabel">字根字首</span><div class="fchips" data-kind="affix"></div></div>
@@ -341,7 +344,7 @@ function setPlayStop(on, index, total){var b=document.getElementById('play-stop'
 function stop(){run++;if(S)S.cancel();mark(null);setPlayStop(false)}
 if(!S){alert('This browser does not support speech (Web Speech API).');return}
 document.getElementById('list-view').addEventListener('click',async function(e){var b=e.target.closest&&e.target.closest('.say');if(!b)return;var c=b.closest('.card');if(!c)return;if(b.classList.contains('sx')){stop();utter(b.getAttribute('data-speak')||'');return}if(b.classList.contains('sc')){playOne(cardFields(c));return}stop();var id=run;mark(c);if(b.classList.contains('sz'))await utterZh(c.dataset.zh);else if(b.classList.contains('st'))await utterZh(c.dataset.tr);else await utter(b.classList.contains('sw')?c.dataset.word:c.dataset.ex);if(id===run)mark(null)});
-document.getElementById('all').addEventListener('click',async function(){stop();var id=run;setPlayStop(true);try{if(window.VOCAB_PREPARE_PLAY)await window.VOCAB_PREPARE_PLAY();else if(window.VOCAB_ENSURE_ALL)await window.VOCAB_ENSURE_ALL()}catch(e){if(id===run)setPlayStop(false);return}if(id!==run)return;var cs=document.querySelectorAll('#list-view .card:not(.filtered-out)');for(var i=0;i<cs.length;i++){if(id!==run)return;setPlayStop(true,i+1,cs.length);await playSequence(cardFields(cs[i]),id);if(id!==run)return;await wait(1200,id)}if(id===run){mark(null);setPlayStop(false)}});
+document.getElementById('all').addEventListener('click',async function(){stop();var id=run;setPlayStop(true);try{if(window.VOCAB_PREPARE_PLAY)await window.VOCAB_PREPARE_PLAY();else if(window.VOCAB_ENSURE_ALL)await window.VOCAB_ENSURE_ALL()}catch(e){if(id===run)setPlayStop(false);return}if(id!==run)return;var cs=[].filter.call(document.querySelectorAll('#list-view .card:not(.filtered-out)'),function(c){return !c.closest('[hidden]');});for(var i=0;i<cs.length;i++){if(id!==run)return;setPlayStop(true,i+1,cs.length);await playSequence(cardFields(cs[i]),id);if(id!==run)return;await wait(1200,id)}if(id===run){mark(null);setPlayStop(false)}});
 document.getElementById('stop').addEventListener('click',stop);
 document.getElementById('play-stop').addEventListener('click',stop);
 })();
@@ -384,6 +387,44 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return unit.title;
   }
 
+  function fillUnitSelect(units) {
+    var sel = document.getElementById('unit-select');
+    if (!sel) return;
+    var saved = '';
+    try { saved = localStorage.getItem('vocabUnit') || ''; } catch (e) {}
+    sel.textContent = '';
+    var all = document.createElement('option');
+    all.value = '';
+    all.textContent = '全部單元';
+    sel.appendChild(all);
+    units.forEach(function (u) {
+      var o = document.createElement('option');
+      o.value = u.id || '';
+      o.textContent = u.title || u.id || '';
+      sel.appendChild(o);
+    });
+    sel.value = units.some(function (u) { return u.id === saved; }) ? saved : '';
+    if (!sel.dataset.bound) {
+      sel.dataset.bound = '1';
+      sel.addEventListener('change', function () {
+        try { localStorage.setItem('vocabUnit', sel.value); } catch (e) {}
+        applyUnit(sel.value);
+      });
+    }
+  }
+
+  function applyUnit(id) {
+    listEl.querySelectorAll('.unit').forEach(function (u) {
+      u.hidden = !!(id && u.dataset.unit !== id);
+    });
+    if (!id) { pump(); return; }
+    var unit = listEl.querySelector('.unit[data-unit="' + id + '"]');
+    if (!unit) return;
+    var section = unit.querySelector('[data-chunk]');
+    if (section && section.getAttribute('data-state') !== 'ready') loadSection(section.getAttribute('data-chunk'));
+    unit.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   function paintHeader() {
     var books = manifest().books || [];
     if (!books.length) return;
@@ -392,9 +433,9 @@ document.getElementById('play-stop').addEventListener('click',stop);
     if (books.length === 1 && h1) h1.textContent = books[0].title;
     var units = books.length === 1 ? (books[0].units || []) : [];
     if (units.length === 1 && sub) sub.textContent = unitLine(units[0]);
-    else if (books.length === 1 && units.length > 1 && sub) {
-      sub.textContent = units.map(function (u) { return u.title; }).join(' · ');
-    }
+    else if (sub) sub.textContent = units.length ? (units.length + ' 個單元') : '';
+    if (books.length === 1) document.title = books[0].title || document.title;
+    fillUnitSelect(units);
   }
 
   function el(tag, cls, text) {
@@ -1204,12 +1245,12 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return true;
   }
 
-  function chunkIdForPage(num) {
-    var found = null;
+  function chunkIdsForPage(num) {
+    var ids = [];
     eachChunk(function (book, unit, chunk) {
-      if (chunk.label === '第' + num + '頁') found = chunk.id;
+      if (chunk.label === '第' + num + '頁' && ids.indexOf(chunk.id) === -1) ids.push(chunk.id);
     });
-    return found;
+    return ids;
   }
 
   function prepareFiltered() {
@@ -1222,8 +1263,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     if (!activeFilters.length || other) return window.VOCAB_ENSURE_ALL();
     var jobs = [];
     pages.forEach(function (num) {
-      var id = chunkIdForPage(num);
-      if (id) jobs.push(loadSection(id));
+      chunkIdsForPage(num).forEach(function (id) { jobs.push(loadSection(id)); });
     });
     return Promise.all(jobs);
   }
@@ -1526,34 +1566,37 @@ document.getElementById('play-stop').addEventListener('click',stop);
     refreshList();
   }
 
+  var fileInflight = {};
   function loadScript(chunk) {
     if (window.VOCAB_CHUNKS[chunk.id]) return Promise.resolve(window.VOCAB_CHUNKS[chunk.id]);
     if (inflight[chunk.id]) return inflight[chunk.id];
-    inflight[chunk.id] = new Promise(function (resolve, reject) {
-      var s = document.createElement('script');
-      try {
-        s.src = new URL(chunk.file, document.baseURI).href;
-      } catch (e) {
-        s.src = chunk.file;
-      }
-      s.async = true;
-      s.charset = 'utf-8';
-      var timer = setTimeout(function () {
-        s.onload = s.onerror = null;
-        reject(new Error('timeout'));
-      }, 20000);
-      s.onload = function () {
-        clearTimeout(timer);
-        var data = window.VOCAB_CHUNKS[chunk.id];
-        if (!data) reject(new Error('empty'));
-        else resolve(data);
-      };
-      s.onerror = function () {
-        clearTimeout(timer);
-        reject(new Error('load'));
-      };
-      document.head.appendChild(s);
-    }).catch(function (err) {
+    var src;
+    try { src = new URL(chunk.file, document.baseURI).href; }
+    catch (e) { src = chunk.file; }
+    function take() {
+      var data = window.VOCAB_CHUNKS[chunk.id];
+      if (!data) throw new Error('empty');
+      return data;
+    }
+    if (!fileInflight[src]) {
+      fileInflight[src] = new Promise(function (resolve, reject) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.async = true;
+        s.charset = 'utf-8';
+        var timer = setTimeout(function () {
+          s.onload = s.onerror = null;
+          reject(new Error('timeout'));
+        }, 20000);
+        s.onload = function () { clearTimeout(timer); resolve(); };
+        s.onerror = function () { clearTimeout(timer); reject(new Error('load')); };
+        document.head.appendChild(s);
+      }).catch(function (err) {
+        delete fileInflight[src];
+        throw err;
+      });
+    }
+    inflight[chunk.id] = fileInflight[src].then(take).catch(function (err) {
       delete inflight[chunk.id];
       throw err;
     });
@@ -1656,9 +1699,15 @@ document.getElementById('play-stop').addEventListener('click',stop);
   function pump() {
     var sections = [].slice.call(listEl.querySelectorAll('[data-chunk]'));
     sections.forEach(function (section, idx) {
+      if (section.closest('.unit[hidden]')) return;
       if (section.getAttribute('data-state') === 'ready' || section.getAttribute('data-state') === 'error') return;
       if (section.getAttribute('data-loading') === '1') return;
-      var prevReady = idx === 0 || sections[idx - 1].getAttribute('data-state') === 'ready';
+      var prevReady = true;
+      for (var i = idx - 1; i >= 0; i--) {
+        if (sections[i].closest('.unit[hidden]')) continue;
+        prevReady = sections[i].getAttribute('data-state') === 'ready';
+        break;
+      }
       if (!prevReady) return;
       if (idx !== 0 && !nearViewport(section)) return;
       section.setAttribute('data-loading', '1');
@@ -1691,6 +1740,8 @@ document.getElementById('play-stop').addEventListener('click',stop);
   }
   buildList();
   activeFilters = loadFilters();
+  var unitSel = document.getElementById('unit-select');
+  if (unitSel && unitSel.value) applyUnit(unitSel.value);
   watchSections();
   if (activeFilters.length) commitFilters();
   else refreshList();
@@ -1712,7 +1763,17 @@ document.getElementById('play-stop').addEventListener('click',stop);
   function setWords(list) {
     WORDS = list || [];
     byWord = {};
-    WORDS.forEach(function (w) { if (w && w.word) byWord[w.word] = w; });
+    // The same English word can appear in a later unit. Keep the first entry
+    // so an existing Unit 2 card still drives SRS, and don't queue it twice.
+    WORDS.forEach(function (w) { if (w && w.word && !byWord[w.word]) byWord[w.word] = w; });
+  }
+  function eachUniqueWord(fn) {
+    var seen = {};
+    WORDS.forEach(function (w) {
+      if (!w || !w.word || seen[w.word]) return;
+      seen[w.word] = true;
+      fn(w);
+    });
   }
 
   var S = window.speechSynthesis;
@@ -1957,7 +2018,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
 
   function unseenNewWords() {
     var list = [];
-    WORDS.forEach(function (w) {
+    eachUniqueWord(function (w) {
       var card = view(w.word);
       if (isNew(card) && !card.introduced) list.push(w.word);
     });
@@ -2024,7 +2085,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     var end = endOfDay(now);
     var list = [];
     var cloze = [];
-    WORDS.forEach(function (w) {
+    eachUniqueWord(function (w) {
       var card = view(w.word);
       if (isNew(card)) return;
       var learningDue = card.due != null && card.interval > 0 && card.interval < 1 && card.due <= now;
@@ -2067,10 +2128,12 @@ document.getElementById('play-stop').addEventListener('click',stop);
   }
 
   function queueWords(now) {
-    var words = bucketQueue(WORDS.map(function (w) { return w.word; }), now, newLimit(dayKey(now)), introducedTodayCount(dayKey(now)));
+    var keys = [];
+    eachUniqueWord(function (w) { keys.push(w.word); });
+    var words = bucketQueue(keys, now, newLimit(dayKey(now)), introducedTodayCount(dayKey(now)));
     if (!clozeEnabled()) return words;
     var clozeKeys = [];
-    WORDS.forEach(function (w) { if (clozePlayable(w)) clozeKeys.push(clozeKey(w.word)); });
+    eachUniqueWord(function (w) { if (clozePlayable(w)) clozeKeys.push(clozeKey(w.word)); });
     var cloze = bucketQueue(clozeKeys, now, 10, clozeIntroducedToday(dayKey(now)));
     return words.concat(cloze);
   }
@@ -2085,14 +2148,14 @@ document.getElementById('play-stop').addEventListener('click',stop);
   function stats(now) {
     var end = endOfDay(now);
     var bag = { due: 0, fresh: 0, learning: 0, mature: 0 };
-    WORDS.forEach(function (w) { tallyCard(view(w.word), now, end, bag); });
+    eachUniqueWord(function (w) { tallyCard(view(w.word), now, end, bag); });
     return bag;
   }
 
   function clozeStats(now) {
     var end = endOfDay(now);
     var bag = { due: 0, fresh: 0, learning: 0, mature: 0, locked: 0 };
-    WORDS.forEach(function (w) {
+    eachUniqueWord(function (w) {
       if (!wordReadyForCloze(w.word)) { bag.locked += 1; return; }
       tallyCard(view(clozeKey(w.word)), now, end, bag);
     });
@@ -2652,7 +2715,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     var soonest = nextDue(now);
     var today = dayKey(now);
     var unseen = 0;
-    WORDS.forEach(function (w) {
+    eachUniqueWord(function (w) {
       if (isNew(view(w.word)) && !view(w.word).introduced) unseen += 1;
     });
     var lines = [];
