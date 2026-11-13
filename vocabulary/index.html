@@ -164,6 +164,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
   #srs-view .tools{margin-left:0}
 }
 .chunk-status{grid-column:1/-1;margin:0;color:#666}
+.load-sentinel{min-height:48px;padding:4px 0 16px;text-align:center}
 .chunk-error{color:#b5482a}
 #list-view,#srs-view{padding-bottom:calc(88px + env(safe-area-inset-bottom))}
 #to-top{position:fixed;z-index:30;right:max(12px,env(safe-area-inset-right));bottom:calc(12px + env(safe-area-inset-bottom));width:44px;height:44px;border:none;border-radius:22px;background:#2f5d8a;color:#fff;font-size:1.25em;line-height:1;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.25)}
@@ -321,10 +322,11 @@ html:not([data-view="srs"]) #srs-view{display:none}
   <p class="hint">空白鍵顯示答案 · Enter 送出挖空 · 數字鍵 1–4 評分</p>
 </div>
 <script>
-var VOCAB_VERSION = '46b79c4be1';
+var VOCAB_VERSION = '0f257a8d2e';
 var VOCAB_EXPECT_UNITS = 24;
 document.write('<script src="data/manifest.' + VOCAB_VERSION + '.js"><\/script>');
 document.write('<script src="data/sentence-index.' + VOCAB_VERSION + '.js"><\/script>');
+document.write('<script src="data/catalog.' + VOCAB_VERSION + '.js"><\/script>');
 </script>
 <script>
 (function(){
@@ -353,7 +355,8 @@ function setPlayStop(on, index, total){var b=document.getElementById('play-stop'
 function stop(){run++;if(S)S.cancel();mark(null);setPlayStop(false)}
 if(!S){alert('This browser does not support speech (Web Speech API).');return}
 document.getElementById('list-view').addEventListener('click',async function(e){var b=e.target.closest&&e.target.closest('.say');if(!b)return;var c=b.closest('.card');if(!c)return;if(b.classList.contains('sx')){stop();utter(b.getAttribute('data-speak')||'');return}if(b.classList.contains('sc')){playOne(cardFields(c));return}stop();var id=run;mark(c);if(b.classList.contains('sz'))await utterZh(c.dataset.zh);else if(b.classList.contains('st'))await utterZh(c.dataset.tr);else await utter(b.classList.contains('sw')?c.dataset.word:c.dataset.ex);if(id===run)mark(null)});
-document.getElementById('all').addEventListener('click',async function(){stop();var id=run;setPlayStop(true);try{if(window.VOCAB_PREPARE_PLAY)await window.VOCAB_PREPARE_PLAY();else if(window.VOCAB_ENSURE_ALL)await window.VOCAB_ENSURE_ALL()}catch(e){if(id===run)setPlayStop(false);return}if(id!==run)return;var cs=[].filter.call(document.querySelectorAll('#list-view .card:not(.filtered-out)'),function(c){return !c.closest('[hidden]');});for(var i=0;i<cs.length;i++){if(id!==run)return;setPlayStop(true,i+1,cs.length);await playSequence(cardFields(cs[i]),id);if(id!==run)return;await wait(1200,id)}if(id===run){mark(null);setPlayStop(false)}});
+window.VOCAB_PLAY_SEQUENCE=playSequence;window.VOCAB_PLAY_WAIT=wait;window.VOCAB_PLAY_RUN=function(){return run};window.VOCAB_SET_PLAY_STOP=setPlayStop;window.VOCAB_MARK=mark;window.VOCAB_CARD_FIELDS=cardFields;
+document.getElementById('all').addEventListener('click',async function(){stop();var id=run;setPlayStop(true);try{if(window.VOCAB_PLAY_LAZY){await window.VOCAB_PLAY_LAZY(id);return}if(window.VOCAB_ENSURE_ALL)await window.VOCAB_ENSURE_ALL()}catch(e){if(id===run)setPlayStop(false);return}if(id!==run)return;var cs=[].filter.call(document.querySelectorAll('#list-view .card:not(.filtered-out)'),function(c){return !c.closest('[hidden]');});for(var i=0;i<cs.length;i++){if(id!==run)return;setPlayStop(true,i+1,cs.length);await playSequence(cardFields(cs[i]),id);if(id!==run)return;await wait(1200,id)}if(id===run){mark(null);setPlayStop(false)}});
 document.getElementById('stop').addEventListener('click',stop);
 document.getElementById('play-stop').addEventListener('click',stop);
 })();
@@ -368,6 +371,13 @@ document.getElementById('play-stop').addEventListener('click',stop);
 
   var listEl = document.getElementById('list-view');
   var inflight = {};
+  var stream = { token: 0, rendered: 0, loading: false, mode: 'scroll', pending: null };
+  var listStarted = false;
+  var sentinel = null;
+  var sentinelNote = null;
+  var chunkMeta = {};
+  var catByChunk = {};
+  var unitNodes = {};
 
   function manifest() {
     return window.VOCAB_MANIFEST || { books: [] };
@@ -417,22 +427,16 @@ document.getElementById('play-stop').addEventListener('click',stop);
       sel.dataset.bound = '1';
       sel.addEventListener('change', function () {
         try { localStorage.setItem('vocabUnit', sel.value); } catch (e) {}
-        applyUnit(sel.value);
+        startStream({ scroll: true });
         syncFilterBadges();
       });
     }
   }
 
   function applyUnit(id) {
-    listEl.querySelectorAll('.unit').forEach(function (u) {
-      u.hidden = !!(id && u.dataset.unit !== id);
-    });
-    if (!id) { pump(); return; }
-    var unit = listEl.querySelector('.unit[data-unit="' + id + '"]');
-    if (!unit) return;
-    var section = unit.querySelector('[data-chunk]');
-    if (section && section.getAttribute('data-state') !== 'ready') loadSection(section.getAttribute('data-chunk'));
-    unit.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var sel = document.getElementById('unit-select');
+    if (sel && sel.value !== (id || '')) sel.value = id || '';
+    startStream({ scroll: true });
   }
 
   function paintHeader() {
@@ -895,9 +899,10 @@ document.getElementById('play-stop').addEventListener('click',stop);
   }
 
   function wordOptions(entry, correct) {
-    var bucket = posBucket(entry);
-    var others = allEntries().filter(function (w) { return w.word !== entry.word; });
-    var same = others.filter(function (w) { return posBucket(w) === bucket; });
+    var bucket = entry.pos || posBucket(entry);
+    var cat = catalogWords();
+    var others = cat ? cat.filter(function (w) { return w.word !== entry.word; }) : allEntries().filter(function (w) { return w.word !== entry.word; });
+    var same = others.filter(function (w) { return (w.pos || posBucket(w)) === bucket; });
     var pool = same.length >= 3 ? same : others;
     var picked = seededOrder(pool, wordSeed(entry.word)).slice(0, 3).map(function (w) { return w.word; });
     return seededOrder(picked.concat([correct]), wordSeed(correct) + 9);
@@ -1121,7 +1126,10 @@ document.getElementById('play-stop').addEventListener('click',stop);
 
   function shownTags(tags) {
     return (tags || []).filter(function (t) {
-      return t.indexOf('book:') !== 0 && t.indexOf('unit:') !== 0 && t.indexOf('colloc:') !== 0 && tagKind(t);
+      if (t.indexOf('book:') === 0 || t.indexOf('unit:') === 0 || t.indexOf('colloc:') === 0) return false;
+      var kind = tagKind(t);
+      if (kind === 'letter' || kind === 'page') return false;
+      return !!kind;
     });
   }
 
@@ -1143,14 +1151,30 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return out;
   }
 
+  function catalogWords() {
+    var cat = window.VOCAB_CATALOG;
+    if (!cat || !Array.isArray(cat.words) || !cat.words.length) return null;
+    return cat.words;
+  }
+
   function prepFilterTags() {
     var tags = [];
-    allEntries().forEach(function (w) {
-      entryPreps(w).forEach(function (p) {
-        var tag = 'colloc:+' + p;
-        if (tags.indexOf(tag) === -1) tags.push(tag);
+    var words = catalogWords();
+    if (words) {
+      words.forEach(function (w) {
+        (w.preps || []).forEach(function (p) {
+          var tag = 'colloc:+' + p;
+          if (tags.indexOf(tag) === -1) tags.push(tag);
+        });
       });
-    });
+    } else {
+      allEntries().forEach(function (w) {
+        entryPreps(w).forEach(function (p) {
+          var tag = 'colloc:+' + p;
+          if (tags.indexOf(tag) === -1) tags.push(tag);
+        });
+      });
+    }
     tags.sort();
     return tags;
   }
@@ -1265,35 +1289,29 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return ids;
   }
 
-  function prepareFiltered() {
-    var pages = [];
-    var other = false;
-    activeFilters.forEach(function (t) {
-      if (t.indexOf('page:') === 0) pages.push(t.slice(5));
-      else other = true;
-    });
-    if (!activeFilters.length || other) return window.VOCAB_ENSURE_ALL();
-    var jobs = [];
-    pages.forEach(function (num) {
-      chunkIdsForPage(num).forEach(function (id) { jobs.push(loadSection(id)); });
-    });
-    return Promise.all(jobs);
-  }
-  window.VOCAB_PREPARE_PLAY = function () {
-    if (!activeFilters.length) return window.VOCAB_ENSURE_ALL();
-    return prepareFiltered();
-  };
-
   function knownTags() {
     var tags = [];
-    function add(tag) { if (tags.indexOf(tag) === -1 && tagKind(tag)) tags.push(tag); }
+    function add(tag) {
+      if (!tag || tags.indexOf(tag) !== -1) return;
+      var kind = tagKind(tag);
+      if (!kind || kind === 'note') return;
+      tags.push(tag);
+    }
+    var words = catalogWords();
+    if (words) {
+      words.forEach(function (w) { (w.tags || []).forEach(add); });
+      return tags;
+    }
     eachChunk(function (book, unit, chunk) {
       var m = String(chunk.label || '').match(/第(\d+)頁/);
       if (m) add('page:' + m[1]);
     });
     Object.keys(window.VOCAB_CHUNKS).forEach(function (id) {
       (window.VOCAB_CHUNKS[id] || []).forEach(function (w) {
-        shownTags(w.tags).forEach(add);
+        (w.tags || []).forEach(function (t) {
+          if (t.indexOf('book:') === 0 || t.indexOf('unit:') === 0 || t.indexOf('colloc:') === 0) return;
+          add(t);
+        });
       });
     });
     return tags;
@@ -1374,12 +1392,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
       if (section.getAttribute('data-state') === 'ready' && activeFilters.length) section.hidden = n === 0;
       else section.hidden = false;
     });
-    var count = document.getElementById('filter-count');
-    if (count) {
-      var total = 0;
-      eachChunk(function (book, unit, chunk) { total += Number(chunk.count) || 0; });
-      count.textContent = activeFilters.length ? ('顯示 ' + shown + ' / ' + total) : ('顯示 ' + shown + ' 個');
-    }
+    updateLoadStatus();
     paintFilterBar();
     refreshCrossLinks();
   }
@@ -1404,17 +1417,34 @@ document.getElementById('play-stop').addEventListener('click',stop);
       listEl.querySelectorAll('.card').forEach(function (c) {
         if (c.dataset.word === word) card = c;
       });
-      if (!card) return;
+      if (!card) return false;
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
       card.classList.remove('flash');
       void card.offsetWidth;
       card.classList.add('flash');
       setTimeout(function () { card.classList.remove('flash'); }, 1400);
+      return true;
     };
-    var have = false;
-    listEl.querySelectorAll('.card').forEach(function (c) { if (c.dataset.word === word) have = true; });
-    var ready = have ? Promise.resolve() : window.VOCAB_ENSURE_ALL();
-    ready.then(revealCard);
+    var meta = null;
+    var words = catalogWords();
+    if (words) words.some(function (w) { if (w.word === word) { meta = w; return true; } });
+    var unitId = '';
+    if (meta) {
+      eachChunk(function (book, unit, chunk) {
+        if (chunk.id === meta.chunk) unitId = unit.id;
+      });
+    }
+    var sel = document.getElementById('unit-select');
+    if (sel && unitId) {
+      sel.value = unitId;
+      try { localStorage.setItem('vocabUnit', unitId); } catch (e) {}
+      syncFilterBadges();
+    }
+    startStream().then(function pumpJump() {
+      if (revealCard()) return;
+      if (stream.rendered >= scopeItems().length) return;
+      return pull(stream.token).then(pumpJump);
+    });
   }
 
   function indexOccurrences(entry) {
@@ -1511,7 +1541,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
 
   function commitFilters() {
     saveFilters();
-    prepareFiltered().then(refreshList).catch(function () { refreshList(); });
+    startStream();
   }
 
   function toggleFilter(tag) {
@@ -1627,7 +1657,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     }
     if (section) setStatus(section, '載入中…', false);
     return loadScript(chunk).then(function (words) {
-      if (section) renderWords(section, words);
+      if (section && section.isConnected) renderWords(section, words);
       return words;
     }).catch(function (err) {
       if (section) {
@@ -1648,6 +1678,11 @@ document.getElementById('play-stop').addEventListener('click',stop);
   }
 
   window.VOCAB_LOAD_SECTION = loadSection;
+  window.VOCAB_LOAD_CHUNK = function (id) {
+    var chunk = chunkById(id);
+    if (!chunk) return Promise.reject(new Error('missing'));
+    return loadScript(chunk);
+  };
   window.VOCAB_ENSURE_ALL = function () {
     var jobs = [];
     eachChunk(function (book, unit, chunk) { jobs.push(loadSection(chunk.id)); });
@@ -1655,97 +1690,265 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return Promise.all(jobs).then(collectWords);
   };
 
-  function buildList() {
-    listEl.textContent = '';
-    if (!manifest().books || !manifest().books.length) {
-      listEl.appendChild(el('p', 'chunk-status chunk-error', '無法載入單字清單。'));
-      return;
+  function indexChunks() {
+    chunkMeta = {};
+    var n = 1;
+    eachChunk(function (book, unit, chunk) {
+      var count = Number(chunk.count) || 0;
+      var from = n;
+      var to = count ? n + count - 1 : n;
+      chunkMeta[chunk.id] = { book: book, unit: unit, chunk: chunk, from: from, to: to };
+      n += count;
+    });
+  }
+
+  function indexCatalog() {
+    catByChunk = {};
+    (catalogWords() || []).forEach(function (w) {
+      if (!catByChunk[w.chunk]) catByChunk[w.chunk] = [];
+      catByChunk[w.chunk].push(w);
+    });
+  }
+
+  function bookTotal() {
+    var cat = window.VOCAB_CATALOG;
+    if (cat && cat.total) return cat.total;
+    var n = 0;
+    eachChunk(function (book, unit, chunk) { n += Number(chunk.count) || 0; });
+    return n;
+  }
+
+  function selectedUnit() {
+    var sel = document.getElementById('unit-select');
+    return sel && sel.value ? sel.value : '';
+  }
+
+  function metaMatches(meta) {
+    if (!activeFilters.length) return true;
+    var tags = (meta && meta.tags) || [];
+    var preps = (meta && meta.preps) || [];
+    var groups = { page: [], letter: [], affix: [], comparison: [], colloc: [] };
+    activeFilters.forEach(function (t) {
+      var kind = tagKind(t);
+      if (kind && groups[kind]) groups[kind].push(t);
+    });
+    var names = Object.keys(groups);
+    for (var i = 0; i < names.length; i++) {
+      var sel = groups[names[i]];
+      if (!sel.length) continue;
+      var ok = false;
+      for (var j = 0; j < sel.length; j++) {
+        if (names[i] === 'colloc') {
+          var prep = sel[j].indexOf('colloc:+') === 0 ? sel[j].slice('colloc:+'.length) : '';
+          if (prep && preps.indexOf(prep) !== -1) { ok = true; break; }
+        } else if (tags.indexOf(sel[j]) !== -1) { ok = true; break; }
+      }
+      if (!ok) return false;
     }
-    var wordNo = 1;
-    (manifest().books || []).forEach(function (book) {
-      var bookEl = el('div', 'book');
-      bookEl.dataset.book = book.id || '';
-      if ((manifest().books || []).length > 1) {
-        bookEl.appendChild(el('h2', 'book-title', book.title || book.id || ''));
-      }
-      (book.units || []).forEach(function (unit) {
-        var unitEl = el('div', 'unit');
-        unitEl.dataset.unit = unit.id || '';
-        if ((book.units || []).length > 1) {
-          unitEl.appendChild(el('h2', 'unit-title', unit.title || unit.id || ''));
-        }
-        (unit.chunks || []).forEach(function (chunk) {
-          var from = wordNo;
-          var to = wordNo + (Number(chunk.count) || 0) - 1;
-          if (to < from) to = from;
-          wordNo = to + 1;
-          var section = document.createElement('section');
-          section.dataset.chunk = chunk.id;
-          section.setAttribute('aria-busy', 'true');
-          var h2 = document.createElement('h2');
-          h2.appendChild(document.createTextNode((chunk.label || chunk.id) + ' '));
-          h2.appendChild(el('small', null, 'words ' + from + '\u2013' + to));
-          h2.addEventListener('click', function () {
-            if (section.getAttribute('data-state') === 'error') section.removeAttribute('data-state');
-            loadSection(chunk.id);
-          });
-          section.appendChild(h2);
-          var grid = el('div', 'grid');
-          grid.appendChild(el('p', 'chunk-status', '載入中…'));
-          section.appendChild(grid);
-          unitEl.appendChild(section);
-        });
-        bookEl.appendChild(unitEl);
-      });
-      listEl.appendChild(bookEl);
+    return true;
+  }
+
+  function scopeItems() {
+    var unitId = selectedUnit();
+    var items = [];
+    eachChunk(function (book, unit, chunk) {
+      if (unitId && unit.id !== unitId) return;
+      if (chunkMeta[chunk.id]) items.push(chunkMeta[chunk.id]);
+    });
+    if (!activeFilters.length || !catalogWords()) return items;
+    return items.filter(function (item) {
+      var words = catByChunk[item.chunk.id] || [];
+      for (var i = 0; i < words.length; i++) if (metaMatches(words[i])) return true;
+      return false;
     });
   }
 
-  function nearViewport(node) {
-    var rect = node.getBoundingClientRect();
-    var margin = 240;
-    return rect.bottom >= -margin && rect.top <= (window.innerHeight || 800) + margin;
+  function updateLoadStatus() {
+    var loaded = listEl.querySelectorAll('.card').length;
+    var total = bookTotal();
+    var items = chunkMeta && Object.keys(chunkMeta).length ? scopeItems() : [];
+    var more = stream.rendered < items.length;
+    var busy = !!(stream.loading || (stream.mode === 'all' && more));
+    var text = (busy ? '載入中… ' : '') + '已載入 ' + loaded + ' / ' + total;
+    if (activeFilters.length) {
+      text += ' · 顯示 ' + listEl.querySelectorAll('.card:not(.filtered-out)').length;
+    }
+    var count = document.getElementById('filter-count');
+    if (count) count.textContent = text;
+    if (sentinelNote) sentinelNote.textContent = stream.loading ? '載入中…' : '';
+    listEl.setAttribute('aria-busy', stream.loading ? 'true' : 'false');
   }
 
-  // Empty sections are only a heading tall, so they all sit in the first
-  // screen until earlier pages render. Load a page when it is actually near
-  // the viewport and the previous page has already been laid out, and also
-  // when its heading is clicked.
-  function pump() {
-    var sections = [].slice.call(listEl.querySelectorAll('[data-chunk]'));
-    sections.forEach(function (section, idx) {
-      if (section.closest('.unit[hidden]')) return;
-      if (section.getAttribute('data-state') === 'ready' || section.getAttribute('data-state') === 'error') return;
-      if (section.getAttribute('data-loading') === '1') return;
-      var prevReady = true;
-      for (var i = idx - 1; i >= 0; i--) {
-        if (sections[i].closest('.unit[hidden]')) continue;
-        prevReady = sections[i].getAttribute('data-state') === 'ready';
-        break;
-      }
-      if (!prevReady) return;
-      if (idx !== 0 && !nearViewport(section)) return;
-      section.setAttribute('data-loading', '1');
-      loadSection(section.getAttribute('data-chunk')).then(function () {
-        section.removeAttribute('data-loading');
-        pump();
-      }).catch(function () {
-        section.removeAttribute('data-loading');
-      });
-    });
+  function ensureSentinel() {
+    if (!sentinel) {
+      sentinel = document.createElement('div');
+      sentinel.className = 'load-sentinel';
+      sentinelNote = el('p', 'chunk-status', '');
+      sentinel.appendChild(sentinelNote);
+    }
+    if (sentinel.parentNode !== listEl) listEl.appendChild(sentinel);
+    return sentinel;
   }
 
-  function watchSections() {
+  function sentinelNear() {
+    if (document.documentElement.getAttribute('data-view') === 'srs') return false;
+    if (!sentinel || !sentinel.isConnected) return false;
+    var rect = sentinel.getBoundingClientRect();
+    if (rect.top === 0 && rect.bottom === 0 && rect.height === 0) return false;
+    return rect.top <= (window.innerHeight || 800) + 240;
+  }
+
+  var listObserver = null;
+  function bindSentinel() {
     if (!('IntersectionObserver' in window)) {
-      eachChunk(function (book, unit, chunk) { loadSection(chunk.id); });
+      if (!window.__VOCAB_SCROLL_BOUND) {
+        window.__VOCAB_SCROLL_BOUND = true;
+        window.addEventListener('scroll', function () {
+          if (stream.mode !== 'all' && sentinelNear()) pull(stream.token);
+        }, { passive: true });
+      }
       return;
     }
-    var io = new IntersectionObserver(function () { pump(); }, { rootMargin: '240px 0px' });
-    listEl.querySelectorAll('[data-chunk]').forEach(function (section) { io.observe(section); });
-    window.addEventListener('scroll', pump, { passive: true });
-    window.addEventListener('resize', pump);
-    pump();
+    if (!listObserver) {
+      listObserver = new IntersectionObserver(function (entries) {
+        if (stream.mode === 'all') return;
+        if (document.documentElement.getAttribute('data-view') === 'srs') return;
+        if (entries.some(function (e) { return e.isIntersecting; })) pull(stream.token);
+      }, { rootMargin: '240px 0px' });
+    }
+    listObserver.observe(sentinel);
   }
+
+  function mountSection(item) {
+    var unitId = item.unit.id || '';
+    var unit = unitNodes[unitId];
+    if (!unit || !unit.isConnected) {
+      unit = el('div', 'unit');
+      unit.dataset.unit = unitId;
+      var books = manifest().books || [];
+      var multi = books.length === 1 && (books[0].units || []).length > 1;
+      if (multi || books.length > 1) unit.appendChild(el('h2', 'unit-title', item.unit.title || unitId));
+      unitNodes[unitId] = unit;
+      listEl.insertBefore(unit, sentinel);
+    }
+    var section = document.createElement('section');
+    section.dataset.chunk = item.chunk.id;
+    section.setAttribute('aria-busy', 'true');
+    var h2 = document.createElement('h2');
+    h2.appendChild(document.createTextNode((item.chunk.label || item.chunk.id) + ' '));
+    h2.appendChild(el('small', null, 'words ' + item.from + '\u2013' + item.to));
+    h2.addEventListener('click', function () {
+      if (section.getAttribute('data-state') === 'error') section.removeAttribute('data-state');
+      loadSection(item.chunk.id);
+    });
+    section.appendChild(h2);
+    var grid = el('div', 'grid');
+    grid.appendChild(el('p', 'chunk-status', '載入中…'));
+    section.appendChild(grid);
+    unit.appendChild(section);
+    return section;
+  }
+
+  function pull(token) {
+    if (token !== stream.token) return Promise.resolve();
+    var items = scopeItems();
+    if (stream.rendered >= items.length) {
+      updateLoadStatus();
+      return Promise.resolve();
+    }
+    if (stream.loading) return stream.pending || Promise.resolve();
+    stream.loading = true;
+    updateLoadStatus();
+    var item = items[stream.rendered];
+    mountSection(item);
+    stream.pending = loadSection(item.chunk.id).then(function () {
+      if (token !== stream.token) return;
+      stream.rendered++;
+      stream.loading = false;
+      updateLoadStatus();
+      if (stream.rendered >= scopeItems().length) return;
+      if (stream.mode === 'all') {
+        return new Promise(function (r) { setTimeout(r, 0); }).then(function () { return pull(token); });
+      }
+      if (sentinelNear()) return pull(token);
+    }).catch(function () {
+      if (token !== stream.token) return;
+      stream.rendered++;
+      stream.loading = false;
+      updateLoadStatus();
+    });
+    return stream.pending;
+  }
+
+  function startStream(opts) {
+    opts = opts || {};
+    if (!window.VOCAB_MANIFEST) return Promise.resolve();
+    var token = ++stream.token;
+    stream.rendered = 0;
+    stream.loading = false;
+    stream.pending = null;
+    var whole = !catalogWords();
+    stream.mode = (activeFilters.length && whole) ? 'all' : 'scroll';
+    listStarted = true;
+    unitNodes = {};
+    listEl.textContent = '';
+    ensureSentinel();
+    bindSentinel();
+    updateLoadStatus();
+    var job = pull(token);
+    if (opts.scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+    return job;
+  }
+
+  window.VOCAB_ENSURE_LIST = function () {
+    if (!listStarted && window.VOCAB_MANIFEST) return startStream();
+    return Promise.resolve();
+  };
+
+  function playTotal() {
+    var n = 0;
+    if (catalogWords() && activeFilters.length) {
+      scopeItems().forEach(function (item) {
+        (catByChunk[item.chunk.id] || []).forEach(function (w) { if (metaMatches(w)) n++; });
+      });
+      return n;
+    }
+    scopeItems().forEach(function (item) { n += Number(item.chunk.count) || 0; });
+    return n;
+  }
+
+  window.VOCAB_PLAY_LAZY = function (id) {
+    function visibleCards() {
+      return [].filter.call(listEl.querySelectorAll('.card:not(.filtered-out)'), function (c) {
+        return !c.closest('[hidden]');
+      });
+    }
+    var cursor = 0;
+    var total = 0;
+    function step() {
+      if (!window.VOCAB_PLAY_RUN || window.VOCAB_PLAY_RUN() !== id) return Promise.resolve();
+      var list = visibleCards();
+      if (cursor < list.length) {
+        var card = list[cursor++];
+        if (window.VOCAB_SET_PLAY_STOP) window.VOCAB_SET_PLAY_STOP(true, cursor, total);
+        return window.VOCAB_PLAY_SEQUENCE(window.VOCAB_CARD_FIELDS(card), id).then(function () {
+          if (window.VOCAB_PLAY_RUN() !== id) return;
+          return window.VOCAB_PLAY_WAIT(1200, id).then(step);
+        });
+      }
+      if (stream.rendered >= scopeItems().length) {
+        if (window.VOCAB_MARK) window.VOCAB_MARK(null);
+        if (window.VOCAB_SET_PLAY_STOP) window.VOCAB_SET_PLAY_STOP(false);
+        return Promise.resolve();
+      }
+      return pull(stream.token).then(step);
+    }
+    var ready = listStarted ? Promise.resolve(stream.pending) : startStream();
+    return Promise.resolve(ready).then(function () {
+      total = playTotal();
+      return step();
+    });
+  };
 
   function manifestUnitCount() {
     var n = 0;
@@ -1821,14 +2024,13 @@ document.getElementById('play-stop').addEventListener('click',stop);
       window.VOCAB_ENSURE_ALL = function () { return Promise.reject(new Error('manifest')); };
       return;
     }
-    buildList();
+    indexChunks();
+    indexCatalog();
     activeFilters = loadFilters();
     bindFilterGroups();
-    var unitSel = document.getElementById('unit-select');
-    if (unitSel && unitSel.value) applyUnit(unitSel.value);
-    watchSections();
-    if (activeFilters.length) commitFilters();
-    else refreshList();
+    paintFilterBar();
+    if (document.documentElement.getAttribute('data-view') !== 'srs') startStream();
+    else updateLoadStatus();
   }
 
   var expectUnits = window.VOCAB_EXPECT_UNITS || 0;
@@ -2157,9 +2359,17 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return choice ? 'word-choice' : 'word-type';
   }
   function clozePlayable(entry) {
-    if (!entry || typeof window.VOCAB_CLOZE_SPEC !== 'function') return false;
-    if (!wordReadyForCloze(entry.word)) return false;
-    var spec = window.VOCAB_CLOZE_SPEC(entry);
+    if (!entry || !wordReadyForCloze(entry.word)) return false;
+    var spec = null;
+    if (entry.example_sentence != null && typeof window.VOCAB_CLOZE_SPEC === 'function') spec = window.VOCAB_CLOZE_SPEC(entry);
+    else if (entry.flags != null) {
+      spec = {
+        hasColoc: !!(entry.flags & 1),
+        translation: (entry.flags & 2) ? '1' : '',
+        wordBlank: { how: (entry.flags & 4) ? 'form' : 'skip' }
+      };
+    }
+    if (!spec) return false;
     var shape = clozeShape(view(clozeKey(entry.word)), spec);
     if (shape === 'sentence') return !!spec.translation;
     if (shape === 'learn' || shape === 'mature') return !!spec.hasColoc;
@@ -2843,9 +3053,71 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return state.direction;
   }
 
+  var showToken = 0;
+  function ensureFull(word) {
+    var cur = byWord[word];
+    if (cur && cur.example_sentence != null) return Promise.resolve(cur);
+    var chunkId = cur && cur.chunk;
+    if (!chunkId && window.VOCAB_CATALOG) {
+      (window.VOCAB_CATALOG.words || []).some(function (w) {
+        if (w.word === word) { chunkId = w.chunk; return true; }
+      });
+    }
+    if (!chunkId || typeof window.VOCAB_LOAD_CHUNK !== 'function') return Promise.resolve(cur || null);
+    return window.VOCAB_LOAD_CHUNK(chunkId).then(function () {
+      var full = null;
+      (window.VOCAB_CHUNKS[chunkId] || []).some(function (w) {
+        if (w.word === word) { full = w; return true; }
+      });
+      if (full) byWord[word] = full;
+      return byWord[word] || null;
+    });
+  }
+  function revealActive() {
+    if (!active) return;
+    paintStats();
+    var token = ++showToken;
+    var key = active.word;
+    var word = baseWord(key);
+    var cur = byWord[word];
+    if (cur && cur.example_sentence != null) {
+      paintCard();
+      return;
+    }
+    el.study.hidden = false;
+    el.done.hidden = true;
+    el.back.hidden = true;
+    el.grades.hidden = true;
+    el.show.hidden = true;
+    if (el.cloze) el.cloze.hidden = true;
+    el.prompt.hidden = false;
+    el.prompt.classList.remove('lang-zh');
+    el.prompt.textContent = '載入中…';
+    el.meta.textContent = '';
+    el.remain.textContent = '';
+    ensureFull(word).then(function (entry) {
+      if (token !== showToken || !active || active.word !== key) return;
+      if (!entry || entry.example_sentence == null) {
+        el.prompt.textContent = '無法載入這張卡片。';
+        return;
+      }
+      paintCard();
+      paintStats();
+    }).catch(function () {
+      if (token !== showToken) return;
+      el.prompt.textContent = '無法載入這張卡片。';
+    });
+  }
+
   function ensureDeck() {
     if (deckReady) return Promise.resolve();
     if (deckPromise) return deckPromise;
+    var cat = window.VOCAB_CATALOG;
+    if (cat && Array.isArray(cat.words) && cat.words.length) {
+      setWords(cat.words);
+      deckReady = true;
+      return Promise.resolve();
+    }
     el.study.hidden = false;
     el.done.hidden = true;
     el.back.hidden = true;
@@ -2892,8 +3164,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
       }
       var nextWord = cramQueue.shift();
       active = { word: nextWord, dir: chooseDir(), revealed: false };
-      paintCard();
-      paintStats();
+      revealActive();
       return;
     }
     if (!WORDS.length) {
@@ -2915,8 +3186,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
       save();
     }
     active = { word: word, dir: chooseDir(), revealed: false };
-    paintCard();
-    paintStats();
+    revealActive();
   }
 
   function autoplayOn() {
@@ -2987,6 +3257,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
       var stopBtn = document.getElementById('stop');
       if (stopBtn) stopBtn.click();
     }
+    if (!onSrs && window.VOCAB_ENSURE_LIST) window.VOCAB_ENSURE_LIST();
     if (onSrs) {
       ensureDeck().then(function () {
         if (!srsOn()) return;
@@ -3014,7 +3285,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     paintDirection();
     if (active && !active.revealed) {
       active.dir = chooseDir();
-      paintCard();
+      revealActive();
     }
   });
   function beginBonus(n) {
@@ -3067,7 +3338,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     try { localStorage.setItem('vocabSrsClozeMode', this.value); } catch (e) {}
     if (active && isClozeKey(active.word) && !active.revealed) {
       active.task = null;
-      paintCard();
+      revealActive();
     }
   });
   el.clozeForm.addEventListener('submit', function (e) {
@@ -3090,8 +3361,11 @@ document.getElementById('play-stop').addEventListener('click',stop);
     el.perDay.value = String(state.newPerDay);
     save();
     if (!srsOn()) return;
-    if (active) paintCard();
-    else showNext();
+    if (active) {
+      var shown = byWord[baseWord(active.word)];
+      if (shown && shown.example_sentence != null) paintCard();
+      else revealActive();
+    } else showNext();
   });
 
   document.getElementById('srs-export').addEventListener('click', function () {

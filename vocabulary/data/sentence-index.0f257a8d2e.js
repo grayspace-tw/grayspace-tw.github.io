@@ -1,6 +1,6 @@
 window.VOCAB_SENTENCE_INDEX = {
   "version": 1,
-  "generated": "2026-11-13T14:32:01.028Z",
+  "generated": "2026-11-13T14:46:46.998Z",
   "chunks": [
     "tango2000-p4",
     "tango2000-p6",

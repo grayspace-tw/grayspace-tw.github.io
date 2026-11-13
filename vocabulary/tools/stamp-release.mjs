@@ -1,6 +1,6 @@
 // Copy vocabulary data files to content-hashed filenames and point
 // index.html and the published manifest at those names.
-// Source files (manifest.js, sentence-index.js, tango2000/p6.js, …) stay
+// Source files (manifest.js, sentence-index.js, catalog.js, tango2000/p6.js, …) stay
 // so the next edit still has a stable path. Run from the vocabulary folder:
 //   node tools/stamp-release.mjs
 import crypto from 'node:crypto';
@@ -61,19 +61,26 @@ export function stampRelease() {
     manifestText = manifestText.split(item.rel).join(destRel);
   }
   const indexText = fs.readFileSync(path.join(dataDir, 'sentence-index.js'), 'utf8');
-  const release = hashText(manifestText + '\n' + indexText);
+  const catalogText = fs.readFileSync(path.join(dataDir, 'catalog.js'), 'utf8');
+  const release = hashText(manifestText + '\n' + indexText + '\n' + catalogText);
   const manifestRel = 'data/manifest.' + release + '.js';
   const indexRel = 'data/sentence-index.' + release + '.js';
+  const catalogRel = 'data/catalog.' + release + '.js';
   fs.writeFileSync(path.join(vocabDir, manifestRel), manifestText);
   fs.writeFileSync(path.join(vocabDir, indexRel), indexText);
+  fs.writeFileSync(path.join(vocabDir, catalogRel), catalogText);
   keep.add(path.resolve(vocabDir, manifestRel));
   keep.add(path.resolve(vocabDir, indexRel));
+  keep.add(path.resolve(vocabDir, catalogRel));
 
   const indexHtmlPath = path.join(vocabDir, 'index.html');
   let html = fs.readFileSync(indexHtmlPath, 'utf8');
   if (!html.includes('var VOCAB_VERSION = ')) throw new Error('index.html is missing VOCAB_VERSION');
   if (!html.includes('data/manifest.' + "' + VOCAB_VERSION + '" + '.js')) {
     throw new Error('index.html manifest script is not using VOCAB_VERSION in the filename');
+  }
+  if (!html.includes('data/catalog.' + "' + VOCAB_VERSION + '" + '.js')) {
+    throw new Error('index.html catalog script is not using VOCAB_VERSION in the filename');
   }
   html = html.replace(/var VOCAB_VERSION = '[^']*';/, "var VOCAB_VERSION = '" + release + "';");
   fs.writeFileSync(indexHtmlPath, html);

@@ -146,5 +146,92 @@ fs.writeFileSync(outFile, 'window.VOCAB_SENTENCE_INDEX = ' + JSON.stringify(inde
 const shared = Object.values(occurrences).reduce((n, list) => n + list.length, 0);
 console.log('wrote ' + path.relative(vocabDir, outFile) + ' (' + shared + ' shared sentences)');
 
+const PREP_WORDS = { in: 1, on: 1, at: 1, with: 1, about: 1, for: 1, to: 1, by: 1, of: 1, from: 1, into: 1, over: 1, across: 1, after: 1, between: 1 };
+const FILTER_KINDS = { prefix: 1, suffix: 1, root: 1, letter: 1, page: 1, comparison: 1, colloc: 1, note: 1 };
+
+function prepOf(coloc) {
+  if (!coloc || coloc.kind !== 'prep') return '';
+  const src = Array.isArray(coloc.match) ? coloc.match[coloc.match.length - 1] : coloc.match;
+  const bits = String(src || '').trim().split(/\s+/);
+  const prep = (bits[bits.length - 1] || '').replace(/[^a-z]/gi, '').toLowerCase();
+  return PREP_WORDS[prep] ? prep : '';
+}
+
+function findLiteral(text, needle, from) {
+  const n = String(needle || '');
+  if (!n) return null;
+  const i = text.toLowerCase().indexOf(n.toLowerCase(), from || 0);
+  if (i < 0) return null;
+  return { start: i, end: i + n.length };
+}
+
+function matchSpans(text, coloc) {
+  const parts = Array.isArray(coloc.match) ? coloc.match : [coloc.match];
+  let from = 0;
+  for (const part of parts) {
+    const hit = findLiteral(text, part, from);
+    if (!hit) return false;
+    from = hit.end;
+  }
+  return true;
+}
+
+function wordBlankOk(entry) {
+  const sentence = entry.example_sentence || '';
+  if (findRanges(sentence, phraseList(entry)).length) return true;
+  const lemma = String(entry.word || '').toLowerCase();
+  const re = /[A-Za-z][A-Za-z'-]*/g;
+  let best = 0;
+  let m;
+  while ((m = re.exec(sentence))) {
+    const w = m[0].toLowerCase();
+    let score = 0;
+    const n = Math.min(w.length, lemma.length);
+    for (let i = 0; i < n; i++) {
+      if (w.charAt(i) !== lemma.charAt(i)) break;
+      score++;
+    }
+    if (score > best) best = score;
+  }
+  return best >= 3;
+}
+
+const catalogWords = entries.map((entry) => {
+  const tags = [];
+  for (const tag of entry.tags || []) {
+    if (tag.startsWith('book:') || tag.startsWith('unit:') || tag.startsWith('colloc:')) continue;
+    const kind = String(tag).split(':')[0];
+    if (FILTER_KINDS[kind] && !tags.includes(tag)) tags.push(tag);
+  }
+  const preps = [];
+  for (const coloc of entry.collocations || []) {
+    const prep = prepOf(coloc);
+    if (prep && !preps.includes(prep)) preps.push(prep);
+  }
+  const pos = (String(entry.chinese_meaning || '').match(/[形名動副代]/) || [''])[0];
+  const list = entry.collocations || [];
+  const hasColoc = !!(list.length && matchSpans(entry.example_sentence || '', list[0]));
+  let flags = 0;
+  if (hasColoc) flags |= 1;
+  if (entry.example_translation) flags |= 2;
+  if (wordBlankOk(entry)) flags |= 4;
+  return {
+    id: entry.id,
+    word: entry.word,
+    chunk: entry.chunk,
+    num: entry.num,
+    page: entry.page,
+    pos,
+    tags,
+    preps,
+    flags
+  };
+});
+
+const catalog = { version: 1, total: catalogWords.length, words: catalogWords };
+const catalogFile = path.join(vocabDir, 'data', 'catalog.js');
+fs.writeFileSync(catalogFile, 'window.VOCAB_CATALOG = ' + JSON.stringify(catalog) + ';\n');
+console.log('wrote ' + path.relative(vocabDir, catalogFile) + ' (' + catalogWords.length + ' words)');
+
 const { stampRelease } = await import('./stamp-release.mjs');
 stampRelease();
