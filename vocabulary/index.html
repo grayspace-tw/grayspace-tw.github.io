@@ -49,8 +49,13 @@ main{max-width:960px;margin:0 auto;padding:12px}h2{border-left:5px solid #2f5d8a
 #unit-select{font-size:16px;max-width:100%;border:1px solid #d5dbe3;border-radius:8px;padding:4px 8px;color:#222;background:#fff}
 #list-view .unit[hidden]{display:none}
 html[data-view="srs"] #filter-bar{display:none}
-.fgroup{display:flex;gap:6px;align-items:flex-start;flex-wrap:wrap;margin:4px 0}
-.flabel{flex:0 0 auto;min-width:4.2em;padding-top:5px;color:#666;font-size:.78em}
+.fgroup{margin:4px 0}
+.flabel{display:flex;align-items:center;gap:4px;width:100%;border:none;background:transparent;padding:4px 0;color:#666;font:inherit;font-size:.85em;font-weight:700;cursor:pointer;text-align:left}
+.fcaret{width:1em;color:#2f5d8a}
+.fbody{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start;padding:0 0 4px 1.2em}
+.fgroup.collapsed .fbody{display:none}
+.fbadge{margin-left:6px;background:#2f5d8a;color:#fff;border-radius:999px;min-width:1.2em;padding:0 6px;font-size:.75em;font-weight:700;line-height:1.5;text-align:center}
+.fbadge[hidden]{display:none}
 .fchips{display:flex;flex-wrap:wrap;gap:4px}
 .tag,.fchips button{border:none;border-radius:999px;padding:3px 8px;font-size:.75em;line-height:1.45;cursor:pointer;background:#eef1f4;color:#333}
 .tag.letter,.fchips button.letter{background:#e7f0f8;color:#2f5d8a}
@@ -206,12 +211,12 @@ html:not([data-view="srs"]) #srs-view{display:none}
   </div>
 </header>
 <div id="filter-bar">
-  <div class="fgroup"><span class="flabel">單元</span><select id="unit-select" aria-label="選擇單元"></select></div>
-  <div class="fgroup"><span class="flabel">頁碼</span><div class="fchips" data-kind="page"></div></div>
-  <div class="fgroup"><span class="flabel">字首字母</span><div class="fchips" data-kind="letter"></div></div>
-  <div class="fgroup"><span class="flabel">字根字首</span><div class="fchips" data-kind="affix"></div></div>
-  <div class="fgroup"><span class="flabel">比較級</span><div class="fchips" data-kind="comparison"></div></div>
-  <div class="fgroup"><span class="flabel">搭配詞</span><div class="fchips" data-kind="colloc" data-sub="prep"></div></div>
+  <div class="fgroup" data-group="unit"><button type="button" class="flabel" aria-expanded="true"><span class="fcaret" aria-hidden="true">▾</span>單元<span class="fbadge" hidden></span></button><div class="fbody"><select id="unit-select" aria-label="選擇單元"></select></div></div>
+  <div class="fgroup" data-group="page"><button type="button" class="flabel" aria-expanded="false"><span class="fcaret" aria-hidden="true">▸</span>頁碼<span class="fbadge" hidden></span></button><div class="fbody"><div class="fchips" data-kind="page"></div></div></div>
+  <div class="fgroup" data-group="letter"><button type="button" class="flabel" aria-expanded="false"><span class="fcaret" aria-hidden="true">▸</span>字首字母<span class="fbadge" hidden></span></button><div class="fbody"><div class="fchips" data-kind="letter"></div></div></div>
+  <div class="fgroup" data-group="affix"><button type="button" class="flabel" aria-expanded="false"><span class="fcaret" aria-hidden="true">▸</span>字根字首<span class="fbadge" hidden></span></button><div class="fbody"><div class="fchips" data-kind="affix"></div></div></div>
+  <div class="fgroup" data-group="comparison"><button type="button" class="flabel" aria-expanded="false"><span class="fcaret" aria-hidden="true">▸</span>比較級<span class="fbadge" hidden></span></button><div class="fbody"><div class="fchips" data-kind="comparison"></div></div></div>
+  <div class="fgroup" data-group="colloc"><button type="button" class="flabel" aria-expanded="false"><span class="fcaret" aria-hidden="true">▸</span>搭配詞<span class="fbadge" hidden></span></button><div class="fbody"><div class="fchips" data-kind="colloc" data-sub="prep"></div></div></div>
   <div id="filter-active"></div>
   <p id="filter-count"></p>
 </div>
@@ -316,7 +321,7 @@ html:not([data-view="srs"]) #srs-view{display:none}
   <p class="hint">空白鍵顯示答案 · Enter 送出挖空 · 數字鍵 1–4 評分</p>
 </div>
 <script>
-var VOCAB_VERSION = 'ef12a546d3';
+var VOCAB_VERSION = '46b79c4be1';
 var VOCAB_EXPECT_UNITS = 24;
 document.write('<script src="data/manifest.' + VOCAB_VERSION + '.js"><\/script>');
 document.write('<script src="data/sentence-index.' + VOCAB_VERSION + '.js"><\/script>');
@@ -413,6 +418,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
       sel.addEventListener('change', function () {
         try { localStorage.setItem('vocabUnit', sel.value); } catch (e) {}
         applyUnit(sel.value);
+        syncFilterBadges();
       });
     }
   }
@@ -1119,11 +1125,13 @@ document.getElementById('play-stop').addEventListener('click',stop);
     });
   }
 
+  var PREP_WORDS = { in: 1, on: 1, at: 1, with: 1, about: 1, for: 1, to: 1, by: 1, of: 1, from: 1, into: 1, over: 1, across: 1, after: 1, between: 1 };
   function prepOf(coloc) {
     if (!coloc || coloc.kind !== 'prep') return '';
     var src = Array.isArray(coloc.match) ? coloc.match[coloc.match.length - 1] : coloc.match;
     var bits = String(src || '').trim().split(/\s+/);
-    return (bits[bits.length - 1] || '').replace(/[^a-z]/gi, '').toLowerCase();
+    var prep = (bits[bits.length - 1] || '').replace(/[^a-z]/gi, '').toLowerCase();
+    return PREP_WORDS[prep] ? prep : '';
   }
 
   function entryPreps(entry) {
@@ -1312,6 +1320,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
         box.appendChild(b);
       });
     });
+    syncFilterBadges();
     var active = document.getElementById('filter-active');
     active.textContent = '';
     if (!activeFilters.length) return;
@@ -1746,6 +1755,65 @@ document.getElementById('play-stop').addEventListener('click',stop);
     return n;
   }
 
+  var COLLAPSE_KEY = 'vocabFilterCollapsed';
+  function collapseMap() {
+    try {
+      var raw = JSON.parse(localStorage.getItem(COLLAPSE_KEY) || 'null');
+      if (raw && typeof raw === 'object' && !Array.isArray(raw)) return raw;
+    } catch (e) {}
+    return {};
+  }
+  function groupCollapsed(id) {
+    var map = collapseMap();
+    if (Object.prototype.hasOwnProperty.call(map, id)) return !!map[id];
+    return id !== 'unit';
+  }
+  function setGroupCollapsed(id, collapsed) {
+    var map = collapseMap();
+    map[id] = !!collapsed;
+    try { localStorage.setItem(COLLAPSE_KEY, JSON.stringify(map)); } catch (e) {}
+  }
+  function applyGroupCollapsed(group, collapsed) {
+    group.classList.toggle('collapsed', collapsed);
+    var btn = group.querySelector('.flabel');
+    if (btn) btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+    var caret = group.querySelector('.fcaret');
+    if (caret) caret.textContent = collapsed ? '▸' : '▾';
+  }
+  function syncFilterBadges() {
+    document.querySelectorAll('#filter-bar .fgroup').forEach(function (group) {
+      var id = group.getAttribute('data-group');
+      var n = 0;
+      if (id === 'unit') {
+        var sel = document.getElementById('unit-select');
+        n = sel && sel.value ? 1 : 0;
+      } else {
+        var box = group.querySelector('.fchips');
+        var kind = box ? box.getAttribute('data-kind') : '';
+        n = activeFilters.filter(function (t) { return tagKind(t) === kind; }).length;
+      }
+      var badge = group.querySelector('.fbadge');
+      if (!badge) return;
+      badge.textContent = n ? String(n) : '';
+      badge.hidden = !n;
+    });
+  }
+  function bindFilterGroups() {
+    document.querySelectorAll('#filter-bar .fgroup').forEach(function (group) {
+      var btn = group.querySelector('.flabel');
+      if (!btn || btn.dataset.bound) return;
+      btn.dataset.bound = '1';
+      var id = group.getAttribute('data-group') || '';
+      applyGroupCollapsed(group, groupCollapsed(id));
+      btn.addEventListener('click', function () {
+        var collapsed = !group.classList.contains('collapsed');
+        applyGroupCollapsed(group, collapsed);
+        setGroupCollapsed(id, collapsed);
+      });
+    });
+    syncFilterBadges();
+  }
+
   function bootList() {
     paintHeader();
     if (!window.VOCAB_MANIFEST) {
@@ -1755,6 +1823,7 @@ document.getElementById('play-stop').addEventListener('click',stop);
     }
     buildList();
     activeFilters = loadFilters();
+    bindFilterGroups();
     var unitSel = document.getElementById('unit-select');
     if (unitSel && unitSel.value) applyUnit(unitSel.value);
     watchSections();
