@@ -431,21 +431,20 @@ body.vtab #playAll,body.vtab #followBtn,body.vtab #loopBtn,body.vtab #wgBtn,body
 .voc .vlem{font-size:.85rem;color:var(--muted);margin-left:4px}
 .card.vflash{box-shadow:0 0 0 3px rgba(180,120,60,.55);transition:box-shadow .3s}
 @media (max-width:600px){.voc .vi{font-size:1.15rem}.voc .vd{font-size:1.1rem}.voc .vopt{min-height:66px;font-size:.92rem}}
-</style>
+.appsw{display:inline-flex;border:1px solid var(--accent);border-radius:999px;overflow:hidden;margin:0 0 12px;font-size:.95rem;line-height:1.2}.appsw a{padding:6px 16px;color:var(--accent);text-decoration:none;font-weight:600;white-space:nowrap}.appsw a+a{border-left:1px solid var(--accent)}.appsw a[aria-current=page]{background:var(--accent);color:#fff}.appsw a:not([aria-current]):hover,.appsw a:not([aria-current]):focus{background:#f1e7d9}</style>
 </head>
 <body>
 <header>
+  <nav class="appsw" aria-label="切換：咒語練習／經文閱讀"><a href="./" aria-current="page">咒語練習</a><a href="./reader/">經文閱讀</a></nav>
   <h1><span id="mTitle">往生咒</span></h1>
   <p class="sub"><span id="mFull"></span>｜逐句對照・標準音・錄音比對（個人原型）</p>
 </header>
 <main>
   <div class="toolbar">
-    <button id="menuBtn" class="menubtn" type="button" aria-expanded="false" aria-controls="mMenu" aria-label="選單：切換咒語、經文" title="切換咒語・經文"><span class="mb-i" aria-hidden="true">☰</span><span class="mb-n"></span></button>
+    <button id="menuBtn" class="menubtn" type="button" aria-expanded="false" aria-controls="mMenu" aria-label="選單：切換咒語" title="切換咒語"><span class="mb-i" aria-hidden="true">☰</span><span class="mb-n"></span></button>
     <div id="mMenu" class="mmenu" hidden>
       <h2 id="mmH1">咒語</h2>
       <nav class="tabs" id="mantraTabs" aria-labelledby="mmH1"></nav>
-      <h2 id="mmH2">經文</h2>
-      <nav class="mlinks" aria-labelledby="mmH2"><a href="./dashizhi/">大勢至菩薩念佛圓通章</a><a href="./qiqingwen/">諸佛菩薩祈請文</a></nav>
     </div>
     <button class="primary" id="playAll">▶ 全部播放</button>
     <button id="stopAll" disabled>■ 停止</button>
