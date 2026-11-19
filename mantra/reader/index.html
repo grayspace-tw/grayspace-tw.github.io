@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:,">
+<title>注音經文</title>
+<link rel="stylesheet" href="reader.css">
+</head>
+<body>
+<div id="app">
+  <div id="bar" role="toolbar" aria-label="閱讀工具">
+    <a id="lib" href="?" title="經書目錄">☰ 目錄</a>
+    <span id="bt" class="bt"></span>
+    <span class="g"><button id="fm" type="button" aria-label="字小一點">A−</button><button id="fp" type="button" aria-label="字大一點">A＋</button></span>
+    <button id="fs" type="button" class="fsb" title="全螢幕（Esc 離開）">⛶ 全螢幕</button>
+  </div>
+  <div id="sc" tabindex="-1" aria-live="off"></div>
+  <div id="nav"><button id="pv" type="button">‹ 上一頁</button><span id="pn" aria-live="polite"></span><button id="nx" type="button">下一頁 ›</button></div>
+  <button id="fx" type="button" hidden title="離開全螢幕（Esc）">✕ 離開全螢幕</button>
+</div>
+<div id="libv" hidden><h1>注音經文</h1><ul id="libl"></ul><p class="lnote">點經名開始閱讀。直書、一頁一個畫面；寬螢幕左右兩頁並排。</p></div>
+<script src="reader.js"></script>
+</body>
+</html>
