@@ -5,7 +5,8 @@
 
 - 目錄：`index.html`（無參數）列出 `books/index.json` 的所有經書
 - 選書：`index.html?book=<id>`，例如 `?book=dashizhi`、`?book=pumenpin`
-- 字型：全字庫正楷體，路徑 `../../fonts/cns11643/`（與網站現有 /mantra/dashizhi/ 等經文頁共用同一份字型，放在 `/mantra/reader/` 時不需另外下載）。缺字型時退回系統楷體。
+- 切換：工具列與目錄頁頂端都有「咒語練習｜經文閱讀」切換，咒語練習 → `../`（/mantra/）；咒語練習頁頁首有同一個切換（經文閱讀 → `./reader/`），其 ☰ 選單「經文」也直接連到 `./reader/?book=<id>`。舊的 /mantra/dashizhi/、/mantra/qiqingwen/ 由本閱讀頁取代。
+- 字型：全字庫正楷體，路徑 `../../fonts/cns11643/`（與咒語練習頁 /mantra/ 共用同一份字型，放在 `/mantra/reader/` 時不需另外下載）。缺字型時退回系統楷體。
 
 ## 版面
 - 直書，由右到左；一字一格：漢字＋右側直排注音（與網站現有經文注音頁同一套格線尺寸 `--cw/--ch/--zs`）。
