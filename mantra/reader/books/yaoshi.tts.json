@@ -1,273 +1,1694 @@
 {
  "book": "yaoshi",
- "generated_by": "tools/gen_tts.py",
- "note": "TTS-only substitutions for 朗讀; display text is unchanged. A sub applies where the text equals from AND its 注音 equals zy.",
+ "generated_by": "tools/tts_subs.py",
+ "note": "TTS-only substitutions for 朗讀; display text is unchanged. A sub applies where the text equals from AND its 注音 equals zy. Every polyphonic char is replaced by a one-reading homophone of its 注音 (see TTS-NOTES.md).",
  "subs": [
+  {
+   "from": "有",
+   "to": "友",
+   "zy": "ㄧㄡˇ",
+   "count": 85,
+   "kind": "homophone1"
+  },
+  {
+   "from": "無",
+   "to": "吳",
+   "zy": "ㄨˊ",
+   "count": 60,
+   "kind": "homophone2"
+  },
   {
    "from": "得",
    "to": "德",
    "zy": "ㄉㄜˊ",
    "count": 57,
-   "why": "得 注音 ㄉㄜˊ（de2），強制替換：Google 國語（臺灣）把「皆得解脫」的 得 唸成 děi（錄音量共振峰 F2≈2600–2900，同「歹/děi」型；「即得」則是 dé）；換成 德；例：求皆得／來世得阿耨／來世得菩提"
+   "kind": "pinned"
   },
   {
-   "from": "處",
-   "to": "觸",
-   "zy": "ㄔㄨˋ",
-   "count": 14,
-   "why": "處 注音 ㄔㄨˋ（chu4），強制替換：處 另一讀 chǔ（相處、處理）很常見；Google 在「淺處」唸對 chù，其他語音不一定；換成 觸；例：從彼處沒／諸學處／持學處"
+   "from": "若",
+   "to": "弱",
+   "zy": "ㄖㄨㄛˋ",
+   "count": 48,
+   "kind": "homophone1"
   },
   {
-   "from": "養",
-   "to": "樣",
-   "zy": "ㄧㄤˋ",
-   "count": 14,
-   "why": "養 注音 ㄧㄤˋ（yang4），語音可能唸 yang3（pypinyin:供養）；例：為供養／供養守護／欲供養彼世"
+   "from": "生",
+   "to": "聲",
+   "zy": "ㄕㄥ",
+   "count": 38,
+   "kind": "homophone1"
   },
   {
-   "from": "橫",
-   "to": " heng4 ",
-   "zy": "ㄏㄥˋ",
-   "count": 17,
-   "why": "橫 注音 ㄏㄥˋ（heng4），語音可能唸 heng2；例：為諸橫惡鬼／九橫云何／名初橫"
+   "from": "菩",
+   "to": "葡",
+   "zy": "ㄆㄨˊ",
+   "count": 36,
+   "kind": "homophone2"
   },
   {
-   "from": "為",
-   "to": "位",
-   "zy": "ㄨㄟˋ",
-   "count": 9,
-   "why": "為 注音 ㄨㄟˋ（wei4），語音可能唸 wei2；例：而為說法／為欲利／為拔業"
+   "from": "惡",
+   "to": "鄂",
+   "zy": "ㄜˋ",
+   "count": 33,
+   "kind": "homophone1"
   },
   {
-   "from": "薄",
-   "to": "博",
-   "zy": "ㄅㄛˊ",
-   "count": 5,
-   "why": "薄 注音 ㄅㄛˊ（bo2），語音可能唸 bao2；例：薄伽梵／向薄伽梵／薄伽梵"
+   "from": "於",
+   "to": "魚",
+   "zy": "ㄩˊ",
+   "count": 33,
+   "kind": "homophone1"
   },
   {
-   "from": "相",
-   "to": "向",
-   "zy": "ㄒㄧㄤˋ",
-   "count": 8,
-   "why": "相 注音 ㄒㄧㄤˋ（xiang4），語音可能唸 xiang1、xiang1（pypinyin:形相）；例：丈夫相／丈夫相／形相端嚴"
+   "from": "聞",
+   "to": "文",
+   "zy": "ㄨㄣˊ",
+   "count": 32,
+   "kind": "homophone2"
+  },
+  {
+   "from": "其",
+   "to": "旗",
+   "zy": "ㄑㄧˊ",
+   "count": 30,
+   "kind": "homophone1"
   },
   {
    "from": "難",
-   "to": " nan4 ",
-   "zy": "ㄋㄢˋ",
-   "count": 8,
-   "why": "難 注音 ㄋㄢˋ（nan4），語音可能唸 nan2、nan2（pypinyin:難解）；例：至命難／厄之難／眾難解脫"
+   "to": "男",
+   "zy": "ㄋㄢˊ",
+   "count": 28,
+   "kind": "homophone1"
   },
   {
-   "from": "剎",
-   "to": "詫",
-   "zy": "ㄔㄚˋ",
-   "count": 5,
-   "why": "剎 注音 ㄔㄚˋ（cha4），語音可能唸 sha1；例：或生剎帝利／若剎帝利／彼剎帝利"
+   "from": "種",
+   "to": "腫",
+   "zy": "ㄓㄨㄥˇ",
+   "count": 27,
+   "kind": "homophone1"
   },
   {
-   "from": "樂",
-   "to": "要",
-   "zy": "ㄧㄠˋ",
-   "count": 4,
-   "why": "樂 注音 ㄧㄠˋ（yao4），語音可能唸 le4；例：我等樂聞／不樂欲樂／調意樂"
+   "from": "復",
+   "to": "富",
+   "zy": "ㄈㄨˋ",
+   "count": 26,
+   "kind": "homophone1"
   },
   {
-   "from": "分",
-   "to": "奮",
-   "zy": "ㄈㄣˋ",
-   "count": 5,
-   "why": "分 注音 ㄈㄣˋ（fen4），語音可能唸 fen1；例：持八分齋戒／持八分齋戒／持八分齋戒"
+   "from": "切",
+   "to": "竊",
+   "zy": "ㄑㄧㄝˋ",
+   "count": 24,
+   "kind": "homophone1"
   },
   {
-   "from": "了",
-   "to": "瞭",
-   "zy": "ㄌㄧㄠˇ",
-   "count": 3,
-   "why": "了 注音 ㄌㄧㄠˇ（liao3），強制替換：「不能解了」可能被唸成 jiě le；換成 ㄌㄧㄠˇ 的同音字；例：能解了／可解了／明了自見"
-  },
-  {
-   "from": "好",
-   "to": "耗",
-   "zy": "ㄏㄠˋ",
-   "count": 3,
-   "why": "好 注音 ㄏㄠˋ（hao4），語音可能唸 hao3；例：其所好／好行惠／好憙乖"
-  },
-  {
-   "from": "沒",
-   "to": "末",
-   "zy": "ㄇㄛˋ",
-   "count": 3,
-   "why": "沒 注音 ㄇㄛˋ（mo4），語音可能唸 mei2；例：彼處沒／悉隱沒／即隱沒"
-  },
-  {
-   "from": "華",
-   "to": "花",
-   "zy": "ㄏㄨㄚ",
-   "count": 3,
-   "why": "華 注音 ㄏㄨㄚ（hua1），語音可能唸 hua2、hua2（pypinyin:華中）；例：華鬘塗／眾寶華中／雜色華"
-  },
-  {
-   "from": "著",
-   "to": "酌",
-   "zy": "ㄓㄨㄛˊ",
-   "count": 3,
-   "why": "著 注音 ㄓㄨㄛˊ（zhuo2），語音可能唸 zhu4；例：右膝著地／著新淨／右膝著地"
-  },
-  {
-   "from": "處",
-   "to": "楚",
-   "zy": "ㄔㄨˇ",
-   "count": 3,
-   "why": "處 注音 ㄔㄨˇ（chu3），語音可能唸 chu4；例：用安處／而安處之／福而處斷之"
-  },
-  {
-   "from": "將",
-   "to": "匠",
-   "zy": "ㄐㄧㄤˋ",
-   "count": 17,
-   "why": "將 注音 ㄐㄧㄤˋ（jiang4），語音可能唸 jiang1；例：藥叉將／二神將饒益"
-  },
-  {
-   "from": "識",
-   "to": "是",
-   "zy": "ㄕˋ",
-   "count": 6,
-   "why": "識 注音 ㄕˋ（shi4），語音可能唸 shi2（pypinyin:知識）；例：知識／知識"
-  },
-  {
-   "from": "乘",
-   "to": "聖",
-   "zy": "ㄕㄥˋ",
-   "count": 2,
-   "why": "乘 注音 ㄕㄥˋ（sheng4），語音可能唸 cheng2、cheng2（pypinyin:大乘）；例：獨覺乘者／以大乘而安"
-  },
-  {
-   "from": "傍",
-   "to": "螃",
-   "zy": "ㄆㄤˊ",
-   "count": 2,
-   "why": "傍 注音 ㄆㄤˊ（pang2），語音可能唸 bang4；例：或傍生趣／傍生"
-  },
-  {
-   "from": "血",
-   "to": " xie3 ",
-   "zy": "ㄒㄧㄝˇ",
-   "count": 2,
-   "why": "血 注音 ㄒㄧㄝˇ（xie3），語音可能唸 xue4（pypinyin:血肉）；例：血肉身／取其血肉"
-  },
-  {
-   "from": "行",
-   "to": "性",
-   "zy": "ㄒㄧㄥˋ",
-   "count": 2,
-   "why": "行 注音 ㄒㄧㄥˋ（xing4），語音可能唸 xing2（pypinyin:惡行）；例：捨惡行／諸惡行"
-  },
-  {
-   "from": "辱",
-   "to": "褥",
-   "zy": "ㄖㄨˋ",
-   "count": 2,
-   "why": "辱 注音 ㄖㄨˋ（ru4），語音可能唸 ru3；例：難凌辱／破辱三寶"
+   "from": "為",
+   "to": "維",
+   "zy": "ㄨㄟˊ",
+   "count": 23,
+   "kind": "homophone2"
   },
   {
    "from": "行",
    "to": "形",
    "zy": "ㄒㄧㄥˊ",
    "count": 23,
-   "why": "行 注音 ㄒㄧㄥˊ（xing2），語音可能唸 hang2（pypinyin:本行）；例：本行菩薩"
+   "kind": "homophone1"
   },
   {
-   "from": "樂",
-   "to": "月",
-   "zy": "ㄩㄝˋ",
-   "count": 4,
-   "why": "樂 注音 ㄩㄝˋ（yue4），語音可能唸 le4；例：伎樂"
+   "from": "羅",
+   "to": "邏",
+   "zy": "ㄌㄨㄛˊ",
+   "count": 21,
+   "kind": "homophone2"
   },
   {
-   "from": "更",
-   "to": " geng4 ",
-   "zy": "ㄍㄥˋ",
-   "count": 3,
-   "why": "更 注音 ㄍㄥˋ（geng4），語音可能唸 geng1（pypinyin:更生）；例：不復更生諸"
+   "from": "身",
+   "to": "深",
+   "zy": "ㄕㄣ",
+   "count": 20,
+   "kind": "homophone1"
+  },
+  {
+   "from": "令",
+   "to": "另",
+   "zy": "ㄌㄧㄥˋ",
+   "count": 19,
+   "kind": "homophone1"
+  },
+  {
+   "from": "曼",
+   "to": "慢",
+   "zy": "ㄇㄢˋ",
+   "count": 19,
+   "kind": "homophone2"
+  },
+  {
+   "from": "號",
+   "to": "耗",
+   "zy": "ㄏㄠˋ",
+   "count": 19,
+   "kind": "homophone2"
   },
   {
    "from": "中",
-   "to": "眾",
-   "zy": "ㄓㄨㄥˋ",
-   "count": 1,
-   "why": "中 注音 ㄓㄨㄥˋ（zhong4），語音可能唸 zhong1；例：之所中害"
+   "to": "終",
+   "zy": "ㄓㄨㄥ",
+   "count": 18,
+   "kind": "homophone1"
   },
   {
-   "from": "俱",
-   "to": "拘",
-   "zy": "ㄐㄩ",
-   "count": 1,
-   "why": "俱 注音 ㄐㄩ（ju1），語音可能唸 ju4；例：有俱生神"
+   "from": "趣",
+   "to": "去",
+   "zy": "ㄑㄩˋ",
+   "count": 18,
+   "kind": "homophone2"
   },
   {
-   "from": "倒",
-   "to": "島",
-   "zy": "ㄉㄠˇ",
-   "count": 1,
-   "why": "倒 注音 ㄉㄠˇ（dao3），語音可能唸 dao4；例：信邪倒見"
+   "from": "將",
+   "to": "匠",
+   "zy": "ㄐㄧㄤˋ",
+   "count": 17,
+   "kind": "homophone1"
   },
   {
-   "from": "更",
-   "to": "庚",
-   "zy": "ㄍㄥ",
-   "count": 1,
-   "why": "更 注音 ㄍㄥ（geng1），語音可能唸 geng4；例：更相鬪"
+   "from": "應",
+   "to": "英",
+   "zy": "ㄧㄥ",
+   "count": 17,
+   "kind": "homophone2"
   },
   {
-   "from": "率",
-   "to": "帥",
-   "zy": "ㄕㄨㄞˋ",
-   "count": 1,
-   "why": "率 注音 ㄕㄨㄞˋ（shuai4），強制替換：單字預設讀 lǜ（比率）；「相率」要唸 shuài；換成 帥；例：等相率"
+   "from": "橫",
+   "to": " heng4 ",
+   "zy": "ㄏㄥˋ",
+   "count": 17,
+   "kind": "pinyin"
   },
   {
-   "from": "百",
-   "to": "博",
-   "zy": "ㄅㄛˊ",
-   "count": 1,
-   "why": "百 注音 ㄅㄛˊ（bo2），語音可能唸 bai3；例：尼五百戒"
+   "from": "言",
+   "to": "岩",
+   "zy": "ㄧㄢˊ",
+   "count": 17,
+   "kind": "homophone1"
   },
   {
-   "from": "盛",
-   "to": "成",
-   "zy": "ㄔㄥˊ",
-   "count": 1,
-   "why": "盛 注音 ㄔㄥˊ（cheng2），語音可能唸 sheng4；例：作囊盛之"
+   "from": "量",
+   "to": "輛",
+   "zy": "ㄌㄧㄤˋ",
+   "count": 17,
+   "kind": "homophone1"
   },
   {
-   "from": "空",
-   "to": "崆",
-   "zy": "ㄎㄨㄥ",
-   "count": 1,
-   "why": "空 注音 ㄎㄨㄥ（kong1），語音可能唸 kong4（pypinyin:空閑）；例：空閑林"
+   "from": "子",
+   "to": "紫",
+   "zy": "ㄗˇ",
+   "count": 16,
+   "kind": "homophone1"
   },
   {
-   "from": "荷",
-   "to": "賀",
-   "zy": "ㄏㄜˋ",
-   "count": 1,
-   "why": "荷 注音 ㄏㄜˋ（he4），語音可能唸 he2；例：誓當荷負一"
+   "from": "提",
+   "to": "題",
+   "zy": "ㄊㄧˊ",
+   "count": 16,
+   "kind": "homophone2"
   },
   {
-   "from": "闕",
-   "to": "缺",
-   "zy": "ㄑㄩㄝ",
-   "count": 1,
-   "why": "闕 注音 ㄑㄩㄝ（que1），語音可能唸 que4；例：闕於信"
+   "from": "脫",
+   "to": "托",
+   "zy": "ㄊㄨㄛ",
+   "count": 16,
+   "kind": "homophone1"
+  },
+  {
+   "from": "解",
+   "to": "姐",
+   "zy": "ㄐㄧㄝˇ",
+   "count": 16,
+   "kind": "homophone2"
+  },
+  {
+   "from": "正",
+   "to": "証",
+   "zy": "ㄓㄥˋ",
+   "count": 15,
+   "kind": "homophone1"
+  },
+  {
+   "from": "見",
+   "to": "建",
+   "zy": "ㄐㄧㄢˋ",
+   "count": 15,
+   "kind": "homophone1"
   },
   {
    "from": "供",
    "to": "貢",
    "zy": "ㄍㄨㄥˋ",
    "count": 14,
-   "why": "供 注音 ㄍㄨㄥˋ（gong4），鄰字替換後語音可能唸 gong1；例：而為供養／供養守／欲供養彼"
+   "kind": "homophone1"
+  },
+  {
+   "from": "樂",
+   "to": "勒",
+   "zy": "ㄌㄜˋ",
+   "count": 14,
+   "kind": "homophone3"
+  },
+  {
+   "from": "當",
+   "to": "噹",
+   "zy": "ㄉㄤ",
+   "count": 14,
+   "kind": "homophone1"
+  },
+  {
+   "from": "處",
+   "to": "觸",
+   "zy": "ㄔㄨˋ",
+   "count": 14,
+   "kind": "homophone1"
+  },
+  {
+   "from": "養",
+   "to": "漾",
+   "zy": "ㄧㄤˋ",
+   "count": 14,
+   "kind": "homophone1"
+  },
+  {
+   "from": "上",
+   "to": "尚",
+   "zy": "ㄕㄤˋ",
+   "count": 13,
+   "kind": "homophone2"
+  },
+  {
+   "from": "作",
+   "to": "做",
+   "zy": "ㄗㄨㄛˋ",
+   "count": 12,
+   "kind": "homophone1"
+  },
+  {
+   "from": "墮",
+   "to": "舵",
+   "zy": "ㄉㄨㄛˋ",
+   "count": 11,
+   "kind": "homophone1"
+  },
+  {
+   "from": "盡",
+   "to": "進",
+   "zy": "ㄐㄧㄣˋ",
+   "count": 11,
+   "kind": "homophone1"
+  },
+  {
+   "from": "便",
+   "to": "變",
+   "zy": "ㄅㄧㄢˋ",
+   "count": 10,
+   "kind": "homophone1"
+  },
+  {
+   "from": "業",
+   "to": "夜",
+   "zy": "ㄧㄝˋ",
+   "count": 10,
+   "kind": "homophone1"
+  },
+  {
+   "from": "次",
+   "to": "刺",
+   "zy": "ㄘˋ",
+   "count": 10,
+   "kind": "homophone2"
+  },
+  {
+   "from": "益",
+   "to": "議",
+   "zy": "ㄧˋ",
+   "count": 10,
+   "kind": "homophone1"
+  },
+  {
+   "from": "造",
+   "to": "灶",
+   "zy": "ㄗㄠˋ",
+   "count": 10,
+   "kind": "homophone1"
+  },
+  {
+   "from": "叉",
+   "to": "插",
+   "zy": "ㄔㄚ",
+   "count": 9,
+   "kind": "homophone2"
+  },
+  {
+   "from": "為",
+   "to": "位",
+   "zy": "ㄨㄟˋ",
+   "count": 9,
+   "kind": "homophone2"
+  },
+  {
+   "from": "色",
+   "to": "瑟",
+   "zy": "ㄙㄜˋ",
+   "count": 9,
+   "kind": "homophone1"
+  },
+  {
+   "from": "相",
+   "to": "向",
+   "zy": "ㄒㄧㄤˋ",
+   "count": 8,
+   "kind": "homophone1"
+  },
+  {
+   "from": "足",
+   "to": "族",
+   "zy": "ㄗㄨˊ",
+   "count": 8,
+   "kind": "homophone2"
+  },
+  {
+   "from": "難",
+   "to": " nan4 ",
+   "zy": "ㄋㄢˋ",
+   "count": 8,
+   "kind": "pinyin"
+  },
+  {
+   "from": "非",
+   "to": "飛",
+   "zy": "ㄈㄟ",
+   "count": 8,
+   "kind": "homophone1"
+  },
+  {
+   "from": "他",
+   "to": "她",
+   "zy": "ㄊㄚ",
+   "count": 7,
+   "kind": "homophone2"
+  },
+  {
+   "from": "告",
+   "to": "誥",
+   "zy": "ㄍㄠˋ",
+   "count": 7,
+   "kind": "homophone1"
+  },
+  {
+   "from": "屬",
+   "to": "鼠",
+   "zy": "ㄕㄨˇ",
+   "count": 7,
+   "kind": "homophone1"
+  },
+  {
+   "from": "從",
+   "to": "叢",
+   "zy": "ㄘㄨㄥˊ",
+   "count": 7,
+   "kind": "homophone2"
+  },
+  {
+   "from": "百",
+   "to": "擺",
+   "zy": "ㄅㄞˇ",
+   "count": 7,
+   "kind": "homophone1"
+  },
+  {
+   "from": "還",
+   "to": "孩",
+   "zy": "ㄏㄞˊ",
+   "count": 7,
+   "kind": "homophone1"
+  },
+  {
+   "from": "食",
+   "to": "時",
+   "zy": "ㄕˊ",
+   "count": 7,
+   "kind": "homophone1"
+  },
+  {
+   "from": "伽",
+   "to": "茄",
+   "zy": "ㄑㄧㄝˊ",
+   "count": 6,
+   "kind": "homophone3"
+  },
+  {
+   "from": "地",
+   "to": "第",
+   "zy": "ㄉㄧˋ",
+   "count": 6,
+   "kind": "homophone1"
+  },
+  {
+   "from": "施",
+   "to": "師",
+   "zy": "ㄕ",
+   "count": 6,
+   "kind": "homophone1"
+  },
+  {
+   "from": "知",
+   "to": "支",
+   "zy": "ㄓ",
+   "count": 6,
+   "kind": "homophone2"
+  },
+  {
+   "from": "苾",
+   "to": "必",
+   "zy": "ㄅㄧˋ",
+   "count": 6,
+   "kind": "homophone1"
+  },
+  {
+   "from": "覺",
+   "to": "絕",
+   "zy": "ㄐㄩㄝˊ",
+   "count": 6,
+   "kind": "homophone1"
+  },
+  {
+   "from": "識",
+   "to": "世",
+   "zy": "ㄕˋ",
+   "count": 6,
+   "kind": "homophone1"
+  },
+  {
+   "from": "間",
+   "to": "堅",
+   "zy": "ㄐㄧㄢ",
+   "count": 6,
+   "kind": "homophone1"
+  },
+  {
+   "from": "分",
+   "to": "奮",
+   "zy": "ㄈㄣˋ",
+   "count": 5,
+   "kind": "homophone1"
+  },
+  {
+   "from": "剎",
+   "to": "詫",
+   "zy": "ㄔㄚˋ",
+   "count": 5,
+   "kind": "homophone2"
+  },
+  {
+   "from": "家",
+   "to": "加",
+   "zy": "ㄐㄧㄚ",
+   "count": 5,
+   "kind": "homophone1"
+  },
+  {
+   "from": "摩",
+   "to": "魔",
+   "zy": "ㄇㄛˊ",
+   "count": 5,
+   "kind": "homophone1"
+  },
+  {
+   "from": "歸",
+   "to": "規",
+   "zy": "ㄍㄨㄟ",
+   "count": 5,
+   "kind": "homophone2"
+  },
+  {
+   "from": "相",
+   "to": "香",
+   "zy": "ㄒㄧㄤ",
+   "count": 5,
+   "kind": "homophone1"
+  },
+  {
+   "from": "薄",
+   "to": "博",
+   "zy": "ㄅㄛˊ",
+   "count": 5,
+   "kind": "homophone1"
+  },
+  {
+   "from": "讀",
+   "to": "獨",
+   "zy": "ㄉㄨˊ",
+   "count": 5,
+   "kind": "homophone1"
+  },
+  {
+   "from": "長",
+   "to": "常",
+   "zy": "ㄔㄤˊ",
+   "count": 5,
+   "kind": "homophone1"
+  },
+  {
+   "from": "使",
+   "to": "史",
+   "zy": "ㄕˇ",
+   "count": 4,
+   "kind": "homophone1"
+  },
+  {
+   "from": "害",
+   "to": "駭",
+   "zy": "ㄏㄞˋ",
+   "count": 4,
+   "kind": "homophone1"
+  },
+  {
+   "from": "居",
+   "to": "拘",
+   "zy": "ㄐㄩ",
+   "count": 4,
+   "kind": "homophone2"
+  },
+  {
+   "from": "度",
+   "to": "渡",
+   "zy": "ㄉㄨˋ",
+   "count": 4,
+   "kind": "homophone1"
+  },
+  {
+   "from": "樂",
+   "to": "月",
+   "zy": "ㄩㄝˋ",
+   "count": 4,
+   "kind": "homophone2"
+  },
+  {
+   "from": "樂",
+   "to": "藥",
+   "zy": "ㄧㄠˋ",
+   "count": 4,
+   "kind": "homophone2"
+  },
+  {
+   "from": "甚",
+   "to": "腎",
+   "zy": "ㄕㄣˋ",
+   "count": 4,
+   "kind": "homophone1"
+  },
+  {
+   "from": "與",
+   "to": "宇",
+   "zy": "ㄩˇ",
+   "count": 4,
+   "kind": "homophone1"
+  },
+  {
+   "from": "邪",
+   "to": "協",
+   "zy": "ㄒㄧㄝˊ",
+   "count": 4,
+   "kind": "homophone1"
+  },
+  {
+   "from": "重",
+   "to": "眾",
+   "zy": "ㄓㄨㄥˋ",
+   "count": 4,
+   "kind": "homophone1"
+  },
+  {
+   "from": "隱",
+   "to": "引",
+   "zy": "ㄧㄣˇ",
+   "count": 4,
+   "kind": "homophone1"
+  },
+  {
+   "from": "飲",
+   "to": "引",
+   "zy": "ㄧㄣˇ",
+   "count": 4,
+   "kind": "homophone1"
+  },
+  {
+   "from": "乞",
+   "to": "起",
+   "zy": "ㄑㄧˇ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "了",
+   "to": "瞭",
+   "zy": "ㄌㄧㄠˇ",
+   "count": 3,
+   "kind": "homophone3"
+  },
+  {
+   "from": "俱",
+   "to": "據",
+   "zy": "ㄐㄩˋ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "勝",
+   "to": "聖",
+   "zy": "ㄕㄥˋ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "厭",
+   "to": "驗",
+   "zy": "ㄧㄢˋ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "夫",
+   "to": "敷",
+   "zy": "ㄈㄨ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "好",
+   "to": "耗",
+   "zy": "ㄏㄠˋ",
+   "count": 3,
+   "kind": "homophone2"
+  },
+  {
+   "from": "婆",
+   "to": "鄱",
+   "zy": "ㄆㄛˊ",
+   "count": 3,
+   "kind": "homophone2"
+  },
+  {
+   "from": "思",
+   "to": "私",
+   "zy": "ㄙ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "暫",
+   "to": "贊",
+   "zy": "ㄗㄢˋ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "更",
+   "to": " geng4 ",
+   "zy": "ㄍㄥˋ",
+   "count": 3,
+   "kind": "pinyin"
+  },
+  {
+   "from": "沒",
+   "to": "末",
+   "zy": "ㄇㄛˋ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "波",
+   "to": "撥",
+   "zy": "ㄅㄛ",
+   "count": 3,
+   "kind": "homophone2"
+  },
+  {
+   "from": "渴",
+   "to": "坷",
+   "zy": "ㄎㄜˇ",
+   "count": 3,
+   "kind": "homophone2"
+  },
+  {
+   "from": "漸",
+   "to": "建",
+   "zy": "ㄐㄧㄢˋ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "示",
+   "to": "世",
+   "zy": "ㄕˋ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "結",
+   "to": "截",
+   "zy": "ㄐㄧㄝˊ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "縛",
+   "to": "福",
+   "zy": "ㄈㄨˊ",
+   "count": 3,
+   "kind": "homophone2"
+  },
+  {
+   "from": "繫",
+   "to": "係",
+   "zy": "ㄒㄧˋ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "華",
+   "to": "花",
+   "zy": "ㄏㄨㄚ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "著",
+   "to": "酌",
+   "zy": "ㄓㄨㄛˊ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "處",
+   "to": "楚",
+   "zy": "ㄔㄨˇ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "衣",
+   "to": "伊",
+   "zy": "ㄧ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "親",
+   "to": "侵",
+   "zy": "ㄑㄧㄣ",
+   "count": 3,
+   "kind": "homophone2"
+  },
+  {
+   "from": "語",
+   "to": "宇",
+   "zy": "ㄩˇ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "遍",
+   "to": "變",
+   "zy": "ㄅㄧㄢˋ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "雨",
+   "to": "宇",
+   "zy": "ㄩˇ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "乘",
+   "to": "聖",
+   "zy": "ㄕㄥˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "傍",
+   "to": "螃",
+   "zy": "ㄆㄤˊ",
+   "count": 2,
+   "kind": "homophone2"
+  },
+  {
+   "from": "先",
+   "to": "仙",
+   "zy": "ㄒㄧㄢ",
+   "count": 2,
+   "kind": "homophone2"
+  },
+  {
+   "from": "劇",
+   "to": "據",
+   "zy": "ㄐㄩˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "化",
+   "to": "話",
+   "zy": "ㄏㄨㄚˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "反",
+   "to": "返",
+   "zy": "ㄈㄢˇ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "合",
+   "to": "河",
+   "zy": "ㄏㄜˊ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "同",
+   "to": "銅",
+   "zy": "ㄊㄨㄥˊ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "唯",
+   "to": "維",
+   "zy": "ㄨㄟˊ",
+   "count": 2,
+   "kind": "homophone2"
+  },
+  {
+   "from": "契",
+   "to": "器",
+   "zy": "ㄑㄧˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "婢",
+   "to": "必",
+   "zy": "ㄅㄧˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "守",
+   "to": "手",
+   "zy": "ㄕㄡˇ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "巍",
+   "to": "維",
+   "zy": "ㄨㄟˊ",
+   "count": 2,
+   "kind": "homophone2"
+  },
+  {
+   "from": "惜",
+   "to": "席",
+   "zy": "ㄒㄧˊ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "攝",
+   "to": "社",
+   "zy": "ㄕㄜˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "數",
+   "to": "樹",
+   "zy": "ㄕㄨˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "昔",
+   "to": "席",
+   "zy": "ㄒㄧˊ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "曲",
+   "to": "驅",
+   "zy": "ㄑㄩ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "曾",
+   "to": "層",
+   "zy": "ㄘㄥˊ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "殺",
+   "to": "砂",
+   "zy": "ㄕㄚ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "父",
+   "to": "富",
+   "zy": "ㄈㄨˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "獲",
+   "to": "貨",
+   "zy": "ㄏㄨㄛˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "癡",
+   "to": "喫",
+   "zy": "ㄔ",
+   "count": 2,
+   "kind": "homophone2"
+  },
+  {
+   "from": "稱",
+   "to": "撐",
+   "zy": "ㄔㄥ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "聽",
+   "to": "廳",
+   "zy": "ㄊㄧㄥ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "莫",
+   "to": "末",
+   "zy": "ㄇㄛˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "蒙",
+   "to": "濛",
+   "zy": "ㄇㄥˊ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "虎",
+   "to": "唬",
+   "zy": "ㄏㄨˇ",
+   "count": 2,
+   "kind": "homophone2"
+  },
+  {
+   "from": "血",
+   "to": " xie3 ",
+   "zy": "ㄒㄧㄝˇ",
+   "count": 2,
+   "kind": "pinyin"
+  },
+  {
+   "from": "行",
+   "to": "性",
+   "zy": "ㄒㄧㄥˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "被",
+   "to": "備",
+   "zy": "ㄅㄟˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "西",
+   "to": "希",
+   "zy": "ㄒㄧ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "調",
+   "to": "條",
+   "zy": "ㄊㄧㄠˊ",
+   "count": 2,
+   "kind": "homophone2"
+  },
+  {
+   "from": "辱",
+   "to": "入",
+   "zy": "ㄖㄨˋ",
+   "count": 2,
+   "kind": "homophone2"
+  },
+  {
+   "from": "遂",
+   "to": "碎",
+   "zy": "ㄙㄨㄟˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "音",
+   "to": "因",
+   "zy": "ㄧㄣ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "風",
+   "to": "丰",
+   "zy": "ㄈㄥ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "不",
+   "to": "否",
+   "zy": "ㄈㄡˇ",
+   "count": 1,
+   "kind": "pinned"
+  },
+  {
+   "from": "中",
+   "to": "眾",
+   "zy": "ㄓㄨㄥˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "乘",
+   "to": "成",
+   "zy": "ㄔㄥˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "乾",
+   "to": "肝",
+   "zy": "ㄍㄢ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "于",
+   "to": "魚",
+   "zy": "ㄩˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "企",
+   "to": "器",
+   "zy": "ㄑㄧˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "伐",
+   "to": "罰",
+   "zy": "ㄈㄚˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "俱",
+   "to": "拘",
+   "zy": "ㄐㄩ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "倒",
+   "to": "島",
+   "zy": "ㄉㄠˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "傾",
+   "to": "清",
+   "zy": "ㄑㄧㄥ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "僂",
+   "to": "樓",
+   "zy": "ㄌㄡˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "儲",
+   "to": "除",
+   "zy": "ㄔㄨˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "冥",
+   "to": "明",
+   "zy": "ㄇㄧㄥˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "卜",
+   "to": "補",
+   "zy": "ㄅㄨˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "危",
+   "to": "維",
+   "zy": "ㄨㄟˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "召",
+   "to": "照",
+   "zy": "ㄓㄠˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "妃",
+   "to": "飛",
+   "zy": "ㄈㄟ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "妻",
+   "to": "欺",
+   "zy": "ㄑㄧ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "娑",
+   "to": "梭",
+   "zy": "ㄙㄨㄛ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "宿",
+   "to": "速",
+   "zy": "ㄙㄨˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "宿",
+   "to": "秀",
+   "zy": "ㄒㄧㄡˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "崖",
+   "to": " yai2 ",
+   "zy": "ㄧㄞˊ",
+   "count": 1,
+   "kind": "pinyin"
+  },
+  {
+   "from": "差",
+   "to": "插",
+   "zy": "ㄔㄚ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "幢",
+   "to": "床",
+   "zy": "ㄔㄨㄤˊ",
+   "count": 1,
+   "kind": "pinned"
+  },
+  {
+   "from": "平",
+   "to": "評",
+   "zy": "ㄆㄧㄥˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "庫",
+   "to": "酷",
+   "zy": "ㄎㄨˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "庶",
+   "to": "樹",
+   "zy": "ㄕㄨˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "御",
+   "to": "域",
+   "zy": "ㄩˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "微",
+   "to": "維",
+   "zy": "ㄨㄟˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "怨",
+   "to": "院",
+   "zy": "ㄩㄢˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "憙",
+   "to": "喜",
+   "zy": "ㄒㄧˇ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "戲",
+   "to": "係",
+   "zy": "ㄒㄧˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "折",
+   "to": "哲",
+   "zy": "ㄓㄜˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "招",
+   "to": "釗",
+   "zy": "ㄓㄠ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "掃",
+   "to": "嫂",
+   "zy": "ㄙㄠˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "揭",
+   "to": "階",
+   "zy": "ㄐㄧㄝ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "揵",
+   "to": "前",
+   "zy": "ㄑㄧㄢˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "搩",
+   "to": "眨",
+   "zy": "ㄓㄚˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "教",
+   "to": "叫",
+   "zy": "ㄐㄧㄠˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "暴",
+   "to": "報",
+   "zy": "ㄅㄠˋ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "曜",
+   "to": "藥",
+   "zy": "ㄧㄠˋ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "更",
+   "to": "耕",
+   "zy": "ㄍㄥ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "會",
+   "to": "匯",
+   "zy": "ㄏㄨㄟˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "期",
+   "to": "旗",
+   "zy": "ㄑㄧˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "殑",
+   "to": "情",
+   "zy": "ㄑㄧㄥˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "溺",
+   "to": "逆",
+   "zy": "ㄋㄧˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "焚",
+   "to": "汾",
+   "zy": "ㄈㄣˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "煎",
+   "to": "堅",
+   "zy": "ㄐㄧㄢ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "熟",
+   "to": "贖",
+   "zy": "ㄕㄨˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "燥",
+   "to": "灶",
+   "zy": "ㄗㄠˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "率",
+   "to": "帥",
+   "zy": "ㄕㄨㄞˋ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "珞",
+   "to": "洛",
+   "zy": "ㄌㄨㄛˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "瘖",
+   "to": "因",
+   "zy": "ㄧㄣ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "百",
+   "to": "博",
+   "zy": "ㄅㄛˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "盛",
+   "to": "成",
+   "zy": "ㄔㄥˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "看",
+   "to": "瞰",
+   "zy": "ㄎㄢˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "祭",
+   "to": "計",
+   "zy": "ㄐㄧˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "禁",
+   "to": "進",
+   "zy": "ㄐㄧㄣˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "穢",
+   "to": "匯",
+   "zy": "ㄏㄨㄟˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "空",
+   "to": "崆",
+   "zy": "ㄎㄨㄥ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "籍",
+   "to": "級",
+   "zy": "ㄐㄧˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "索",
+   "to": "所",
+   "zy": "ㄙㄨㄛˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "翫",
+   "to": "萬",
+   "zy": "ㄨㄢˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "耶",
+   "to": "爺",
+   "zy": "ㄧㄝˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "背",
+   "to": "備",
+   "zy": "ㄅㄟˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "胝",
+   "to": "支",
+   "zy": "ㄓ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "荷",
+   "to": "賀",
+   "zy": "ㄏㄜˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "荼",
+   "to": "圖",
+   "zy": "ㄊㄨˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "落",
+   "to": "洛",
+   "zy": "ㄌㄨㄛˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "蓋",
+   "to": "丐",
+   "zy": "ㄍㄞˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "蔽",
+   "to": "必",
+   "zy": "ㄅㄧˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "藏",
+   "to": "葬",
+   "zy": "ㄗㄤˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "藐",
+   "to": "秒",
+   "zy": "ㄇㄧㄠˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "蚰",
+   "to": "遊",
+   "zy": "ㄧㄡˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "蛇",
+   "to": "舌",
+   "zy": "ㄕㄜˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "蜒",
+   "to": "岩",
+   "zy": "ㄧㄢˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "術",
+   "to": "樹",
+   "zy": "ㄕㄨˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "豈",
+   "to": "起",
+   "zy": "ㄑㄧˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "迫",
+   "to": "破",
+   "zy": "ㄆㄛˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "長",
+   "to": "掌",
+   "zy": "ㄓㄤˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "闕",
+   "to": "確",
+   "zy": "ㄑㄩㄝˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "闕",
+   "to": "缺",
+   "zy": "ㄑㄩㄝ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "頞",
+   "to": "鄂",
+   "zy": "ㄜˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "頭",
+   "to": "投",
+   "zy": "ㄊㄡˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "鳥",
+   "to": "裊",
+   "zy": "ㄋㄧㄠˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "𦾨",
+   "to": "涅",
+   "zy": "ㄋㄧㄝˋ",
+   "count": 1,
+   "kind": "homophone1"
   }
  ]
 }

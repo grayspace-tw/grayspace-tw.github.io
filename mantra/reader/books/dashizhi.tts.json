@@ -1,28 +1,238 @@
 {
  "book": "dashizhi",
- "generated_by": "tools/gen_tts.py",
- "note": "TTS-only substitutions for 朗讀; display text is unchanged. A sub applies where the text equals from AND its 注音 equals zy.",
+ "generated_by": "tools/tts_subs.py",
+ "note": "TTS-only substitutions for 朗讀; display text is unchanged. A sub applies where the text equals from AND its 注音 equals zy. Every polyphonic char is replaced by a one-reading homophone of its 注音 (see TTS-NOTES.md).",
  "subs": [
+  {
+   "from": "生",
+   "to": "聲",
+   "zy": "ㄕㄥ",
+   "count": 6,
+   "kind": "homophone1"
+  },
+  {
+   "from": "子",
+   "to": "紫",
+   "zy": "ㄗˇ",
+   "count": 5,
+   "kind": "homophone1"
+  },
+  {
+   "from": "相",
+   "to": "香",
+   "zy": "ㄒㄧㄤ",
+   "count": 5,
+   "kind": "homophone1"
+  },
+  {
+   "from": "若",
+   "to": "弱",
+   "zy": "ㄖㄨㄛˋ",
+   "count": 4,
+   "kind": "homophone1"
+  },
+  {
+   "from": "於",
+   "to": "魚",
+   "zy": "ㄩˊ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "有",
+   "to": "友",
+   "zy": "ㄧㄡˇ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "為",
+   "to": "維",
+   "zy": "ㄨㄟˊ",
+   "count": 3,
+   "kind": "homophone2"
+  },
+  {
+   "from": "無",
+   "to": "吳",
+   "zy": "ㄨˊ",
+   "count": 3,
+   "kind": "homophone2"
+  },
+  {
+   "from": "見",
+   "to": "建",
+   "zy": "ㄐㄧㄢˋ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "其",
+   "to": "旗",
+   "zy": "ㄑㄧˊ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "同",
+   "to": "銅",
+   "zy": "ㄊㄨㄥˊ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "地",
+   "to": "第",
+   "zy": "ㄉㄧˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
   {
    "from": "得",
    "to": "德",
    "zy": "ㄉㄜˊ",
    "count": 2,
-   "why": "得 注音 ㄉㄜˊ（de2），強制替換：Google 國語（臺灣）把「皆得解脫」的 得 唸成 děi（錄音量共振峰 F2≈2600–2900，同「歹/děi」型；「即得」則是 dé）；換成 德；例：便自得心開／得三摩"
+   "kind": "pinned"
+  },
+  {
+   "from": "從",
+   "to": "叢",
+   "zy": "ㄘㄨㄥˊ",
+   "count": 2,
+   "kind": "homophone2"
+  },
+  {
+   "from": "攝",
+   "to": "社",
+   "zy": "ㄕㄜˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "便",
+   "to": "變",
+   "zy": "ㄅㄧㄢˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "假",
+   "to": "甲",
+   "zy": "ㄐㄧㄚˇ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "忘",
+   "to": "望",
+   "zy": "ㄨㄤˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "摩",
+   "to": "魔",
+   "zy": "ㄇㄛˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "擇",
+   "to": "則",
+   "zy": "ㄗㄜˊ",
+   "count": 1,
+   "kind": "homophone1"
   },
   {
    "from": "教",
    "to": "交",
    "zy": "ㄐㄧㄠ",
    "count": 1,
-   "why": "教 注音 ㄐㄧㄠ（jiao1），語音可能唸 jiao4（pypinyin:佛教）；例：彼佛教我念"
+   "kind": "homophone1"
+  },
+  {
+   "from": "昔",
+   "to": "席",
+   "zy": "ㄒㄧˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "歸",
+   "to": "規",
+   "zy": "ㄍㄨㄟ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "當",
+   "to": "噹",
+   "zy": "ㄉㄤ",
+   "count": 1,
+   "kind": "homophone1"
   },
   {
    "from": "白",
    "to": "博",
    "zy": "ㄅㄛˊ",
    "count": 1,
-   "why": "白 注音 ㄅㄛˊ（bo2），語音可能唸 bai2；例：足而白佛言"
+   "kind": "homophone1"
+  },
+  {
+   "from": "與",
+   "to": "宇",
+   "zy": "ㄩˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "菩",
+   "to": "葡",
+   "zy": "ㄆㄨˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "言",
+   "to": "岩",
+   "zy": "ㄧㄢˊ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "足",
+   "to": "族",
+   "zy": "ㄗㄨˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "身",
+   "to": "深",
+   "zy": "ㄕㄣ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "都",
+   "to": "兜",
+   "zy": "ㄉㄡ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "量",
+   "to": "輛",
+   "zy": "ㄌㄧㄤˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "非",
+   "to": "飛",
+   "zy": "ㄈㄟ",
+   "count": 1,
+   "kind": "homophone1"
   }
  ]
 }
