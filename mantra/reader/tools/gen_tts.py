@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
-"""Offline build step: generate books/<id>.tts.json — TTS-only pronunciation substitutions for the reader's 朗讀.
+"""Offline build step: (re)generate books/<id>.tts.json — TTS-only pronunciation substitutions for the reader's 朗讀.
 
   python3 tools/gen_tts.py [--books mantra/reader/books] [--bpmf .../bpmf.json] [--report report.md] [ids...]
 
-For every run of annotated characters the script predicts what a browser zh-TW voice would say by default
-(word-level: curated TW_WORDS, then pypinyin's phrase dictionary on the t2s-converted text, greedy longest match;
-char-level: curated TW_SINGLE, then a reading the 教育部 bpmf table allows) and compares it with the book's 注音.
-Where they differ, it emits a substitution  from (original string, 1–4 chars of context) -> to (same-length string
-in which the char is replaced by a common homophone that has exactly the annotated reading).  Each substitution is
-re-checked with the same predictor and is only kept if every occurrence of `from` in the book carries the same 注音
-(the reader also checks `zy` at run time before applying it).  Display text is never changed.
+Since 2026-11-20 (River) the substitutions are DETERMINISTIC and come from tools/tts_subs.py: every polyphonic
+character (教育部注音表 lists more than one reading, the 注音 is not its everyday reading, or the Taiwan default differs)
+is replaced for the voice by a common one-reading homophone of its 注音, wherever it occurs; see tts_subs.py and
+TTS-NOTES.md for the exceptions (一/不 tone sandhi, neutral tone, no homophone).  The book builders call
+tts_subs.write_tts() in the same step that writes the 注音, so this script is only needed for books made by hand or
+after changing the rules.  The Predictor below (what a zh-TW voice would say by default) is no longer used to decide
+substitutions; polyphones.py still uses it for the risk column of the review list.
 
-Policy (River): 「一」「不」 are annotated in their base tone and the voice applies 變調 itself, so tone-sandhi
-differences are ignored; 不 keeps ㄅㄨˋ (no fǒu override).  Neutral-tone (˙) annotations are not forced.
-Needs: pypinyin, opencc, jieba (only for character frequency when choosing homophones)."""
+Policy (River): 「一」「不」 are annotated in their base tone and the voice applies 變調 itself; 不 keeps ㄅㄨˋ except a
+sentence-final interrogative 不 (不 directly before ？, e.g. 「功德多不？」), which is annotated ㄈㄡˇ and spoken as 否
+(River 2026-11-20; tts_subs.apply_fou / PINNED).
+Needs: pypinyin, opencc, jieba (character frequency when choosing homophones)."""
 import argparse, glob, json, os, re, sys, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from zhuyin_pinyin import zhuyin_token_to_pinyin
@@ -41,6 +42,8 @@ FORCE = {
     ('處', 'ㄔㄨˋ'): '處 另一讀 chǔ（相處、處理）很常見；Google 在「淺處」唸對 chù，其他語音不一定；換成 觸',
     ('了', 'ㄌㄧㄠˇ'): '「不能解了」可能被唸成 jiě le；換成 ㄌㄧㄠˇ 的同音字',
     ('率', 'ㄕㄨㄞˋ'): '單字預設讀 lǜ（比率）；「相率」要唸 shuài；換成 帥',
+    ('不', 'ㄈㄡˇ'): '問句句尾「不」讀 ㄈㄡˇ（同「否」，River 2026-11-20）；語音一律唸 bù；換成 否',
+    ('幢', 'ㄔㄨㄤˊ'): 'River 聽到「幢」唸成 zhuàng（撞，「一幢房子」的讀音）；佛典「寶幢、幢幡」讀 chuáng；換成 床',
     ('得', 'ㄉㄜˊ'): 'Google 國語（臺灣）把「皆得解脫」的 得 唸成 děi（錄音量共振峰 F2≈2600–2900，同「歹/děi」型；「即得」則是 dé）；換成 德',
 }
 # Single-character default reading of a zh-TW voice (character out of any known word).
@@ -171,7 +174,7 @@ def char_freq():
 
 PREFERRED = {  # hand-picked homophones (common, one reading only); used before the automatic choice
     'fu2': '福', 'ji3': '己', 'jian1': '堅', 'zhang3': '掌', 'she4': '社', 'she3': '捨', 'a1': None,
-    'yang4': '樣', 'zang4': '葬', 'cang2': '倉', 'zhao4': '照', 'nan4': None, 'se4': '色', 'xing1': '星',
+    'fou3': '否', 'chuang2': '床', 'yang4': '樣', 'zang4': '葬', 'cang2': '倉', 'zhao4': '照', 'nan4': None, 'se4': '色', 'xing1': '星',
     'e1': '婀', 'bo1': '撥', 're3': '惹', 'na2': '拿', 'mo2': '模', 'qie2': '茄', 'nuo2': '挪', 'tuo2': '駝',
     'bo2': '博', 'po2': '婆', 'chi4': '赤', 'chang2': '常', 'zhong4': '眾', 'chong2': '蟲', 'le4': '勒',
     'yue4': '月', 'yao4': '要', 'xing4': '性', 'hang2': '航', 'shui4': '睡', 'jie4': '介', 'xie4': '謝',
@@ -277,31 +280,27 @@ def build(book, pred, freq, bpmf):
 
 
 def main():
+    import tts_subs
     ap = argparse.ArgumentParser()
     ap.add_argument('ids', nargs='*')
-    ap.add_argument('--books', default=os.path.join(HERE, '..', 'mantra', 'reader', 'books'))
+    ap.add_argument('--books', default=os.path.join(HERE, '..', 'books'))
     ap.add_argument('--bpmf', default=DEF_BPMF)
     ap.add_argument('--report')
     a = ap.parse_args()
-    bpmf = json.load(open(a.bpmf, encoding='utf-8'))
-    pred, freq = Predictor(bpmf), char_freq()
+    R = tts_subs.Readings(json.load(open(a.bpmf, encoding='utf-8')))
     idx = json.load(open(os.path.join(a.books, 'index.json'), encoding='utf-8'))
     ids = a.ids or [b['id'] for b in idx['books']]
     rep = []
     for bid in ids:
         e = [b for b in idx['books'] if b['id'] == bid][0]
         book = json.load(open(os.path.join(a.books, e.get('file', bid + '.json')), encoding='utf-8'))
-        subs, residual = build(book, pred, freq, bpmf)
-        out = {'book': bid, 'generated_by': 'tools/gen_tts.py',
-               'note': 'TTS-only substitutions for 朗讀; display text is unchanged. A sub applies where the text equals from AND its 注音 equals zy.',
-               'subs': [{k: s[k] for k in ('from', 'to', 'zy', 'count', 'why')} for s in subs]}
-        with open(os.path.join(a.books, bid + '.tts.json'), 'w', encoding='utf-8') as f:
-            json.dump(out, f, ensure_ascii=False, indent=1); f.write('\n')
-        rep.append('## %s %s（%d 條）\n' % (bid, book['title'], len(subs)))
-        for s in subs:
-            rep.append('- %s（%s）→ %s　共 %d 處　%s' % (s['from'], s['zy'], s['to'].strip(), s['count'], s['why']))
-        if residual:
-            rep.append('  殘留預測不符 %d：%s' % (len(residual), '；'.join(residual[:20])))
+        _, subs, st = tts_subs.write_tts(book, a.books, R)
+        rep.append('## %s %s（%d 條，%d 處）\n' % (bid, book['title'], len(subs), sum(x['n'] for x in subs)))
+        for s_ in subs:
+            rep.append('- %s（%s）→ %s　共 %d 處　%s' % (s_['frm'], s_['zy'], s_['to'].strip(), s_['n'], s_['kind']))
+        for k in ('pinyin', 'keep_nohomophone', 'keep_rare_homophone', 'keep_sandhi', 'keep_neutral'):
+            if st.get(k):
+                rep.append('  %s：%s' % (k, '；'.join(' '.join(str(y) for y in x[:4]) for x in st[k])))
         rep.append('')
         print(bid, len(subs), file=sys.stderr)
     if a.report:
