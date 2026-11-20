@@ -1,0 +1,77 @@
+{
+ "book": "qiqingwen",
+ "generated_by": "tools/gen_tts.py",
+ "note": "TTS-only substitutions for 朗讀; display text is unchanged. A sub applies where the text equals from AND its 注音 equals zy.",
+ "subs": [
+  {
+   "from": "南",
+   "to": "拿",
+   "zy": "ㄋㄚˊ",
+   "count": 172,
+   "why": "南 注音 ㄋㄚˊ（na2），語音可能唸 nan2（tw-word:南無）；例：南無大／南無清／南無圓"
+  },
+  {
+   "from": "無",
+   "to": "模",
+   "zy": "ㄇㄛˊ",
+   "count": 172,
+   "why": "無 注音 ㄇㄛˊ（mo2），語音可能唸 wu2（tw-word:南無）；例：南無大慈／南無清淨／南無圓滿"
+  },
+  {
+   "from": "藏",
+   "to": "葬",
+   "zy": "ㄗㄤˋ",
+   "count": 7,
+   "why": "藏 注音 ㄗㄤˋ（zang4），語音可能唸 cang2；例：無胎藏界大／無胎藏界一／金剛藏菩薩"
+  },
+  {
+   "from": "華",
+   "to": "花",
+   "zy": "ㄏㄨㄚ",
+   "count": 5,
+   "why": "華 注音 ㄏㄨㄚ（hua1），語音可能唸 hua2；例：開敷華王如／功德華佛／無寶華游步"
+  },
+  {
+   "from": "降",
+   "to": "祥",
+   "zy": "ㄒㄧㄤˊ",
+   "count": 3,
+   "why": "降 注音 ㄒㄧㄤˊ（xiang2），語音可能唸 jiang4；例：南無降三世／南無降魔觀"
+  },
+  {
+   "from": "牟",
+   "to": "謀",
+   "zy": "ㄇㄡˊ",
+   "count": 2,
+   "why": "牟 注音 ㄇㄡˊ（mou2），語音可能唸 mu4（pypinyin:釋迦牟尼）；例：釋迦牟尼佛／釋迦牟尼佛"
+  },
+  {
+   "from": "舍",
+   "to": "捨",
+   "zy": "ㄕㄜˇ",
+   "count": 1,
+   "why": "舍 注音 ㄕㄜˇ（she3），語音可能唸 she4；例：身盧舍那佛"
+  },
+  {
+   "from": "著",
+   "to": "酌",
+   "zy": "ㄓㄨㄛˊ",
+   "count": 1,
+   "why": "著 注音 ㄓㄨㄛˊ（zhuo2），語音可能唸 zhu4；例：無染著心是"
+  },
+  {
+   "from": "行",
+   "to": " heng4 ",
+   "zy": "ㄏㄥˋ",
+   "count": 1,
+   "why": "行 注音 ㄏㄥˋ（heng4），語音可能唸 xing2；例：無大行普賢"
+  },
+  {
+   "from": "識",
+   "to": "是",
+   "zy": "ㄕˋ",
+   "count": 1,
+   "why": "識 注音 ㄕˋ（shi4），語音可能唸 shi2（pypinyin:知識）；例：善知識"
+  }
+ ]
+}

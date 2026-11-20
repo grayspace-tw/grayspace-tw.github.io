@@ -42,7 +42,7 @@ function toUnits(text,zy){
     if(p&&us.length&&!pend.length&&c!=='\u3000'){us[us.length-1].push([c,z]);return;}
     us.push(pend.concat([[c,z]]));pend=[];});
   if(pend.length) us.push(pend);
-  return us.map(function(u){return {k:u.length,end:END.indexOf(u[u.length-1][0])>=0||u[u.length-1][0]==='\u3000',html:u.map(function(x){return cellHTML(x[0],x[1]);}).join('')};});
+  return us.map(function(u){return {k:u.length,cs:u,end:END.indexOf(u[u.length-1][0])>=0||u[u.length-1][0]==='\u3000',html:u.map(function(x){return cellHTML(x[0],x[1]);}).join('')};});
 }
 function sentences(us){var out=[],cur=[];us.forEach(function(u){cur.push(u);if(u.end){out.push(cur);cur=[];}});if(cur.length)out.push(cur);return out;}
 function buildItems(b){
@@ -95,7 +95,7 @@ function paginate(anchor){
   // fill: pages = [{cols:[[html...]], title:bool}]
   var pages=[], pg=null, c=0, n=0, colArr=null;
   function newPage(){pg={cols:[],first:pages.length===0};pages.push(pg);c=0;n=0;colArr=null;}
-  function newCol(extra){ if(colArr&&colArr.extra==null) {} colArr={u:[],gap:extra||0,uid:[]}; pg.cols.push(colArr); c+=1+(extra||0); n=0; }
+  function newCol(extra){ if(colArr&&colArr.extra==null) {} colArr={u:[],ui:[],gap:extra||0,uid:[]}; pg.cols.push(colArr); c+=1+(extra||0); n=0; }
   newPage();
   // title page: 經名 + 譯者 columns
   var titleW=Math.min(cols-1, b.translator?2:1.3);
@@ -108,7 +108,7 @@ function paginate(anchor){
   }
   function put(units,forceCol){
     if(forceCol||!colArr) newCol(forceCol&&forceCol.w);
-    units.forEach(function(u){ if(n+u.k>rows){ if(c+1>cols){newPage();} newCol(0);} colArr.u.push(u.html); n+=u.k; });
+    units.forEach(function(u){ if(n+u.k>rows){ if(c+1>cols){newPage();} newCol(0);} colArr.u.push(u.html); colArr.ui.push(u.i); n+=u.k; });
   }
   var pendBrk=null, idx=0;
   st.items.forEach(function(it){
@@ -146,7 +146,7 @@ function paginate(anchor){
         h+='<div class="col tcol" style="width:'+(cw*(b.translator?1.25:1.3))+'px;height:'+(rows*cellH)+'px"><div class="tc" style="font-size:'+tfs.toFixed(1)+'px">'+esc(b.title)+'</div></div>';
         if(b.translator) h+='<div class="col tcol" style="width:'+(cw*.75)+'px;height:'+(rows*cellH)+'px;justify-content:flex-end"><div class="tt">'+esc(b.translator)+'</div></div>'; }
       P.cols.forEach(function(cl,k){ var w=cw;   // a block's first column: the extra gap goes on its right, between it and the previous block (as on the site's 經文 pages, .col.nb margin-right)
-        h+='<div class="col'+(cl.head?' hd':'')+'" data-u="'+(cl.uid[0]!=null?cl.uid[0]:'')+'" style="width:'+w+'px;height:'+(rows*cellH+topPad)+'px;padding-top:'+topPad+'px;'+(cl.gap?'margin-right:'+(cw*cl.gap)+'px;':'')+'"><span class="u">'+cl.u.join('</span><span class="u">')+'</span></div>'; });
+        h+='<div class="col'+(cl.head?' hd':'')+'" data-u="'+(cl.uid[0]!=null?cl.uid[0]:'')+'" style="width:'+w+'px;height:'+(rows*cellH+topPad)+'px;padding-top:'+topPad+'px;'+(cl.gap?'margin-right:'+(cw*cl.gap)+'px;':'')+'">'+cl.u.map(function(x,q){ return '<span class="u" data-i="'+cl.ui[q]+'">'+x+'</span>'; }).join('')+'</div>'; });
       bd.innerHTML=h;
       st.sheets.length; sheet.appendChild(leaf);
     }
@@ -155,7 +155,9 @@ function paginate(anchor){
   // keep the reader's place
   var k=0; if(anchor!=null){ for(var q=0;q<pages.length;q++){ if(pages[q].cols.some(function(cl){return cl.uid.indexOf(anchor)>=0;})){k=Math.floor(q/per);break;} } }
   go(k,false);
+  hook('layout');
 }
+function hook(n){ (window.__readerHooks||[]).forEach(function(f){ try{ f(n,st); }catch(e){ console.error(e); } }); }
 function anchorNow(){ var sh=st.sheets[st.cur]; if(!sh) return null; var cl=sh.querySelectorAll('.col[data-u]'); for(var i=0;i<cl.length;i++){ if(cl[i].dataset.u!=='') return +cl[i].dataset.u; } return null; }
 function relayout(){ paginate(anchorNow()); }
 function later(){ clearTimeout(st.rt); st.rt=setTimeout(relayout,150); }
@@ -163,6 +165,7 @@ function later(){ clearTimeout(st.rt); st.rt=setTimeout(relayout,150); }
 function label(){ var n=st.sheets.length, per=st.spread?2:1, a=st.cur*per+1, b=Math.min(st.pages.length,a+per-1);
   $('pn').textContent=n?(a===b?'第'+cnum(a)+'頁':'第'+cnum(a)+'・'+cnum(b)+'頁')+' ／ '+cnum(st.pages.length):'';
   $('pv').disabled=st.cur<=0; $('nx').disabled=st.cur>=n-1; }
+window.__readerAPI={st:st,go:function(k,smooth){go(k,smooth);},relayout:function(){relayout();}};
 function go(k,smooth){ var n=st.sheets.length; if(!n) return; k=Math.max(0,Math.min(n-1,k)); st.cur=k; sc.scrollTo({top:st.sheets[k].offsetTop,behavior:smooth?'smooth':'auto'}); label(); }
 function step(d){ go(st.cur+d,true); }
 sc.addEventListener('scroll',function(){ if(st.sf) return; st.sf=requestAnimationFrame(function(){ st.sf=0; var y=sc.scrollTop+sc.clientHeight*.4,k=0; for(var i=0;i<st.sheets.length;i++){ if(st.sheets[i].offsetTop<=y) k=i; else break; } st.cur=k; label(); }); },{passive:true});
@@ -206,7 +209,7 @@ getJSON('books/index.json').then(function(idx){
     try{ var v=parseFloat(localStorage.getItem(sizeKey())); if(v>=-30&&v<=30) st.d=v; }catch(x){}
     paginate(null);
     if(D.fonts&&D.fonts.ready) D.fonts.ready.then(function(){ relayout(); });
-    window.__reader=st;
+    window.__reader=st; hook('book');
   });
 }).catch(function(err){ D.body.insertAdjacentHTML('beforeend','<p style="position:fixed;top:40%;width:100%;text-align:center;font:16px system-ui">無法載入經文資料：'+esc(err.message)+'</p>'); });
 })();

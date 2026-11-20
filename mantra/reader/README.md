@@ -61,6 +61,15 @@
    - `tools/sutra2book.py <slug> --short 短名 > books/<slug>.json`：從網站經文注音產生器的 `sutra/data/<slug>.json` 轉（讀音與線上頁同一套 bpmf.json + 破音字選擇）。
    - `tools/html2book.py 某注音版.html > books/<id>.json`：從 `<ruby>字<rt>注音</rt></ruby>` 的注音 HTML 轉（普門品就是這樣轉的）。
 2. 在 `books/index.json` 的 `books` 加一行 `{"id": "<id>", "title": "…"}`。
-3. 打開 `index.html?book=<id>` 檢查。完成，不需要建置。
+3. （可選）產生朗讀讀音表 `books/<id>.tts.json`：`python3 tools/gen_tts.py <id> --report report.md`，看過 report 再放上去。沒有這個檔也能朗讀，只是破音字照語音引擎的預設唸。
+4. 打開 `index.html?book=<id>` 檢查。完成，不需要建置。
+
+## 朗讀（tts.js）
+- 工具列「▶ 朗讀」（500px 以下只顯示 ▶）用瀏覽器的語音合成（speechSynthesis）朗讀，優先選臺灣國語語音（Google 國語（臺灣）、美佳、HsiaoChen／Hanhan…），沒有就用其他國語語音並提示；完全沒有中文語音時顯示說明、不朗讀。
+- 唸的是書檔裡的漢字（不是畫面文字），注音只用來決定讀音，不會被唸出來。
+- 經文在標點處切成短句，一句一個 utterance 依序唸。暫停＝cancel() 並記住第幾句，繼續時從那句的開頭重唸（精確到句）；不使用瀏覽器內建的 pause()/resume()。
+- 從目前這頁的第一句開始（暫停後在同一頁按繼續則從暫停的那句）；唸到哪句就淡色標出那句，換頁時自動翻頁（全螢幕也一樣）。播放中下方有浮動的「暫停／停止／速度（1×、1.25×、0.75×）」。
+- 切到背景會自動暫停；離開頁面、換書會停止。iPhone/iPad 必須由點按開始。
+- `books/<id>.tts.json`（`tools/gen_tts.py` 產生）：`{"subs":[{"from":"給","to":"己","zy":"ㄐㄧˇ"}, …]}`。文字是 `from` 且注音等於 `zy` 的地方，送給語音的字改成 `to`（同音、只有這個讀音的常用字），畫面不變。`to` 若是數字調拼音（找不到同音字時，如 `nan4`），只在 Google 語音時使用。
 
 本機預覽要用 http 伺服器（`fetch` 不能讀 file://），且網站根目錄要有 `fonts/cns11643/`，例如把 reader 放在 `<root>/mantra/reader/`。
