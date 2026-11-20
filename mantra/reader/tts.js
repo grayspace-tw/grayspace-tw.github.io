@@ -6,7 +6,11 @@
    A generation counter makes the onend/onerror of a cancelled utterance a no-op.
    Pronunciation: optional books/<id>.tts.json (tools/gen_tts.py) lists TTS-only substitutions
    {from, to, zy}: where the text equals `from` and its 注音 equals `zy`, the voice is given `to` (a homophone
-   with exactly the annotated reading), so it follows the book's 注音. Display text is never changed. */
+   with exactly the annotated reading), so it follows the book's 注音. Display text is never changed.
+   Tap/click a character: start (idle) or jump (playing/paused) to the phrase that contains it.
+   Voice: a Taiwan Mandarin voice is chosen automatically (lang zh-TW / zh_TW / zh-Hant-TW / cmn-TW / cmn-Hant-TW, or a
+   known Taiwan voice name); the list is re-read when the browser loads it late (voiceschanged). The voice menu in the
+   floating control lists the Taiwan voices first; a choice is remembered (localStorage reader.ttsVoice). */
 (function(){
 'use strict';
 var D=document, $=function(i){return D.getElementById(i);};
@@ -20,13 +24,15 @@ try{ var r=parseFloat(localStorage.getItem('reader.ttsRate')); if(RATES.indexOf(
 function log(ev,i,x){ P.log.push({t:Math.round(performance.now()),ev:ev,i:i,gen:P.gen,x:x}); if(P.log.length>3000) P.log.shift(); }
 
 /* ---- UI ---- */
-var tp=$('tp'), pl=$('tpl'), pp=$('tpp'), ps=$('tps'), pr=$('tpr'), msgEl=$('tmsg');
+var tp=$('tp'), pl=$('tpl'), pp=$('tpp'), ps=$('tps'), pr=$('tpr'), pv=$('tpv'), msgEl=$('tmsg');
+var VKEY='reader.ttsVoice';
 function msg(t,ms){ msgEl.textContent=t; msgEl.hidden=!t; clearTimeout(P.msgT); if(t) P.msgT=setTimeout(function(){ msgEl.hidden=true; },ms||6000); }
 function ui(){
   var s=P.state, lab=s==='playing'?['⏸\uFE0E','暫停']:s==='paused'?['▶\uFE0E','繼續']:['▶\uFE0E','朗讀'];
   tp.innerHTML=lab[0]+'<span class="lt2"> '+lab[1]+'</span>'; tp.setAttribute('aria-label',lab[1]+(s==='idle'?'經文':'朗讀')); tp.setAttribute('aria-pressed',s==='playing'?'true':'false');
   pp.textContent=lab[0]+' '+lab[1]; pl.hidden=(s==='idle'); pr.textContent=P.rate+'×'; pr.setAttribute('aria-label','朗讀速度 '+P.rate+' 倍');
   D.documentElement.classList.toggle('tts-act',s!=='idle');
+  if(pv) voiceMenu();
 }
 
 /* ---- phrases from the book data ---- */
@@ -69,15 +75,52 @@ function loadSubs(id){
 
 /* ---- voice ---- */
 function norm(l){ return String(l||'').replace(/_/g,'-').toLowerCase(); }
+var TWNAME=/臺灣|台灣|taiwan|國語|美佳|mei-?jia|hsiao-?chen|曉臻|hsiao-?yu|曉雨|yun-?jhe|雲哲|hanhan|涵涵|yating|雅婷|zhiwei|志瑋/i,
+    CNNAME=/普通[话話]|mainland|china|中国|中國大陸|ting-?ting|婷婷|xiaoxiao|曉曉|晓晓|yunxi|li-?mu|sin-?ji|粤|粵|cantonese|hong ?kong|香港/i;
+function isTW(v){ var l=norm(v.lang);
+  if(/^(zh|cmn)(-hant)?-tw\b/.test(l)) return true;
+  if(/^(zh|cmn)(-hant)?$/.test(l)||l==='') return TWNAME.test(v.name)&&!CNNAME.test(v.name);
+  return false; }
+function isZh(v){ var l=norm(v.lang); return /^(zh|cmn)/.test(l)&&!/hk|yue|mo$/.test(l); }
+function voices(){ try{ return (SS&&SS.getVoices())||[]; }catch(e){ return []; } }
+function vid(v){ return v.voiceURI||v.name; }
+function twRank(v){ var n=v.name, pref=[/google/i,/natural|online/i,/premium|enhanced|增強|高音質/i,/美佳|mei-?jia/i,/hsiao|曉|yunjhe|雲哲|hanhan|涵涵|yating|雅婷|zhiwei|志瑋/i];
+  for(var k=0;k<pref.length;k++) if(pref[k].test(n)) return k; return pref.length; }
+function sorted(){ var vs=voices(), tw=vs.filter(isTW), zh=vs.filter(function(v){ return !isTW(v)&&isZh(v); });
+  tw.sort(function(a,b){ return twRank(a)-twRank(b); }); return {tw:tw,zh:zh,all:vs}; }
+function saved(){ try{ return localStorage.getItem(VKEY)||''; }catch(e){ return ''; } }
 function pickVoice(){
-  var vs=(SS&&SS.getVoices())||[]; if(!vs.length) return undefined;   // list not known (yet): use lang only
-  var tw=vs.filter(function(v){ var l=norm(v.lang); return l==='zh-tw'||l.indexOf('zh-hant-tw')===0||l.indexOf('cmn-hant-tw')===0; });
-  var pref=[/google/i,/美佳|mei-?jia/i,/hsiaochen|曉臻|hsiaoyu|曉雨|hanhan|涵涵|yating|雅婷|zhiwei|志瑋/i];
-  for(var k=0;k<pref.length;k++){ for(var j=0;j<tw.length;j++) if(pref[k].test(tw[j].name)) return tw[j]; }
-  if(tw.length) return tw[0];
-  var zh=vs.filter(function(v){ var l=norm(v.lang); return (l.indexOf('zh')===0||l.indexOf('cmn')===0)&&!/hk|yue|mo$/.test(l); });
-  return zh[0]||null;
+  var g=sorted(); if(!g.all.length) return undefined;   // list not known (yet): use lang only, re-pick when it arrives
+  var id=saved();
+  if(id){ var m=g.all.filter(function(v){ return vid(v)===id||v.name===id; })[0]; if(m) return m; }
+  return g.tw[0]||g.zh[0]||null;
 }
+function speakLang(v){ return v?(isTW(v)?'zh-TW':String(v.lang).replace(/_/g,'-')):'zh-TW'; }
+function shortName(v){ return String(v.name).replace(/^Microsoft\s+/,'').replace(/\s*Online\s*\(Natural\)/i,'').replace(/\s*-\s*Chinese.*$/i,'').replace(/\u00a0/g,' '); }
+var vmKey='';
+function voiceMenu(){
+  var g=sorted(), cur=P.voice||pickVoice()||null, key=g.all.map(vid).join('|')+'#'+(cur?vid(cur):'');
+  pv.hidden=!g.tw.length&&!g.zh.length;
+  if(key===vmKey) return; vmKey=key;
+  var h='', id=cur?vid(cur):'';
+  function opt(v){ var i=vid(v); return '<option value="'+i.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"'+(i===id?' selected':'')+'>'+shortName(v).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</option>'; }
+  if(g.tw.length) h+='<optgroup label="臺灣國語">'+g.tw.map(opt).join('')+'</optgroup>';
+  if(g.zh.length) h+='<optgroup label="其他中文（讀音可能不同）">'+g.zh.map(opt).join('')+'</optgroup>';
+  pv.innerHTML=h; pv.title='語音：'+(cur?cur.name:'（自動）'); pv.setAttribute('aria-label','朗讀語音：'+(cur?cur.name:'自動'));
+}
+function onVoices(){
+  vmKey='';
+  if(P.state==='idle'){ P.voice=null; ui(); return; }
+  if(!P.voice||!isTW(P.voice)){ var v=pickVoice(); if(v&&v!==P.voice){ P.voice=v; log('voice',P.idx,v.name); if(P.state==='playing') start(P.idx); } }
+  ui();
+}
+if(pv) pv.onchange=function(){
+  var v=voices().filter(function(x){ return vid(x)===pv.value; })[0]; if(!v) return;
+  try{ localStorage.setItem(VKEY,vid(v)); }catch(e){}
+  P.voice=v; log('voice',P.idx,v.name); vmKey=''; ui();
+  if(!isTW(v)) msg('「'+v.name+'」不是臺灣國語語音，讀音可能不同。');
+  if(P.state==='playing') start(P.idx);
+};
 
 /* ---- highlight + page follow ---- */
 function unmark(){ P.marked.forEach(function(e){ e.classList.remove('tts-on'); }); P.marked=[]; }
@@ -103,7 +146,7 @@ function speak(i,sync){
   follow(i);
   var txt=spoken(P.phr[i]);
   if(!/[^\s，。、；：！？]/.test(txt)){ setTimeout(function(){ if(g===P.gen&&P.state==='playing') speak(i+1); },0); return; }
-  var u=new UT(txt); u.lang=P.voice?P.voice.lang:'zh-TW'; if(P.voice) u.voice=P.voice; u.rate=P.rate;
+  var u=new UT(txt); u.lang=speakLang(P.voice); if(P.voice) u.voice=P.voice; u.rate=P.rate;
   u.onstart=function(){ if(g===P.gen) log('start',i); };
   u.onend=function(){ if(g!==P.gen){ log('stale-end',i); return; } log('end',i); clearTimeout(P.wd); P.errs=0; if(P.state==='playing') speak(i+1); };
   u.onerror=function(e){ if(g!==P.gen) return; var er=e&&e.error; log('error',i,er);
@@ -122,34 +165,50 @@ function start(i){
   if(SS.speaking||SS.pending){ P.gen++; cancelNow(); var g=P.gen; setTimeout(function(){ if(g===P.gen&&P.state==='playing') speak(i,true); },120); }
   else speak(i,true);   // synchronously inside the tap: iOS only allows speech started by a user gesture
 }
-function play(){
+function play(at){
   if(!SS||!UT){ msg('這個瀏覽器不支援朗讀（speechSynthesis）。'); return; }
   if(!st.book||!st.sheets.length) return;
-  if(P.state==='playing') return;
-  var v=pickVoice();
+  if(P.state==='playing'&&at==null) return;
+  var v=(P.state!=='idle'&&P.voice)?P.voice:pickVoice();
   if(v===null){ msg('這台裝置沒有中文語音，無法朗讀。可在系統設定加入「中文（臺灣）」語音後再試。',9000); return; }
   P.voice=v||null;
-  if(v&&norm(v.lang)!=='zh-tw'&&norm(v.lang).indexOf('hant-tw')<0) msg('找不到臺灣國語語音，改用「'+v.name+'」，讀音可能不同。');
+  if(v&&!isTW(v)) msg('這台裝置找不到臺灣國語語音，改用「'+v.name+'」，讀音可能不同。可在下方語音選單換，或照說明加裝臺灣語音。',9000);
   if(!P.phr.length) build();
-  var i=(P.state==='paused'&&st.cur===P.pausedSheet)?P.idx:firstOnSheet(st.cur);
-  log(P.state==='paused'?'resume':'play',i,v?v.name:'(lang zh-TW)');
+  var i=at!=null?at:(P.state==='paused'&&st.cur===P.pausedSheet)?P.idx:firstOnSheet(st.cur);
+  log(at!=null?'jump':P.state==='paused'?'resume':'play',i,v?v.name:'(lang zh-TW)');
   start(i);
 }
 function pause(){ if(P.state!=='playing') return; P.gen++; clearTimeout(P.wd); P.state='paused'; P.pausedSheet=st.cur; cancelNow(); log('pause',P.idx); ui(); }
 function stop(){ var was=P.state; P.gen++; clearTimeout(P.wd); P.state='idle'; P.pausedSheet=-1; cancelNow(); unmark(); if(was!=='idle') log('stop',P.idx); ui(); }
 function setRate(){ P.rate=RATES[(RATES.indexOf(P.rate)+1)%RATES.length]; try{ localStorage.setItem('reader.ttsRate',P.rate); }catch(e){} log('rate',P.idx,P.rate); ui();
   if(P.state==='playing') start(P.idx); }
+/* tap/click a character -> read from the phrase that contains it (the reader has no tap/swipe paging on the text) */
+function phraseAt(el){
+  if(!P.phr.length) build();
+  var i=+el.dataset.i; if(P.u2p[i]!=null) return P.u2p[i];
+  var us=sc.querySelectorAll('.u[data-i]');   // a unit outside any phrase (should not happen): next phrase after it
+  for(var q=0;q<us.length;q++){ var j=+us[q].dataset.i; if(j>i&&P.u2p[j]!=null) return P.u2p[j]; }
+  return null;
+}
+sc.addEventListener('click',function(e){
+  if(e.button||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey) return;
+  var el=e.target.closest&&e.target.closest('.u[data-i]'); if(!el||!st.book) return;
+  var sel=window.getSelection&&window.getSelection(); if(sel&&!sel.isCollapsed&&String(sel).length) return;   // selecting text
+  var k=phraseAt(el); if(k==null) return;
+  log('tap',k,el.dataset.i);
+  play(k);
+});
 tp.onclick=function(){ P.state==='playing'?pause():play(); };
 pp.onclick=tp.onclick; ps.onclick=stop; pr.onclick=setRate;
 D.addEventListener('visibilitychange',function(){ if(D.hidden&&P.state==='playing'){ log('hidden',P.idx); pause(); } });
 window.addEventListener('pagehide',function(){ stop(); });
 D.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('a[href]'); if(a&&P.state!=='idle'){ log('nav',P.idx,a.getAttribute('href')); stop(); } },true);
-if(SS){ try{ SS.getVoices(); if(SS.addEventListener) SS.addEventListener('voiceschanged',function(){ if(P.state==='idle') P.voice=null; }); }catch(e){} }
+if(SS){ try{ SS.getVoices(); if(SS.addEventListener) SS.addEventListener('voiceschanged',onVoices); else SS.onvoiceschanged=onVoices; }catch(e){} }
 (window.__readerHooks=window.__readerHooks||[]).push(function(n){
   if(n==='book'){ stop(); P.phr=[]; P.bookId=st.book&&st.book.id; loadSubs(P.bookId); }
   else if(n==='layout'&&P.phr.length){ if(P.state!=='idle'){ var e=mark(P.idx); if(P.state==='playing'){ var k=sheetOf(e); if(k>=0&&k!==st.cur) api.go(k,false); } else P.pausedSheet=st.cur; } }
 });
 if(st.book){ P.bookId=st.book.id; loadSubs(P.bookId); }
 ui();
-window.__tts={P:P,play:play,pause:pause,stop:stop,spoken:function(i){ if(!P.phr.length) build(); return spoken(P.phr[i]); },build:build,firstOnSheet:firstOnSheet};
+window.__tts={P:P,pickVoice:pickVoice,isTW:isTW,play:play,pause:pause,stop:stop,spoken:function(i){ if(!P.phr.length) build(); return spoken(P.phr[i]); },build:build,firstOnSheet:firstOnSheet};
 })();

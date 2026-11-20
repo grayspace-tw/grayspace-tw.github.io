@@ -94,6 +94,12 @@ body{font-family:var(--kai)}
 #tmsg{position:fixed;z-index:11;left:50%;top:calc(54px + env(safe-area-inset-top));transform:translateX(-50%);max-width:min(92vw,520px);padding:8px 14px;border-radius:10px;
   background:rgba(29,26,23,.88);color:#fff;font:14px/1.4 system-ui,-apple-system,"PingFang TC","Noto Sans TC",sans-serif;text-align:center}
 #tmsg[hidden]{display:none}
+#tpl select{font:inherit;color:#fff;background:transparent;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:6px 8px;max-width:9.5em;text-overflow:ellipsis;cursor:pointer}
+#tpl select[hidden]{display:none}
+#tpl select option,#tpl select optgroup{color:#222;background:#fff}
+@media (max-width:420px){#tpl{gap:4px;padding:4px}#tpl button{padding:6px 9px}#tpl select{max-width:6.5em;padding:6px 4px}}
+/* 點字朗讀：桌機滑過字時淡淡提示可點 */
+@media (hover:hover) and (pointer:fine){#sc .u[data-i]{cursor:pointer}#sc .u[data-i]:hover .c{background:rgba(214,163,72,.12)}}
 .u.tts-on .c{background:rgba(214,163,72,.22)}
 .u.tts-on .c:first-child{border-radius:4px 4px 0 0}.u.tts-on .c:last-child{border-radius:0 0 4px 4px}
 @media (max-width:500px){
