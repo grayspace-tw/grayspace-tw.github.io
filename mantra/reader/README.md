@@ -73,6 +73,7 @@
 - 點字朗讀：點經文裡任一個字，從那句開始唸；唸的時候或暫停中點，就跳到那句。翻頁（捲動、上一頁／下一頁、鍵盤）不受影響，拖曳選字也不會觸發。桌機滑鼠移到字上會有淡色提示。
 - 語音選單：浮動控制列最右邊，臺灣國語語音排最前，選過會記住（localStorage `reader.ttsVoice`）。語音清單晚到時會重新挑。怎麼判斷臺灣語音、各平台怎麼加裝臺灣語音：見 `TTS-NOTES.md`。
 - 讀音：`tools/tts_subs.py` 把每個破音字換成單一讀音的同音字（River 2026-11-20，規則與例外見 `TTS-NOTES.md`）；River 聽過、指定的換法在 `tts_subs.PINNED`（不 ㄈㄡˇ→否、幢→床、淺→遣、得→德）。破音字總表：`tools/polyphones.py` 產生 `polyphones_review.csv`／`.md`。
+- 注音逐處判讀：每一處破音字的注音由語意判讀決定，紀錄在 `tools/readings/decisions/<id>.tsv`，慣用讀音詞庫 `tools/readings/lexicon.tsv`；建書工具用 `tools/readings.py` 套用（流程見 `TTS-NOTES.md`「破音字逐處判讀」）。
 - `books/<id>.tts.json`（`tools/tts_subs.py`，由建書工具或 `tools/gen_tts.py` 產生）：`{"subs":[{"from":"給","to":"己","zy":"ㄐㄧˇ"}, …]}`。文字是 `from` 且注音等於 `zy` 的地方，送給語音的字改成 `to`（同音、只有這個讀音的常用字），畫面不變。`to` 若是數字調拼音（找不到同音字時，如 `nan4`），只在 Google 語音時使用。
 
 本機預覽要用 http 伺服器（`fetch` 不能讀 file://），且網站根目錄要有 `fonts/cns11643/`，例如把 reader 放在 `<root>/mantra/reader/`。

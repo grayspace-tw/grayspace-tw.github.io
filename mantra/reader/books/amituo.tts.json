@@ -817,10 +817,10 @@
   },
   {
    "from": "還",
-   "to": "孩",
-   "zy": "ㄏㄞˊ",
+   "to": "環",
+   "zy": "ㄏㄨㄢˊ",
    "count": 1,
-   "kind": "homophone1"
+   "kind": "homophone2"
   },
   {
    "from": "那",
@@ -838,8 +838,8 @@
   },
   {
    "from": "雨",
-   "to": "宇",
-   "zy": "ㄩˇ",
+   "to": "域",
+   "zy": "ㄩˋ",
    "count": 1,
    "kind": "homophone1"
   },

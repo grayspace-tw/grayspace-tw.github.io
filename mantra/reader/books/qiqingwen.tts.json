@@ -179,13 +179,6 @@
    "kind": "homophone2"
   },
   {
-   "from": "樂",
-   "to": "勒",
-   "zy": "ㄌㄜˋ",
-   "count": 3,
-   "kind": "homophone3"
-  },
-  {
    "from": "正",
    "to": "証",
    "zy": "ㄓㄥˋ",
@@ -249,6 +242,13 @@
    "kind": "homophone2"
   },
   {
+   "from": "樂",
+   "to": "勒",
+   "zy": "ㄌㄜˋ",
+   "count": 2,
+   "kind": "homophone3"
+  },
+  {
    "from": "牟",
    "to": "謀",
    "zy": "ㄇㄡˊ",
@@ -266,6 +266,13 @@
    "from": "與",
    "to": "宇",
    "zy": "ㄩˇ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "行",
+   "to": "形",
+   "zy": "ㄒㄧㄥˊ",
    "count": 2,
    "kind": "homophone1"
   },
@@ -375,6 +382,13 @@
    "kind": "homophone1"
   },
   {
+   "from": "樂",
+   "to": "藥",
+   "zy": "ㄧㄠˋ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
    "from": "波",
    "to": "撥",
    "zy": "ㄅㄛ",
@@ -446,8 +460,8 @@
   },
   {
    "from": "舍",
-   "to": "捨",
-   "zy": "ㄕㄜˇ",
+   "to": "社",
+   "zy": "ㄕㄜˋ",
    "count": 1,
    "kind": "homophone1"
   },
@@ -476,20 +490,6 @@
    "from": "蒙",
    "to": "濛",
    "zy": "ㄇㄥˊ",
-   "count": 1,
-   "kind": "homophone1"
-  },
-  {
-   "from": "行",
-   "to": " heng4 ",
-   "zy": "ㄏㄥˋ",
-   "count": 1,
-   "kind": "pinyin"
-  },
-  {
-   "from": "行",
-   "to": "形",
-   "zy": "ㄒㄧㄥˊ",
    "count": 1,
    "kind": "homophone1"
   },

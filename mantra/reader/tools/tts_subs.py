@@ -12,7 +12,8 @@
      - 這個字實際上只有一個讀音（dominant()），只找得到很罕用的同音字（頻率不到 1/50）：換了反而怪，照原字唸。
   3. 找不到同音字、而且注音不是平常讀音的（或舊的詞語預測器認為這本經裡會唸錯，如「更生」的更）：用數字調拼音（如 nan4），tts.js 只在 Google 語音時送拼音，其他語音照原字唸。
   4. PINNED：River 實際聽過、指定的換法，優先於自動挑選（不 ㄈㄡˇ→否、幢→床、淺→遣、得→德）。
-  5. 問句句尾「不」：「不」後面緊接「？」時讀 ㄈㄡˇ（同「否」），apply_fou() 在產生注音時套用。"""
+  5. 注音本身（含「不」作「否」ㄈㄡˇ：問句句尾「…不？」、答語「不也」）由逐處判讀 tools/readings/decisions/<id>.tsv 決定
+     （tools/readings.py；建書工具先套判讀、再呼叫這裡）。這裡只依注音挑朗讀字。apply_fou() 是舊的固定規則，已不再被建書工具呼叫，留著相容。"""
 import collections, json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from zhuyin_pinyin import zhuyin_token_to_pinyin
@@ -34,7 +35,7 @@ SANDHI_KEEP = {('一', None), ('不', 'ㄅㄨˋ')}   # tone sandhi left to the v
 
 
 def apply_fou(text, zys):
-    """問句句尾「不」：「不」後面緊接「？」→ 注音 ㄈㄡˇ。zys: list of 注音 tokens, same length as text. Returns changed indices."""
+    """（已停用的舊規則，見 readings.py）問句句尾「不」：「不」後面緊接「？」→ 注音 ㄈㄡˇ。zys: list of 注音 tokens, same length as text. Returns changed indices."""
     ch = list(text); out = []
     for i, c in enumerate(ch):
         if c == '不' and i + 1 < len(ch) and ch[i + 1] == '？' and zys[i] != FOU:

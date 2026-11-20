@@ -12,8 +12,8 @@ after changing the rules.  The Predictor below (what a zh-TW voice would say by 
 substitutions; polyphones.py still uses it for the risk column of the review list.
 
 Policy (River): 「一」「不」 are annotated in their base tone and the voice applies 變調 itself; 不 keeps ㄅㄨˋ except a
-sentence-final interrogative 不 (不 directly before ？, e.g. 「功德多不？」), which is annotated ㄈㄡˇ and spoken as 否
-(River 2026-11-20; tts_subs.apply_fou / PINNED).
+不 that grammatically means 否 (sentence-final 「…不？」, the reply 「不也，世尊」), annotated ㄈㄡˇ and spoken as 否
+(River 2026-11-20). Every 破音字 注音 comes from the per-occurrence decisions in tools/readings/decisions (tools/readings.py).
 Needs: pypinyin, opencc, jieba (character frequency when choosing homophones)."""
 import argparse, glob, json, os, re, sys, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -42,7 +42,7 @@ FORCE = {
     ('處', 'ㄔㄨˋ'): '處 另一讀 chǔ（相處、處理）很常見；Google 在「淺處」唸對 chù，其他語音不一定；換成 觸',
     ('了', 'ㄌㄧㄠˇ'): '「不能解了」可能被唸成 jiě le；換成 ㄌㄧㄠˇ 的同音字',
     ('率', 'ㄕㄨㄞˋ'): '單字預設讀 lǜ（比率）；「相率」要唸 shuài；換成 帥',
-    ('不', 'ㄈㄡˇ'): '問句句尾「不」讀 ㄈㄡˇ（同「否」，River 2026-11-20）；語音一律唸 bù；換成 否',
+    ('不', 'ㄈㄡˇ'): '「不」作「否」（問句句尾「…不？」、答語「不也」）讀 ㄈㄡˇ（River 2026-11-20，逐處判讀）；語音一律唸 bù；換成 否',
     ('幢', 'ㄔㄨㄤˊ'): 'River 聽到「幢」唸成 zhuàng（撞，「一幢房子」的讀音）；佛典「寶幢、幢幡」讀 chuáng；換成 床',
     ('得', 'ㄉㄜˊ'): 'Google 國語（臺灣）把「皆得解脫」的 得 唸成 děi（錄音量共振峰 F2≈2600–2900，同「歹/děi」型；「即得」則是 dé）；換成 德',
 }
