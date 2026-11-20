@@ -37,22 +37,37 @@
 - 聽到唸錯：記下句子。是挑錯同音字的，加到 `tts_subs.PINNED`；是規則漏掉的字，改 `tts_subs.py`。然後重新產生（見下面）。
 
 ### 注音和朗讀表在同一步產生（River 2026-11-20）
-- 建書工具在寫出 `books/<id>.json`（注音）的同一步，呼叫 `tools/tts_subs.write_tts()` 寫出 `books/<id>.tts.json`。新經一建好就有朗讀表，不用另外跑。
-  - 阿彌陀經／藥師經／金剛經：`/workspace/sutra3/build_books.py --out <books> --tools mantra/reader/tools`（注音規則在 `ann.py`）。
-  - 普門品：`html2book.py 普門品注音版.html --tools mantra/reader/tools --tts-dir <books> > <books>/pumenpin.json`。
-  - 大勢至章、祈請文：`sutra2book.py <slug> … --tools mantra/reader/tools --tts-dir <books> > <books>/<slug>.json`。
-  - 這三個建書工具在本機（`/workspace/sutra3/`、`/workspace/pumenpin/reader/tools/`），不在網站 repo 裡；它們用的是 repo 裡的 `tools/tts_subs.py`。
-- 手動做的書、或改了規則之後：`python3 tools/gen_tts.py [ids…] --report report.md` 重新產生全部 `.tts.json`（同一套 `tts_subs.py`）。
-- 新經加入前：先看 `polyphones_review` 的「高」「中」兩區，請 River 試聽。
-  - 心經（2026-11-20 加入，`build_books.py T0251`）：破音字換字 32 條、102 處，沒有拼音備援，沒有問句句尾「不」。
+- 建書工具在寫出 `books/<id>.json`（注音）的同一步：先套「逐處判讀」（`tools/readings.py`，見下一節），再呼叫 `tools/tts_subs.write_tts()` 寫出 `books/<id>.tts.json`。朗讀換字一律跟著判讀後的注音走。
+  - 阿彌陀經／藥師經／金剛經／心經：`/workspace/sutra3/build_books.py --strict --out <books> --tools mantra/reader/tools`（初步注音在 `ann.py`）。
+  - 普門品：`READINGS_STRICT=1 html2book.py 普門品注音版.html --tools mantra/reader/tools --tts-dir <books> > <books>/pumenpin.json`。
+  - 大勢至章、祈請文：`READINGS_STRICT=1 sutra2book.py <slug> … --tools mantra/reader/tools --tts-dir <books> > <books>/<slug>.json`。
+  - 這三個建書工具在本機（`/workspace/sutra3/`、`/workspace/pumenpin/reader/tools/`），不在網站 repo 裡；它們用的是 repo 裡的 `tools/readings.py`、`tools/readings/`、`tools/tts_subs.py`。
+- 手動做的書、或改了判讀之後：`python3 tools/readings.py apply books <id>`（套判讀並重產該經的 `.tts.json`）；只改了朗讀規則：`python3 tools/gen_tts.py [ids…] --report report.md`。
+- 心經（2026-11-20 加入，`build_books.py T0251`）：破音字換字 32 條、102 處，沒有拼音備援，沒有問句句尾「不」。
 
-### 問句句尾「不」讀 ㄈㄡˇ（River 2026-11-20）
-- 規則：「不」在句尾當疑問詞（同「否」）時，注音標 ㄈㄡˇ，朗讀換成「否」。判斷方式：「不」後面緊接「？」。
-  寫在建書的注音步驟裡（`tts_subs.apply_fou()`；sutra3 是 `ann.py` 的強制規則），之後的新經自動套用。
-- 例：普門品「於汝意云何？是善男子、善女人，功德多不？」、藥師經「汝為信不？」、金剛經「寧為多不？」「可以身相見如來不？」等。目前共 34 處：普門品 1、藥師經 1、金剛經 32；大勢至章、祈請文、阿彌陀經、心經沒有。
-- 不改的：句中否定的「不」（「云何菩薩不受福德？」）、答句「不也，世尊」，以及其他所有「不」，仍標本調 ㄅㄨˋ，變調交給語音。
-- 這改掉了先前「不 一律 ㄅㄨˋ、不做 fǒu 替換」的決定。語音不會自己把句尾「不」唸成 fǒu（一律唸 bù），所以一定要靠注音＋換字。
-- 看不出是不是問句的（例如「不」後接「。」「耶」「乎」，或問句裡「不」不在句尾），建書時不會自動改，列出來請 River 決定。
+### 破音字逐處判讀（River 2026-11-20）
+- 原則：每一處破音字的注音，都由讀整句、看語意和詞性決定（例如「不」是否定還是「否」、「為」是「是／被」ㄨㄟˊ 還是「替／為了」ㄨㄟˋ、「還」是返回 ㄏㄨㄢˊ）。不靠只看字形的固定規則。
+- 判讀紀錄：`tools/readings/decisions/<id>.tsv`，每一處一列：段、行、字的位置、字、判讀的注音、狀態（keep 原注音正確／change 改讀／ask 不確定，照原注音等 River 決定）、原注音、依據、理由、前後各 4 字的上下文。
+  建書時核對字和上下文；經文改過、位置對不上就報錯，那幾處要重審。
+- 慣用讀音詞庫：`tools/readings/lexicon.tsv`（v1）。是過去判讀的「記憶」：每條有字、注音、朗讀、可省略的前文／後文語境條件、語境說明、例句、理由、來源、範圍。
+  只用來建議新經的讀音、檢查前後一致（`readings.py check` 會列出和有語境條件的詞條不一致的地方）；不會自己改注音，每一處仍要人看過。
+- 破音字＝教育部注音表或 pypinyin 有兩個以上讀音的字（或注音不是它的任何已知讀音）。2026-11-20 七部經共 9,987 處全部判讀過（祈請文 1,031、心經 178、普門品 1,253、大勢至章 138、阿彌陀經 1,121、藥師經 2,926、金剛經 3,340）。
+  這次改讀 42 處：答語「不也」12、還 ㄏㄨㄢˊ 9、五百之百 ㄅㄞˇ 4、稱量／不可量之量 ㄌㄧㄤˊ 2、應時 ㄧㄥˋ 1、白佛言之白 ㄅㄞˊ 1；
+  另 18 處不確定的由 River 決定（2026-11-20）：唯然 ㄨㄟˇ 2、雨（動詞）ㄩˋ 2、大行 ㄒㄧㄥˊ、盧舍那 ㄕㄜˋ、樂見 ㄧㄠˋ、教人書 ㄐㄧㄠ、空閑 ㄎㄨㄥˋ、一分 ㄈㄣˋ 2、厭媚／厭禱 ㄧㄢˇ 2（改 13），所教 ㄐㄧㄠˋ、名聞 ㄨㄣˋ 2、人身長大 ㄔㄤˊ 2 維持。目前沒有待決（ask）。
+- 新經的流程：
+  1. 建書工具產生初步注音（`--strict` 先不要加）。
+  2. `python3 tools/readings.py sheet <books> <id> --out <id>.review.tsv`：列出所有破音字，詞庫有語境條件符合的會帶建議讀音，狀態 todo。
+  3. 逐句讀過，填注音、狀態（keep／change／ask）、依據、理由；存成 `tools/readings/decisions/<id>.tsv`。新的慣用讀音加到 `lexicon.tsv`。
+  4. `python3 tools/readings.py check <books> <id>`：todo 0、衝突 0。
+  5. 加 `--strict`（或 `READINGS_STRICT=1`）重建：注音套判讀、朗讀表同一步產生。之後才看 `polyphones_review` 的「高」「中」兩區、請 River 試聽。
+  6. ask 的那幾處請 River 決定，再改 decisions 重建。
+
+### 「不」讀 ㄈㄡˇ（＝否）（River 2026-11-20）
+- 「不」在文法上作「否」時，注音標 ㄈㄡˇ，朗讀換成「否」（River：文法上是否就注音和讀音都改）。現在每一處都記在判讀紀錄裡（依據 `fou-q`、`fou-buye`），不再由建書工具的固定規則決定（`tts_subs.apply_fou()`、`ann.py` 的舊強制規則已停用）。
+- 問句句尾（`fou-q`）：普門品「於汝意云何？是善男子、善女人，功德多不？」、藥師經「汝為信不？」、金剛經「寧為多不？」「可以身相見如來不？」等，共 34 處：普門品 1、藥師經 1、金剛經 32。
+- 答語「不也」（`fou-buye`）：金剛經「不也，世尊！」12 處（回答前一句「…不？」）。其他六部經沒有。
+- 其他「不」都看過：句中否定（「云何菩薩不受福德？」「若逢不逢」「過時不雨難」）仍標本調 ㄅㄨˋ，變調交給語音。大勢至章、祈請文、阿彌陀經、心經沒有作「否」的「不」。
+- 語音不會自己把這些「不」唸成 fǒu（一律唸 bù），所以一定要靠注音＋換字。
 
 ## 點字朗讀
 - 點（或滑鼠按）經文裡任何一個字：沒在唸就從那句開始唸；正在唸或暫停中就跳到那句。

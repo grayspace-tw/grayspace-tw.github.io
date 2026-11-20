@@ -361,6 +361,13 @@
    "kind": "homophone1"
   },
   {
+   "from": "百",
+   "to": "擺",
+   "zy": "ㄅㄞˇ",
+   "count": 8,
+   "kind": "homophone1"
+  },
+  {
    "from": "相",
    "to": "向",
    "zy": "ㄒㄧㄤˋ",
@@ -417,18 +424,11 @@
    "kind": "homophone2"
   },
   {
-   "from": "百",
-   "to": "擺",
-   "zy": "ㄅㄞˇ",
-   "count": 7,
-   "kind": "homophone1"
-  },
-  {
    "from": "還",
-   "to": "孩",
-   "zy": "ㄏㄞˊ",
+   "to": "環",
+   "zy": "ㄏㄨㄢˊ",
    "count": 7,
-   "kind": "homophone1"
+   "kind": "homophone2"
   },
   {
    "from": "食",
@@ -669,13 +669,6 @@
    "kind": "homophone1"
   },
   {
-   "from": "厭",
-   "to": "驗",
-   "zy": "ㄧㄢˋ",
-   "count": 3,
-   "kind": "homophone1"
-  },
-  {
    "from": "夫",
    "to": "敷",
    "zy": "ㄈㄨ",
@@ -823,13 +816,6 @@
    "kind": "homophone1"
   },
   {
-   "from": "雨",
-   "to": "宇",
-   "zy": "ㄩˇ",
-   "count": 3,
-   "kind": "homophone1"
-  },
-  {
    "from": "乘",
    "to": "聖",
    "zy": "ㄕㄥˋ",
@@ -865,6 +851,13 @@
    "kind": "homophone1"
   },
   {
+   "from": "厭",
+   "to": "演",
+   "zy": "ㄧㄢˇ",
+   "count": 2,
+   "kind": "homophone2"
+  },
+  {
    "from": "反",
    "to": "返",
    "zy": "ㄈㄢˇ",
@@ -884,13 +877,6 @@
    "zy": "ㄊㄨㄥˊ",
    "count": 2,
    "kind": "homophone1"
-  },
-  {
-   "from": "唯",
-   "to": "維",
-   "zy": "ㄨㄟˊ",
-   "count": 2,
-   "kind": "homophone2"
   },
   {
    "from": "契",
@@ -1075,6 +1061,13 @@
    "kind": "homophone1"
   },
   {
+   "from": "雨",
+   "to": "宇",
+   "zy": "ㄩˇ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
    "from": "音",
    "to": "因",
    "zy": "ㄧㄣ",
@@ -1194,11 +1187,32 @@
    "kind": "homophone2"
   },
   {
+   "from": "厭",
+   "to": "驗",
+   "zy": "ㄧㄢˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
    "from": "召",
    "to": "照",
    "zy": "ㄓㄠˋ",
    "count": 1,
    "kind": "homophone1"
+  },
+  {
+   "from": "唯",
+   "to": "偉",
+   "zy": "ㄨㄟˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "唯",
+   "to": "維",
+   "zy": "ㄨㄟˊ",
+   "count": 1,
+   "kind": "homophone2"
   },
   {
    "from": "妃",
@@ -1356,8 +1370,8 @@
   },
   {
    "from": "教",
-   "to": "叫",
-   "zy": "ㄐㄧㄠˋ",
+   "to": "交",
+   "zy": "ㄐㄧㄠ",
    "count": 1,
    "kind": "homophone1"
   },
@@ -1460,13 +1474,6 @@
    "kind": "homophone1"
   },
   {
-   "from": "百",
-   "to": "博",
-   "zy": "ㄅㄛˊ",
-   "count": 1,
-   "kind": "homophone1"
-  },
-  {
    "from": "盛",
    "to": "成",
    "zy": "ㄔㄥˊ",
@@ -1503,10 +1510,10 @@
   },
   {
    "from": "空",
-   "to": "崆",
-   "zy": "ㄎㄨㄥ",
+   "to": "控",
+   "zy": "ㄎㄨㄥˋ",
    "count": 1,
-   "kind": "homophone1"
+   "kind": "homophone2"
   },
   {
    "from": "籍",
@@ -1661,6 +1668,13 @@
    "zy": "ㄑㄩㄝ",
    "count": 1,
    "kind": "homophone2"
+  },
+  {
+   "from": "雨",
+   "to": "域",
+   "zy": "ㄩˋ",
+   "count": 1,
+   "kind": "homophone1"
   },
   {
    "from": "頞",

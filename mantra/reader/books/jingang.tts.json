@@ -81,6 +81,13 @@
    "kind": "homophone1"
   },
   {
+   "from": "不",
+   "to": "否",
+   "zy": "ㄈㄡˇ",
+   "count": 44,
+   "kind": "pinned"
+  },
+  {
    "from": "言",
    "to": "岩",
    "zy": "ㄧㄢˊ",
@@ -100,13 +107,6 @@
    "zy": "ㄨㄟˊ",
    "count": 34,
    "kind": "homophone2"
-  },
-  {
-   "from": "不",
-   "to": "否",
-   "zy": "ㄈㄡˇ",
-   "count": 32,
-   "kind": "pinned"
   },
   {
    "from": "應",
@@ -263,13 +263,6 @@
    "kind": "homophone1"
   },
   {
-   "from": "量",
-   "to": "輛",
-   "zy": "ㄌㄧㄤˋ",
-   "count": 10,
-   "kind": "homophone1"
-  },
-  {
    "from": "句",
    "to": "據",
    "zy": "ㄐㄩˋ",
@@ -282,6 +275,13 @@
    "zy": "ㄅㄛ",
    "count": 9,
    "kind": "homophone2"
+  },
+  {
+   "from": "百",
+   "to": "擺",
+   "zy": "ㄅㄞˇ",
+   "count": 9,
+   "kind": "homophone1"
   },
   {
    "from": "著",
@@ -308,6 +308,13 @@
    "from": "行",
    "to": "形",
    "zy": "ㄒㄧㄥˊ",
+   "count": 8,
+   "kind": "homophone1"
+  },
+  {
+   "from": "量",
+   "to": "輛",
+   "zy": "ㄌㄧㄤˋ",
    "count": 8,
    "kind": "homophone1"
   },
@@ -340,18 +347,18 @@
    "kind": "homophone1"
   },
   {
-   "from": "百",
-   "to": "擺",
-   "zy": "ㄅㄞˇ",
-   "count": 6,
-   "kind": "homophone1"
-  },
-  {
    "from": "那",
    "to": "納",
    "zy": "ㄋㄚˋ",
    "count": 6,
    "kind": "homophone1"
+  },
+  {
+   "from": "量",
+   "to": "良",
+   "zy": "ㄌㄧㄤˊ",
+   "count": 6,
+   "kind": "homophone2"
   },
   {
    "from": "勝",
@@ -473,13 +480,6 @@
    "kind": "homophone2"
   },
   {
-   "from": "量",
-   "to": "良",
-   "zy": "ㄌㄧㄤˊ",
-   "count": 4,
-   "kind": "homophone2"
-  },
-  {
    "from": "降",
    "to": "祥",
    "zy": "ㄒㄧㄤˊ",
@@ -504,13 +504,6 @@
    "from": "分",
    "to": "奮",
    "zy": "ㄈㄣˋ",
-   "count": 3,
-   "kind": "homophone1"
-  },
-  {
-   "from": "百",
-   "to": "博",
-   "zy": "ㄅㄛˊ",
    "count": 3,
    "kind": "homophone1"
   },
@@ -726,10 +719,10 @@
   },
   {
    "from": "唯",
-   "to": "維",
-   "zy": "ㄨㄟˊ",
+   "to": "偉",
+   "zy": "ㄨㄟˇ",
    "count": 1,
-   "kind": "homophone2"
+   "kind": "homophone1"
   },
   {
    "from": "地",
@@ -901,10 +894,10 @@
   },
   {
    "from": "還",
-   "to": "孩",
-   "zy": "ㄏㄞˊ",
+   "to": "環",
+   "zy": "ㄏㄨㄢˊ",
    "count": 1,
-   "kind": "homophone1"
+   "kind": "homophone2"
   },
   {
    "from": "那",

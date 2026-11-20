@@ -49,7 +49,7 @@
    "from": "應",
    "to": "英",
    "zy": "ㄧㄥ",
-   "count": 25,
+   "count": 24,
    "kind": "homophone2"
   },
   {
@@ -249,13 +249,6 @@
    "kind": "homophone1"
   },
   {
-   "from": "分",
-   "to": "紛",
-   "zy": "ㄈㄣ",
-   "count": 4,
-   "kind": "homophone1"
-  },
-  {
    "from": "怨",
    "to": "院",
    "zy": "ㄩㄢˋ",
@@ -452,6 +445,20 @@
    "kind": "homophone1"
   },
   {
+   "from": "分",
+   "to": "紛",
+   "zy": "ㄈㄣ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "分",
+   "to": "奮",
+   "zy": "ㄈㄣˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
    "from": "地",
    "to": "第",
    "zy": "ㄉㄧˋ",
@@ -483,6 +490,13 @@
    "from": "從",
    "to": "叢",
    "zy": "ㄘㄨㄥˊ",
+   "count": 2,
+   "kind": "homophone2"
+  },
+  {
+   "from": "應",
+   "to": "映",
+   "zy": "ㄧㄥˋ",
    "count": 2,
    "kind": "homophone2"
   },
@@ -674,13 +688,6 @@
    "zy": "ㄙ",
    "count": 1,
    "kind": "homophone1"
-  },
-  {
-   "from": "應",
-   "to": "映",
-   "zy": "ㄧㄥˋ",
-   "count": 1,
-   "kind": "homophone2"
   },
   {
    "from": "提",
