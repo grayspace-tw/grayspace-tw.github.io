@@ -1,0 +1,154 @@
+{
+ "book": "amituo",
+ "generated_by": "tools/gen_tts.py",
+ "note": "TTS-only substitutions for 朗讀; display text is unchanged. A sub applies where the text equals from AND its 注音 equals zy.",
+ "subs": [
+  {
+   "from": "相",
+   "to": "向",
+   "zy": "ㄒㄧㄤˋ",
+   "count": 9,
+   "why": "相 注音 ㄒㄧㄤˋ（xiang4），語音可能唸 xiang1；例：須彌相佛／長舌相／長舌相"
+  },
+  {
+   "from": "華",
+   "to": "花",
+   "zy": "ㄏㄨㄚ",
+   "count": 4,
+   "why": "華 注音 ㄏㄨㄚ（hua1），語音可能唸 hua2、hua2（pypinyin:華嚴）；例：陀羅華／眾妙華／色寶華嚴身"
+  },
+  {
+   "from": "重",
+   "to": "蟲",
+   "zy": "ㄔㄨㄥˊ",
+   "count": 3,
+   "why": "重 注音 ㄔㄨㄥˊ（chong2），語音可能唸 zhong4；例：七重欄楯／七重羅網"
+  },
+  {
+   "from": "分",
+   "to": "奮",
+   "zy": "ㄈㄣˋ",
+   "count": 2,
+   "why": "分 注音 ㄈㄣˋ（fen4），語音可能唸 fen1；例：菩提分／聖道分如是"
+  },
+  {
+   "from": "樂",
+   "to": "月",
+   "zy": "ㄩㄝˋ",
+   "count": 2,
+   "why": "樂 注音 ㄩㄝˋ（yue4），語音可能唸 le4；例：作天樂／千種樂同時"
+  },
+  {
+   "from": "為",
+   "to": "位",
+   "zy": "ㄨㄟˋ",
+   "count": 2,
+   "why": "為 注音 ㄨㄟˋ（wei4），語音可能唸 wei2；例：為諸眾／為一切"
+  },
+  {
+   "from": "聞",
+   "to": "問",
+   "zy": "ㄨㄣˋ",
+   "count": 2,
+   "why": "聞 注音 ㄨㄣˋ（wen4），語音可能唸 wen2；例：名聞光佛／名聞佛"
+  },
+  {
+   "from": "行",
+   "to": "航",
+   "zy": "ㄏㄤˊ",
+   "count": 2,
+   "why": "行 注音 ㄏㄤˊ（hang2），語音可能唸 xing2（pypinyin:重行）、xing2；例：七重行樹／諸寶行樹及"
+  },
+  {
+   "from": "鞞",
+   "to": "鼻",
+   "zy": "ㄅㄧˊ",
+   "count": 2,
+   "why": "鞞 注音 ㄅㄧˊ（bi2），語音可能唸 bing3；例：是阿鞞跋致／阿閦鞞佛"
+  },
+  {
+   "from": "微",
+   "to": "維",
+   "zy": "ㄨㄟˊ",
+   "count": 3,
+   "why": "微 注音 ㄨㄟˊ（wei2），語音可能唸 wei1（pypinyin:微風）；例：國土微風吹"
+  },
+  {
+   "from": "乾",
+   "to": "堅",
+   "zy": "ㄐㄧㄢ",
+   "count": 1,
+   "why": "乾 注音 ㄐㄧㄢ（jian1），語音可能唸 qian2（tw-word:目乾連）；例：訶目乾連"
+  },
+  {
+   "from": "乾",
+   "to": "前",
+   "zy": "ㄑㄧㄢˊ",
+   "count": 1,
+   "why": "乾 注音 ㄑㄧㄢˊ（qian2），語音可能唸 gan1；例：乾陀訶"
+  },
+  {
+   "from": "俱",
+   "to": "拘",
+   "zy": "ㄐㄩ",
+   "count": 1,
+   "why": "俱 注音 ㄐㄩ（ju1），語音可能唸 ju4；例：薄俱羅"
+  },
+  {
+   "from": "宿",
+   "to": "秀",
+   "zy": "ㄒㄧㄡˋ",
+   "count": 1,
+   "why": "宿 注音 ㄒㄧㄡˋ（xiu4），語音可能唸 su4；例：宿王佛"
+  },
+  {
+   "from": "牟",
+   "to": "謀",
+   "zy": "ㄇㄡˊ",
+   "count": 1,
+   "why": "牟 注音 ㄇㄡˊ（mou2），語音可能唸 mu4（pypinyin:釋迦牟尼）；例：釋迦牟尼佛"
+  },
+  {
+   "from": "盛",
+   "to": "成",
+   "zy": "ㄔㄥˊ",
+   "count": 1,
+   "why": "盛 注音 ㄔㄥˊ（cheng2），語音可能唸 sheng4；例：衣裓盛眾妙"
+  },
+  {
+   "from": "給",
+   "to": "己",
+   "zy": "ㄐㄧˇ",
+   "count": 1,
+   "why": "給 注音 ㄐㄧˇ（ji3），語音可能唸 gei3（tw-word:給孤獨）；例：祇樹給孤獨"
+  },
+  {
+   "from": "葉",
+   "to": "社",
+   "zy": "ㄕㄜˋ",
+   "count": 1,
+   "why": "葉 注音 ㄕㄜˋ（she4），語音可能唸 ye4；例：訶迦葉"
+  },
+  {
+   "from": "薄",
+   "to": "博",
+   "zy": "ㄅㄛˊ",
+   "count": 1,
+   "why": "薄 注音 ㄅㄛˊ（bo2），語音可能唸 bao2；例：薄俱羅"
+  },
+  {
+   "from": "養",
+   "to": "樣",
+   "zy": "ㄧㄤˋ",
+   "count": 1,
+   "why": "養 注音 ㄧㄤˋ（yang4），語音可能唸 yang3（pypinyin:供養）；例：供養他方"
+  },
+  {
+   "from": "供",
+   "to": "貢",
+   "zy": "ㄍㄨㄥˋ",
+   "count": 1,
+   "why": "供 注音 ㄍㄨㄥˋ（gong4），鄰字替換後語音可能唸 gong1；例：供養他"
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "book": "dashizhi",
+ "generated_by": "tools/gen_tts.py",
+ "note": "TTS-only substitutions for 朗讀; display text is unchanged. A sub applies where the text equals from AND its 注音 equals zy.",
+ "subs": [
+  {
+   "from": "教",
+   "to": "交",
+   "zy": "ㄐㄧㄠ",
+   "count": 1,
+   "why": "教 注音 ㄐㄧㄠ（jiao1），語音可能唸 jiao4（pypinyin:佛教）；例：彼佛教我念"
+  },
+  {
+   "from": "白",
+   "to": "博",
+   "zy": "ㄅㄛˊ",
+   "count": 1,
+   "why": "白 注音 ㄅㄛˊ（bo2），語音可能唸 bai2；例：足而白佛言"
+  }
+ ]
+}

@@ -13,14 +13,18 @@
     <a id="lib" href="?" title="經書目錄" aria-label="經書目錄">☰<span class="lt"> 目錄</span></a>
     <nav class="appsw" aria-label="切換：咒語練習／經文閱讀"><a href="../">咒語練習</a><a href="./" aria-current="page">經文閱讀</a></nav>
     <span id="bt" class="bt"></span>
+    <button id="tp" type="button" class="ttsb" aria-label="朗讀經文">▶&#xFE0E;<span class="lt2"> 朗讀</span></button>
     <span class="g"><button id="fm" type="button" aria-label="字小一點">A−</button><button id="fp" type="button" aria-label="字大一點">A＋</button></span>
-    <button id="fs" type="button" class="fsb" title="全螢幕（Esc 離開）">⛶ 全螢幕</button>
+    <button id="fs" type="button" class="fsb" title="全螢幕（Esc 離開）" aria-label="全螢幕">⛶<span class="lt2"> 全螢幕</span></button>
   </div>
   <div id="sc" tabindex="-1" aria-live="off"></div>
   <div id="nav"><button id="pv" type="button">‹ 上一頁</button><span id="pn" aria-live="polite"></span><button id="nx" type="button">下一頁 ›</button></div>
   <button id="fx" type="button" hidden title="離開全螢幕（Esc）">✕ 離開全螢幕</button>
+  <div id="tpl" role="group" aria-label="朗讀控制" hidden><button id="tpp" type="button">⏸&#xFE0E; 暫停</button><button id="tps" type="button" aria-label="停止朗讀">■ 停止</button><button id="tpr" type="button">1×</button></div>
+  <div id="tmsg" role="status" hidden></div>
 </div>
 <div id="libv" hidden><div class="swrow"><nav class="appsw" aria-label="切換：咒語練習／經文閱讀"><a href="../">咒語練習</a><a href="./" aria-current="page">經文閱讀</a></nav></div><h1>注音經文</h1><ul id="libl"></ul><p class="lnote">點經名開始閱讀。直書、一頁一個畫面；寬螢幕左右兩頁並排。</p></div>
 <script src="reader.js"></script>
+<script src="tts.js"></script>
 </body>
 </html>

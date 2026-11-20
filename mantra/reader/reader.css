@@ -83,4 +83,24 @@ body{font-family:var(--kai)}
   #bar .lt{display:none}#bar .appsw a{padding:6px 9px;font-size:14px}
   #nav{gap:8px}#nav button{min-width:0;padding:7px 14px}
 }
-@media print{#bar,#nav,#fx{display:none}}
+/* 朗讀 (tts.js): toolbar button, floating control (also in fullscreen), current-phrase highlight */
+#bar .ttsb[aria-pressed=true]{background:#f3e9da}
+#tpl{position:fixed;z-index:10;left:50%;transform:translateX(-50%);bottom:calc(58px + env(safe-area-inset-bottom));display:flex;gap:6px;padding:5px;border-radius:999px;
+  background:rgba(29,26,23,.8);font:14px/1.2 system-ui,-apple-system,"PingFang TC","Noto Sans TC",sans-serif;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+#tpl[hidden]{display:none}
+#tpl button{font:inherit;color:#fff;background:transparent;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:6px 12px;cursor:pointer;white-space:nowrap}
+#tpl #tpr{min-width:3.6em}
+.imm #tpl{bottom:calc(58px + env(safe-area-inset-bottom))}
+#tmsg{position:fixed;z-index:11;left:50%;top:calc(54px + env(safe-area-inset-top));transform:translateX(-50%);max-width:min(92vw,520px);padding:8px 14px;border-radius:10px;
+  background:rgba(29,26,23,.88);color:#fff;font:14px/1.4 system-ui,-apple-system,"PingFang TC","Noto Sans TC",sans-serif;text-align:center}
+#tmsg[hidden]{display:none}
+.u.tts-on .c{background:rgba(214,163,72,.22)}
+.u.tts-on .c:first-child{border-radius:4px 4px 0 0}.u.tts-on .c:last-child{border-radius:0 0 4px 4px}
+@media (max-width:500px){
+  #bar .lt2{display:none}
+  #bar{gap:4px;padding-left:max(6px,env(safe-area-inset-left));padding-right:max(6px,env(safe-area-inset-right))}
+  #bar a,#bar button{padding:6px 7px}#bar .g button{min-width:30px;padding:6px 4px}
+  #bar .appsw a{padding:6px 7px;font-size:13px}
+}
+@media (max-width:340px){#bar .appsw a{padding:6px 5px}#bar a,#bar button{padding:6px 6px}}
+@media print{#bar,#nav,#fx,#tpl,#tmsg{display:none}}

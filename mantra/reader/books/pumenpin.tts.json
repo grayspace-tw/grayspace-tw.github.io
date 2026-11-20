@@ -1,0 +1,147 @@
+{
+ "book": "pumenpin",
+ "generated_by": "tools/gen_tts.py",
+ "note": "TTS-only substitutions for 朗讀; display text is unchanged. A sub applies where the text equals from AND its 注音 equals zy.",
+ "subs": [
+  {
+   "from": "為",
+   "to": "位",
+   "zy": "ㄨㄟˋ",
+   "count": 23,
+   "why": "為 注音 ㄨㄟˋ（wei4），語音可能唸 wei2；例：為求金／何而為眾生／身而為說法"
+  },
+  {
+   "from": "養",
+   "to": "樣",
+   "zy": "ㄧㄤˋ",
+   "count": 5,
+   "why": "養 注音 ㄧㄤˋ（yang4），語音可能唸 yang3（pypinyin:供養）；例：拜供養觀世／形供養飲食／供養"
+  },
+  {
+   "from": "難",
+   "to": " nan4 ",
+   "zy": "ㄋㄢˋ",
+   "count": 4,
+   "why": "難 注音 ㄋㄢˋ（nan4），語音可能唸 nan2；例：剎之難／諸鬼難／遭王難苦"
+  },
+  {
+   "from": "相",
+   "to": "向",
+   "zy": "ㄒㄧㄤˋ",
+   "count": 3,
+   "why": "相 注音 ㄒㄧㄤˋ（xiang4），語音可能唸 xiang1；例：正有相之女／尊妙相具／足妙相尊"
+  },
+  {
+   "from": "乾",
+   "to": "前",
+   "zy": "ㄑㄧㄢˊ",
+   "count": 2,
+   "why": "乾 注音 ㄑㄧㄢˊ（qian2），語音可能唸 gan1；例：乾闥婆／乾闥婆"
+  },
+  {
+   "from": "塞",
+   "to": "色",
+   "zy": "ㄙㄜˋ",
+   "count": 2,
+   "why": "塞 注音 ㄙㄜˋ（se4），語音可能唸 sai1；例：優婆塞／優婆塞"
+  },
+  {
+   "from": "將",
+   "to": "匠",
+   "zy": "ㄐㄧㄤˋ",
+   "count": 2,
+   "why": "將 注音 ㄐㄧㄤˋ（jiang4），語音可能唸 jiang1（pypinyin:大將軍）；例：天大將軍身／天大將軍身"
+  },
+  {
+   "from": "應",
+   "to": "英",
+   "zy": "ㄧㄥ",
+   "count": 25,
+   "why": "應 注音 ㄧㄥ（ying1），語音可能唸 ying4（pypinyin:應時）；例：應時得"
+  },
+  {
+   "from": "剎",
+   "to": "詫",
+   "zy": "ㄔㄚˋ",
+   "count": 5,
+   "why": "剎 注音 ㄔㄚˋ（cha4），語音可能唸 sha1；例：無剎不現"
+  },
+  {
+   "from": "南",
+   "to": "拿",
+   "zy": "ㄋㄚˊ",
+   "count": 1,
+   "why": "南 注音 ㄋㄚˊ（na2），語音可能唸 nan2（tw-word:南無）；例：南無觀"
+  },
+  {
+   "from": "將",
+   "to": "江",
+   "zy": "ㄐㄧㄤ",
+   "count": 1,
+   "why": "將 注音 ㄐㄧㄤ（jiang1），語音可能唸 jiang4（pypinyin:主將）；例：商主將諸商"
+  },
+  {
+   "from": "應",
+   "to": "映",
+   "zy": "ㄧㄥˋ",
+   "count": 1,
+   "why": "應 注音 ㄧㄥˋ（ying4），語音可能唸 ying1；例：善應諸方"
+  },
+  {
+   "from": "沒",
+   "to": "末",
+   "zy": "ㄇㄛˋ",
+   "count": 1,
+   "why": "沒 注音 ㄇㄛˋ（mo4），語音可能唸 mei2；例：不能沒"
+  },
+  {
+   "from": "無",
+   "to": "模",
+   "zy": "ㄇㄛˊ",
+   "count": 1,
+   "why": "無 注音 ㄇㄛˊ（mo2），語音可能唸 wu2（tw-word:南無）；例：南無觀世"
+  },
+  {
+   "from": "牟",
+   "to": "謀",
+   "zy": "ㄇㄡˊ",
+   "count": 1,
+   "why": "牟 注音 ㄇㄡˊ（mou2），語音可能唸 mu4（pypinyin:釋迦牟尼）；例：釋迦牟尼佛"
+  },
+  {
+   "from": "興",
+   "to": "星",
+   "zy": "ㄒㄧㄥ",
+   "count": 1,
+   "why": "興 注音 ㄒㄧㄥ（xing1），語音可能唸 xing4；例：假使興害意"
+  },
+  {
+   "from": "著",
+   "to": "酌",
+   "zy": "ㄓㄨㄛˊ",
+   "count": 1,
+   "why": "著 注音 ㄓㄨㄛˊ（zhuo2），語音可能唸 zhu4；例：還著於本"
+  },
+  {
+   "from": "還",
+   "to": "環",
+   "zy": "ㄏㄨㄢˊ",
+   "count": 1,
+   "why": "還 注音 ㄏㄨㄢˊ（huan2），語音可能唸 hai2；例：還著於"
+  },
+  {
+   "from": "重",
+   "to": "蟲",
+   "zy": "ㄔㄨㄥˊ",
+   "count": 1,
+   "why": "重 注音 ㄔㄨㄥˊ（chong2），語音可能唸 zhong4；例：我今重問彼"
+  },
+  {
+   "from": "供",
+   "to": "貢",
+   "zy": "ㄍㄨㄥˋ",
+   "count": 5,
+   "why": "供 注音 ㄍㄨㄥˋ（gong4），鄰字替換後語音可能唸 gong1；例：禮拜供養觀／盡形供養飲／供養"
+  }
+ ]
+}
