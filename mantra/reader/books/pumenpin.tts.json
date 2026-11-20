@@ -4,6 +4,13 @@
  "note": "TTS-only substitutions for 朗讀; display text is unchanged. A sub applies where the text equals from AND its 注音 equals zy.",
  "subs": [
   {
+   "from": "得",
+   "to": "德",
+   "zy": "ㄉㄜˊ",
+   "count": 33,
+   "why": "得 注音 ㄉㄜˊ（de2），強制替換：Google 國語（臺灣）把「皆得解脫」的 得 唸成 děi（錄音量共振峰 F2≈2600–2900，同「歹/děi」型；「即得」則是 dé）；換成 德；例：皆得解脫／即得淺處／等皆得解脫"
+  },
+  {
    "from": "為",
    "to": "位",
    "zy": "ㄨㄟˋ",
@@ -53,6 +60,13 @@
    "why": "將 注音 ㄐㄧㄤˋ（jiang4），語音可能唸 jiang1（pypinyin:大將軍）；例：天大將軍身／天大將軍身"
   },
   {
+   "from": "處",
+   "to": "觸",
+   "zy": "ㄔㄨˋ",
+   "count": 2,
+   "why": "處 注音 ㄔㄨˋ（chu4），強制替換：處 另一讀 chǔ（相處、處理）很常見；Google 在「淺處」唸對 chù，其他語音不一定；換成 觸；例：得淺處／經官處"
+  },
+  {
    "from": "應",
    "to": "英",
    "zy": "ㄧㄥ",
@@ -93,6 +107,13 @@
    "zy": "ㄇㄛˋ",
    "count": 1,
    "why": "沒 注音 ㄇㄛˋ（mo4），語音可能唸 mei2；例：不能沒"
+  },
+  {
+   "from": "淺",
+   "to": "遣",
+   "zy": "ㄑㄧㄢˇ",
+   "count": 1,
+   "why": "淺 注音 ㄑㄧㄢˇ（qian3），強制替換：River 聽到「即得淺處」唸成 jiān（淺淺 的讀音）；換成 遣；例：即得淺處"
   },
   {
    "from": "無",

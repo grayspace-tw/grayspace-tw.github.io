@@ -4,6 +4,13 @@
  "note": "TTS-only substitutions for 朗讀; display text is unchanged. A sub applies where the text equals from AND its 注音 equals zy.",
  "subs": [
   {
+   "from": "得",
+   "to": "德",
+   "zy": "ㄉㄜˊ",
+   "count": 2,
+   "why": "得 注音 ㄉㄜˊ（de2），強制替換：Google 國語（臺灣）把「皆得解脫」的 得 唸成 děi（錄音量共振峰 F2≈2600–2900，同「歹/děi」型；「即得」則是 dé）；換成 德；例：便自得心開／得三摩"
+  },
+  {
    "from": "教",
    "to": "交",
    "zy": "ㄐㄧㄠ",
