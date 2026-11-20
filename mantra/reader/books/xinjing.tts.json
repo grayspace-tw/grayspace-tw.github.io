@@ -1,0 +1,231 @@
+{
+ "book": "xinjing",
+ "generated_by": "tools/tts_subs.py",
+ "note": "TTS-only substitutions for 朗讀; display text is unchanged. A sub applies where the text equals from AND its 注音 equals zy. Every polyphonic char is replaced by a one-reading homophone of its 注音 (see TTS-NOTES.md).",
+ "subs": [
+  {
+   "from": "無",
+   "to": "吳",
+   "zy": "ㄨˊ",
+   "count": 21,
+   "kind": "homophone2"
+  },
+  {
+   "from": "羅",
+   "to": "邏",
+   "zy": "ㄌㄨㄛˊ",
+   "count": 8,
+   "kind": "homophone2"
+  },
+  {
+   "from": "波",
+   "to": "撥",
+   "zy": "ㄅㄛ",
+   "count": 7,
+   "kind": "homophone2"
+  },
+  {
+   "from": "空",
+   "to": "崆",
+   "zy": "ㄎㄨㄥ",
+   "count": 7,
+   "kind": "homophone1"
+  },
+  {
+   "from": "色",
+   "to": "瑟",
+   "zy": "ㄙㄜˋ",
+   "count": 6,
+   "kind": "homophone1"
+  },
+  {
+   "from": "般",
+   "to": "撥",
+   "zy": "ㄅㄛ",
+   "count": 5,
+   "kind": "homophone2"
+  },
+  {
+   "from": "若",
+   "to": "惹",
+   "zy": "ㄖㄜˇ",
+   "count": 5,
+   "kind": "homophone2"
+  },
+  {
+   "from": "揭",
+   "to": "階",
+   "zy": "ㄐㄧㄝ",
+   "count": 4,
+   "kind": "homophone1"
+  },
+  {
+   "from": "菩",
+   "to": "葡",
+   "zy": "ㄆㄨˊ",
+   "count": 4,
+   "kind": "homophone2"
+  },
+  {
+   "from": "得",
+   "to": "德",
+   "zy": "ㄉㄜˊ",
+   "count": 3,
+   "kind": "pinned"
+  },
+  {
+   "from": "提",
+   "to": "題",
+   "zy": "ㄊㄧˊ",
+   "count": 3,
+   "kind": "homophone2"
+  },
+  {
+   "from": "行",
+   "to": "形",
+   "zy": "ㄒㄧㄥˊ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "識",
+   "to": "世",
+   "zy": "ㄕˋ",
+   "count": 3,
+   "kind": "homophone1"
+  },
+  {
+   "from": "切",
+   "to": "竊",
+   "zy": "ㄑㄧㄝˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "子",
+   "to": "紫",
+   "zy": "ㄗˇ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "盡",
+   "to": "進",
+   "zy": "ㄐㄧㄣˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "舍",
+   "to": "社",
+   "zy": "ㄕㄜˋ",
+   "count": 2,
+   "kind": "homophone1"
+  },
+  {
+   "from": "上",
+   "to": "尚",
+   "zy": "ㄕㄤˋ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "中",
+   "to": "終",
+   "zy": "ㄓㄨㄥ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "倒",
+   "to": "島",
+   "zy": "ㄉㄠˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "婆",
+   "to": "鄱",
+   "zy": "ㄆㄛˊ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "度",
+   "to": "渡",
+   "zy": "ㄉㄨˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "復",
+   "to": "富",
+   "zy": "ㄈㄨˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "有",
+   "to": "友",
+   "zy": "ㄧㄡˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "生",
+   "to": "聲",
+   "zy": "ㄕㄥ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "相",
+   "to": "向",
+   "zy": "ㄒㄧㄤˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "知",
+   "to": "支",
+   "zy": "ㄓ",
+   "count": 1,
+   "kind": "homophone2"
+  },
+  {
+   "from": "究",
+   "to": "就",
+   "zy": "ㄐㄧㄡˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "藐",
+   "to": "秒",
+   "zy": "ㄇㄧㄠˇ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "見",
+   "to": "建",
+   "zy": "ㄐㄧㄢˋ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "觀",
+   "to": "官",
+   "zy": "ㄍㄨㄢ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "身",
+   "to": "深",
+   "zy": "ㄕㄣ",
+   "count": 1,
+   "kind": "homophone1"
+  }
+ ]
+}

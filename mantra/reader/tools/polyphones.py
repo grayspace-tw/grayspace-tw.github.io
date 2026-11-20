@@ -79,8 +79,8 @@ def main():
         w = csv.DictWriter(f, fieldnames=list(out[0].keys())); w.writeheader(); w.writerows(out)
     tot = collections.Counter(x['風險'] for x in out); occ = collections.Counter()
     for x in out: occ[x['風險']] += x['次數']
-    md = ['# 六部經破音字檢查表', '',
-          '範圍：大勢至章、普門品、祈請文、阿彌陀經、藥師經、金剛經裡所有標了注音、而且字典（教育部注音表＋pypinyin）有兩個以上讀音的字。'
+    md = ['# 經文破音字檢查表', '',
+          '範圍：' + '、'.join(e['title'] for e in idx['books']) + ' 裡所有標了注音、而且字典（教育部注音表＋pypinyin）有兩個以上讀音的字。'
           '同一個字不同注音分開列。完整清單在 polyphones_review.csv（Excel 可直接開）。', '',
           '共 %d 組（字＋注音），%d 處。高 %d 組（%d 處）、中 %d 組（%d 處）、低 %d 組（%d 處）。' %
           (len(out), sum(occ.values()), tot['高'], occ['高'], tot['中'], occ['中'], tot['低'], occ['低']), '',

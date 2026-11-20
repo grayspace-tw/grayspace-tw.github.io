@@ -1,8 +1,9 @@
 {
  "books": [
-  {"id": "dashizhi", "title": "大勢至菩薩念佛圓通章", "note": "出自《楞嚴經》卷五・唐 般剌蜜帝 譯"},
-  {"id": "pumenpin", "title": "妙法蓮華經觀世音菩薩普門品", "note": "姚秦 鳩摩羅什 譯"},
   {"id": "qiqingwen", "title": "諸佛菩薩祈請文", "note": "課誦彙編"},
+  {"id": "xinjing", "title": "般若波羅蜜多心經", "note": "唐 玄奘 譯"},
+  {"id": "pumenpin", "title": "妙法蓮華經觀世音菩薩普門品", "note": "姚秦 鳩摩羅什 譯"},
+  {"id": "dashizhi", "title": "大勢至菩薩念佛圓通章", "note": "出自《楞嚴經》卷五・唐 般剌蜜帝 譯"},
   {"id": "amituo", "title": "佛說阿彌陀經", "note": "姚秦 鳩摩羅什 譯"},
   {"id": "yaoshi", "title": "藥師琉璃光如來本願功德經", "note": "唐 玄奘 譯"},
   {"id": "jingang", "title": "金剛般若波羅蜜經", "note": "姚秦 鳩摩羅什 譯"}
