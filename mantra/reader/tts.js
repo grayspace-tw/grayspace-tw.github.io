@@ -8,9 +8,11 @@
    {from, to, zy}: where the text equals `from` and its 注音 equals `zy`, the voice is given `to` (a homophone
    with exactly the annotated reading), so it follows the book's 注音. Display text is never changed.
    Tap/click a character: start (idle) or jump (playing/paused) to the phrase that contains it.
+   經名: read first (phrase 0, from book.title + book.title_zy, highlighted on the title column) and again after the last sentence (closing 經名, same 注音); the 譯者 line is not read.
+   Playback controls live in the top toolbar (the old bottom floating bar is gone, River 2026-11-21).
    Voice: a Taiwan Mandarin voice is chosen automatically (lang zh-TW / zh_TW / zh-Hant-TW / cmn-TW / cmn-Hant-TW, or a
    known Taiwan voice name); the list is re-read when the browser loads it late (voiceschanged). The voice menu in the
-   floating control lists the Taiwan voices first; a choice is remembered (localStorage reader.ttsVoice). */
+   top toolbar (next to ▶ 朗讀) lists the Taiwan voices first; a choice is remembered (localStorage reader.ttsVoice). */
 (function(){
 'use strict';
 var D=document, $=function(i){return D.getElementById(i);};
@@ -18,9 +20,9 @@ var api=window.__readerAPI; if(!api) return;
 var st=api.st, sc=$('sc');
 var SS=window.speechSynthesis, UT=window.SpeechSynthesisUtterance;
 var STOP='，。、；：！？', HAN=/[\u3400-\u9fff\uf900-\ufaff\u{20000}-\u{3ffff}]/u;
-var RATES=[1,1.25,0.75];
+var RATES=[1,1.25,1.5];   // River 2026-11-20: only 1×, 1.25×, 1.5× (rate passed as is)
 var P={phr:[],u2p:{},idx:0,gen:0,state:'idle',rate:1,voice:null,subs:[],bookId:null,pausedSheet:-1,wd:0,errs:0,marked:[],cur:null,log:[],msgT:0};
-try{ var r=parseFloat(localStorage.getItem('reader.ttsRate')); if(RATES.indexOf(r)>=0) P.rate=r; }catch(e){}
+try{ var r=parseFloat(localStorage.getItem('reader.ttsRate')); if(RATES.indexOf(r)>=0) P.rate=r; else if(!isNaN(r)) localStorage.setItem('reader.ttsRate','1'); }catch(e){}   // an old saved 2 / 0.75 / 0.5 -> 1×
 function log(ev,i,x){ P.log.push({t:Math.round(performance.now()),ev:ev,i:i,gen:P.gen,x:x}); if(P.log.length>3000) P.log.shift(); }
 
 /* ---- UI ---- */
@@ -30,7 +32,10 @@ function msg(t,ms){ msgEl.textContent=t; msgEl.hidden=!t; clearTimeout(P.msgT); 
 function ui(){
   var s=P.state, lab=s==='playing'?['⏸\uFE0E','暫停']:s==='paused'?['▶\uFE0E','繼續']:['▶\uFE0E','朗讀'];
   tp.innerHTML=lab[0]+'<span class="lt2"> '+lab[1]+'</span>'; tp.setAttribute('aria-label',lab[1]+(s==='idle'?'經文':'朗讀')); tp.setAttribute('aria-pressed',s==='playing'?'true':'false');
-  pp.textContent=lab[0]+' '+lab[1]; pl.hidden=(s==='idle'); pr.textContent=P.rate+'×'; pr.setAttribute('aria-label','朗讀速度 '+P.rate+' 倍');
+  if(pp) pp.textContent=lab[0]+' '+lab[1];
+  var ctl=$('tctl'); if(ctl) ctl.hidden=(s==='idle');
+  if(pl) pl.hidden=true;   // floating bar removed (River 2026-11-21: it covered the text); controls live in #bar
+  pr.textContent=P.rate+'×'; pr.setAttribute('aria-label','朗讀速度 '+P.rate+' 倍');
   D.documentElement.classList.toggle('tts-act',s!=='idle');
   if(pv) voiceMenu();
 }
@@ -38,6 +43,12 @@ function ui(){
 /* ---- phrases from the book data ---- */
 function build(){
   P.phr=[]; P.u2p={};
+  /* 經名 first (River 2026-11-20「經名 怎麼都沒唸」): one phrase from book.title + book.title_zy (the 注音 is not shown;
+     tools/readings.py decides it like the text, tts.json subs cover it). The 譯者 line is not read (River). */
+  var b=st.book, tc=b&&b.title?Array.from(b.title):[];
+  function titlePhrase(end){ var tz=String(b.title_zy||'').trim().split(/\s+/);
+    return {title:true,end:!!end,units:[{i:end?-2:-1,k:tc.length,end:true,cs:tc.map(function(c,q){ return [c,tz.length===tc.length?tz[q]:'-']; }).concat([['。','-']])}]}; }
+  if(tc.length) P.phr.push(titlePhrase(false));
   st.items.forEach(function(it){
     if(it.t!=='sent'&&it.t!=='head') return;
     var cur=[], n=0;
@@ -45,6 +56,9 @@ function build(){
     it.units.forEach(function(u){ cur.push(u); n+=u.k; if(u.end||n>=48) flush(); });
     flush();
   });
+  if(tc.length){ var last=''; if(P.phr.length&&!P.phr[P.phr.length-1].title) last=spoken(P.phr[P.phr.length-1]).replace(/[。．.\s　]/g,'');
+    if(last!==tc.join('')) P.phr.push(titlePhrase(true)); }   // 經末再唸一次經名；原文最後一句已是經名則不重複
+
 }
 function allowPinyin(){ return !!(P.voice&&/google/i.test(P.voice.name)); }   // numbered pinyin was only checked with Google voices
 function spoken(ph){
@@ -126,15 +140,21 @@ if(pv) pv.onchange=function(){
 function unmark(){ P.marked.forEach(function(e){ e.classList.remove('tts-on'); }); P.marked=[]; }
 function mark(i){
   unmark(); var ph=P.phr[i]; if(!ph) return null;
+  if(ph.title){ var t=sc.querySelector(ph.end?'.tcol .tc[data-end]':'.tcol .tc:not([data-end])'); if(t){ t.classList.add('tts-on'); P.marked.push(t); } return P.marked[0]||null; }
   ph.units.forEach(function(u){ var e=sc.querySelector('.u[data-i="'+u.i+'"]'); if(e){ e.classList.add('tts-on'); P.marked.push(e); } });
   return P.marked[0]||null;
 }
 function sheetOf(el){ var sh=el&&el.closest('.sheet'); return sh?st.sheets.indexOf(sh):-1; }
 function follow(i){ var e=mark(i), k=sheetOf(e); if(k>=0&&k!==st.cur){ log('turn',i,k); api.go(k,true); } }
 function firstOnSheet(k){
-  var sh=st.sheets[k]; if(!sh) return 0; var us=sh.querySelectorAll('.u[data-i]'), m=Infinity;
+  var sh=st.sheets[k]; if(!sh) return 0;
+  if(P.phr[0]&&P.phr[0].title&&!P.phr[0].end&&sh.querySelector('.tcol .tc:not([data-end])')) return 0;   // first page starts with the opening 經名
+  var us=sh.querySelectorAll('.u[data-i]'), m=Infinity;
   for(var q=0;q<us.length;q++) m=Math.min(m,+us[q].dataset.i);
   if(m===Infinity){ for(var s2=k+1;s2<st.sheets.length;s2++){ var f=st.sheets[s2].querySelector('.u[data-i]'); if(f){ m=+f.dataset.i; break; } } }
+  if(m===Infinity && sh.querySelector('.tcol .tc[data-end]')){
+    for(var i=P.phr.length-1;i>=0;i--) if(P.phr[i].end) return i;   // last page is the closing 經名
+  }
   return m===Infinity?0:(P.u2p[m]!=null?P.u2p[m]:0);
 }
 
@@ -192,6 +212,11 @@ function phraseAt(el){
 }
 sc.addEventListener('click',function(e){
   if(e.button||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey) return;
+  var tcel=e.target.closest&&e.target.closest('.tcol .tc');
+  if(st.book&&tcel){ if(!P.phr.length) build();
+    if(tcel.getAttribute('data-end')){ for(var i=P.phr.length-1;i>=0;i--) if(P.phr[i].end){ log('tap',i,'title-end'); play(i); return; } }
+    else if(P.phr[0]&&P.phr[0].title){ log('tap',0,'title'); play(0); }
+    return; }
   var el=e.target.closest&&e.target.closest('.u[data-i]'); if(!el||!st.book) return;
   var sel=window.getSelection&&window.getSelection(); if(sel&&!sel.isCollapsed&&String(sel).length) return;   // selecting text
   var k=phraseAt(el); if(k==null) return;
@@ -199,7 +224,7 @@ sc.addEventListener('click',function(e){
   play(k);
 });
 tp.onclick=function(){ P.state==='playing'?pause():play(); };
-pp.onclick=tp.onclick; ps.onclick=stop; pr.onclick=setRate;
+if(pp) pp.onclick=tp.onclick; if(ps) ps.onclick=stop; if(pr) pr.onclick=setRate;
 D.addEventListener('visibilitychange',function(){ if(D.hidden&&P.state==='playing'){ log('hidden',P.idx); pause(); } });
 window.addEventListener('pagehide',function(){ stop(); });
 D.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('a[href]'); if(a&&P.state!=='idle'){ log('nav',P.idx,a.getAttribute('href')); stop(); } },true);
