@@ -174,6 +174,8 @@ class Readings:
 
 
 def lines_of(book):
+    if book.get('title') and len((book.get('title_zy') or '').split()) == len(book['title']):
+        yield book['title'], book['title_zy'].split()          # 經名 is read aloud too (tts.js), so it gets subs
     for bl in book['blocks']:
         for ln in bl.get('lines', []):
             yield ln[0], ln[1].split()

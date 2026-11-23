@@ -14,14 +14,14 @@
    "from": "羅",
    "to": "邏",
    "zy": "ㄌㄨㄛˊ",
-   "count": 8,
+   "count": 9,
    "kind": "homophone2"
   },
   {
    "from": "波",
    "to": "撥",
    "zy": "ㄅㄛ",
-   "count": 7,
+   "count": 8,
    "kind": "homophone2"
   },
   {
@@ -32,6 +32,13 @@
    "kind": "homophone1"
   },
   {
+   "from": "般",
+   "to": "撥",
+   "zy": "ㄅㄛ",
+   "count": 6,
+   "kind": "homophone2"
+  },
+  {
    "from": "色",
    "to": "瑟",
    "zy": "ㄙㄜˋ",
@@ -39,17 +46,10 @@
    "kind": "homophone1"
   },
   {
-   "from": "般",
-   "to": "撥",
-   "zy": "ㄅㄛ",
-   "count": 5,
-   "kind": "homophone2"
-  },
-  {
    "from": "若",
    "to": "惹",
    "zy": "ㄖㄜˇ",
-   "count": 5,
+   "count": 6,
    "kind": "homophone2"
   },
   {

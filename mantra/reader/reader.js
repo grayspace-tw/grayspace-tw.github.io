@@ -127,6 +127,18 @@ function paginate(anchor){
     if(it.t==='head'){ colArr.head=true; colArr=null; }
     units.forEach(function(u){ (colArr||pg.cols[pg.cols.length-1]).uid.push(u.i); });
   });
+  /* 經末經名 (River 2026-11-21): same large 經名 column as the first page, no translator.
+     Reuse leftover columns on the last page so existing text columns do not reflow; otherwise a new last page.
+     The title is a page flag (like pg.title), not a text column, so layout tests that compare cols stay stable.
+     If the last sentence of the text is already the 經名 (punctuation ignored), do not add a second copy. */
+  function lastSentIsTitle(){ var title=String(b.title||'').replace(/[。．.\s　]/g,''); if(!title) return false;
+    var last=''; st.items.forEach(function(it){ if(it.t==='sent'||it.t==='head') last=it.units.map(function(u){return (u.cs||[]).map(function(x){return x[0];}).join('');}).join(''); });
+    return last.replace(/[。．.\s　]/g,'')===title; }
+  var endW=Math.min(cols-1, 1.3);
+  if(pages.length && b.title && !lastSentIsTitle()){
+    if((c+endW>cols) && (pg.cols.length||pg.title)) newPage();
+    pages[pages.length-1].endTitle=true;
+  }
   st.pages=pages;
   // render
   sc.innerHTML=''; st.sheets=[];
@@ -147,6 +159,8 @@ function paginate(anchor){
         if(b.translator) h+='<div class="col tcol" style="width:'+(cw*.75)+'px;height:'+(rows*cellH)+'px;justify-content:flex-end"><div class="tt">'+esc(b.translator)+'</div></div>'; }
       P.cols.forEach(function(cl,k){ var w=cw;   // a block's first column: the extra gap goes on its right, between it and the previous block (as on the site's 經文 pages, .col.nb margin-right)
         h+='<div class="col'+(cl.head?' hd':'')+'" data-u="'+(cl.uid[0]!=null?cl.uid[0]:'')+'" style="width:'+w+'px;height:'+(rows*cellH+topPad)+'px;padding-top:'+topPad+'px;'+(cl.gap?'margin-right:'+(cw*cl.gap)+'px;':'')+'">'+cl.u.map(function(x,q){ return '<span class="u" data-i="'+cl.ui[q]+'">'+x+'</span>'; }).join('')+'</div>'; });
+      if(P.endTitle){ var etfs=Math.min(s*1.3,rows*cellH*.94/(Array.from(b.title).length*1.18),cw*1.25*.8);
+        h+='<div class="col tcol end" style="width:'+(cw*1.3)+'px;height:'+(rows*cellH)+'px"><div class="tc" data-end="1" style="font-size:'+etfs.toFixed(1)+'px">'+esc(b.title)+'</div></div>'; }
       bd.innerHTML=h;
       st.sheets.length; sheet.appendChild(leaf);
     }
@@ -182,6 +196,21 @@ function exitFs(){ if(fsEl()){ var ex=D.exitFullscreen||D.webkitExitFullscreen; 
 function onFs(){ if(!fsEl()&&st.imm&&st.native){ st.native=false; setImm(false); } else later(); }
 D.addEventListener('fullscreenchange',onFs); D.addEventListener('webkitfullscreenchange',onFs);
 $('fs').onclick=function(){ st.imm?exitFs():enterFs(); }; $('fx').onclick=exitFs;
+/* ☰ 旁的全螢幕鈕 (River 2026-11-21)：Tesla UA → youtube.com/redirect?q=…?q=fullscreen#hash（只在按下時，絕不自動跳）；
+   其他支援 requestFullscreen 就進出全螢幕；都不支援就不顯示。右側舊 #fs 隱藏，改由左側 #tfs 處理。 */
+function isTesla(){ return /Tesla/i.test(navigator.userAgent||''); }
+function canNativeFs(){ var el=D.documentElement; return !!(el.requestFullscreen||el.webkitRequestFullscreen)&&(D.fullscreenEnabled||D.webkitFullscreenEnabled); }
+function teslaFullscreen(){ var q=new URLSearchParams(location.search); q.set('q','fullscreen');
+  location.href='https://www.youtube.com/redirect?q='+encodeURIComponent(location.origin+location.pathname+'?'+q.toString()+location.hash); }
+window.__teslaFullscreen=teslaFullscreen; window.__isTesla=isTesla; window.__canNativeFs=canNativeFs;
+function onTfs(e){ e.preventDefault(); if(isTesla()) teslaFullscreen(); else if(st.imm) exitFs(); else enterFs(); }
+function placeFs(){ var show=isTesla()||canNativeFs();
+  ['tfs','tfsLib'].forEach(function(id){ var b=$(id); if(!b) return; b.hidden=!show; b.setAttribute('aria-hidden',show?'false':'true');
+    b.title=isTesla()?'全螢幕（Tesla 車機）':'全螢幕（Esc 離開）'; });
+  var old=$('fs'); if(old){ old.hidden=true; old.setAttribute('aria-hidden','true'); } }
+placeFs();
+var tfs=$('tfs'); if(tfs) tfs.onclick=onTfs;
+var tfs2=$('tfsLib'); if(tfs2) tfs2.onclick=onTfs;
 D.addEventListener('keydown',function(e){
   if(!st.book||e.ctrlKey||e.metaKey||e.altKey) return; var tn=(e.target&&e.target.tagName)||'';
   if(e.key==='Escape'||e.key==='Esc'){ if(st.imm){ e.preventDefault(); exitFs(); } return; }
@@ -197,8 +226,11 @@ window.addEventListener('resize',later); window.addEventListener('orientationcha
 if(window.visualViewport) window.visualViewport.addEventListener('resize',later);
 /* ---- load ---- */
 function getJSON(u){ return fetch(u,{cache:'no-cache'}).then(function(r){ if(!r.ok) throw new Error(u+' '+r.status); return r.json(); }); }
+function keepFs(href){ var q=new URLSearchParams(location.search); if(q.get('q')!=='fullscreen') return href;
+  var u=new URLSearchParams(href[0]==='?'?href.slice(1):href); u.set('q','fullscreen'); return '?'+u.toString(); }
+(function(){ var a=$('lib'); if(a) a.href=keepFs('?'); })();
 function library(idx){ app.hidden=true; $('libv').hidden=false; D.title='注音經文';
-  $('libl').innerHTML=idx.books.map(function(b){ return '<li><a href="?book='+encodeURIComponent(b.id)+'">'+esc(b.title)+(b.note?'<small>'+esc(b.note)+'</small>':'')+'</a></li>'; }).join(''); }
+  $('libl').innerHTML=idx.books.map(function(b){ return '<li><a href="'+keepFs('?book='+encodeURIComponent(b.id))+'">'+esc(b.title)+(b.note?'<small>'+esc(b.note)+'</small>':'')+'</a></li>'; }).join(''); }
 var id=new URLSearchParams(location.search).get('book');
 getJSON('books/index.json').then(function(idx){
   if(!id){ library(idx); return; }

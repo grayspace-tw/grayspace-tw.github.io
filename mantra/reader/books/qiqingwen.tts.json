@@ -18,18 +18,18 @@
    "kind": "homophone1"
   },
   {
+   "from": "菩",
+   "to": "葡",
+   "zy": "ㄆㄨˊ",
+   "count": 32,
+   "kind": "homophone2"
+  },
+  {
    "from": "觀",
    "to": "官",
    "zy": "ㄍㄨㄢ",
    "count": 32,
    "kind": "homophone1"
-  },
-  {
-   "from": "菩",
-   "to": "葡",
-   "zy": "ㄆㄨˊ",
-   "count": 31,
-   "kind": "homophone2"
   },
   {
    "from": "摩",
@@ -179,6 +179,13 @@
    "kind": "homophone2"
   },
   {
+   "from": "文",
+   "to": "紋",
+   "zy": "ㄨㄣˊ",
+   "count": 3,
+   "kind": "homophone2"
+  },
+  {
    "from": "正",
    "to": "証",
    "zy": "ㄓㄥˋ",
@@ -233,13 +240,6 @@
    "zy": "ㄑㄧㄤˊ",
    "count": 2,
    "kind": "homophone1"
-  },
-  {
-   "from": "文",
-   "to": "紋",
-   "zy": "ㄨㄣˊ",
-   "count": 2,
-   "kind": "homophone2"
   },
   {
    "from": "樂",

@@ -7,21 +7,21 @@
    "from": "觀",
    "to": "官",
    "zy": "ㄍㄨㄢ",
-   "count": 59,
+   "count": 60,
    "kind": "homophone1"
   },
   {
    "from": "音",
    "to": "因",
    "zy": "ㄧㄣ",
-   "count": 58,
+   "count": 59,
    "kind": "homophone1"
   },
   {
    "from": "菩",
    "to": "葡",
    "zy": "ㄆㄨˊ",
-   "count": 45,
+   "count": 46,
    "kind": "homophone2"
   },
   {
@@ -840,6 +840,13 @@
    "from": "興",
    "to": "星",
    "zy": "ㄒㄧㄥ",
+   "count": 1,
+   "kind": "homophone1"
+  },
+  {
+   "from": "華",
+   "to": "猾",
+   "zy": "ㄏㄨㄚˊ",
    "count": 1,
    "kind": "homophone1"
   },

@@ -70,7 +70,7 @@
    "from": "羅",
    "to": "邏",
    "zy": "ㄌㄨㄛˊ",
-   "count": 49,
+   "count": 50,
    "kind": "homophone2"
   },
   {
@@ -256,6 +256,13 @@
    "kind": "homophone1"
   },
   {
+   "from": "波",
+   "to": "撥",
+   "zy": "ㄅㄛ",
+   "count": 10,
+   "kind": "homophone2"
+  },
+  {
    "from": "讀",
    "to": "獨",
    "zy": "ㄉㄨˊ",
@@ -268,13 +275,6 @@
    "zy": "ㄐㄩˋ",
    "count": 9,
    "kind": "homophone1"
-  },
-  {
-   "from": "波",
-   "to": "撥",
-   "zy": "ㄅㄛ",
-   "count": 9,
-   "kind": "homophone2"
   },
   {
    "from": "百",
@@ -382,6 +382,20 @@
    "kind": "homophone1"
   },
   {
+   "from": "般",
+   "to": "撥",
+   "zy": "ㄅㄛ",
+   "count": 5,
+   "kind": "homophone2"
+  },
+  {
+   "from": "若",
+   "to": "惹",
+   "zy": "ㄖㄜˇ",
+   "count": 5,
+   "kind": "homophone2"
+  },
+  {
    "from": "莫",
    "to": "末",
    "zy": "ㄇㄛˋ",
@@ -464,20 +478,6 @@
    "zy": "ㄅㄧˇ",
    "count": 4,
    "kind": "homophone1"
-  },
-  {
-   "from": "般",
-   "to": "撥",
-   "zy": "ㄅㄛ",
-   "count": 4,
-   "kind": "homophone2"
-  },
-  {
-   "from": "若",
-   "to": "惹",
-   "zy": "ㄖㄜˇ",
-   "count": 4,
-   "kind": "homophone2"
   },
   {
    "from": "降",

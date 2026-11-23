@@ -144,8 +144,9 @@ def same(ann, pred, c):
 
 def runs_of(book):
     """yield (text, [zy...]) for each run of annotated chars (split at punctuation / unannotated chars)"""
-    for bl in book['blocks']:
-        for ln in bl.get('lines', []):
+    tl = [[book['title'], book['title_zy']]] if book.get('title') and book.get('title_zy') else []   # 經名 (read aloud)
+    for ln in tl + [ln for bl in book['blocks'] for ln in bl.get('lines', [])]:
+        if True:
             ch, zs = list(ln[0]), ln[1].split()
             if len(ch) != len(zs):
                 print('warn: zy count mismatch', book['id'], ln[0][:20], file=sys.stderr)

@@ -109,6 +109,13 @@
    "kind": "homophone1"
   },
   {
+   "from": "菩",
+   "to": "葡",
+   "zy": "ㄆㄨˊ",
+   "count": 2,
+   "kind": "homophone2"
+  },
+  {
    "from": "便",
    "to": "變",
    "zy": "ㄅㄧㄢˋ",
@@ -177,13 +184,6 @@
    "zy": "ㄩˇ",
    "count": 1,
    "kind": "homophone1"
-  },
-  {
-   "from": "菩",
-   "to": "葡",
-   "zy": "ㄆㄨˊ",
-   "count": 1,
-   "kind": "homophone2"
   },
   {
    "from": "言",

@@ -19,6 +19,9 @@
 decisions/<id>.tsv 欄位（Tab 分隔，# 開頭是註解）：
   blk  ln  i  字  注音  狀態  原注音  依據  理由  上下文
   blk/ln/i：第幾段、第幾行、行內第幾個字（0 起算）。注音：判讀結果。
+            blk = -1 是經名（book.title，ln 0）：經名也要朗讀（River 2026-11-20「經名 怎麼都沒唸」），
+            它的注音存在 book.title_zy（版面不顯示，只給朗讀用）。沒有 title_zy 的書，由這裡產生：
+            教育部只有一個讀音的字直接用那個讀音，破音字一律照判讀紀錄（沒有紀錄就是待審）。譯者行不唸、不注音。
   狀態：keep＝原注音正確；change＝改讀（原注音欄是建書工具原本給的）；ask＝不確定、先照原注音、等 River 決定。
   依據：lexicon.tsv 的 id，或「詞:某詞」（教育部詞條），或「單讀」（教育部只有一個讀音），或「句意」。
   上下文：前後各 4 字，字本身用 [ ] 標出；建書時用來確認位置沒有跑掉。
@@ -72,10 +75,35 @@ def write_decisions(book_id, rows, ddir=None, header=''):
     return p
 
 
+def title_line(book):
+    """the 經名 as a (text, zy) line, or None; zy from book.title_zy ('?' where not known yet)."""
+    t = book.get('title') or ''
+    if not t:
+        return None
+    z = (book.get('title_zy') or '').split()
+    return [t, ' '.join(z) if len(z) == len(t) else ' '.join('?' for _ in t)]
+
+
+def numbered_lines(book):
+    """yield (blk, ln, line) for the 經名 (blk -1) and every text line."""
+    tl = title_line(book)
+    if tl:
+        yield -1, 0, tl
+    for bi, bl in enumerate(book['blocks']):
+        for li, ln in enumerate(bl.get('lines', [])):
+            yield bi, li, ln
+
+
 def polyphone_occurrences(book, R=None):
-    """yield (blk, ln, i, char, zy, text) for every 破音字 occurrence."""
+    """yield (blk, ln, i, char, zy, text) for every 破音字 occurrence (經名 = blk -1)."""
     import tts_subs
     R = R or tts_subs.Readings()
+    tl = title_line(book)
+    if tl:
+        for i, (c, z) in enumerate(zip(tl[0], tl[1].split())):
+            rs = R.all(c)
+            if z == '?' or len(rs) > 1 or tts_subs.zy2py(z) not in rs:
+                yield -1, 0, i, c, z, tl[0]
     for bi, bl in enumerate(book['blocks']):
         for li, ln in enumerate(bl.get('lines', [])):
             t, zs = ln[0], ln[1].split()
@@ -109,8 +137,16 @@ def apply(book, ddir=None, strict=False, log=sys.stderr):
     byline = collections.defaultdict(list)
     for k, v in D.items():
         byline[k[:2]].append((k, v))
-    for bi, bl in enumerate(book['blocks']):
-        for li, ln in enumerate(bl.get('lines', [])):
+    import tts_subs
+    R = tts_subs.Readings()
+    tl = title_line(book)
+    if tl and '?' in tl[1].split():          # no title_zy from the builder: one-reading chars now, 破音字 from decisions below
+        tl[1] = ' '.join(z if z != '?' else (R.bpmf[c][0] if len(R.bpmf.get(c, [])) == 1 and len(R.all(c)) <= 1 else '?')
+                         for c, z in zip(tl[0], tl[1].split()))
+    for bi, li, ln in numbered_lines(book):
+        if bi == -1:
+            ln = tl
+        if True:
             t, zs = ln[0], ln[1].split()
             for (b, l, i), r in byline.get((bi, li), []):
                 if i >= len(t) or t[i] != r['字'] or ctx_of(t, i) != r['上下文']:
@@ -121,6 +157,18 @@ def apply(book, ddir=None, strict=False, log=sys.stderr):
                     zs[i] = r['注音']; st['set'] += 1
                 st[r['狀態']] += 1
             ln[1] = ' '.join(zs)
+    if tl:
+        if '?' in tl[1].split():
+            raise SystemExit('readings: %s 經名 %s has chars without a reading: %s — add decisions (blk -1)'
+                             % (book['id'], tl[0], [c for c, z in zip(tl[0], tl[1].split()) if z == '?']))
+        new = {}
+        for k, v in book.items():          # title_zy right after title
+            if k == 'title_zy':
+                continue
+            new[k] = v
+            if k == 'title':
+                new['title_zy'] = tl[1]
+        book.clear(); book.update(new)
     for b, l, i, c, z, t in polyphone_occurrences(book):
         if (b, l, i) not in seen:
             undecided.append((b, l, i, c, z, ctx_of(t, i)))
