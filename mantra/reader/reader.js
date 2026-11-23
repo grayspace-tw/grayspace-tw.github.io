@@ -127,7 +127,7 @@ function paginate(anchor){
     if(it.t==='head'){ colArr.head=true; colArr=null; }
     units.forEach(function(u){ (colArr||pg.cols[pg.cols.length-1]).uid.push(u.i); });
   });
-  /* 經末經名 (River 2026-11-21): same large 經名 column as the first page, no translator.
+  /* 經末經名 (River 2026-11-21 / 2026-11-23): same column as the first page, no translator; visual size is smaller (CSS .tcol.end .tc).
      Reuse leftover columns on the last page so existing text columns do not reflow; otherwise a new last page.
      The title is a page flag (like pg.title), not a text column, so layout tests that compare cols stay stable.
      If the last sentence of the text is already the 經名 (punctuation ignored), do not add a second copy. */
@@ -159,8 +159,8 @@ function paginate(anchor){
         if(b.translator) h+='<div class="col tcol" style="width:'+(cw*.75)+'px;height:'+(rows*cellH)+'px;justify-content:flex-end"><div class="tt">'+esc(b.translator)+'</div></div>'; }
       P.cols.forEach(function(cl,k){ var w=cw;   // a block's first column: the extra gap goes on its right, between it and the previous block (as on the site's 經文 pages, .col.nb margin-right)
         h+='<div class="col'+(cl.head?' hd':'')+'" data-u="'+(cl.uid[0]!=null?cl.uid[0]:'')+'" style="width:'+w+'px;height:'+(rows*cellH+topPad)+'px;padding-top:'+topPad+'px;'+(cl.gap?'margin-right:'+(cw*cl.gap)+'px;':'')+'">'+cl.u.map(function(x,q){ return '<span class="u" data-i="'+cl.ui[q]+'">'+x+'</span>'; }).join('')+'</div>'; });
-      if(P.endTitle){ var etfs=Math.min(s*1.3,rows*cellH*.94/(Array.from(b.title).length*1.18),cw*1.25*.8);
-        h+='<div class="col tcol end" style="width:'+(cw*1.3)+'px;height:'+(rows*cellH)+'px"><div class="tc" data-end="1" style="font-size:'+etfs.toFixed(1)+'px">'+esc(b.title)+'</div></div>'; }
+      if(P.endTitle){
+        h+='<div class="col tcol end" style="width:'+(cw*1.3)+'px;height:'+(rows*cellH)+'px"><div class="tc" data-end="1">'+esc(b.title)+'</div></div>'; }
       bd.innerHTML=h;
       st.sheets.length; sheet.appendChild(leaf);
     }
